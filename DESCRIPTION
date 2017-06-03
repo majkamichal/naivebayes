@@ -1,0 +1,13 @@
+Package: naivebayes
+Type: Package
+Title: High Performance Implementation of the Naive Bayes Algorithm
+Version: 0.9.1
+Author: Michal Majka
+Maintainer: Michal Majka <michalmajka@hotmail.com>
+Description: High performance implementation of the Naive Bayes algorithm.
+URL: http://github.com/majkamichal/naivebayes
+BugReports: http://github.com/majkamichal/naivebayes/issues
+License: GPL-2
+Encoding: UTF-8
+NeedsCompilation: no
+

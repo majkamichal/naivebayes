@@ -1,0 +1,50 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+# naivebayes
+
+
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=gnaivebayes)
+[![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
+
+## Overview
+
+naivebayes is an efficient implementation of the Naive Bayes algorithm in R.
+
+
+## Installation
+
+```{r, eval = FALSE}
+install.packages("naivebayes")
+
+# Or the the development version from GitHub:
+devtools::install_github("majkamichal/naivebayes")
+```
+
+## Usage
+
+
+
+```{r example}
+library(naivebayes)
+
+data(iris)
+nb <- naive_bayes(Species ~ ., data = iris)
+
+tables(nb, which = "Sepal.Length")
+
+plot(nb, which = "Sepal.Length")
+
+head(predict(nb))
+```

@@ -1,0 +1,8 @@
+
+S3method(naive_bayes,default)
+S3method(naive_bayes,formula)
+S3method(plot,naive_bayes)
+S3method(predict,naive_bayes)
+S3method(print,naive_bayes)
+export(naive_bayes)
+export(tables)
