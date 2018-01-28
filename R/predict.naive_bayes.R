@@ -1,6 +1,6 @@
 predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"),
                                 threshold = 0.001, ...) {
-    
+
     if (is.null(newdata)) newdata <- object$data$x
     else newdata <- as.data.frame(newdata)
     na <- sapply(newdata, anyNA)
@@ -8,35 +8,36 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
     lev <- object$levels
     n_lev <- length(lev)
     n_obs <- dim(newdata)[1L]
-    usekernel <- object$usekernel
+    cp_method <- object$cp_method
     prior <- as.double(object$prior)
     tables <- object$tables
     features <- names(newdata)[names(newdata) %in% names(tables)]
     log_sum <- 0
-    
+
     for (var in features) {
         V <- newdata[[var]]
         if (is.numeric(V)) {
             tab <- tables[[var]]
-            if (usekernel) {
+            if (cp_method == 'kde') {
                 p <- sapply(lev, function(z) {
                     dens <- tab[[z]]
                     stats::approx(dens$x, dens$y, xout = V, rule = 2)$y
                 })
-                p[p == 0] <- threshold
-                if (na[var]) p[is.na(p)] <- 1
-                log_sum <- log_sum + log(p)
-            } else {
+            } else if (cp_method == 'gaussian') {
                 dimnames(tab) <- NULL
                 s <- tab[2, ]
                 s[s == 0] <- threshold
                 p <- sapply(seq_along(lev), function(z) {
                     stats::dnorm(V, tab[1, z], s[z])
                 })
-                p[p == 0] <- threshold
-                if (na[var]) p[is.na(p)] <- 1
-                log_sum <- log_sum + log(p)
+            } else if (cp_method == 'bernoulli') {
+                p <- sapply(seq_along(lev), function(z) {
+                    ifelse(V == 1, tab[[z]], 1-tab[[z]])
+                })
             }
+            p[p == 0] <- threshold
+            if (na[var]) p[is.na(p)] <- 1
+            log_sum <- log_sum + log(p)
         } else {
             tab <- tables[[var]]
             if (class(V) == "logical") V <- as.character(V)

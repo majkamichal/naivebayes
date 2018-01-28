@@ -1,6 +1,6 @@
 naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
-                                usekernel = FALSE, ...) {
-
+                                cp_method = c("gaussian", "kde", "bernoulli"), ...) {
+    cp_method <- match.arg(cp_method)
     data <- as.data.frame(x)
     if (!is.factor(y))
         y <- factor(y)
@@ -15,6 +15,10 @@ naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
         y <- as.character(y)
     }
 
+    if ((cp_method == 'bernoulli') && any(apply(x, 2, function(z) !all(z %in% c(0, 1))))) {
+        stop("x must only take on values in 0, 1 for bernoulli posteriors.")
+    }
+
     if (is.null(prior)) {
         prior <- prop.table(table(y, dnn = ""))
     } else {
@@ -27,13 +31,18 @@ naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
     tables <- sapply(names(data), function(x) {
         var <- data[[x]]
         if (is.numeric(var)) {
-            if (usekernel) {
+            if (cp_method == 'kde') {
                 tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...))
-            } else {
+            } else if (cp_method == 'gaussian') {
                 tab <- rbind(tapply(var, y, mean, na.rm = TRUE),
                              tapply(var, y, stats::sd, na.rm = TRUE))
                 rownames(tab) <- c("mean", "sd")
                 names(dimnames(tab)) <- c(x, "")
+                as.table(tab)
+            } else if (cp_method == 'bernoulli') {
+                tab <- tapply(var, y, mean, na.rm = TRUE, simplify = F)
+                # rownames(tab) = 'mean'
+                names(dimnames(tab)) <- c(x)
                 as.table(tab)
             }
         } else {
@@ -44,6 +53,6 @@ naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
 
     structure(list(data = list(x = data, y = y), levels = levels,
                    laplace = laplace, tables = tables, prior = prior,
-                   usekernel = usekernel, call = match.call()),
+                   cp_method = cp_method, call = match.call()),
               class = "naive_bayes")
 }
