@@ -1,6 +1,6 @@
 predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"),
                                 threshold = 0.001, ...) {
-    
+
     if (is.null(newdata)) newdata <- object$data$x
     else newdata <- as.data.frame(newdata)
     na <- sapply(newdata, anyNA)
@@ -13,11 +13,11 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
     tables <- object$tables
     features <- names(newdata)[names(newdata) %in% names(tables)]
     log_sum <- 0
-    
+
     for (var in features) {
         V <- newdata[[var]]
+        tab <- tables[[var]]
         if (is.numeric(V)) {
-            tab <- tables[[var]]
             if (usekernel) {
                 p <- sapply(lev, function(z) {
                     dens <- tab[[z]]
@@ -38,7 +38,6 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
                 log_sum <- log_sum + log(p)
             }
         } else {
-            tab <- tables[[var]]
             if (class(V) == "logical") V <- as.character(V)
             if (na[var]) {
                 na_ind <- which(is.na(V))
@@ -73,7 +72,7 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
             lik <- exp(t(t(log_sum) + log(prior)))
             dimnames(lik) <- NULL
             rs <- rowSums(lik)
-            colnames(lik) = lev
+            colnames(lik) <- lev
             return(apply(lik, 2, function(prob) {
                 prob / rs
             }))
