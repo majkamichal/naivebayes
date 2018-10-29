@@ -61,21 +61,28 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
         }
     } else {
         if (n_obs == 1) {
-            lik <- exp(log_sum + log(prior))
-            post <- sapply(lik, function(prob) {
-                prob / sum(lik)
-            })
+            # lik <- exp(log_sum + log(prior))
+            # post <- sapply(lik, function(prob) {
+            #     prob / sum(lik)
+            # })
+            lik<-log_sum+log(prior)
+            post<-exp(lik-matrixStats::logSumExp(lik))
             mat <- t(as.matrix(post))
             colnames(mat) <- lev
             return(mat)
         } else {
-            lik <- exp(t(t(log_sum) + log(prior)))
+            # lik <- exp(t(t(log_sum) + log(prior)))
+            lik<-t(t(log_sum) + log(prior))
+            #lik has rows=observations, cols=outcome categories
             dimnames(lik) <- NULL
-            rs <- rowSums(lik)
+            # rs <- rowSums(lik)
+            rs<- matrixStats::rowLogSumExps(lik)
             colnames(lik) <- lev
-            return(apply(lik, 2, function(prob) {
-                prob / rs
-            }))
+            # return(apply(lik, 2, function(prob) {
+            #     prob / rs
+            # }))
+            post<-exp(lik-rs) #recycles the vector rs across matrix lik
+            return(post)
         }
     }
 }
