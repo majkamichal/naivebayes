@@ -8,7 +8,7 @@
 \arguments{
 \item{object}{object of class inheriting from \code{"naive_bayes"}.}
 
-\item{newdata}{numeric matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
+\item{newdata}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
 \item{type}{if "class", new data points are classified according to the highest posterior probabilities. If "prob", the posterior probabilities for each class are returned.}
 
@@ -17,13 +17,13 @@
 \item{...}{not used.}
 }
 \value{
-\code{predict.naive_bayes} returns a factor with class corresponding to the maximal conditional posterior probability or a matrix with conditional posterior probabilities for each class.
+\code{predict.naive_bayes} returns either a factor with class labels corresponding to the maximal conditional posterior probabilities or a matrix with class label specific conditional posterior probabilities.
 }
 \description{
 Classification based on Naive Bayes models.
 }
 \details{
-Computes conditional posterior probabilities for each class using the Bayes' rule. If no new data is provided, the data from the object is used. Logical variables are treated as categorical variables. Predictors with missing values are not included into the computation of posterior probabilities.
+Computes conditional posterior probabilities for each class label using the Bayes' rule under the assumption of independence of predictors. If no new data is provided, the data from the object is used. Logical variables are treated as categorical (binary) variables. Predictors with missing values are not included into the computation of posterior probabilities.
 }
 \examples{
 ind_iris <- sample(1:nrow(iris), size = round(0.3 * nrow(iris)))

@@ -18,7 +18,7 @@
 
 \item{formula}{an object of class \code{"formula"} (or one that can be coerced to "formula") of the form \code{class ~ predictors} (class has to be a factor/character/logical).}
 
-\item{data}{numeric matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
+\item{data}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
 \item{laplace}{value used for Laplace smoothing. Defaults to 0 (no Laplace smoothing).}
 
@@ -48,7 +48,7 @@
 \code{naive_bayes} is used to fit Naive Bayes model in which predictors are assumed to be independent within each class label.
 }
 \details{
-Metric predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used to estimate their class-conditional distributions. Missing values are not included into constructing tables. Logical variables are treated as categorical variables.
+Metric predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used to estimate their class-conditional distributions. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.
 }
 \examples{
 data(iris)
