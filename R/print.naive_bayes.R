@@ -1,5 +1,12 @@
 print.naive_bayes <- function(x, ...) {
-    cat("===================== Naive Bayes =====================", "\n")
+
+    n_char <- getOption("width")
+    str_left_right <- paste0(rep("=", floor((n_char - 8) / 2)), collapse = "")
+    str_full <- paste0(str_left_right,
+                       " Naive Bayes ",
+                       ifelse(n_char %% 2 != 0, "=", ""),
+                       str_left_right)
+    cat(str_full, "\n")
     cat("Call:", "\n")
     print(x$call)
     cat("\n")
