@@ -4,8 +4,8 @@
 \section{Changes in version 0.9.3}{
 	\itemize{
 		\item Fixed: numerical underflow in predict.naive_bayes function when the number of features is big (bug found by William Townes)
-		\item Fixed: when all names of features in the 'newdata' do not match these defined in the naive_bayes object, then the calculation based on prior probabilities is done only for one row of 'newdata'
-		\item Improvement: better handling (informative warnings/errors) of not correct inputs in predict.naive_bayes function?
+		\item Fixed: when all names of features in the \code{newdata} in \code{predict.naive_bayes} function do not match these defined in the naive_bayes object, then the calculation based on prior probabilities is done only for one row of \code{newdata}
+		\item Improvement: better handling (informative warnings/errors) of not correct inputs in 'predict.naive_bayes' function
 	}
 }
 

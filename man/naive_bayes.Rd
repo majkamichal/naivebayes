@@ -12,7 +12,7 @@
 }
 
 \arguments{
-\item{x}{numeric matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
+\item{x}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
 \item{y}{class vector (character/factor/logical).}
 
