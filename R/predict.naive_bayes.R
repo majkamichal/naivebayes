@@ -7,7 +7,7 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
         if (is.matrix(newdata) | is.data.frame(newdata)) {
             newdata <- as.data.frame(newdata)
         } else {
-            stop("'newdata' can be either a matrix or a data.frame")
+            stop("\"newdata\" can be either a matrix or a data.frame")
         }
     }
     na <- sapply(newdata, anyNA)
@@ -23,8 +23,8 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
     n_tables <- length(tables)
     if (n_features < n_tables) {
         warning(paste0(n_features, " feature(s) out of ", n_tables,
-                       " defined in the naive_bayes object '", substitute(object),
-                       "' are used for prediction"))
+                       " defined in the naive_bayes object \"", substitute(object),
+                       "\" are used for prediction"))
     }
     log_sum <- 0
     for (var in features) {
