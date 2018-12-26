@@ -26,6 +26,23 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
                        " defined in the naive_bayes object \"", substitute(object),
                        "\" are used for prediction"))
     }
+    ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
+    if (any(ind_factor)) {
+        ind_missing_levels <- which((sapply(newdata[ind_factor], nlevels) !=
+                                         sapply(tables[ind_factor], nrow)) == TRUE)
+        nm <- length(ind_missing_levels)
+        if (nm > 0) {
+            stop(paste0(ifelse(nm == 1, "Feature ", "Features "),
+                        paste0(names(ind_missing_levels), collapse = " "),
+                        ifelse(nm == 1, ' is of class \"factor\" ', ' are of class \"factor\" '),
+                        'but compared to the corresponding probability ',
+                        ifelse(nm == 1, 'table', 'tables'),
+                        ' from the object \"', substitute(object), '\" ',
+                        ifelse(nm == 1, 'it misses', 'they miss'),
+                        ' some levels.',
+                        ' Please consider filling missing levels or coercing to \"character\"'))
+        }
+    }
     log_sum <- 0
     for (var in features) {
         V <- newdata[[var]]
@@ -77,6 +94,7 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
         }
     }
     else {
+        browser()
         if (n_obs == 1) {
             LL <- log_sum + log(prior)
             post <- sapply(LL, function(x) { 1 / sum(exp(LL - x)) })
