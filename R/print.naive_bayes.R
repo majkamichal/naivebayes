@@ -1,7 +1,7 @@
 print.naive_bayes <- function(x, ...) {
 
     n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - 9) / 2)), collapse = "")
+    str_left_right <- paste0(rep("=", floor((n_char - 11) / 2)), collapse = "")
     str_full <- paste0(str_left_right,
                        " Naive Bayes ",
                        ifelse(n_char %% 2 != 0, "=", ""),
