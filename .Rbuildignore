@@ -1,2 +1,6 @@
+^revdep$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^README.Rmd
+^README.md
+^README-example-1.png
