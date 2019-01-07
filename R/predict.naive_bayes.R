@@ -94,7 +94,6 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
         }
     }
     else {
-        browser()
         if (n_obs == 1) {
             LL <- log_sum + log(prior)
             post <- sapply(LL, function(x) { 1 / sum(exp(LL - x)) })
