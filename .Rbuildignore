@@ -1,4 +1,3 @@
-^revdep$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README.Rmd
