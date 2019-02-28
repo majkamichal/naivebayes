@@ -1,6 +1,12 @@
 \name{NEWS}
 \title{News for Package \pkg{naivebayes}}
 
+\section{Changes in version 0.9.4}{
+	\itemize{
+	    \item Fixed: plot crashes when missing data present in training set (bug found by Mark van der Loo)
+	}
+}
+
 \section{Changes in version 0.9.3}{
 	\itemize{
 		\item Fixed: numerical underflow in predict.naive_bayes function when the number of features is big (bug found by William Townes)

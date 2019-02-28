@@ -1,34 +1,34 @@
 plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                              legend.box = FALSE, arg.num = list(),
                              arg.cat = list(), ...) {
-    
+
     vars <- names(x$tables)
-    
+
     if (is.character(which) && !all(which %in% vars))
         stop("At least one variable is not available")
-    
+
     if (length(which) > length(vars))
         stop("Too many variables selected")
-    
+
     if (!is.null(which) && !is.character(which) && !is.numeric(which))
         stop("'which' has to be either character or numeric vector")
-    
+
     if (length(list(...)) > 0)
         warning("Please specify additional parameters with 'arg.num' or 'arg.cat'")
-    
+
     if (is.null(which))
         which <- seq_along(vars)
-    
+
     if (is.numeric(which))
         v <- vars[which]
-    
+
     if (is.character(which))
         v <- vars[vars %in% which]
-    
+
     opar <- graphics::par()$ask
     graphics::par(ask = ask)
     on.exit(graphics::par(ask = opar))
-    
+
     for (i in v) {
         i_tab <- x$tables[[i]]
         lev <- x$levels
@@ -41,7 +41,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
             }
             if (!x$usekernel) {
                 leg <- lev
-                r <- range(x$data$x[[i]])
+                r <- range(x$data$x[[i]], na.rm = TRUE)
                 X <- seq(r[1], r[2], length.out = 512)
                 Y <- matrix(stats::dnorm(x = X,
                                          mean = rep(i_tab[1, ], each = length(X)),
@@ -54,7 +54,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
             if (!("lty"  %in% n)) arg.num$lty <- seq_along(lev)
             if (!("ylab" %in% n)) arg.num$ylab <- "Density"
             arg.num$xlab <- i
-            
+
             params <- c(list(x = quote(X), y = quote(Y)), arg.num)
             do.call("matplot", params)
             if (legend) {
@@ -62,7 +62,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 legend("topleft", leg, col = arg.num$col, lty = arg.num$lty,
                        title = "", cex = 1, y.intersp = 0.75, bty = bty)
             }
-            
+
         } else {
             if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
             if (!("color" %in% names(arg.cat))) arg.cat$color <- seq_along(lev) + 1
