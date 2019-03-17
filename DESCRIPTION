@@ -1,7 +1,7 @@
 Package: naivebayes
 Type: Package
 Title: High Performance Implementation of the Naive Bayes Algorithm
-Version: 0.9.4
+Version: 0.9.5
 Author: Michal Majka
 Maintainer: Michal Majka <michalmajka@hotmail.com>
 Description: High performance implementation of the Naive Bayes algorithm.

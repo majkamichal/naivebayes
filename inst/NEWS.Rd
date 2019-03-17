@@ -1,6 +1,13 @@
 \name{NEWS}
 \title{News for Package \pkg{naivebayes}}
 
+\section{Changes in version 0.9.5}{
+	\itemize{
+	    \item Fixed: when \code{laplace} > 0 and discrete feature with >2 distinct values, the probabilities in the probability table do not sum up to 1
+	}
+}
+
+
 \section{Changes in version 0.9.4}{
 	\itemize{
 	    \item Fixed: plot crashes when missing data present in training set (bug found by Mark van der Loo)

@@ -38,7 +38,7 @@ naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
             }
         } else {
             tab <- table(y, var, dnn = c("", x))
-            t((tab + laplace) / (rowSums(tab) + laplace * nrow(tab)))
+            t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
         }
     }, simplify = FALSE)
 
