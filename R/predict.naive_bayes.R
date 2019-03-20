@@ -22,9 +22,9 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
     n_features <- length(features)
     n_tables <- length(tables)
     if (n_features < n_tables) {
-        warning(paste0(n_features, " feature(s) out of ", n_tables,
+        warning(paste0("\n", n_features, " feature(s) out of ", n_tables,
                        " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction"))
+                       "\" are used for prediction\n"))
     }
     ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
     if (any(ind_factor)) {

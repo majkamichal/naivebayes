@@ -8,10 +8,10 @@ naive_bayes.default <- function(x, y, prior = NULL, laplace = 0,
     vars <- names(data)
 
     if (!is.factor(y) && !is.character(y) && !is.logical(y))
-        stop("y has to be either a factor or character or logical vector")
+        stop("\ny has to be either a factor or character or logical vector\n")
 
     if (is.factor(y) && nlevels(y) != length(levels)) {
-        warning("Number of unique values in the class variable is not equal to number of levels")
+        warning("\nNumber of unique values in the class variable is not equal to number of levels\n")
         y <- as.character(y)
     }
 
