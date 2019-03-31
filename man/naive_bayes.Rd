@@ -16,7 +16,7 @@
 
 \item{y}{class vector (character/factor/logical).}
 
-\item{formula}{an object of class \code{"formula"} (or one that can be coerced to "formula") of the form \code{class ~ predictors} (class has to be a factor/character/logical).}
+\item{formula}{an object of class \code{"formula"} (or one that can be coerced to "formula") of the form: \code{class ~ predictors} (class has to be a factor/character/logical).}
 
 \item{data}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
@@ -31,7 +31,7 @@
 
 \item{na.action}{a function which indicates what should happen when the data contain \code{NAs}. By default (\code{\link[stats]{na.pass}}), missing values are not removed from the data and are then omited while constructing tables. Alternatively, \code{\link[stats]{na.omit}} can be used to exclude rows with at least one missing value before constructing tables.}
 
-\item{...}{other graphical parameters to \code{\link[stats]{density}} (\code{na.rm} defaults to \code{TRUE}).}
+\item{...}{other parameters to \code{\link[stats]{density}} when \code{usekernel = TRUE} (\code{na.rm} defaults to \code{TRUE}).}
 
 }
 \value{
@@ -56,7 +56,11 @@ nb <- naive_bayes(Species ~ ., data = iris)
 plot(nb)
 
 nb_kernel <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE)
-plot(nb_kernel)
+plot(nb_kernel) # Gaussian kernel by default (see ?density)
+
+nb_kernel_triangular <- naive_bayes(x = iris[-5], y = iris[ ,5],
+                                    usekernel = TRUE, kernel = "biweight")
+plot(nb_kernel_triangular, arg.num = list(main = c("Biweight kernel")))
 
 
 \dontrun{
