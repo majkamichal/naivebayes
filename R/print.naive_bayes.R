@@ -56,6 +56,7 @@ print.naive_bayes <- function (x, ...)
             cat("\n")
         }
     }
+    cat(l)
     if (n > 5) {
         cat(l)
         cat("\n\n")
