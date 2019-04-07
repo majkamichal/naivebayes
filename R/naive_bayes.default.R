@@ -45,6 +45,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
             t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
         }
     }, simplify = FALSE, ...)
+    class(tables) <- "naive_bayes_tables"
     structure(list(data = list(x = data, y = y), levels = levels,
                    laplace = laplace, tables = tables, prior = prior, usekernel = usekernel,
                    usepoisson = usepoisson, call = match.call()), class = "naive_bayes")
