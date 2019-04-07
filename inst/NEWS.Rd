@@ -1,6 +1,13 @@
 \name{NEWS}
 \title{News for Package \pkg{naivebayes}}
 
+\section{Changes in version 0.9.6}{
+	\itemize{
+	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors (count data). It is applied to all numeric variables with mode "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = FALSE}), thus as previously Gaussian or KDE (when \code{usekernel = TRUE}) are applied to integer variables, by default. This is not a code breaking change: Naive Bayes objects created with previous versions are fully compatible with the 0.9.6 version.
+	    \item Improvement: enhanced print method for better readibility
+	}
+}
+
 \section{Changes in version 0.9.5}{
 	\itemize{
 	    \item Fixed: when \code{laplace} > 0 and discrete feature with >2 distinct values, the probabilities in the probability table do not sum up to 1

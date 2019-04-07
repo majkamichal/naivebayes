@@ -5,10 +5,11 @@
 \title{Naive Bayes Classifier}
 \usage{
 \method{naive_bayes}{default}(x, y, prior = NULL, laplace = 0,
-  usekernel = FALSE, ...)
+  usekernel = FALSE, usepoisson = FALSE, ...)
 
 \method{naive_bayes}{formula}(formula, data, prior = NULL, laplace = 0,
-  usekernel = FALSE, subset, na.action = stats::na.pass, ...)
+  usekernel = FALSE, usepoisson = FALSE,
+  subset, na.action = stats::na.pass, ...)
 }
 
 \arguments{
@@ -20,9 +21,11 @@
 
 \item{data}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
-\item{laplace}{value used for Laplace smoothing. Defaults to 0 (no Laplace smoothing).}
+\item{laplace}{value used for Laplace smoothing (additive smoothing). Defaults to 0 (no Laplace smoothing).}
 
-\item{usekernel}{logical; if \code{TRUE}, \code{\link[stats]{density}} is used to estimate the densities of metric predictors.}
+\item{usekernel}{logical; if \code{TRUE}, \code{\link[stats]{density}} is used to estimate the class conditional densities of numeric (metric) predictors.}
+
+\item{usepoisson}{logical; if \code{TRUE}, Poisson distribution is used to estimate the class conditional PMFs of integer predictors. Integer predictors are numeric vectors with mode "integer"and they represent count data.}
 
 \item{prior}{vector with prior probabilities of the classes. If unspecified, the class proportions for the training set are used. If present, the probabilities should be specified in the order of the factor levels.}
 
@@ -39,16 +42,17 @@
     \item{data}{list with two components: \code{x} (dataframe with predictors) and \code{y} (class variable).}
     \item{tables}{list of tables. For each categorical predictor a table with class-conditional probabilities and for each metric predictor a table with means and standard deviations or \code{\link[stats]{density}} objects for each class.}
     \item{prior}{numeric vector with prior probabilities.}
-    \item{laplace}{value of Laplace smoothing.}
+    \item{laplace}{value of Laplace smoothing (additive smoothing).}
     \item{levels}{character vector with values of the class variable.}
-    \item{usekernel}{logical; \code{TRUE}, if the density was used for estimating densities of numeric variables.}
+    \item{usekernel}{logical; \code{TRUE}, if the kernel density estimation was used for estimating class conditional densities of numeric variables.}
+    \item{usepoisson}{logical; \code{TRUE}, if the Poisson distribution was used for estimating class conditional PMFs of integer variables (numeric vectors with mode "integer").}
     \item{call}{the call that produced this object.}
 }
 \description{
 \code{naive_bayes} is used to fit Naive Bayes model in which predictors are assumed to be independent within each class label.
 }
 \details{
-Metric predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used to estimate their class-conditional distributions. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.
+Numeric (metric) predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used (\code{usekernel = TRUE}) to estimate their class-conditional distributions. Also, non-negative integer predictors (variables representing counts) can be modelled with Poisson distribution (\code{usepoisson = TRUE}); integer variables are automatically recognised. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.
 }
 \examples{
 data(iris)

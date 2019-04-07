@@ -16,13 +16,15 @@ list with tables.
 Auxiliary function for \code{"naive_bayes"} objects for easy browsing tables.
 }
 \details{
-Default print method for \code{"naive_bayes"} objects shows at most five first tables. The auxiliary function \code{tables} returns by default all tables.
+Default print method for \code{"naive_bayes"} objects shows at most five first tables. This auxiliary function \code{tables} returns by default all tables.
 }
 \examples{
 data(iris)
 nb <- naive_bayes(Species ~ ., data = iris)
 tables(nb, "Sepal.Length")
+tables(nb, c("Sepal.Length", "Sepal.Width"))
 tables(nb, 1:2)
+
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

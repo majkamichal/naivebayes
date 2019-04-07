@@ -1,13 +1,13 @@
-predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"),
-                                threshold = 0.001, ...) {
-
+predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob"),
+                                 threshold = 0.001, ...) {
     if (is.null(newdata)) {
         newdata <- object$data$x
     } else {
         if (is.matrix(newdata) | is.data.frame(newdata)) {
             newdata <- as.data.frame(newdata)
-        } else {
-            stop("\"newdata\" can be either a matrix or a data.frame")
+        }
+        else {
+            stop("\"newdata\" in \"predict\" function has to be either a matrix or a data.frame\n", call. = FALSE)
         }
     }
     na <- sapply(newdata, anyNA)
@@ -16,31 +16,30 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
     n_lev <- length(lev)
     n_obs <- dim(newdata)[1L]
     usekernel <- object$usekernel
+    usepoisson <- ifelse(is.null(object$usepoisson), FALSE, object$usepoisson)
     prior <- as.double(object$prior)
     tables <- object$tables
     features <- names(newdata)[names(newdata) %in% names(tables)]
     n_features <- length(features)
     n_tables <- length(tables)
     if (n_features < n_tables) {
-        warning(paste0("\n", n_features, " feature(s) out of ", n_tables,
+        warning(paste0("Only ", n_features, " feature(s) out of ", n_tables,
                        " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction\n"))
+                       "\" are used for prediction\n"), call. = FALSE)
     }
     ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
     if (any(ind_factor)) {
-        ind_missing_levels <- which((sapply(newdata[ind_factor], nlevels) !=
-                                         sapply(tables[ind_factor], nrow)) == TRUE)
+        ind_missing_levels <- which((sapply(newdata[ind_factor],
+                                            nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
         if (nm > 0) {
             stop(paste0(ifelse(nm == 1, "Feature ", "Features "),
                         paste0(names(ind_missing_levels), collapse = " "),
-                        ifelse(nm == 1, ' is of class \"factor\" ', ' are of class \"factor\" '),
-                        'but compared to the corresponding probability ',
-                        ifelse(nm == 1, 'table', 'tables'),
-                        ' from the object \"', substitute(object), '\" ',
-                        ifelse(nm == 1, 'it misses', 'they miss'),
-                        ' some levels.',
-                        ' Please consider filling missing levels or coercing to \"character\"'))
+                        ifelse(nm == 1, " is of class \"factor\" ",
+                               " are of class \"factor\" "), "but compared to the corresponding probability ",
+                        ifelse(nm == 1, "table", "tables"), " from the object \"",
+                        substitute(object), "\" ", ifelse(nm == 1, "it misses",
+                                                          "they miss"), " some levels.", " Please consider filling missing levels or coercing to \"character\"", "\n"), call. = FALSE)
         }
     }
     log_sum <- 0
@@ -48,34 +47,51 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
         V <- newdata[[var]]
         tab <- tables[[var]]
         if (is.numeric(V)) {
-            if (usekernel) {
-                p <- sapply(lev, function(z) {
-                    dens <- tab[[z]]
-                    stats::approx(dens$x, dens$y, xout = V, rule = 2)$y
+            if (is.integer(V) & usepoisson) {
+                p <- sapply(lev, function(lambda) {
+                    dpois(V, lambda = tab[ ,lambda])
                 })
                 p[p == 0] <- threshold
-                if (na[var]) p[is.na(p)] <- 1
+                if (na[var])
+                    p[is.na(p)] <- 1
                 log_sum <- log_sum + log(p)
             } else {
-                dimnames(tab) <- NULL
-                s <- tab[2, ]
-                s[s == 0] <- threshold
-                p <- sapply(seq_along(lev), function(z) {
-                    stats::dnorm(V, tab[1, z], s[z])
-                })
-                p[p == 0] <- threshold
-                if (na[var]) p[is.na(p)] <- 1
-                log_sum <- log_sum + log(p)
+                if (usekernel) {
+                    p <- sapply(lev, function(z) {
+                        dens <- tab[[z]]
+                        stats::approx(dens$x, dens$y, xout = V, rule = 2)$y
+                    })
+                    p[p == 0] <- threshold
+                    if (na[var])
+                        p[is.na(p)] <- 1
+                    log_sum <- log_sum + log(p)
+                }
+                else {
+                    dimnames(tab) <- NULL
+                    s <- tab[2, ]
+                    s[s == 0] <- threshold
+                    p <- sapply(seq_along(lev), function(z) {
+                        stats::dnorm(V, tab[1, z], s[z])
+                    })
+                    p[p == 0] <- threshold
+                    if (na[var])
+                        p[is.na(p)] <- 1
+                    log_sum <- log_sum + log(p)
+                }
             }
-        } else {
-            if (class(V) == "logical") V <- as.character(V)
+        }
+        else {
+            if (class(V) == "logical")
+                V <- as.character(V)
             if (na[var]) {
                 na_ind <- which(is.na(V))
                 V[na_ind] <- attributes(tab)$dimnames[[1]][1]
                 p <- tab[V, ]
-                if (n_obs == 1) p <- 1
+                if (n_obs == 1)
+                    p <- 1
                 else p[na_ind, ] <- 1
-            } else {
+            }
+            else {
                 p <- tab[V, ]
             }
             log_sum <- log_sum + log(p)
@@ -87,8 +103,10 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
             return(factor(lev[which.max(post)], levels = lev))
         }
         if (n_features == 0) {
-            return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
-        } else {
+            return(factor(rep(lev[which.max(prior)], n_obs),
+                          levels = lev))
+        }
+        else {
             post <- t(t(log_sum) + log(prior))
             return(factor(lev[max.col(post, "first")], levels = lev))
         }
@@ -102,9 +120,10 @@ predict.naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"
             return(mat)
         }
         if (n_features == 0) {
-            return(matrix(prior, ncol = n_lev, nrow = n_obs, byrow = TRUE,
-                          dimnames = list(NULL, lev)))
-        } else {
+            return(matrix(prior, ncol = n_lev, nrow = n_obs,
+                          byrow = TRUE, dimnames = list(NULL, lev)))
+        }
+        else {
             LL <- t(t(log_sum) + log(prior))
             dimnames(LL) <- NULL
             colnames(LL) <- lev

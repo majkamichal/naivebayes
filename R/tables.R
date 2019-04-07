@@ -1,6 +1,16 @@
-tables <- function(object, which = NULL) {
-
+tables <- function (object, which = NULL)
+{
     vars <- names(object$tables)
+
+    n_char <- getOption("width")
+    str_left_right <- paste0(rep("=", floor((n_char - 11)/2)),
+                             collapse = "")
+    str_full <- paste0(str_left_right, " Naive Bayes ",
+                       ifelse(n_char%%2 != 0, "=", ""), str_left_right)
+    len <- nchar(str_full)
+    l <- paste0(rep("-", len), collapse = "")
+    cat("\n")
+    cat(str_full, "\n", "\n")
 
     if (is.character(which) && !all(which %in% vars))
         stop("At least one variable is not available")
@@ -22,3 +32,4 @@ tables <- function(object, which = NULL) {
 
     object$tables[v]
 }
+

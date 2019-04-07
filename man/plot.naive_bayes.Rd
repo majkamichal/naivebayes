@@ -23,18 +23,22 @@
 \item{...}{not used.}
 }
 \description{
-Plot method for objects of class \code{"naive_bayes"} designed for a quick look at the marginal probabilities of predictor variables given the class.
+Plot method for objects of class \code{"naive_bayes"} designed for a quick look at the class conditional distributions of predictor variables.
 }
 \details{
-Conditional probabilities are visualised by \code{\link[graphics]{matplot}} (for metric predictors) and  \code{\link[graphics]{mosaicplot}} (for categorical predictors). In case of non parametric estimation of class-conditional densities, the bandwidths are reported. Nothing is returned.
+Conditional probabilities are visualised by \code{\link[graphics]{matplot}} (for numeric (metric) predictors) and  \code{\link[graphics]{mosaicplot}} (for categorical predictors). In case of non parametric estimation of class-conditional densities, the bandwidths are reported. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via \code{arg.num(..., legend.position = "topright")}. \code{legend.position} can be one of \code{"topright" "topleft", "bottomright", "bottomleft"}.
 }
 \examples{
 data(iris)
 iris2 <- cbind(iris, New = sample(letters[1:3], 150, TRUE))
 nb <- naive_bayes(Species ~ ., data = iris2)
+
 plot(nb, ask = TRUE)
+
 plot(nb, which = c(1, 2), ask = TRUE,
-     arg.num = list(col = 1:3, lty = 1, main = "Naive Bayes Plot"))
+     arg.num = list(col = 1:3, lty = 1,
+     main = "Naive Bayes Plot", legend.position = "topright"))
+
 plot(nb, which = "New", arg.cat = list(color = 4:7))
 }
 \author{
