@@ -17,7 +17,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                         length(levels), " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
-    tables <- sapply(names(data), function(x) {
+    tables <- sapply(names(data), function(x, ...) {
         var <- data[[x]]
         if (is.numeric(var)) {
             if (is.integer(var) & usepoisson) {
@@ -29,7 +29,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                 tab
             } else {
                 if (usekernel) {
-                    tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...))
+                    tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...), ...)
                 }
                 else {
                     tab <- rbind(tapply(var, y, mean, na.rm = TRUE),
@@ -44,7 +44,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
             tab <- table(y, var, dnn = c("", x))
             t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
         }
-    }, simplify = FALSE)
+    }, simplify = FALSE, ...)
     structure(list(data = list(x = data, y = y), levels = levels,
                    laplace = laplace, tables = tables, prior = prior, usekernel = usekernel,
                    usepoisson = usepoisson, call = match.call()), class = "naive_bayes")
