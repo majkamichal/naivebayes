@@ -1,5 +1,5 @@
 naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
-                                 usekernel = FALSE, usepoisson = FALSE, ...)  {
+                                 usekernel = FALSE, usepoisson = TRUE, ...)  {
     data <- as.data.frame(x)
     if (!is.factor(y))
         y <- factor(y)

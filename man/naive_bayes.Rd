@@ -5,10 +5,10 @@
 \title{Naive Bayes Classifier}
 \usage{
 \method{naive_bayes}{default}(x, y, prior = NULL, laplace = 0,
-  usekernel = FALSE, usepoisson = FALSE, ...)
+  usekernel = FALSE, usepoisson = TRUE, ...)
 
 \method{naive_bayes}{formula}(formula, data, prior = NULL, laplace = 0,
-  usekernel = FALSE, usepoisson = FALSE,
+  usekernel = FALSE, usepoisson = TRUE,
   subset, na.action = stats::na.pass, ...)
 }
 
