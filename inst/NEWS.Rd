@@ -3,7 +3,7 @@
 
 \section{Changes in version 0.9.6}{
 	\itemize{
-	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors (count data). It is applied to all numeric variables with mode "integer" (non-negative integer variables) via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = TRUE}). This is not a code breaking change: \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
+	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all numeric variables with mode "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = TRUE}). This is not a code breaking change: \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
 	    \item Improvement: enhanced print method for better readability
 	    \item Improvement: enhanced examples
 	}

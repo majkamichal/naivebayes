@@ -30,7 +30,7 @@ print.naive_bayes <- function (x, ...) {
 
     if (n > 5) {
         cat("\n\n")
-        cat("# ... and", n - 5, ifelse(n - 5 == 1, "more table", "more tables\n\n"))
+        cat("# ... and", n - 5, ifelse(n - 5 == 1, "more table\n\n", "more tables\n\n"))
         cat(l)
     }
     cat("\n\n")
