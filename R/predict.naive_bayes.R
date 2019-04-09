@@ -49,7 +49,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         if (is.numeric(V)) {
             if (is.integer(V) & usepoisson) {
                 p <- sapply(lev, function(lambda) {
-                    dpois(V, lambda = tab[ ,lambda])
+                    stats::dpois(V, lambda = tab[ ,lambda])
                 })
                 p[p == 0] <- threshold
                 if (na[var])
