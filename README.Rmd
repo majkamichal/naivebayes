@@ -34,7 +34,7 @@ devtools::install_github("majkamichal/naivebayes")
 
 ## Usage
 
-The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The  `naive_bayes` function can be also used with an excellent `Caret` package. In following the basic usage of the `naivebayes` package is demonstrated
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The main function `naive_bayes` can be also used within the excellent `Caret` package via `caret::train` and `naive_bayes` method. In following the basic usage of the `naivebayes` package is demonstrated:
 
 
 ```{r example}

@@ -36,9 +36,10 @@ devtools::install_github("majkamichal/naivebayes")
 The `naivebayes` package provides a user friendly implementation of the
 Naïve Bayes algorithm via formula interace and classical combination of
 the matrix/data.frame containing the features and a vector with the
-class labels. The `naive_bayes` function can be also used with an
-excellent `Caret` package. In following the basic usage of the
-`naivebayes` package is demonstrated
+class labels. The main function `naive_bayes` can be also used within
+the excellent `Caret` package via `caret::train` and `naive_bayes`
+method. In following the basic usage of the `naivebayes` package is
+demonstrated:
 
 ``` r
 library(naivebayes)
@@ -82,16 +83,16 @@ nb
 #> ------------------------------------------------------------------------------
 #>         
 #> Discrete setosa versicolor virginica
-#>        A   0.24       0.32      0.38
-#>        B   0.42       0.36      0.30
-#>        C   0.34       0.32      0.32
+#>        A   0.34       0.44      0.32
+#>        B   0.44       0.32      0.40
+#>        C   0.22       0.24      0.28
 #> 
 #> ------------------------------------------------------------------------------
 #>  ::: Counts (Poisson)
 #> ------------------------------------------------------------------------------
 #> 
 #>        setosa versicolor virginica
-#> lambda   1.26       2.04      9.88
+#> lambda   0.84       1.94     10.18
 #> 
 #> ------------------------------------------------------------------------------
 
@@ -116,9 +117,9 @@ tables(nb, which = "Discrete")
 #> ------------------------------------------------------------------------------
 #>         
 #> Discrete setosa versicolor virginica
-#>        A   0.24       0.32      0.38
-#>        B   0.42       0.36      0.30
-#>        C   0.34       0.32      0.32
+#>        A   0.34       0.44      0.32
+#>        B   0.44       0.32      0.40
+#>        C   0.22       0.24      0.28
 #> ------------------------------------------------------------------------------
 
 # Classification
@@ -129,12 +130,12 @@ head(predict(nb))
 # Posterior probabilities
 head(predict(nb, type = "prob"))
 #>         setosa   versicolor    virginica
-#> [1,] 1.0000000 2.099484e-08 1.371764e-14
-#> [2,] 0.9999998 2.244071e-07 1.149543e-10
-#> [3,] 1.0000000 2.099484e-08 1.371764e-14
-#> [4,] 0.9999999 6.042960e-08 1.111351e-12
-#> [5,] 0.9999999 6.042960e-08 1.111351e-12
-#> [6,] 0.9999552 4.477670e-05 1.698990e-09
+#> [1,] 1.0000000 2.987480e-08 1.029891e-13
+#> [2,] 0.9999999 1.227733e-07 1.292181e-12
+#> [3,] 1.0000000 2.301754e-08 8.798051e-15
+#> [4,] 0.9999998 1.593492e-07 1.512614e-11
+#> [5,] 1.0000000 1.293548e-08 8.498118e-15
+#> [6,] 0.9999902 9.751009e-06 3.056456e-12
 ```
 
 ### Usage with Caret package

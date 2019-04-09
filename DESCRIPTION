@@ -4,10 +4,9 @@ Title: High Performance Implementation of the Naive Bayes Algorithm
 Version: 0.9.6
 Author: Michal Majka
 Maintainer: Michal Majka <michalmajka@hotmail.com>
-Description: In this implementation of the Naive Bayes following class conditional distributions are available: Bernoulli, Multinomial, Gaussian, Poisson and KDE (Non-Parametric representation of the class conditional density estimated via Kernel Density Estimation).
+Description: In this implementation of the Naive Bayes classifier following class conditional distributions are available: Bernoulli, Categorical, Gaussian, Poisson and KDE (Non-Parametric representation of the class conditional density estimated via Kernel Density Estimation).
 URL: http://github.com/majkamichal/naivebayes
 BugReports: http://github.com/majkamichal/naivebayes/issues
 License: GPL-2
 Encoding: UTF-8
 NeedsCompilation: no
-
