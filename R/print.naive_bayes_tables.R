@@ -9,7 +9,6 @@ print.naive_bayes_tables <- function(x, ...) {
     len <- nchar(str_full)
     l <- paste0(rep("-", len), collapse = "")
     cat("\n")
-    # cat(str_full, "\n")
     n <- length(x)
     for (i in 1:n) {
         ith_tab <- x[[i]]
@@ -35,7 +34,7 @@ print.naive_bayes_tables <- function(x, ...) {
                 dist <- "(Bernoulli)"
             }
             if (nrow(ith_tab) > 2) {
-                dist <- "(Multinomial)"
+                dist <- "(Categorical)"
             }
             if (nrow(ith_tab) == 2 & all(rownames(ith_tab) %in% c("mean", "sd"))) {
                 dist <- "(Gaussian)"

@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-The `naivebayes` package provides an efficient implementation of the popular Na&iuml;ve Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in `Base R`. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the `Base R` distribution use highly efficient routines programmed in lower level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes` package utilizes only such functions for resource-intensive calculations. Currently, `naivebayes` supports following class conditional distributions: multinomial distribution for discrete features, Poisson distribution for non-negative integer (counts) features and Gaussian distribution or kernel density estimation for continuous features.
+The `naivebayes` package provides an efficient implementation of the popular Na&iuml;ve Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in `Base R`. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the `Base R` distribution use highly efficient routines programmed in lower level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes` package utilizes only such functions for resource-intensive calculations. Currently, `naivebayes` supports following class conditional distributions: categorical distribution for discrete features, Poisson distribution for non-negative integer (counts) features and Gaussian distribution or kernel density estimation for continuous features.
 
 
 ## Installation
@@ -43,7 +43,7 @@ library(naivebayes)
 data(iris)
 new <- iris[-c(1,2,3)]
 # Add one categorical and count variable
-new$Categorical <- sample(LETTERS[1:3], nrow(new), TRUE) 
+new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
@@ -54,11 +54,11 @@ nb
 nb2 <- naive_bayes(x = new[-2], y = new[[2]])
 
 # Visualize class conditional probability distributions
-plot(nb, which = c("Petal.Width", "Categorical"),
+plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 
 # Browse tables
-tables(nb, which = "Categorical")
+tables(nb, which = "Discrete")
 
 # Classification
 head(predict(nb))

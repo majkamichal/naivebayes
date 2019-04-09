@@ -17,7 +17,7 @@ neither denies nor interferes with the first as many functions from the
 level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes`
 package utilizes only such functions for resource-intensive
 calculations. Currently, `naivebayes` supports following class
-conditional distributions: multinomial distribution for discrete
+conditional distributions: categorical distribution for discrete
 features, Poisson distribution for non-negative integer (counts)
 features and Gaussian distribution or kernel density estimation for
 continuous features.
@@ -46,7 +46,7 @@ library(naivebayes)
 data(iris)
 new <- iris[-c(1,2,3)]
 # Add one categorical and count variable
-new$Categorical <- sample(LETTERS[1:3], nrow(new), TRUE) 
+new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
@@ -78,20 +78,20 @@ nb
 #>        sd   0.1053856  0.1977527 0.2746501
 #> 
 #> ------------------------------------------------------------------------------
-#>  ::: Categorical (Multinomial)
+#>  ::: Discrete (Categorical)
 #> ------------------------------------------------------------------------------
-#>            
-#> Categorical setosa versicolor virginica
-#>           A   0.28       0.30      0.30
-#>           B   0.34       0.26      0.38
-#>           C   0.38       0.44      0.32
+#>         
+#> Discrete setosa versicolor virginica
+#>        A   0.24       0.32      0.38
+#>        B   0.42       0.36      0.30
+#>        C   0.34       0.32      0.32
 #> 
 #> ------------------------------------------------------------------------------
 #>  ::: Counts (Poisson)
 #> ------------------------------------------------------------------------------
 #> 
 #>        setosa versicolor virginica
-#> lambda   0.88       2.28      8.76
+#> lambda   1.26       2.04      9.88
 #> 
 #> ------------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ nb
 nb2 <- naive_bayes(x = new[-2], y = new[[2]])
 
 # Visualize class conditional probability distributions
-plot(nb, which = c("Petal.Width", "Categorical"),
+plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 ```
 
@@ -108,17 +108,17 @@ plot(nb, which = c("Petal.Width", "Categorical"),
 ``` r
 
 # Browse tables
-tables(nb, which = "Categorical")
+tables(nb, which = "Discrete")
 #> 
 #> 
 #> ------------------------------------------------------------------------------
-#>  ::: Categorical (Multinomial)
+#>  ::: Discrete (Categorical)
 #> ------------------------------------------------------------------------------
-#>            
-#> Categorical setosa versicolor virginica
-#>           A   0.28       0.30      0.30
-#>           B   0.34       0.26      0.38
-#>           C   0.38       0.44      0.32
+#>         
+#> Discrete setosa versicolor virginica
+#>        A   0.24       0.32      0.38
+#>        B   0.42       0.36      0.30
+#>        C   0.34       0.32      0.32
 #> ------------------------------------------------------------------------------
 
 # Classification
@@ -129,12 +129,12 @@ head(predict(nb))
 # Posterior probabilities
 head(predict(nb, type = "prob"))
 #>         setosa   versicolor    virginica
-#> [1,] 0.9999999 1.024166e-07 3.358881e-12
-#> [2,] 0.9999999 6.763876e-08 4.457927e-12
-#> [3,] 1.0000000 2.610619e-08 4.478283e-13
-#> [4,] 1.0000000 2.610619e-08 4.478283e-13
-#> [5,] 1.0000000 1.525689e-08 3.389626e-14
-#> [6,] 0.9999869 1.311952e-05 1.150476e-10
+#> [1,] 1.0000000 2.099484e-08 1.371764e-14
+#> [2,] 0.9999998 2.244071e-07 1.149543e-10
+#> [3,] 1.0000000 2.099484e-08 1.371764e-14
+#> [4,] 0.9999999 6.042960e-08 1.111351e-12
+#> [5,] 0.9999999 6.042960e-08 1.111351e-12
+#> [6,] 0.9999552 4.477670e-05 1.698990e-09
 ```
 
 ### Usage with Caret package
@@ -205,13 +205,13 @@ naive_bayes_via_caret2 <- train(Species ~ ., data = new,
                                tuneGrid = nb_grid)
 # Selected tuning parameters
 naive_bayes_via_caret2$finalModel$tuneValue
-#>    laplace usekernel adjust
-#> 16       0      TRUE    1.5
+#>   laplace usekernel adjust
+#> 1       0     FALSE   0.75
 
 ## View the final naive_bayes model
 # naive_bayes_via_caret2$finalModel
 
-# Visualize
+# Visualize the tuning process
 plot(naive_bayes_via_caret2)
 ```
 
