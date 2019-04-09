@@ -23,7 +23,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
             if (is.integer(var) & usepoisson) {
                 if (any(var < 0))
                     warning(paste0("The feature ", x, " is modelled with Poisson ",
-                                   "distribution and contains negative counts"),  call. = FALSE)
+                                   "distribution in \"naive_bayes\" and it contains negative counts"),  call. = FALSE)
                 tab <- rbind(tapply(var, y, function(x) (sum(x, na.rm = TRUE) + laplace) / length(x)))
                 rownames(tab) <- "lambda"
                 tab

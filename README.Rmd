@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 
 ## Overview
 
-naivebayes is an efficient implementation of the Naive Bayes algorithm in R.
+The `naivebayes` package provides an efficient implementation of the popular Na&iuml;ve Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in `Base R`. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the `Base R` distribution use highly efficient routines programmed in lower level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes` package utilizes only such functions for resource-intensive calculations. Currently, `naivebayes` supports following class conditional distributions: multinomial distribution for discrete features, Poisson distribution for non-negative integer (counts) features and Gaussian distribution or kernel density estimation for continuous features.
 
 
 ## Installation
@@ -34,17 +34,84 @@ devtools::install_github("majkamichal/naivebayes")
 
 ## Usage
 
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The  `naive_bayes` function can be also used with an excellent `Caret` package. In following the basic usage of the `naivebayes` package is demonstrated
 
 
 ```{r example}
 library(naivebayes)
 
 data(iris)
-nb <- naive_bayes(Species ~ ., data = iris)
+new <- iris[-c(1,2,3)]
+# Add one categorical and count variable
+new$Categorical <- sample(LETTERS[1:3], nrow(new), TRUE) 
+new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
-tables(nb, which = "Sepal.Length")
+# Formula interface
+nb <- naive_bayes(Species ~ ., data = new)
+nb
 
-plot(nb, which = "Sepal.Length")
+# Or equivalently matrix/data.frame and class vector
+nb2 <- naive_bayes(x = new[-2], y = new[[2]])
 
+# Visualize class conditional probability distributions
+plot(nb, which = c("Petal.Width", "Categorical"),
+     arg.cat = list(color = heat.colors(3)))
+
+# Browse tables
+tables(nb, which = "Categorical")
+
+# Classification
 head(predict(nb))
+
+# Posterior probabilities
+head(predict(nb, type = "prob"))
+```
+
+
+### Usage with Caret package
+
+```{r example_caret, cache=TRUE}
+library(caret, quietly = TRUE)
+library(naivebayes)
+
+# Train the Naive Bayes model with the Caret package
+naive_bayes_via_caret <- train(Species ~ ., data = new, 
+                               method = "naive_bayes")
+
+naive_bayes_via_caret
+
+# Classification
+head(predict(naive_bayes_via_caret, newdata = new))
+
+# Posterior probabilities
+head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
+
+# Recover the naive_bayes object
+nb_object <- naive_bayes_via_caret$finalModel
+class(nb_object)
+```
+
+Define tuning grid, do resampling and find the "optimal" model:
+
+```{r example_caret2, cache=TRUE}
+
+# Define tuning grid 
+nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
+                         laplace = c(0, 0.5, 1), 
+                         adjust = c(0.75, 1, 1.25, 1.5))
+# Fit the Naive Bayes model 
+naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
+                               method = "naive_bayes",
+                               tuneGrid = nb_grid)
+# Selected tuning parameters
+naive_bayes_via_caret2$finalModel$tuneValue
+
+## View the final naive_bayes model
+# naive_bayes_via_caret2$finalModel
+
+# Visualize the tuning process
+plot(naive_bayes_via_caret2)
+
+# Perform classification 
+head(predict(naive_bayes_via_caret2, newdata = new))
 ```

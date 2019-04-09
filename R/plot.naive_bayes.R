@@ -42,7 +42,6 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 X <- 0:max(x$data$x[[i]], na.rm = TRUE)
                 Y <- matrix(stats::dpois(x = X, lambda = rep(i_tab, each = length(X))),
                             ncol = length(lev))
-                arg.num2 <- list()
                 n <- names(arg.num2)
                 if (!("col"  %in% n)) arg.num2$col <- seq_along(lev) + 1
                 if (!("las"  %in% n)) arg.num2$las <- 1
@@ -51,19 +50,23 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 if (("pch" %in% n)) arg.num2$pch <- 16
                 if (!("pch" %in% n)) arg.num2$pch <- 16
                 if (!("ylab" %in% n)) arg.num2$ylab <- "PMF"
+                if (!("lab" %in% n)) arg.num2$lab <- c(10,10,2)
+                if (!("cex" %in% n)) arg.num2$cex.axis <- 0.8
+                if (!("cex.axis" %in% n)) arg.num2$cex.axis <- 0.75
                 if (!("lty"  %in% n)) arg.num2$lty <- seq_along(lev)
-                if (!("ylab" %in% n)) arg.num2$ylab <- "PMF"
                 if (!("legend.position" %in% n)) arg.num2$legend.position  <- "topright"
+                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.7
                 legend_position <- arg.num2$legend.position
+                legend_cex <- arg.num2$legend.cex
                 arg.num2$legend.position <- NULL
+                arg.num2$legend.cex <- NULL
                 arg.num2$xlab <- i
-
                 params <- c(list(x = quote(X), y = quote(Y)), arg.num2)
                 do.call("matplot", params)
                 if (legend) {
                     bty = ifelse(legend.box == TRUE, TRUE, "n")
                     legend(legend_position, leg, col = arg.num2$col, lty = arg.num2$lty,
-                           title = "", cex = 1, y.intersp = 0.75, bty = bty,
+                           title = "", cex = legend_cex, y.intersp = 0.7, bty = bty,
                            pch = arg.num2$pch)
                 }
             } else {
@@ -88,9 +91,14 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 if (!("type" %in% n)) arg.num2$type <- "l"
                 if (!("lty"  %in% n)) arg.num2$lty <- seq_along(lev)
                 if (!("ylab" %in% n)) arg.num2$ylab <- "Density"
+                if (!("lab" %in% n)) arg.num2$lab <- c(10,10,2)
+                if (!("cex.axis" %in% n)) arg.num2$cex.axis <- 0.75
                 if (!("legend.position" %in% n)) arg.num2$legend.position  <- "topright"
+                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.7
                 legend_position <- arg.num2$legend.position
+                legend_cex <- arg.num2$legend.cex
                 arg.num2$legend.position <- NULL
+                arg.num2$legend.cex <- NULL
                 arg.num2$xlab <- i
 
                 params <- c(list(x = quote(X), y = quote(Y)), arg.num2)
@@ -98,7 +106,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 if (legend) {
                     bty = ifelse(legend.box == TRUE, TRUE, "n")
                     legend(legend_position, leg, col = arg.num2$col, lty = arg.num2$lty,
-                           title = "", cex = 1, y.intersp = 0.75, bty = bty)
+                           title = "", cex = legend_cex, y.intersp = 0.75, bty = bty)
                 }
             }
 

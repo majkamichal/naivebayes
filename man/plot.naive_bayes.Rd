@@ -33,13 +33,14 @@ data(iris)
 iris2 <- cbind(iris, New = sample(letters[1:3], 150, TRUE))
 nb <- naive_bayes(Species ~ ., data = iris2)
 
-plot(nb, ask = TRUE)
+plot(nb, which = c("Sepal.Width", "Sepal.Length"), ask = TRUE)
 
-plot(nb, which = c(1, 2), ask = TRUE,
+plot(nb, which = c(1, 2), ask = FALSE,
      arg.num = list(col = 1:3, lty = 1,
-     main = "Naive Bayes Plot", legend.position = "topright"))
+     main = "Naive Bayes Plot", legend.position = "topright",
+     legend.cex = 0.55))
 
-plot(nb, which = "New", arg.cat = list(color = 4:7))
+plot(nb, which = "New", arg.cat = list(color = heat.colors(3)))
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
