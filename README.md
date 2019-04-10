@@ -5,6 +5,8 @@
 
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
+[![Say
+Thanks:)](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/majkamichal)
 
 ## Overview
 
@@ -47,6 +49,7 @@ library(naivebayes)
 data(iris)
 new <- iris[-c(1,2,3)]
 # Add one categorical and count variable
+set.seed(1)
 new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
@@ -83,16 +86,16 @@ nb
 #> ------------------------------------------------------------------------------
 #>         
 #> Discrete setosa versicolor virginica
-#>        A   0.34       0.44      0.32
-#>        B   0.44       0.32      0.40
-#>        C   0.22       0.24      0.28
+#>        A   0.24       0.30      0.30
+#>        B   0.38       0.38      0.44
+#>        C   0.38       0.32      0.26
 #> 
 #> ------------------------------------------------------------------------------
 #>  ::: Counts (Poisson)
 #> ------------------------------------------------------------------------------
 #> 
 #>        setosa versicolor virginica
-#> lambda   0.84       1.94     10.18
+#> lambda   1.02       1.94        10
 #> 
 #> ------------------------------------------------------------------------------
 
@@ -117,9 +120,9 @@ tables(nb, which = "Discrete")
 #> ------------------------------------------------------------------------------
 #>         
 #> Discrete setosa versicolor virginica
-#>        A   0.34       0.44      0.32
-#>        B   0.44       0.32      0.40
-#>        C   0.22       0.24      0.28
+#>        A   0.24       0.30      0.30
+#>        B   0.38       0.38      0.44
+#>        C   0.38       0.32      0.26
 #> ------------------------------------------------------------------------------
 
 # Classification
@@ -130,12 +133,12 @@ head(predict(nb))
 # Posterior probabilities
 head(predict(nb, type = "prob"))
 #>         setosa   versicolor    virginica
-#> [1,] 1.0000000 2.987480e-08 1.029891e-13
-#> [2,] 0.9999999 1.227733e-07 1.292181e-12
-#> [3,] 1.0000000 2.301754e-08 8.798051e-15
-#> [4,] 0.9999998 1.593492e-07 1.512614e-11
-#> [5,] 1.0000000 1.293548e-08 8.498118e-15
-#> [6,] 0.9999902 9.751009e-06 3.056456e-12
+#> [1,] 0.9999999 5.062555e-08 1.641993e-13
+#> [2,] 1.0000000 4.050044e-08 1.521004e-13
+#> [3,] 1.0000000 2.129405e-08 1.551424e-14
+#> [4,] 1.0000000 3.410564e-08 8.987751e-14
+#> [5,] 0.9999999 5.062555e-08 1.641993e-13
+#> [6,] 0.9999910 9.011575e-06 2.355152e-12
 ```
 
 ### Usage with Caret package
