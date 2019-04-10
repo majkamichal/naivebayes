@@ -114,7 +114,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
             if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
             if (!("color" %in% names(arg.cat))) arg.cat$color <- seq_along(lev) + 1
             arg.cat$xlab <- i
-            params <- c(list(x = quote(i_tab)), c(arg.cat))
+            params <- c(list(x = quote(t(i_tab))), c(arg.cat))
             do.call("mosaicplot", params)
         }
     }
