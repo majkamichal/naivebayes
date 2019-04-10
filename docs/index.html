@@ -131,16 +131,16 @@
 <a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt;         </span></a>
 <a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt; Discrete setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;        A   0.30       0.40      0.34</span></a>
-<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;        B   0.40       0.28      0.42</span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;        C   0.30       0.32      0.24</span></a>
+<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;        A   0.30       0.36      0.36</span></a>
+<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;        B   0.36       0.44      0.40</span></a>
+<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;        C   0.34       0.20      0.24</span></a>
 <a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt;  ::: Counts (Poisson)</span></a>
 <a class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb2-50" data-line-number="50"><span class="co">#&gt;        setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt; lambda   1.18       2.16     10.38</span></a>
+<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt; lambda   1.06       2.12      9.58</span></a>
 <a class="sourceLine" id="cb2-52" data-line-number="52"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb2-53" data-line-number="53"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-54" data-line-number="54"></a>
@@ -161,9 +161,9 @@
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;         </span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Discrete setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;        A   0.30       0.40      0.34</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;        B   0.40       0.28      0.42</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;        C   0.30       0.32      0.24</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;        A   0.30       0.36      0.36</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;        B   0.36       0.44      0.40</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;        C   0.34       0.20      0.24</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># Classification</span></a>
@@ -174,12 +174,12 @@
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># Posterior probabilities</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;         setosa   versicolor    virginica</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; [1,] 0.9999999 7.167583e-08 6.656368e-13</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; [2,] 1.0000000 2.139091e-08 8.602143e-15</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [3,] 1.0000000 2.569628e-08 9.931648e-14</span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; [4,] 1.0000000 3.915624e-08 7.566970e-14</span></a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; [5,] 1.0000000 4.703727e-08 8.736483e-13</span></a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; [6,] 0.9999893 1.074990e-05 2.209905e-12</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; [1,] 1.0000000 2.262597e-08 2.358275e-14</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; [2,] 0.9999999 9.050387e-08 1.926254e-12</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [3,] 1.0000000 2.221459e-08 2.546937e-14</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; [4,] 1.0000000 2.262597e-08 2.358275e-14</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; [5,] 1.0000000 2.177901e-08 1.354032e-13</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; [6,] 0.9999777 2.232742e-05 5.913433e-11</span></a></code></pre></div>
 <div id="usage-with-caret-package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage-with-caret-package" class="anchor"></a>Usage with Caret package</h3>
