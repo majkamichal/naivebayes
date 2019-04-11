@@ -55,7 +55,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 if (!("cex.axis" %in% n)) arg.num2$cex.axis <- 0.75
                 if (!("lty"  %in% n)) arg.num2$lty <- seq_along(lev)
                 if (!("legend.position" %in% n)) arg.num2$legend.position  <- "topright"
-                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.7
+                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.75
                 legend_position <- arg.num2$legend.position
                 legend_cex <- arg.num2$legend.cex
                 arg.num2$legend.position <- NULL
@@ -94,7 +94,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 if (!("lab" %in% n)) arg.num2$lab <- c(10,10,2)
                 if (!("cex.axis" %in% n)) arg.num2$cex.axis <- 0.75
                 if (!("legend.position" %in% n)) arg.num2$legend.position  <- "topright"
-                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.7
+                if (!("legend.cex" %in% n)) arg.num2$legend.cex  <- 0.75
                 legend_position <- arg.num2$legend.position
                 legend_cex <- arg.num2$legend.cex
                 arg.num2$legend.position <- NULL

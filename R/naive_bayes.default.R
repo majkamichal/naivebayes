@@ -10,8 +10,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
 
     if (is.null(prior)) {
         prior <- prop.table(table(y, dnn = ""))
-    }
-    else {
+    } else {
         if (length(prior) != length(levels))
             stop(paste0("Vector with prior probabilities should have ",
                         length(levels), " entries"))
@@ -25,26 +24,34 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                     warning(paste0("The feature ", x, " is modelled with Poisson ",
                                    "distribution in \"naive_bayes\" and it contains negative counts"),  call. = FALSE)
                 tab <- rbind(tapply(var, y, function(x) (sum(x, na.rm = TRUE) + laplace) / length(x)))
+                attr(tab, "cond_dist") <- "Poisson"
                 rownames(tab) <- "lambda"
-                tab
+                as.table(tab)
             } else {
                 if (usekernel) {
-                    tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...), ...)
+                    tab <- tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...), ...)
+                    attr(tab, "cond_dist") <- "KDE"
+                    tab
+
                 }
                 else {
                     tab <- rbind(tapply(var, y, mean, na.rm = TRUE),
                                  tapply(var, y, stats::sd, na.rm = TRUE))
                     rownames(tab) <- c("mean", "sd")
                     names(dimnames(tab)) <- c(x, "")
+                    attr(tab, "cond_dist") <- "Gaussian"
                     as.table(tab)
                 }
             }
         }
         else {
             tab <- table(y, var, dnn = c("", x))
-            t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
+            tab <- t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
+            attr(tab, "cond_dist") <- ifelse(nrow(tab) == 2, "Bernoulli", "Categorical")
+            tab
         }
     }, simplify = FALSE, ...)
+    attr(tables, "cond_dist") <- sapply(tables, attr, "cond_dist")
     class(tables) <- "naive_bayes_tables"
     structure(list(data = list(x = data, y = y), levels = levels,
                    laplace = laplace, tables = tables, prior = prior, usekernel = usekernel,

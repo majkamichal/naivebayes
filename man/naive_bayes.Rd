@@ -40,10 +40,10 @@
 \value{
 \code{naive_bayes} returns an object of class \code{"naive_bayes"} which is a list with following components:
     \item{data}{list with two components: \code{x} (dataframe with predictors) and \code{y} (class variable).}
-    \item{tables}{list of tables. For each categorical predictor a table with class-conditional probabilities and for each metric predictor a table with means and standard deviations or \code{\link[stats]{density}} objects for each class.}
-    \item{prior}{numeric vector with prior probabilities.}
-    \item{laplace}{value of Laplace smoothing (additive smoothing).}
     \item{levels}{character vector with values of the class variable.}
+    \item{laplace}{value of Laplace smoothing (additive smoothing).}
+    \item{tables}{list of tables. For each categorical predictor a table with class-conditional probabilities, for each integer predictor a table with Poisson mean (if \code{usepoisson = TRUE}) and for each metric predictor a table with a mean and standard deviation or \code{\link[stats]{density}} objects for each class. The object \code{tables} contains also an additional attribute "cond_dist" - a character vector with the names of conditional distributions assigned to each feature.}
+    \item{prior}{numeric vector with prior probabilities.}
     \item{usekernel}{logical; \code{TRUE}, if the kernel density estimation was used for estimating class conditional densities of numeric variables.}
     \item{usepoisson}{logical; \code{TRUE}, if the Poisson distribution was used for estimating class conditional PMFs of integer variables (numeric vectors with mode "integer").}
     \item{call}{the call that produced this object.}

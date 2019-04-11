@@ -2,52 +2,38 @@ print.naive_bayes_tables <- function(x, ...) {
 
     symbol = ":::"
     n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - 11)/2)),
+    str_left_right <- paste0(rep("=", floor((n_char - 11) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " Naive Bayes ",
-                       ifelse(n_char%%2 != 0, "=", ""), str_left_right)
+                       ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
     len <- nchar(str_full)
     l <- paste0(rep("-", len), collapse = "")
-    cat("\n")
     n <- length(x)
+    cond_dists <- get_cond_dist(x)
+    if (is.null(cond_dists)) {
+        cond_dists <- recognize_cond_dist(x)
+    }
     for (i in 1:n) {
         ith_tab <- x[[i]]
         ith_name <- names(x)[i]
-        if (class(ith_tab) == "array") {
+        ith_dist <- cond_dists[i]
+        if (ith_dist == "KDE") {
             for (ith_factor in names(ith_tab)) {
-                cat("\n")
-                cat(l)
-                cat("\n")
-                cat(paste0(" ", symbol, " ", ith_name, "::", ith_factor, " (KDE)", "\n"))
-                cat(l)
-                cat("\n")
+                cat("\n", l, "\n")
+                cat(paste0(" ", symbol, " ", ith_name, "::", ith_factor,
+                           " (,", ith_dist, ")", "\n"))
+                cat(l, "\n")
                 print(ith_tab[[ith_factor]])
             }
         } else {
-            cat("\n")
-            cat(l)
-            cat("\n")
-            if (any(rownames(ith_tab) == "lambda") & nrow(ith_tab) == 1) {
-                dist <- "(Poisson)"
-            }
-            if (nrow(ith_tab) == 2 & all(!rownames(ith_tab) %in% c("mean", "sd"))) {
-                dist <- "(Bernoulli)"
-            }
-            if (nrow(ith_tab) > 2) {
-                dist <- "(Categorical)"
-            }
-            if (nrow(ith_tab) == 2 & all(rownames(ith_tab) %in% c("mean", "sd"))) {
-                dist <- "(Gaussian)"
-            }
-            cat(paste0(" ", symbol, " ", ith_name, " ", dist, "\n"))
-            cat(l)
-            cat("\n")
-            if (dist == "(Poisson)") cat("\n")
+            cat("\n", l, "\n")
+            cat(paste0(" ", symbol, " ", ith_name, " (", ith_dist, ") ", "\n"))
+            cat(l, "\n")
+            if (ith_dist == "Poisson") cat("\n")
             print(ith_tab)
-            if (dist == "(Poisson)") cat("\n")
-
         }
     }
+    cat("\n")
     cat(l)
 }
 
@@ -85,3 +71,37 @@ print.naive_bayes_tables <- function(x, ...) {
     res
 }
 
+get_cond_dist <- function(object) {
+    if (class(object) == "naive_bayes") {
+        cond_dist <- attr(object$tables, "cond_dist")
+    } else if (class(object) == "naive_bayes_tables") {
+        cond_dist <- attr(object, "cond_dist")
+    } else {
+        stop("This function expects \"naive_bayes\" or \"naive_bayes_tables\" objects",
+             call. = FALSE)
+    }
+    cond_dist
+}
+
+recognize_cond_dist <- function(tab) {
+
+    sapply(tab, function(ith_tab) {
+        if (class(ith_tab) == "array") {
+            cond_dist <- "KDE"
+        } else if (class(ith_tab) == "table") {
+            rnames <- rownames(ith_tab)
+            norm_par <- c("mean", "sd")
+            if (any(rownames(ith_tab) == "lambda") & nrow(ith_tab) == 1)
+                cond_dist <- "Poisson"
+            if (nrow(ith_tab) == 2 & all(!rnames %in% norm_par))
+                cond_dist <- "Bernoulli"
+            if (nrow(ith_tab) == 2 & all(rnames %in% norm_par))
+                cond_dist <- "Gaussian"
+            if (nrow(ith_tab) > 2)
+                cond_dist <- "Categorical"
+        } else {
+            cond_dist <- " "
+        }
+        cond_dist
+    })
+}

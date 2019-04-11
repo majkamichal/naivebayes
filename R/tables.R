@@ -1,13 +1,10 @@
-# I need a function that goes through tables, finds class conditional
-# distributions and returns a data.frame:
-# 1st column: Feature, 2nd column class conditional distribution.
-# I will then use it in print.naive_bayes_tables and also describe.
-
-
 tables <- function (object, which = NULL) {
 
     vars <- names(object$tables)
     tabs <- object$tables
+    cond_dist <- get_cond_dist(object)
+    if (is.null(cond_dist))
+        cond_dist <- recognize_cond_dist(tabs)
 
     if (is.character(which) && !all(which %in% vars))
         stop("At least one variable is not available")
@@ -27,8 +24,7 @@ tables <- function (object, which = NULL) {
     if (is.character(which))
         v <- vars[vars %in% which]
 
-    tabs[v]
+    res <- tabs[v]
+    attr(res, "cond_dist") <- cond_dist[v]
+    res
 }
-
-
-
