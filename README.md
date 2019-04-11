@@ -3,6 +3,10 @@
 
 # naivebayes
 
+<!-- # naivebayes <img src="man/figures/logo.png" align="right" /> -->
+
+[![Build
+Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
 [![Say
