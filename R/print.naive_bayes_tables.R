@@ -19,14 +19,16 @@ print.naive_bayes_tables <- function(x, ...) {
         ith_dist <- cond_dists[i]
         if (ith_dist == "KDE") {
             for (ith_factor in names(ith_tab)) {
-                cat("\n", l, "\n")
+                cat("\n")
+                cat(l, "\n")
                 cat(paste0(" ", symbol, " ", ith_name, "::", ith_factor,
                            " (,", ith_dist, ")", "\n"))
                 cat(l, "\n")
                 print(ith_tab[[ith_factor]])
             }
         } else {
-            cat("\n", l, "\n")
+            cat("\n")
+            cat(l, "\n")
             cat(paste0(" ", symbol, " ", ith_name, " (", ith_dist, ") ", "\n"))
             cat(l, "\n")
             if (ith_dist == "Poisson") cat("\n")

@@ -64,7 +64,7 @@ plot(nb, which = c("Petal.Width", "Discrete"),
 # Browse tables
 tables(nb, which = "Discrete") # <=> nb$tables["Discrete"]
 
-# Get names of conditional distributions for each feature
+# Get name of conditional distributions for each feature
 get_cond_dist(nb) # <=> attr(nb$tables, "cond_dist") 
 
 # data.frame("Dist" = get_cond_dist(nb))

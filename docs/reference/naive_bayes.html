@@ -172,10 +172,10 @@
 
     <p><code>naive_bayes</code> returns an object of class <code>"naive_bayes"</code> which is a list with following components:</p>
 <dt>data</dt><dd><p>list with two components: <code>x</code> (dataframe with predictors) and <code>y</code> (class variable).</p></dd>
-    <dt>tables</dt><dd><p>list of tables. For each categorical predictor a table with class-conditional probabilities and for each metric predictor a table with means and standard deviations or <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> objects for each class.</p></dd>
-    <dt>prior</dt><dd><p>numeric vector with prior probabilities.</p></dd>
-    <dt>laplace</dt><dd><p>value of Laplace smoothing (additive smoothing).</p></dd>
     <dt>levels</dt><dd><p>character vector with values of the class variable.</p></dd>
+    <dt>laplace</dt><dd><p>value of Laplace smoothing (additive smoothing).</p></dd>
+    <dt>tables</dt><dd><p>list of tables. For each categorical predictor a table with class-conditional probabilities, for each integer predictor a table with Poisson mean (if <code>usepoisson = TRUE</code>) and for each metric predictor a table with a mean and standard deviation or <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> objects for each class. The object <code>tables</code> contains also an additional attribute "cond_dist" - a character vector with the names of conditional distributions assigned to each feature.</p></dd>
+    <dt>prior</dt><dd><p>numeric vector with prior probabilities.</p></dd>
     <dt>usekernel</dt><dd><p>logical; <code>TRUE</code>, if the kernel density estimation was used for estimating class conditional densities of numeric variables.</p></dd>
     <dt>usepoisson</dt><dd><p>logical; <code>TRUE</code>, if the Poisson distribution was used for estimating class conditional PMFs of integer variables (numeric vectors with mode "integer").</p></dd>
     <dt>call</dt><dd><p>the call that produced this object.</p></dd>
