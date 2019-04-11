@@ -95,62 +95,65 @@
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(iris)</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">new &lt;-<span class="st"> </span>iris[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)]</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># Add one categorical and count variable</span></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6">new<span class="op">$</span>Discrete &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(new), <span class="ot">TRUE</span>) </a>
-<a class="sourceLine" id="cb2-7" data-line-number="7">new<span class="op">$</span>Counts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">10</span>)) </a>
-<a class="sourceLine" id="cb2-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># Formula interface</span></a>
-<a class="sourceLine" id="cb2-10" data-line-number="10">nb &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> new)</a>
-<a class="sourceLine" id="cb2-11" data-line-number="11">nb</a>
-<a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; ================================ Naive Bayes ================================= </span></a>
-<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt;  </span></a>
-<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt; Call: </span></a>
-<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; naive_bayes.formula(formula = Species ~ ., data = new)</span></a>
-<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; A priori probabilities: </span></a>
-<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt;     setosa versicolor  virginica </span></a>
-<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;  0.3333333  0.3333333  0.3333333 </span></a>
-<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; Tables:</span></a>
-<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt;  ::: Petal.Width (Gaussian)</span></a>
-<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt;            </span></a>
-<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt; Petal.Width    setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt;        mean 0.2460000  1.3260000 2.0260000</span></a>
-<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt;        sd   0.1053856  0.1977527 0.2746501</span></a>
-<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt;  ::: Discrete (Categorical)</span></a>
-<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt;         </span></a>
-<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt; Discrete setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt;        A   0.30       0.36      0.36</span></a>
-<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;        B   0.36       0.44      0.40</span></a>
-<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;        C   0.34       0.20      0.24</span></a>
-<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt;  ::: Counts (Poisson)</span></a>
-<a class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-50" data-line-number="50"><span class="co">#&gt;        setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt; lambda   1.06       2.12      9.58</span></a>
-<a class="sourceLine" id="cb2-52" data-line-number="52"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb2-53" data-line-number="53"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb2-54" data-line-number="54"></a>
-<a class="sourceLine" id="cb2-55" data-line-number="55"><span class="co"># Or equivalently matrix/data.frame and class vector</span></a>
-<a class="sourceLine" id="cb2-56" data-line-number="56">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> new[<span class="op">-</span><span class="dv">2</span>], <span class="dt">y =</span> new[[<span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">new<span class="op">$</span>Discrete &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(new), <span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">new<span class="op">$</span>Counts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">10</span>)) </a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10"><span class="co"># Formula interface</span></a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">nb &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> new)</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">nb</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"><span class="co">#&gt; ================================ Naive Bayes ================================= </span></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15"><span class="co">#&gt;  </span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16"><span class="co">#&gt; Call: </span></a>
+<a class="sourceLine" id="cb2-17" data-line-number="17"><span class="co">#&gt; naive_bayes.formula(formula = Species ~ ., data = new)</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21"><span class="co">#&gt; A priori probabilities: </span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-23" data-line-number="23"><span class="co">#&gt;     setosa versicolor  virginica </span></a>
+<a class="sourceLine" id="cb2-24" data-line-number="24"><span class="co">#&gt;  0.3333333  0.3333333  0.3333333 </span></a>
+<a class="sourceLine" id="cb2-25" data-line-number="25"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28"><span class="co">#&gt; Tables:</span></a>
+<a class="sourceLine" id="cb2-29" data-line-number="29"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-30" data-line-number="30"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-31" data-line-number="31"><span class="co">#&gt;  ::: Petal.Width (Gaussian)</span></a>
+<a class="sourceLine" id="cb2-32" data-line-number="32"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"><span class="co">#&gt;            </span></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34"><span class="co">#&gt; Petal.Width    setosa versicolor virginica</span></a>
+<a class="sourceLine" id="cb2-35" data-line-number="35"><span class="co">#&gt;        mean 0.2460000  1.3260000 2.0260000</span></a>
+<a class="sourceLine" id="cb2-36" data-line-number="36"><span class="co">#&gt;        sd   0.1053856  0.1977527 0.2746501</span></a>
+<a class="sourceLine" id="cb2-37" data-line-number="37"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-38" data-line-number="38"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-39" data-line-number="39"><span class="co">#&gt;  ::: Discrete (Categorical)</span></a>
+<a class="sourceLine" id="cb2-40" data-line-number="40"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-41" data-line-number="41"><span class="co">#&gt;         </span></a>
+<a class="sourceLine" id="cb2-42" data-line-number="42"><span class="co">#&gt; Discrete setosa versicolor virginica</span></a>
+<a class="sourceLine" id="cb2-43" data-line-number="43"><span class="co">#&gt;        A   0.24       0.30      0.30</span></a>
+<a class="sourceLine" id="cb2-44" data-line-number="44"><span class="co">#&gt;        B   0.38       0.38      0.44</span></a>
+<a class="sourceLine" id="cb2-45" data-line-number="45"><span class="co">#&gt;        C   0.38       0.32      0.26</span></a>
+<a class="sourceLine" id="cb2-46" data-line-number="46"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-47" data-line-number="47"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-48" data-line-number="48"><span class="co">#&gt;  ::: Counts (Poisson)</span></a>
+<a class="sourceLine" id="cb2-49" data-line-number="49"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb2-50" data-line-number="50"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-51" data-line-number="51"><span class="co">#&gt;        setosa versicolor virginica</span></a>
+<a class="sourceLine" id="cb2-52" data-line-number="52"><span class="co">#&gt; lambda   1.02       1.94        10</span></a>
+<a class="sourceLine" id="cb2-53" data-line-number="53"><span class="co">#&gt; attr(,"cond_dist")</span></a>
+<a class="sourceLine" id="cb2-54" data-line-number="54"><span class="co">#&gt; [1] "Poisson"</span></a>
+<a class="sourceLine" id="cb2-55" data-line-number="55"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb2-56" data-line-number="56"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-57" data-line-number="57"></a>
-<a class="sourceLine" id="cb2-58" data-line-number="58"><span class="co"># Visualize class conditional probability distributions</span></a>
-<a class="sourceLine" id="cb2-59" data-line-number="59"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Discrete"</span>),</a>
-<a class="sourceLine" id="cb2-60" data-line-number="60">     <span class="dt">arg.cat =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/palettes">heat.colors</a></span>(<span class="dv">3</span>)))</a></code></pre></div>
-<p><img src="../../Master%20Statistics/naivebayes/README-example-1.png" width="700"><img src="../../Master%20Statistics/naivebayes/README-example-2.png" width="700"></p>
+<a class="sourceLine" id="cb2-58" data-line-number="58"><span class="co"># Or equivalently matrix/data.frame and class vector</span></a>
+<a class="sourceLine" id="cb2-59" data-line-number="59">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> new[<span class="op">-</span><span class="dv">2</span>], <span class="dt">y =</span> new[[<span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb2-60" data-line-number="60"></a>
+<a class="sourceLine" id="cb2-61" data-line-number="61"><span class="co"># Visualize class conditional probability distributions</span></a>
+<a class="sourceLine" id="cb2-62" data-line-number="62"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Discrete"</span>),</a>
+<a class="sourceLine" id="cb2-63" data-line-number="63">     <span class="dt">arg.cat =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/palettes">heat.colors</a></span>(<span class="dv">3</span>)))</a></code></pre></div>
+<p><img src="../../Master%20Statistics/naivebayes/man/figures/example-1.png" width="700"><img src="../../Master%20Statistics/naivebayes/man/figures/example-2.png" width="700"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># Browse tables</span></a>
 <a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw"><a href="reference/tables.html">tables</a></span>(nb, <span class="dt">which =</span> <span class="st">"Discrete"</span>)</a>
@@ -161,9 +164,9 @@
 <a class="sourceLine" id="cb3-8" data-line-number="8"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-9" data-line-number="9"><span class="co">#&gt;         </span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co">#&gt; Discrete setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;        A   0.30       0.36      0.36</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;        B   0.36       0.44      0.40</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;        C   0.34       0.20      0.24</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="co">#&gt;        A   0.24       0.30      0.30</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co">#&gt;        B   0.38       0.38      0.44</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="co">#&gt;        C   0.38       0.32      0.26</span></a>
 <a class="sourceLine" id="cb3-14" data-line-number="14"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16"><span class="co"># Classification</span></a>
@@ -174,12 +177,12 @@
 <a class="sourceLine" id="cb3-21" data-line-number="21"><span class="co"># Posterior probabilities</span></a>
 <a class="sourceLine" id="cb3-22" data-line-number="22"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23"><span class="co">#&gt;         setosa   versicolor    virginica</span></a>
-<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; [1,] 1.0000000 2.262597e-08 2.358275e-14</span></a>
-<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; [2,] 0.9999999 9.050387e-08 1.926254e-12</span></a>
-<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [3,] 1.0000000 2.221459e-08 2.546937e-14</span></a>
-<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; [4,] 1.0000000 2.262597e-08 2.358275e-14</span></a>
-<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; [5,] 1.0000000 2.177901e-08 1.354032e-13</span></a>
-<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; [6,] 0.9999777 2.232742e-05 5.913433e-11</span></a></code></pre></div>
+<a class="sourceLine" id="cb3-24" data-line-number="24"><span class="co">#&gt; [1,] 0.9999999 5.062555e-08 1.641993e-13</span></a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"><span class="co">#&gt; [2,] 1.0000000 4.050044e-08 1.521004e-13</span></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26"><span class="co">#&gt; [3,] 1.0000000 2.129405e-08 1.551424e-14</span></a>
+<a class="sourceLine" id="cb3-27" data-line-number="27"><span class="co">#&gt; [4,] 1.0000000 3.410564e-08 8.987751e-14</span></a>
+<a class="sourceLine" id="cb3-28" data-line-number="28"><span class="co">#&gt; [5,] 0.9999999 5.062555e-08 1.641993e-13</span></a>
+<a class="sourceLine" id="cb3-29" data-line-number="29"><span class="co">#&gt; [6,] 0.9999910 9.011575e-06 2.355152e-12</span></a></code></pre></div>
 <div id="usage-with-caret-package" class="section level3">
 <h3 class="hasAnchor">
 <a href="#usage-with-caret-package" class="anchor"></a>Usage with Caret package</h3>
@@ -203,8 +206,8 @@
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; Resampling results across tuning parameters:</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt;   usekernel  Accuracy   Kappa    </span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;   FALSE      0.9906504  0.9858332</span></a>
-<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;    TRUE      0.9906226  0.9858355</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt;   FALSE      0.9934678  0.9901375</span></a>
+<a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt;    TRUE      0.9879683  0.9817838</span></a>
 <a class="sourceLine" id="cb4-23" data-line-number="23"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb4-24" data-line-number="24"><span class="co">#&gt; Tuning parameter 'laplace' was held constant at a value of 0</span></a>
 <a class="sourceLine" id="cb4-25" data-line-number="25"><span class="co">#&gt; </span></a>
@@ -221,12 +224,12 @@
 <a class="sourceLine" id="cb4-36" data-line-number="36"><span class="co"># Posterior probabilities</span></a>
 <a class="sourceLine" id="cb4-37" data-line-number="37"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret, <span class="dt">newdata =</span> new, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
 <a class="sourceLine" id="cb4-38" data-line-number="38"><span class="co">#&gt;      setosa   versicolor    virginica</span></a>
-<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; 1 0.9999978 2.165799e-06 2.149628e-10</span></a>
-<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt; 2 0.9999999 5.266335e-08 9.556744e-13</span></a>
-<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt; 3 1.0000000 1.963537e-08 2.723427e-13</span></a>
-<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; 4 1.0000000 2.543472e-08 2.196171e-13</span></a>
-<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; 5 0.9999999 5.266335e-08 9.556744e-13</span></a>
-<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; 6 0.9999524 4.756427e-05 2.005735e-10</span></a>
+<a class="sourceLine" id="cb4-39" data-line-number="39"><span class="co">#&gt; 1 1.0000000 2.998060e-08 8.549798e-13</span></a>
+<a class="sourceLine" id="cb4-40" data-line-number="40"><span class="co">#&gt; 2 1.0000000 2.998060e-08 1.109420e-12</span></a>
+<a class="sourceLine" id="cb4-41" data-line-number="41"><span class="co">#&gt; 3 1.0000000 2.745780e-08 9.508122e-13</span></a>
+<a class="sourceLine" id="cb4-42" data-line-number="42"><span class="co">#&gt; 4 1.0000000 2.195599e-08 4.147914e-13</span></a>
+<a class="sourceLine" id="cb4-43" data-line-number="43"><span class="co">#&gt; 5 1.0000000 2.998060e-08 8.549798e-13</span></a>
+<a class="sourceLine" id="cb4-44" data-line-number="44"><span class="co">#&gt; 6 0.9999899 1.010541e-05 9.132627e-11</span></a>
 <a class="sourceLine" id="cb4-45" data-line-number="45"></a>
 <a class="sourceLine" id="cb4-46" data-line-number="46"><span class="co"># Recover the naive_bayes object</span></a>
 <a class="sourceLine" id="cb4-47" data-line-number="47">nb_object &lt;-<span class="st"> </span>naive_bayes_via_caret<span class="op">$</span>finalModel</a>
@@ -244,15 +247,15 @@
 <a class="sourceLine" id="cb5-9" data-line-number="9">                               <span class="dt">tuneGrid =</span> nb_grid)</a>
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co"># Selected tuning parameters</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11">naive_bayes_via_caret2<span class="op">$</span>finalModel<span class="op">$</span>tuneValue</a>
-<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;    laplace usekernel adjust</span></a>
-<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 16       0      TRUE    1.5</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt;   laplace usekernel adjust</span></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">#&gt; 1       0     FALSE   0.75</span></a>
 <a class="sourceLine" id="cb5-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb5-15" data-line-number="15"><span class="co">## View the final naive_bayes model</span></a>
 <a class="sourceLine" id="cb5-16" data-line-number="16"><span class="co"># naive_bayes_via_caret2$finalModel</span></a>
 <a class="sourceLine" id="cb5-17" data-line-number="17"></a>
 <a class="sourceLine" id="cb5-18" data-line-number="18"><span class="co"># Visualize the tuning process</span></a>
 <a class="sourceLine" id="cb5-19" data-line-number="19"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(naive_bayes_via_caret2)</a></code></pre></div>
-<p><img src="../../Master%20Statistics/naivebayes/README-example_caret2-1.png" width="700"></p>
+<p><img src="../../Master%20Statistics/naivebayes/man/figures/example_caret2-1.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="co"># Perform classification </span></a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret2, <span class="dt">newdata =</span> new))</a>
@@ -293,6 +296,7 @@
 <ul class="list-unstyled">
 <li><a href="https://cran.r-project.org/package=naivebayes"><img src="http://www.r-pkg.org/badges/version/naivebayes" alt="CRAN_Status_Badge"></a></li>
 <li><a href="http://cran.rstudio.com/web/packages/naivebayes/index.html"><img src="http://cranlogs.r-pkg.org/badges/naivebayes"></a></li>
+<li><a href="https://saythanks.io/to/majkamichal"><img src="https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg" alt="Say Thanks:)"></a></li>
 </ul>
 </div>
 </div>

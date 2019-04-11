@@ -3,6 +3,4 @@
 ^README.Rmd
 ^README.md
 ^README_cache
-^README-example-1.png
-^README-example-2.png
-^README-example_caret2-1.png
+^docs/

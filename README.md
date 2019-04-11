@@ -96,6 +96,8 @@ nb
 #> 
 #>        setosa versicolor virginica
 #> lambda   1.02       1.94        10
+#> attr(,"cond_dist")
+#> [1] "Poisson"
 #> 
 #> ------------------------------------------------------------------------------
 
@@ -107,7 +109,7 @@ plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 ```
 
-![](README-example-1.png)<!-- -->![](README-example-2.png)<!-- -->
+![](man/figures/example-1.png)<!-- -->![](man/figures/example-2.png)<!-- -->
 
 ``` r
 
@@ -164,8 +166,8 @@ naive_bayes_via_caret
 #> Resampling results across tuning parameters:
 #> 
 #>   usekernel  Accuracy   Kappa    
-#>   FALSE      0.9914234  0.9869458
-#>    TRUE      0.9876420  0.9812460
+#>   FALSE      0.9934678  0.9901375
+#>    TRUE      0.9879683  0.9817838
 #> 
 #> Tuning parameter 'laplace' was held constant at a value of 0
 #> 
@@ -182,12 +184,12 @@ head(predict(naive_bayes_via_caret, newdata = new))
 # Posterior probabilities
 head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
 #>      setosa   versicolor    virginica
-#> 1 0.9999995 4.904101e-07 1.200405e-11
-#> 2 1.0000000 3.927220e-08 1.386642e-12
-#> 3 1.0000000 3.265983e-08 1.381712e-13
-#> 4 1.0000000 1.859597e-08 1.147912e-13
-#> 5 1.0000000 3.927220e-08 1.386642e-12
-#> 6 0.9999856 1.442632e-05 2.208568e-11
+#> 1 1.0000000 2.998060e-08 8.549798e-13
+#> 2 1.0000000 2.998060e-08 1.109420e-12
+#> 3 1.0000000 2.745780e-08 9.508122e-13
+#> 4 1.0000000 2.195599e-08 4.147914e-13
+#> 5 1.0000000 2.998060e-08 8.549798e-13
+#> 6 0.9999899 1.010541e-05 9.132627e-11
 
 # Recover the naive_bayes object
 nb_object <- naive_bayes_via_caret$finalModel
@@ -219,7 +221,7 @@ naive_bayes_via_caret2$finalModel$tuneValue
 plot(naive_bayes_via_caret2)
 ```
 
-![](README-example_caret2-1.png)<!-- -->
+![](man/figures/example_caret2-1.png)<!-- -->
 
 ``` r
 
