@@ -4,3 +4,4 @@
 ^README.md
 ^README_cache
 ^docs/
+^\.travis\.yml$
