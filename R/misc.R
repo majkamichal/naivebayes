@@ -1,14 +1,14 @@
 .onAttach <- function(libname, pkgname) {
 
     rule <- paste0(rep("=", getOption("width")), collapse = "")
-    v <- packageVersion("naivebayes")
+    v <- getNamespaceVersion("naivebayes")
     packageStartupMessage(rule)
     packageStartupMessage(paste0(" ::: Naive Bayes Classifier through the naivebayes package v.", v))
     packageStartupMessage(rule)
 }
 
 
-.onDetach <- function(libname,pkgname) {
+.onDetach <- function(libpath) {
 
     rule <- paste0(rep("=", getOption("width")), collapse = "")
     packageStartupMessage(rule)
