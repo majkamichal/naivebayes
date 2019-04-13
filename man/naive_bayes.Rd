@@ -62,16 +62,18 @@ The class "numeric" contains "double" (double precision floating point numbers) 
 
 \itemize{
 
-\item If \code{usekernel=FALSE} and \code{poisson=FALSE} then Gaussian distribution is applied to each "numeric" variable ("integer" or "double")
+\item If \code{usekernel=FALSE} and \code{poisson=FALSE} then Gaussian distribution is applied to each "numeric" variable ("numeric"&"integer" or "numeric"&"double")
 
-\item If \code{usekernel=TRUE} and \code{poisson=FALSE} then kernel density estimation (KDE) is applied to each "numeric" variable ("integer" or "double")
+\item If \code{usekernel=TRUE} and \code{poisson=FALSE} then kernel density estimation (KDE) is applied to each "numeric" variable ("numeric"&"integer" or "numeric"&"double")
 
-\item If \code{usekernel=FALSE} and \code{poisson=TRUE} then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian - "numeric" & "double"; Poisson -"numeric" & "integer")
+\item If \code{usekernel=FALSE} and \code{poisson=TRUE} then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian: "numeric" & "double"; Poisson: "numeric" & "integer")
 
-\item If \code{usekernel=TRUE} and \code{poisson=TRUE} then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE - "numeric" & "double"; Poisson - "numeric" & "integer")
+\item If \code{usekernel=TRUE} and \code{poisson=TRUE} then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE: "numeric" & "double"; Poisson: "numeric" & "integer")
 
 }
-By default usekernel=FALSE and poisson=FALSE, thus Gaussian is applied to each numeric variable.
+By default \code{usekernel=FALSE} and \code{poisson=FALSE}, thus Gaussian is applied to each numeric variable.
+
+On the other hand, "character", "factor" and "logical" variables are assigned to the Categorical distribution with Bernoulli being its special case.
 
 Prior the model fitting the classes of columns in the data.frame "data" can be easily checked via:
 
@@ -82,6 +84,8 @@ Prior the model fitting the classes of columns in the data.frame "data" can be e
 \item \code{sapply(data, is.integer)}
 }
 
+
+
 }
 
 \examples{
@@ -90,11 +94,13 @@ nb <- naive_bayes(Species ~ ., data = iris)
 plot(nb)
 
 nb_kernel <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE)
-plot(nb_kernel) # Gaussian kernel by default (see ?density)
+plot(nb_kernel, which = 1) # Gaussian kernel by default (see ?density)
 
 nb_kernel_triangular <- naive_bayes(x = iris[-5], y = iris[ ,5],
                                     usekernel = TRUE, kernel = "biweight")
-plot(nb_kernel_triangular, arg.num = list(main = c("Biweight kernel")))
+plot(nb_kernel_triangular,
+     which = "Sepal.Length",
+     arg.num = list(main = c("Biweight kernel")))
 
 
 \dontrun{
@@ -121,6 +127,6 @@ system.time(pred2 <- predict(nb_num, X2))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}
+\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 
