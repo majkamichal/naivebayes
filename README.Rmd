@@ -42,7 +42,7 @@ devtools::install_github("majkamichal/naivebayes")
 The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The main function `naive_bayes` can be also used within the excellent `Caret` package via `caret::train` and `naive_bayes` method. Furthermore the `naive_bayes` function is also available in `nproc` and `superml` packages. In following the basic usage of the `naivebayes` package is demonstrated:
 
 
-```{r example}
+```{r example, cache=TRUE}
 library(naivebayes)
 
 data(iris)
@@ -50,6 +50,7 @@ new <- iris[-c(1,2,3)]
 # Add one categorical and count variable
 set.seed(1)
 new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
+set.seed(1)
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
@@ -129,7 +130,6 @@ plot(naive_bayes_via_caret2)
 
 # Perform classification 
 head(predict(naive_bayes_via_caret2, newdata = new))
-
 ```
 
 

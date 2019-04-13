@@ -60,6 +60,7 @@ new <- iris[-c(1,2,3)]
 # Add one categorical and count variable
 set.seed(1)
 new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
+set.seed(1)
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
@@ -104,7 +105,7 @@ nb
 #> ------------------------------------------------------------------------------ 
 #> 
 #>        setosa versicolor virginica
-#> lambda   1.02       1.94     10.00
+#> lambda   1.08       1.98     10.16
 #> 
 #> ------------------------------------------------------------------------------
 
@@ -149,12 +150,12 @@ head(predict(nb))
 # Posterior probabilities
 head(predict(nb, type = "prob"))
 #>         setosa   versicolor    virginica
-#> [1,] 0.9999999 5.062555e-08 1.641993e-13
-#> [2,] 1.0000000 4.050044e-08 1.521004e-13
-#> [3,] 1.0000000 2.129405e-08 1.551424e-14
-#> [4,] 1.0000000 3.410564e-08 8.987751e-14
-#> [5,] 0.9999999 5.062555e-08 1.641993e-13
-#> [6,] 0.9999910 9.011575e-06 2.355152e-12
+#> [1,] 1.0000000 2.715527e-08 1.515451e-14
+#> [2,] 1.0000000 3.982773e-08 1.320599e-13
+#> [3,] 1.0000000 3.982773e-08 1.320599e-13
+#> [4,] 0.9999999 6.148842e-08 7.341108e-13
+#> [5,] 1.0000000 2.715527e-08 1.515451e-14
+#> [6,] 0.9999691 3.090011e-05 1.885905e-10
 ```
 
 ### 3.1 Usage with Caret package
@@ -229,8 +230,8 @@ naive_bayes_via_caret2 <- train(Species ~ ., data = new,
                                tuneGrid = nb_grid)
 # Selected tuning parameters
 naive_bayes_via_caret2$finalModel$tuneValue
-#>    laplace usekernel adjust
-#> 15       0      TRUE   1.25
+#>   laplace usekernel adjust
+#> 1       0     FALSE   0.75
 
 ## View the final naive_bayes model
 # naive_bayes_via_caret2$finalModel
