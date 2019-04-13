@@ -2,19 +2,23 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                              legend.box = FALSE, arg.num = list(),
                              arg.cat = list(), ...) {
 
+
     vars <- names(x$tables)
 
+    if (is.null(x$data))
+        stop("The \"naive_bayes\" object does not contain data", call. = FALSE)
+
     if (is.character(which) && !all(which %in% vars))
-        stop("At least one variable is not available")
+        stop("At least one variable is not available", call. = FALSE)
 
     if (length(which) > length(vars))
-        stop("Too many variables selected")
+        stop("Too many variables selected", call. = FALSE)
 
     if (!is.null(which) && !is.character(which) && !is.numeric(which))
-        stop("'which' has to be either character or numeric vector")
+        stop("'which' has to be either character or numeric vector", call. = FALSE)
 
     if (length(list(...)) > 0)
-        warning("Please specify additional parameters with 'arg.num' or 'arg.cat'")
+        warning("Please specify additional parameters with 'arg.num' or 'arg.cat'", call. = FALSE)
 
     if (is.null(which))
         which <- seq_along(vars)
