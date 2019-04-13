@@ -222,14 +222,15 @@ nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
                          laplace = c(0, 0.5, 1), 
                          adjust = c(0.75, 1, 1.25, 1.5))
 # Fit the Naive Bayes model 
+set.seed(2550)
 naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
                                method = "naive_bayes",
                                usepoisson = TRUE,
                                tuneGrid = nb_grid)
 # Selected tuning parameters
 naive_bayes_via_caret2$finalModel$tuneValue
-#>   laplace usekernel adjust
-#> 1       0     FALSE   0.75
+#>    laplace usekernel adjust
+#> 15       0      TRUE   1.25
 
 ## View the final naive_bayes model
 # naive_bayes_via_caret2$finalModel
@@ -258,6 +259,7 @@ library(nproc)
 library(naivebayes)
 
 # Simulate data
+set.seed(2550)
 n <- 1000
 x <- matrix(rnorm(n * 2), n, 2)
 c <- 1 + 3 * x[ ,1]
@@ -280,18 +282,17 @@ nb_pred <- predict(naive_bayes_via_nproc, xtest)
 
 # Obtain various measures
 accuracy <- mean(nb_pred$pred.label == ytest)
-
-cat("Overall Accuracy: ",  accuracy,"\n")
-#> Overall Accuracy:  0.719
 ind0 <- which(ytest == 0)
 ind1 <- which(ytest == 1)
-
-typeI <- mean(nb_pred$nb_pred.label[ind0] != ytest[ind0]) #type I error on test set
-cat("Type I error: ", typeI, "\n")
-#> Type I error:  NaN
+typeI <- mean(nb_pred$pred.label[ind0] != ytest[ind0]) #type I error on test set
 typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
-cat("Type II error: ", typeII, "\n")
-#> Type II error:  0.4620573
+
+cat(" Overall Accuracy: ",  accuracy,"\n", 
+    "Type I error:     ", typeI, "\n",
+    "Type II error:    ", typeII, "\n")
+#>  Overall Accuracy:  0.68 
+#>  Type I error:      0.02072539 
+#>  Type II error:     0.5081433
 ```
 
 ### 3.3 Usage with superml package
