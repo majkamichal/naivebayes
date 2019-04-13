@@ -21,12 +21,14 @@ knitr::opts_chunk$set(
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
 [![Say Thanks:)](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/majkamichal)
 
-## Overview
+## 1. Overview
 
 The `naivebayes` package provides an efficient implementation of the popular Na&iuml;ve Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in `Base R`. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the `Base R` distribution use highly efficient routines programmed in lower level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes` package utilizes only such functions for resource-intensive calculations. Currently, `naivebayes` supports following class conditional distributions: categorical distribution for discrete features, Poisson distribution for non-negative integer (counts) features and Gaussian distribution or kernel density estimation for continuous features.
 
 
-## Installation
+## 2. Installation
+
+Just like many other `R` packages, `naivebayes` can be installed from the `CRAN`  repository by simply typing into the console the following line:
 
 ```{r, eval = FALSE}
 install.packages("naivebayes")
@@ -35,9 +37,9 @@ install.packages("naivebayes")
 devtools::install_github("majkamichal/naivebayes")
 ```
 
-## Usage
+## 3. Usage
 
-The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The main function `naive_bayes` can be also used within the excellent `Caret` package via `caret::train` and `naive_bayes` method. In following the basic usage of the `naivebayes` package is demonstrated:
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The main function `naive_bayes` can be also used within the excellent `Caret` package via `caret::train` and `naive_bayes` method. Furthermore the `naive_bayes` function is also available in `nproc` and `superml` packages. In following the basic usage of the `naivebayes` package is demonstrated:
 
 
 ```{r example}
@@ -51,11 +53,11 @@ new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE)
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
-nb <- naive_bayes(Species ~ ., data = new)
+nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
 nb
 
 # Or equivalently matrix/data.frame and class vector
-nb2 <- naive_bayes(x = new[-2], y = new[[2]])
+nb2 <- naive_bayes(x = new[-2], y = new[[2]], usepoisson = TRUE)
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
@@ -77,15 +79,17 @@ head(predict(nb, type = "prob"))
 ```
 
 
-### Usage with Caret package
+### 3.1 Usage with Caret package
 
 ```{r example_caret, cache=TRUE}
 library(caret, quietly = TRUE)
 library(naivebayes)
 
 # Train the Naive Bayes model with the Caret package
-naive_bayes_via_caret <- train(Species ~ ., data = new, 
-                               method = "naive_bayes")
+naive_bayes_via_caret <- train(Species ~ ., 
+                               data = new, 
+                               method = "naive_bayes", 
+                               usepoisson = TRUE)
 
 naive_bayes_via_caret
 
@@ -95,7 +99,7 @@ head(predict(naive_bayes_via_caret, newdata = new))
 # Posterior probabilities
 head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
 
-# Recover the naive_bayes object
+## Recover the naive_bayes object
 nb_object <- naive_bayes_via_caret$finalModel
 class(nb_object)
 ```
@@ -111,6 +115,7 @@ nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
 # Fit the Naive Bayes model 
 naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
                                method = "naive_bayes",
+                               usepoisson = TRUE,
                                tuneGrid = nb_grid)
 # Selected tuning parameters
 naive_bayes_via_caret2$finalModel$tuneValue
@@ -123,4 +128,76 @@ plot(naive_bayes_via_caret2)
 
 # Perform classification 
 head(predict(naive_bayes_via_caret2, newdata = new))
+
 ```
+
+
+### 3.2 Usage with nproc package
+
+Please find more information about the `nproc` package under: https://cran.r-project.org/web/packages/nproc/
+
+
+```{r example_nproc, cache = FALSE}
+library(nproc)
+library(naivebayes)
+
+# Simulate data
+n <- 1000
+x <- matrix(rnorm(n * 2), n, 2)
+c <- 1 + 3 * x[ ,1]
+y <- rbinom(n, 1, 1 / (1 + exp(-c)))
+xtest <- matrix(rnorm(n * 2), n, 2)
+ctest <- 1 + 3 * xtest[,1]
+ytest <- rbinom(n, 1, 1 / (1 + exp(-ctest)))
+
+
+# Use Naive Bayes classifier and the default type I error control with alpha=0.05
+naive_bayes_via_nproc <- npc(x, y, method = "nb")
+
+## Recover the "naive_bayes" object
+# naive_bayes_via_nproc$fits[[1]]$fit
+
+# Classification
+nb_pred <- predict(naive_bayes_via_nproc, xtest)
+
+# head(nb_pred$pred.label)
+
+# Obtain various measures
+accuracy <- mean(nb_pred$pred.label == ytest)
+
+cat("Overall Accuracy: ",  accuracy,"\n")
+ind0 <- which(ytest == 0)
+ind1 <- which(ytest == 1)
+
+typeI <- mean(nb_pred$nb_pred.label[ind0] != ytest[ind0]) #type I error on test set
+cat("Type I error: ", typeI, "\n")
+typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
+cat("Type II error: ", typeII, "\n")
+```
+
+
+
+### 3.3 Usage with superml package
+
+Please find more information about the `superml` package under: https://cran.r-project.org/web/packages/superml/
+
+```{r example_superml, cache=TRUE}
+library(superml)
+data(iris)
+naive_bayes_via_superml <- NBTrainer$new()
+naive_bayes_via_superml$fit(iris, 'Species')
+
+## Recover the naive_bayes object
+# naive_bayes_via_superml$model
+
+# Classification
+head(naive_bayes_via_superml$predict(iris))
+
+# Posterior probabilites
+head(naive_bayes_via_superml$predict(iris, type = "prob"))
+
+
+```
+
+
+

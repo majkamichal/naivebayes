@@ -112,11 +112,11 @@
 
     <pre class="usage"><span class='co'># S3 method for default</span>
 <span class='fu'>naive_bayes</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)
+  <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for formula</span>
 <span class='fu'>naive_bayes</span>(<span class='no'>formula</span>, <span class='no'>data</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>subset</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/stats/topics/na.fail'>na.pass</a></span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -139,20 +139,20 @@
       <td><p>matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.</p></td>
     </tr>
     <tr>
+      <th>prior</th>
+      <td><p>vector with prior probabilities of the classes. If unspecified, the class proportions for the training set are used. If present, the probabilities should be specified in the order of the factor levels.</p></td>
+    </tr>
+    <tr>
       <th>laplace</th>
       <td><p>value used for Laplace smoothing (additive smoothing). Defaults to 0 (no Laplace smoothing).</p></td>
     </tr>
     <tr>
       <th>usekernel</th>
-      <td><p>logical; if <code>TRUE</code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> is used to estimate the class conditional densities of numeric (metric) predictors.</p></td>
+      <td><p>logical; if <code>TRUE</code>, <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> is used to estimate the class conditional densities of metric predictors. This applies to vectors with class "numeric". For further details on interaction between <code>usekernel</code> and <code>usepoisson</code> parameters please see Note below.</p></td>
     </tr>
     <tr>
       <th>usepoisson</th>
-      <td><p>logical; if <code>TRUE</code>, Poisson distribution is used to estimate the class conditional PMFs of integer predictors. Integer predictors are numeric vectors with mode "integer"and they represent count data.</p></td>
-    </tr>
-    <tr>
-      <th>prior</th>
-      <td><p>vector with prior probabilities of the classes. If unspecified, the class proportions for the training set are used. If present, the probabilities should be specified in the order of the factor levels.</p></td>
+      <td><p>logical; if <code>TRUE</code>, Poisson distribution is used to estimate the class conditional PMFs of integer predictors (vectors with class "integer").</p></td>
     </tr>
     <tr>
       <th>subset</th>
@@ -177,13 +177,30 @@
     <dt>tables</dt><dd><p>list of tables. For each categorical predictor a table with class-conditional probabilities, for each integer predictor a table with Poisson mean (if <code>usepoisson = TRUE</code>) and for each metric predictor a table with a mean and standard deviation or <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> objects for each class. The object <code>tables</code> contains also an additional attribute "cond_dist" - a character vector with the names of conditional distributions assigned to each feature.</p></dd>
     <dt>prior</dt><dd><p>numeric vector with prior probabilities.</p></dd>
     <dt>usekernel</dt><dd><p>logical; <code>TRUE</code>, if the kernel density estimation was used for estimating class conditional densities of numeric variables.</p></dd>
-    <dt>usepoisson</dt><dd><p>logical; <code>TRUE</code>, if the Poisson distribution was used for estimating class conditional PMFs of integer variables (numeric vectors with mode "integer").</p></dd>
+    <dt>usepoisson</dt><dd><p>logical; <code>TRUE</code>, if the Poisson distribution was used for estimating class conditional PMFs of non-negative integer variables.</p></dd>
     <dt>call</dt><dd><p>the call that produced this object.</p></dd>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Numeric (metric) predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used (<code>usekernel = TRUE</code>) to estimate their class-conditional distributions. Also, non-negative integer predictors (variables representing counts) can be modelled with Poisson distribution (<code>usepoisson = TRUE</code>); integer variables are automatically recognised. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.</p>
+    <p>Numeric (metric) predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used (<code>usekernel = TRUE</code>) to estimate their class-conditional distributions. Also, non-negative integer predictors (variables representing counts) can be modelled with Poisson distribution (<code>usepoisson = TRUE</code>); for further details please see <code>Note</code> below. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.</p>
+    
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The class "numeric" contains "double" (double precision floating point numbers) and "integer". Depending on the parameters <code>usekernel</code> and <code>usepoisson</code> different class conditional distributions are applied to columns in the dataset with the class "numeric":</p>
+<ul>
+<li><p>If <code>usekernel=FALSE</code> and <code>poisson=FALSE</code> then Gaussian distribution is applied to each "numeric" variable ("integer" or "double")</p></li>
+<li><p>If <code>usekernel=TRUE</code> and <code>poisson=FALSE</code> then kernel density estimation (KDE) is applied to each "numeric" variable ("integer" or "double")</p></li>
+<li><p>If <code>usekernel=FALSE</code> and <code>poisson=TRUE</code> then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian - "numeric" &amp; "double"; Poisson -"numeric" &amp; "integer")</p></li>
+<li><p>If <code>usekernel=TRUE</code> and <code>poisson=TRUE</code> then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE - "numeric" &amp; "double"; Poisson - "numeric" &amp; "integer")</p></li>
+</ul><p>By default usekernel=FALSE and poisson=FALSE, thus Gaussian is applied to each numeric variable.</p>
+<p>Prior the model fitting the classes of columns in the data.frame "data" can be easily checked via:</p>
+<ul>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(data, class)</a></code></p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(data, is.numeric)</a></code></p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(data, is.double)</a></code></p></li>
+<li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(data, is.integer)</a></code></p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -228,6 +245,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#note">Note</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

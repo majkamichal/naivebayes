@@ -12,7 +12,7 @@ Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https:/
 [![Say
 Thanks:)](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/majkamichal)
 
-## Overview
+## 1\. Overview
 
 The `naivebayes` package provides an efficient implementation of the
 popular Naïve Bayes classifier. It was developed and is now maintained
@@ -28,7 +28,11 @@ features, Poisson distribution for non-negative integer (counts)
 features and Gaussian distribution or kernel density estimation for
 continuous features.
 
-## Installation
+## 2\. Installation
+
+Just like many other `R` packages, `naivebayes` can be installed from
+the `CRAN` repository by simply typing into the console the following
+line:
 
 ``` r
 install.packages("naivebayes")
@@ -37,15 +41,16 @@ install.packages("naivebayes")
 devtools::install_github("majkamichal/naivebayes")
 ```
 
-## Usage
+## 3\. Usage
 
 The `naivebayes` package provides a user friendly implementation of the
 Naïve Bayes algorithm via formula interace and classical combination of
 the matrix/data.frame containing the features and a vector with the
 class labels. The main function `naive_bayes` can be also used within
 the excellent `Caret` package via `caret::train` and `naive_bayes`
-method. In following the basic usage of the `naivebayes` package is
-demonstrated:
+method. Furthermore the `naive_bayes` function is also available in
+`nproc` and `superml` packages. In following the basic usage of the
+`naivebayes` package is demonstrated:
 
 ``` r
 library(naivebayes)
@@ -58,13 +63,13 @@ new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE)
 new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
 
 # Formula interface
-nb <- naive_bayes(Species ~ ., data = new)
+nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
 nb
 #> 
-#>  ================================ Naive Bayes ================================= 
+#> ================================ Naive Bayes ================================= 
 #>  
 #>  Call: 
-#> naive_bayes.formula(formula = Species ~ ., data = new)
+#> naive_bayes.formula(formula = Species ~ ., data = new, usepoisson = TRUE)
 #> 
 #> ------------------------------------------------------------------------------ 
 #>  
@@ -104,7 +109,7 @@ nb
 #> ------------------------------------------------------------------------------
 
 # Or equivalently matrix/data.frame and class vector
-nb2 <- naive_bayes(x = new[-2], y = new[[2]])
+nb2 <- naive_bayes(x = new[-2], y = new[[2]], usepoisson = TRUE)
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
@@ -152,15 +157,17 @@ head(predict(nb, type = "prob"))
 #> [6,] 0.9999910 9.011575e-06 2.355152e-12
 ```
 
-### Usage with Caret package
+### 3.1 Usage with Caret package
 
 ``` r
 library(caret, quietly = TRUE)
 library(naivebayes)
 
 # Train the Naive Bayes model with the Caret package
-naive_bayes_via_caret <- train(Species ~ ., data = new, 
-                               method = "naive_bayes")
+naive_bayes_via_caret <- train(Species ~ ., 
+                               data = new, 
+                               method = "naive_bayes", 
+                               usepoisson = TRUE)
 
 naive_bayes_via_caret
 #> Naive Bayes 
@@ -200,7 +207,7 @@ head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
 #> 5 1.0000000 2.998060e-08 8.549798e-13
 #> 6 0.9999899 1.010541e-05 9.132627e-11
 
-# Recover the naive_bayes object
+## Recover the naive_bayes object
 nb_object <- naive_bayes_via_caret$finalModel
 class(nb_object)
 #> [1] "naive_bayes"
@@ -217,6 +224,7 @@ nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
 # Fit the Naive Bayes model 
 naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
                                method = "naive_bayes",
+                               usepoisson = TRUE,
                                tuneGrid = nb_grid)
 # Selected tuning parameters
 naive_bayes_via_caret2$finalModel$tuneValue
@@ -238,4 +246,80 @@ plot(naive_bayes_via_caret2)
 head(predict(naive_bayes_via_caret2, newdata = new))
 #> [1] setosa setosa setosa setosa setosa setosa
 #> Levels: setosa versicolor virginica
+```
+
+### 3.2 Usage with nproc package
+
+Please find more information about the `nproc` package under:
+<https://cran.r-project.org/web/packages/nproc/>
+
+``` r
+library(nproc)
+library(naivebayes)
+
+# Simulate data
+n <- 1000
+x <- matrix(rnorm(n * 2), n, 2)
+c <- 1 + 3 * x[ ,1]
+y <- rbinom(n, 1, 1 / (1 + exp(-c)))
+xtest <- matrix(rnorm(n * 2), n, 2)
+ctest <- 1 + 3 * xtest[,1]
+ytest <- rbinom(n, 1, 1 / (1 + exp(-ctest)))
+
+
+# Use Naive Bayes classifier and the default type I error control with alpha=0.05
+naive_bayes_via_nproc <- npc(x, y, method = "nb")
+
+## Recover the "naive_bayes" object
+# naive_bayes_via_nproc$fits[[1]]$fit
+
+# Classification
+nb_pred <- predict(naive_bayes_via_nproc, xtest)
+
+# head(nb_pred$pred.label)
+
+# Obtain various measures
+accuracy <- mean(nb_pred$pred.label == ytest)
+
+cat("Overall Accuracy: ",  accuracy,"\n")
+#> Overall Accuracy:  0.719
+ind0 <- which(ytest == 0)
+ind1 <- which(ytest == 1)
+
+typeI <- mean(nb_pred$nb_pred.label[ind0] != ytest[ind0]) #type I error on test set
+cat("Type I error: ", typeI, "\n")
+#> Type I error:  NaN
+typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
+cat("Type II error: ", typeII, "\n")
+#> Type II error:  0.4620573
+```
+
+### 3.3 Usage with superml package
+
+Please find more information about the `superml` package under:
+<https://cran.r-project.org/web/packages/superml/>
+
+``` r
+library(superml)
+data(iris)
+naive_bayes_via_superml <- NBTrainer$new()
+naive_bayes_via_superml$fit(iris, 'Species')
+
+## Recover the naive_bayes object
+# naive_bayes_via_superml$model
+
+# Classification
+head(naive_bayes_via_superml$predict(iris))
+#> [1] setosa setosa setosa setosa setosa setosa
+#> Levels: setosa versicolor virginica
+
+# Posterior probabilites
+head(naive_bayes_via_superml$predict(iris, type = "prob"))
+#>      setosa   versicolor    virginica
+#> [1,]      1 2.981309e-18 2.152373e-25
+#> [2,]      1 3.169312e-17 6.938030e-25
+#> [3,]      1 2.367113e-18 7.240956e-26
+#> [4,]      1 3.069606e-17 8.690636e-25
+#> [5,]      1 1.017337e-18 8.885794e-26
+#> [6,]      1 2.717732e-14 4.344285e-21
 ```

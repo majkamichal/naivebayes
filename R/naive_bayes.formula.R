@@ -1,5 +1,5 @@
 naive_bayes.formula <- function(formula, data, prior = NULL, laplace = 0,
-                                usekernel = FALSE, usepoisson = TRUE,
+                                usekernel = FALSE, usepoisson = FALSE,
                                 subset, na.action = stats::na.pass, ...) {
     mf <- match.call(expand.dots = FALSE)
     mf[c("prior", "laplace", "usekernel", "usepoisson", "...")] <- NULL

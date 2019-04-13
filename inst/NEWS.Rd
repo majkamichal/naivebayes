@@ -3,10 +3,10 @@
 
 \section{Changes in version 0.9.6}{
 	\itemize{
-	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all numeric variables with mode "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = TRUE}). This is not a code breaking change: \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
-	    \item Improvement: new function \code{get_cond_dist} for obtaining names of class conditional distributions assigned to features
+	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = FALSE}) and hence it does not change the posterior probabilities obtained with the previous versions of the package. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
+	    \item Improvement: new function \code{get_cond_dist()} for obtaining names of class conditional distributions assigned to features
 	    \item Improvement: enhanced print method for better readability
-	    \item Improvement: enhanced documentation
+	    \item Improvement: enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
 	}
 }
 
