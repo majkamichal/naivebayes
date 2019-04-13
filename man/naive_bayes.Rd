@@ -5,10 +5,10 @@
 \title{Naive Bayes Classifier}
 \usage{
 \method{naive_bayes}{default}(x, y, prior = NULL, laplace = 0,
-  usekernel = FALSE, usepoisson = TRUE, ...)
+  usekernel = FALSE, usepoisson = FALSE, ...)
 
 \method{naive_bayes}{formula}(formula, data, prior = NULL, laplace = 0,
-  usekernel = FALSE, usepoisson = TRUE,
+  usekernel = FALSE, usepoisson = FALSE,
   subset, na.action = stats::na.pass, ...)
 }
 
@@ -21,14 +21,15 @@
 
 \item{data}{matrix or dataframe with categorical (character/factor/logical) or metric (numeric) predictors.}
 
-\item{laplace}{value used for Laplace smoothing (additive smoothing). Defaults to 0 (no Laplace smoothing).}
-
-\item{usekernel}{logical; if \code{TRUE}, \code{\link[stats]{density}} is used to estimate the class conditional densities of numeric (metric) predictors.}
-
-\item{usepoisson}{logical; if \code{TRUE}, Poisson distribution is used to estimate the class conditional PMFs of integer predictors. Integer predictors are numeric vectors with mode "integer"and they represent count data.}
-
 \item{prior}{vector with prior probabilities of the classes. If unspecified, the class proportions for the training set are used. If present, the probabilities should be specified in the order of the factor levels.}
 
+\item{laplace}{value used for Laplace smoothing (additive smoothing). Defaults to 0 (no Laplace smoothing).}
+
+\item{usekernel}{logical; if \code{TRUE}, \code{\link[stats]{density}} is used to estimate the class conditional densities of metric predictors. This applies to vectors with class "numeric". For further details on interaction between \code{usekernel} and \code{usepoisson} parameters please see Note below.}
+
+
+
+\item{usepoisson}{logical; if \code{TRUE}, Poisson distribution is used to estimate the class conditional PMFs of integer predictors (vectors with class "integer").}
 
 \item{subset}{an optional vector specifying a subset of observations to be used in the fitting process.}
 
@@ -37,6 +38,7 @@
 \item{...}{other parameters to \code{\link[stats]{density}} when \code{usekernel = TRUE} (\code{na.rm} defaults to \code{TRUE}).}
 
 }
+
 \value{
 \code{naive_bayes} returns an object of class \code{"naive_bayes"} which is a list with following components:
     \item{data}{list with two components: \code{x} (dataframe with predictors) and \code{y} (class variable).}
@@ -45,15 +47,43 @@
     \item{tables}{list of tables. For each categorical predictor a table with class-conditional probabilities, for each integer predictor a table with Poisson mean (if \code{usepoisson = TRUE}) and for each metric predictor a table with a mean and standard deviation or \code{\link[stats]{density}} objects for each class. The object \code{tables} contains also an additional attribute "cond_dist" - a character vector with the names of conditional distributions assigned to each feature.}
     \item{prior}{numeric vector with prior probabilities.}
     \item{usekernel}{logical; \code{TRUE}, if the kernel density estimation was used for estimating class conditional densities of numeric variables.}
-    \item{usepoisson}{logical; \code{TRUE}, if the Poisson distribution was used for estimating class conditional PMFs of integer variables (numeric vectors with mode "integer").}
+    \item{usepoisson}{logical; \code{TRUE}, if the Poisson distribution was used for estimating class conditional PMFs of non-negative integer variables.}
     \item{call}{the call that produced this object.}
 }
 \description{
 \code{naive_bayes} is used to fit Naive Bayes model in which predictors are assumed to be independent within each class label.
 }
 \details{
-Numeric (metric) predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used (\code{usekernel = TRUE}) to estimate their class-conditional distributions. Also, non-negative integer predictors (variables representing counts) can be modelled with Poisson distribution (\code{usepoisson = TRUE}); integer variables are automatically recognised. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.
+Numeric (metric) predictors are handled by assuming that they follow Gaussian distribution, given the class label. Alternatively, kernel density estimation can be used (\code{usekernel = TRUE}) to estimate their class-conditional distributions. Also, non-negative integer predictors (variables representing counts) can be modelled with Poisson distribution (\code{usepoisson = TRUE}); for further details please see \code{Note} below. Missing values are not included into constructing tables. Logical variables are treated as categorical (binary) variables.
 }
+
+\note{
+The class "numeric" contains "double" (double precision floating point numbers) and "integer". Depending on the parameters \code{usekernel} and \code{usepoisson} different class conditional distributions are applied to columns in the dataset with the class "numeric":
+
+\itemize{
+
+\item If \code{usekernel=FALSE} and \code{poisson=FALSE} then Gaussian distribution is applied to each "numeric" variable ("integer" or "double")
+
+\item If \code{usekernel=TRUE} and \code{poisson=FALSE} then kernel density estimation (KDE) is applied to each "numeric" variable ("integer" or "double")
+
+\item If \code{usekernel=FALSE} and \code{poisson=TRUE} then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian - "numeric" & "double"; Poisson -"numeric" & "integer")
+
+\item If \code{usekernel=TRUE} and \code{poisson=TRUE} then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE - "numeric" & "double"; Poisson - "numeric" & "integer")
+
+}
+By default usekernel=FALSE and poisson=FALSE, thus Gaussian is applied to each numeric variable.
+
+Prior the model fitting the classes of columns in the data.frame "data" can be easily checked via:
+
+\itemize{
+\item \code{sapply(data, class)}
+\item \code{sapply(data, is.numeric)}
+\item \code{sapply(data, is.double)}
+\item \code{sapply(data, is.integer)}
+}
+
+}
+
 \examples{
 data(iris)
 nb <- naive_bayes(Species ~ ., data = iris)

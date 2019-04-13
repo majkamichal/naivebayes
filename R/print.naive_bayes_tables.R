@@ -22,7 +22,7 @@ print.naive_bayes_tables <- function(x, ...) {
                 cat("\n")
                 cat(l, "\n")
                 cat(paste0(" ", symbol, " ", ith_name, "::", ith_factor,
-                           " (,", ith_dist, ")", "\n"))
+                           " (", ith_dist, ")", "\n"))
                 cat(l, "\n")
                 print(ith_tab[[ith_factor]])
             }
