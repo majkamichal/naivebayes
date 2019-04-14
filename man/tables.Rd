@@ -5,7 +5,7 @@
 tables(object, which = NULL)
 }
 \arguments{
-\item{object}{object of class inheriting from \code{"naive_bayes"}.}
+\item{object}{object of class inheriting from: \code{"naive_bayes"}, \code{"bernoulli_naive_bayes"}.}
 
 \item{which}{tables to be showed (all by default). This can be any valid indexing vector or vector containing names of variables.}
 }
@@ -13,10 +13,10 @@ tables(object, which = NULL)
 list with tables.
 }
 \description{
-Auxiliary function for \code{"naive_bayes"} objects for easy browsing tables.
+Auxiliary function for \code{"naive_bayes"} and \code{"*_naive_bayes"} objects for easy browsing tables.
 }
 \details{
-Default print method for \code{"naive_bayes"} objects shows at most five first tables. This auxiliary function \code{tables} returns by default all tables.
+Default print method for \code{"naive_bayes"} and \code{"*_naive_bayes"} objects shows at most five first tables. This auxiliary function \code{tables} returns by default all tables and allows easy subsetting via indexing variables.
 }
 \examples{
 data(iris)
