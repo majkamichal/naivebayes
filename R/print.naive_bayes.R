@@ -1,9 +1,10 @@
 print.naive_bayes <- function (x, ...) {
 
+    model <- "Naive Bayes"
     n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - 11) / 2)),
+    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
                              collapse = "")
-    str_full <- paste0(str_left_right, " Naive Bayes ",
+    str_full <- paste0(str_left_right, " ", model, " ",
                        ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
     len <- nchar(str_full)
     l <- paste0(rep("-", len), collapse = "")
@@ -26,7 +27,6 @@ print.naive_bayes <- function (x, ...) {
         cat("\n\n")
         cat("# ... and", n - 5, ifelse(n - 5 == 1, "more table\n\n", "more tables\n\n"))
         cat(l)
-
     }
     cat("\n\n")
 }

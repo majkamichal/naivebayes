@@ -51,22 +51,22 @@ print.naive_bayes_tables <- function(x, ...) {
     class(x)  <- "list"
 
     if (any(is.na(i))) {
-        stop(paste0("NAs are not allowed for indexing of \"naive_bayes\" tables"), call. = FALSE)
+        stop(paste0("`[`: NAs are not allowed for indexing of \"naive_bayes\" tables"), call. = FALSE)
     }
 
     if ((len_x < len_i) | is.numeric(i) & any(i > len_x))
-        stop(paste0("There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
+        stop(paste0("`[`: There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
                     ifelse(len_x == 1, " \"naive_bayes\" table", " \"naive_bayes\" tables")), call. = FALSE)
 
     if (!is.numeric(i) & !is.character(i) & !is.factor(i) & !is.logical(i))
-        stop("Indexing vector can only be \"character\", \"factor\", \"numeric\" or \"logical\"")
+        stop("`[`: Indexing vector can only be \"character\", \"factor\", \"numeric\" or \"logical\"")
 
     if (is.numeric(i)) {
         if (any(i < 0) | any(i %% 1 != 0))
-            stop("Indexing vector should contain only positive integers", call. = FALSE)
+            stop("`[`: Indexing vector should contain only positive integers", call. = FALSE)
     }
     if (is.character(i) & any(!i %in% nam_x))
-        stop("Indexing vector does not contain correct name(s) of feature(s)", call. = FALSE)
+        stop("`[`: Indexing vector does not contain correct name(s) of feature(s)", call. = FALSE)
 
     res <- x[i]
     class(res) <- "naive_bayes_tables"
@@ -78,12 +78,16 @@ get_cond_dist <- function(object) {
         cond_dist <- attr(object$tables, "cond_dist")
     } else if (class(object) == "naive_bayes_tables") {
         cond_dist <- attr(object, "cond_dist")
+    } else if (class(object) == "bernoulli_naive_bayes") {
+        vars <- rownames(object$prob1)
+        cond_dist <- stats::setNames(rep("Bernoulli", length(vars)), vars)
     } else {
-        stop("This function expects \"naive_bayes\" or \"naive_bayes_tables\" objects",
+        stop("get_cond_dist() expects \"naive_bayes\", \"naive_bayes_tables\" or \"bernoulli_naive_bayes\" objects",
              call. = FALSE)
     }
     cond_dist
 }
+
 
 recognize_cond_dist <- function(tab) {
 
@@ -102,7 +106,7 @@ recognize_cond_dist <- function(tab) {
             if (nrow(ith_tab) > 2)
                 cond_dist <- "Categorical"
         } else {
-            cond_dist <- " "
+            cond_dist <- ""
         }
         cond_dist
     })

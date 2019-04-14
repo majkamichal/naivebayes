@@ -2,7 +2,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                                  usekernel = FALSE, usepoisson = FALSE, ...)  {
     data <- as.data.frame(x)
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("y has to be either a factor or character or logical vector")
+        stop("naive_bayes(): y has to be either a factor or character or logical vector")
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
@@ -12,7 +12,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
         prior <- prop.table(table(y, dnn = ""))
     } else {
         if (length(prior) != length(levels))
-            stop(paste0("Vector with prior probabilities should have ",
+            stop(paste0("naive_bayes(): Vector with prior probabilities should have ",
                         length(levels), " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
@@ -21,7 +21,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
         if (is.numeric(var)) {
             if (is.integer(var) & usepoisson) {
                 if (any(var < 0))
-                    warning(paste0("The feature ", x, " is modelled with Poisson ",
+                    warning(paste0("naive_bayes(): The feature ", x, " is modelled with Poisson ",
                                    "distribution in \"naive_bayes\" and it contains negative counts"),  call. = FALSE)
                 tab <- rbind(tapply(var, y, function(x) (sum(x, na.rm = TRUE) + laplace) / length(x)))
                 attr(tab, "cond_dist") <- "Poisson"

@@ -7,7 +7,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             newdata <- as.data.frame(newdata)
         }
         else {
-            stop("\"newdata\" in \"predict\" function has to be either a matrix or a data.frame\n", call. = FALSE)
+            stop("predict.naive_bayes(): \"newdata\" in \"predict\" function has to be either a matrix or a data.frame\n", call. = FALSE)
         }
     }
     na <- sapply(newdata, anyNA)
@@ -23,7 +23,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     n_features <- length(features)
     n_tables <- length(tables)
     if (n_features < n_tables) {
-        warning(paste0("Only ", n_features, " feature(s) out of ", n_tables,
+        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
                        " defined in the naive_bayes object \"", substitute(object),
                        "\" are used for prediction\n"), call. = FALSE)
     }
@@ -33,7 +33,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                                             nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
         if (nm > 0) {
-            stop(paste0(ifelse(nm == 1, "Feature ", "Features "),
+            stop(paste0("predict.naive_bayes(): ", ifelse(nm == 1, "Feature ", "Features "),
                         paste0(names(ind_missing_levels), collapse = " "),
                         ifelse(nm == 1, " is of class \"factor\" ",
                                " are of class \"factor\" "), "but compared to the corresponding probability ",
