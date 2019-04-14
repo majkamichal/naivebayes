@@ -189,11 +189,12 @@
 
     <p>The class "numeric" contains "double" (double precision floating point numbers) and "integer". Depending on the parameters <code>usekernel</code> and <code>usepoisson</code> different class conditional distributions are applied to columns in the dataset with the class "numeric":</p>
 <ul>
-<li><p>If <code>usekernel=FALSE</code> and <code>poisson=FALSE</code> then Gaussian distribution is applied to each "numeric" variable ("integer" or "double")</p></li>
-<li><p>If <code>usekernel=TRUE</code> and <code>poisson=FALSE</code> then kernel density estimation (KDE) is applied to each "numeric" variable ("integer" or "double")</p></li>
-<li><p>If <code>usekernel=FALSE</code> and <code>poisson=TRUE</code> then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian - "numeric" &amp; "double"; Poisson -"numeric" &amp; "integer")</p></li>
-<li><p>If <code>usekernel=TRUE</code> and <code>poisson=TRUE</code> then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE - "numeric" &amp; "double"; Poisson - "numeric" &amp; "integer")</p></li>
-</ul><p>By default usekernel=FALSE and poisson=FALSE, thus Gaussian is applied to each numeric variable.</p>
+<li><p>If <code>usekernel=FALSE</code> and <code>poisson=FALSE</code> then Gaussian distribution is applied to each "numeric" variable ("numeric"&amp;"integer" or "numeric"&amp;"double")</p></li>
+<li><p>If <code>usekernel=TRUE</code> and <code>poisson=FALSE</code> then kernel density estimation (KDE) is applied to each "numeric" variable ("numeric"&amp;"integer" or "numeric"&amp;"double")</p></li>
+<li><p>If <code>usekernel=FALSE</code> and <code>poisson=TRUE</code> then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector. (Gaussian: "numeric" &amp; "double"; Poisson: "numeric" &amp; "integer")</p></li>
+<li><p>If <code>usekernel=TRUE</code> and <code>poisson=TRUE</code> then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector. (KDE: "numeric" &amp; "double"; Poisson: "numeric" &amp; "integer")</p></li>
+</ul><p>By default <code>usekernel=FALSE</code> and <code>poisson=FALSE</code>, thus Gaussian is applied to each numeric variable.</p>
+<p>On the other hand, "character", "factor" and "logical" variables are assigned to the Categorical distribution with Bernoulli being its special case.</p>
 <p>Prior the model fitting the classes of columns in the data.frame "data" can be easily checked via:</p>
 <ul>
 <li><p><code><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply(data, class)</a></code></p></li>
@@ -204,7 +205,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code></p></div>
+    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -212,10 +213,12 @@
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>)</div><div class='img'><img src='naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>nb_kernel</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iris</span>[-<span class='fl'>5</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>iris</span>[ ,<span class='fl'>5</span>], <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel</span>) <span class='co'># Gaussian kernel by default (see ?density)</span></div><div class='img'><img src='naive_bayes-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-8.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># Gaussian kernel by default (see ?density)</span></div><div class='img'><img src='naive_bayes-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>nb_kernel_triangular</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iris</span>[-<span class='fl'>5</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>iris</span>[ ,<span class='fl'>5</span>],
                                     <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='st'>"biweight"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel_triangular</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Biweight kernel"</span>)))</div><div class='img'><img src='naive_bayes-9.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-10.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-11.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-12.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel_triangular</span>,
+     <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>,
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Biweight kernel"</span>)))</div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>

@@ -158,7 +158,104 @@ head(predict(nb, type = "prob"))
 #> [6,] 0.9999691 3.090011e-05 1.885905e-10
 ```
 
-### 3.1 Usage with Caret package
+### 3.1 Specialized Naive Bayes
+
+#### 3.1.1 Bernoulli Naive Bayes (“bernoulli\_naive\_bayes”)
+
+``` r
+### Simulate the data:
+set.seed(1)
+cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
+M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
+colnames(M) <- paste0("V", seq_len(ncol(M)))
+laplace <- 0.5
+
+### Train the Bernoulli Naive Bayes
+bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+head(predict(bnb, newdata = M, type = "prob"))
+#>         classA    classB
+#> [1,] 0.2051196 0.7948804
+#> [2,] 0.1598350 0.8401650
+#> [3,] 0.2211967 0.7788033
+#> [4,] 0.1998863 0.8001137
+#> [5,] 0.2346913 0.7653087
+#> [6,] 0.1312229 0.8687771
+
+
+###  Equivalent calculation with general naive_bayes function.
+###  (it is made sure that the columns are factors with the 0-1 levels)
+
+df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
+# sapply(df, class)
+nb <- naive_bayes(df, y, laplace = laplace)
+head(predict(nb, type = "prob"))
+#>         classA    classB
+#> [1,] 0.2051196 0.7948804
+#> [2,] 0.1598350 0.8401650
+#> [3,] 0.2211967 0.7788033
+#> [4,] 0.1998863 0.8001137
+#> [5,] 0.2346913 0.7653087
+#> [6,] 0.1312229 0.8687771
+
+
+# Obtain probability tables
+tables(bnb, which = "V1")
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  ::: V1 (Bernoulli) 
+#> ------------------------------------------------------------------------------ 
+#>      classA    classB
+#> 0 0.9137931 0.7876712
+#> 1 0.0862069 0.2123288
+#> 
+#> ------------------------------------------------------------------------------
+tables(nb, "V1")
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  ::: V1 (Bernoulli) 
+#> ------------------------------------------------------------------------------ 
+#>    
+#> V1     classA    classB
+#>   0 0.9137931 0.7876712
+#>   1 0.0862069 0.2123288
+#> 
+#> ------------------------------------------------------------------------------
+
+# Visualise class conditional Bernoulli distributions
+plot(bnb, which = "V1")
+```
+
+![](man/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
+
+``` r
+plot(nb, "V1")
+```
+
+![](man/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
+
+``` r
+
+# Check the equivalence of the class conditional distributions
+all(get_cond_dist(bnb) == get_cond_dist(nb))
+#> [1] TRUE
+
+# Coerce the Bernoulli probability tables to a data.frame
+bernoulli_tables_to_df(bnb)
+#>      classA:0  classA:1  classB:0  classB:1
+#> V1  0.9137931 0.0862069 0.7876712 0.2123288
+#> V2  0.7413793 0.2586207 0.8424658 0.1575342
+#> V3  0.8103448 0.1896552 0.8698630 0.1301370
+#> V4  0.7413793 0.2586207 0.7739726 0.2260274
+#> V5  0.7413793 0.2586207 0.7739726 0.2260274
+#> V6  0.7413793 0.2586207 0.8013699 0.1986301
+#> V7  0.8103448 0.1896552 0.7739726 0.2260274
+#> V8  0.8448276 0.1551724 0.8013699 0.1986301
+#> V9  0.8103448 0.1896552 0.7602740 0.2397260
+#> V10 0.7068966 0.2931034 0.8150685 0.1849315
+```
+
+### 3.2 Usage with Caret package (“naive\_bayes”)
 
 ``` r
 library(caret, quietly = TRUE)
@@ -250,7 +347,7 @@ head(predict(naive_bayes_via_caret2, newdata = new))
 #> Levels: setosa versicolor virginica
 ```
 
-### 3.2 Usage with nproc package
+### 3.3 Usage with nproc package (“naive\_bayes”)
 
 Please find more information about the `nproc` package under:
 <https://cran.r-project.org/web/packages/nproc/>
@@ -296,7 +393,7 @@ cat(" Overall Accuracy: ",  accuracy,"\n",
 #>  Type II error:     0.5081433
 ```
 
-### 3.3 Usage with superml package
+### 3.4 Usage with superml package (“naive\_bayes”)
 
 Please find more information about the `superml` package under:
 <https://cran.r-project.org/web/packages/superml/>

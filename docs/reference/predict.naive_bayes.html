@@ -149,7 +149,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code></p></div>
+    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -158,21 +158,21 @@
 <span class='no'>iris_test</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='no'>ind_iris</span>, ]
 
 <span class='no'>nb_iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='no'>iris_train</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt;  [1] virginica  setosa     virginica  setosa     versicolor setosa    
-#&gt;  [7] versicolor setosa     versicolor virginica  virginica  virginica 
-#&gt; [13] virginica  versicolor virginica  versicolor versicolor setosa    
-#&gt; [19] setosa     versicolor virginica  setosa     setosa     versicolor
-#&gt; [25] versicolor versicolor versicolor versicolor setosa     versicolor
-#&gt; [31] virginica  setosa     virginica  setosa     versicolor setosa    
-#&gt; [37] virginica  setosa     versicolor setosa     virginica  setosa    
-#&gt; [43] setosa     virginica  versicolor
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt;  [1] virginica  setosa     virginica  versicolor virginica  setosa    
+#&gt;  [7] setosa     versicolor virginica  virginica  versicolor virginica 
+#&gt; [13] setosa     versicolor virginica  versicolor versicolor setosa    
+#&gt; [19] setosa     virginica  virginica  versicolor virginica  setosa    
+#&gt; [25] versicolor setosa     virginica  setosa     setosa     versicolor
+#&gt; [31] versicolor virginica  versicolor setosa     virginica  versicolor
+#&gt; [37] versicolor setosa     versicolor versicolor virginica  virginica 
+#&gt; [43] setosa     setosa     virginica 
 #&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;             setosa   versicolor    virginica
-#&gt; [1,] 7.996614e-178 6.446118e-07 9.999994e-01
-#&gt; [2,]  1.000000e+00 3.009945e-22 2.120965e-26
-#&gt; [3,] 1.974104e-185 9.501072e-07 9.999990e-01
-#&gt; [4,]  1.000000e+00 3.617472e-16 3.991082e-21
-#&gt; [5,]  1.978926e-80 9.939388e-01 6.061226e-03
-#&gt; [6,]  1.000000e+00 9.271881e-20 2.161621e-24</div><div class='input'>
+#&gt; [1,] 2.022221e-209 5.952230e-09 1.000000e+00
+#&gt; [2,]  1.000000e+00 5.150173e-17 9.479711e-30
+#&gt; [3,] 5.563322e-136 4.732645e-02 9.526736e-01
+#&gt; [4,] 8.182652e-141 7.012921e-01 2.987079e-01
+#&gt; [5,] 2.365797e-166 1.077208e-05 9.999892e-01
+#&gt; [6,]  1.000000e+00 4.360419e-15 2.662505e-27</div><div class='input'>
 
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
