@@ -183,8 +183,8 @@ naive_bayes_via_caret
 #> Resampling results across tuning parameters:
 #> 
 #>   usekernel  Accuracy   Kappa    
-#>   FALSE      0.9934678  0.9901375
-#>    TRUE      0.9879683  0.9817838
+#>   FALSE      0.9972388  0.9957693
+#>    TRUE      0.9877195  0.9813846
 #> 
 #> Tuning parameter 'laplace' was held constant at a value of 0
 #> 
@@ -201,12 +201,12 @@ head(predict(naive_bayes_via_caret, newdata = new))
 # Posterior probabilities
 head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
 #>      setosa   versicolor    virginica
-#> 1 1.0000000 2.998060e-08 8.549798e-13
-#> 2 1.0000000 2.998060e-08 1.109420e-12
-#> 3 1.0000000 2.745780e-08 9.508122e-13
-#> 4 1.0000000 2.195599e-08 4.147914e-13
-#> 5 1.0000000 2.998060e-08 8.549798e-13
-#> 6 0.9999899 1.010541e-05 9.132627e-11
+#> 1 1.0000000 2.525461e-08 1.216783e-13
+#> 2 1.0000000 3.165327e-08 2.590761e-13
+#> 3 1.0000000 3.165327e-08 2.590761e-13
+#> 4 0.9999999 5.285298e-08 4.820271e-13
+#> 5 1.0000000 2.525461e-08 1.216783e-13
+#> 6 0.9999734 2.656060e-05 1.238316e-10
 
 ## Recover the naive_bayes object
 nb_object <- naive_bayes_via_caret$finalModel
@@ -303,6 +303,7 @@ Please find more information about the `superml` package under:
 
 ``` r
 library(superml)
+#> Loading required package: R6
 data(iris)
 naive_bayes_via_superml <- NBTrainer$new()
 naive_bayes_via_superml$fit(iris, 'Species')

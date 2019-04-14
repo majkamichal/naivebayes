@@ -1,12 +1,12 @@
 naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                                  usekernel = FALSE, usepoisson = FALSE, ...)  {
     data <- as.data.frame(x)
+    if (!is.factor(y) & !is.character(y) & !is.logical(y))
+        stop("y has to be either a factor or character or logical vector")
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
     vars <- names(data)
-    if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("y has to be either a factor or character or logical vector")
 
     if (is.null(prior)) {
         prior <- prop.table(table(y, dnn = ""))
