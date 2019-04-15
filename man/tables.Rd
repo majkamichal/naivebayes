@@ -23,7 +23,10 @@ data(iris)
 nb <- naive_bayes(Species ~ ., data = iris)
 tables(nb, "Sepal.Length")
 tables(nb, c("Sepal.Length", "Sepal.Width"))
-tables(nb, 1:2)
+tabs <- tables(nb, 1:2)
+tabs
+tabs[1]
+
 
 }
 \author{

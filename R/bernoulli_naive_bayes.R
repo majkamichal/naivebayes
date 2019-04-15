@@ -87,16 +87,16 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
     vars <- names(tables)
 
     if (is.null(x$data))
-        stop("plot.naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
 
     if (is.character(which) && !all(which %in% vars))
         stop("plot.bernoulli_naive_bayes(): At least one variable is not available.", call. = FALSE)
 
     if (length(which) > length(vars))
-        stop("plot.naive_bayes(): Too many variables selected", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): Too many variables selected", call. = FALSE)
 
     if (!is.null(which) && !is.character(which) && !is.numeric(which))
-        stop("plot.naive_bayes(): \"which\" has to be either character or numeric vector.", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): \"which\" has to be either character or numeric vector.", call. = FALSE)
 
     if (length(list(...)) > 0)
         warning("plot.bernoulli_naive_bayes(): Please specify additional parameters with 'arg.cat'", call. = FALSE)

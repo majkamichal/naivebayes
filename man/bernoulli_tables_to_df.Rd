@@ -32,7 +32,7 @@ bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
 bernoulli_tables_to_df(bnb)
 
 # Compare first row with the first table:
-tables(bnb, which = 2)
+tables(bnb, which = 1)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
