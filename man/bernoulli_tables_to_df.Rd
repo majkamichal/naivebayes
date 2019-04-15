@@ -2,10 +2,11 @@
 \alias{bernoulli_tables_to_df}
 \title{Coerce Bernoulli probability tables to the data.frame}
 \usage{
-bernoulli_tables_to_df(object)
+bernoulli_tables_to_df(object, format = "wide")
 }
 \arguments{
 \item{object}{object of class inheriting from \code{"bernoulli_naive_bayes"}.}
+\item{format}{character string with the format of the resulting data.frame - either "wide"" or "long".}
 }
 \value{
 data.frame with class conditional Bernoulli probabilities.
@@ -14,7 +15,7 @@ data.frame with class conditional Bernoulli probabilities.
 Auxiliary function for \code{"bernoulli_naive_bayes"} objects for extracting and coercing the Bernoulli probability tables to the data.frame.
 }
 \details{
-Default print method for \code{"naive_bayes"} objects shows at most five first tables. This auxiliary function \code{tables} returns by default all tables.
+This auxiliary function coerces the Bernoulli probability tables to a data frame with either wide or long format.
 }
 \examples{
 

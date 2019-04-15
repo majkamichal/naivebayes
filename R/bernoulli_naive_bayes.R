@@ -16,15 +16,18 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
-
-    if (class(x) == "data.frame") {
-        warning("bernoulli_naive_bayes(): x was a data.frame and it was coerced to a matrix for further calculations.", call. = FALSE)
+    if (class(x) != "matrix") {
+        stop("bernoulli_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("bernoulli_naive_bayes(): x has to contain numeric columns with 0-1 values.", call. = FALSE)
+            stop("bernoulli_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
+                 "Please consider coercing features to numeric 0-1 or using the general \"naive_bayes\"",
+                 "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
     }
+    if (anyNA(y))
+        stop("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
-    y_counts <- stats::setNames(tabulate(y), levels)
+    y_counts <- stats::setNames(tabulate(y, na.rm = TRUE), levels)
 
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
@@ -169,16 +172,16 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.bernoulli_naive_bayes(): ",
-                           "no features in the newdata correspond to ",
+                           "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"), call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         } else {
             warning(paste0("predict.bernoulli_naive_bayes(): ",
-                           "no features in the newdata correspond to ",
+                           "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
-                           "Posterior probabilities  are equal to prior probabilities."), call. = FALSE)
+                           "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
             return(matrix(prior, ncol = n_lev, nrow = n_obs,
                           byrow = TRUE, dimnames = list(NULL, lev)))
         }
@@ -220,15 +223,27 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
 }
 
 
-bernoulli_tables_to_df  <- function(object) {
+bernoulli_tables_to_df  <- function(object, format = "wide") {
+
     if (class(object) != "bernoulli_naive_bayes")
-        stop("bernoulli_tables_to_df() expects object of class \"bernoulli_naive_bayes\"", call. = FALSE)
-    prob1 <- object$prob1
-    levels <- object$levels
-    nlev <- length(levels)
-    m <- cbind(1 - prob1, prob1)
-    ind <- rep(seq_len(nlev), each = 2)
-    m <- m[ ,ifelse(seq_along(ind) %% 2 != 0, ind, ind + nlev)]
-    colnames(m) <- (paste0(rep(levels, each = 2), ":", c("0", "1")))
-    as.data.frame(m)
+        stop("bernoulli_tables_to_df() expects object of class \"bernoulli_naive_bayes\".", call. = FALSE)
+
+    if (length(format) != 1 | !format %in% c("wide", "long"))
+        stop("bernoulli_tables_to_df(): format has to be either \"wide\" or \"long\".", call. = FALSE)
+
+    if (format == "wide") {
+        prob1 <- object$prob1
+        levels <- object$levels
+        nlev <- length(levels)
+        m <- cbind(1 - prob1, prob1)
+        ind <- rep(seq_len(nlev), each = 2)
+        m <- m[ ,ifelse(seq_along(ind) %% 2 != 0, ind, ind + nlev)]
+        colnames(m) <- (paste0(rep(levels, each = 2), ":", c("0", "1")))
+        as.data.frame(m)
+    } else {
+        # TODO
+        "I am working on the long format :) "
+    }
+
+
 }

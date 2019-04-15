@@ -5,7 +5,7 @@
 \method{plot}{bernoulli_naive_bayes}(x, which = NULL, ask = FALSE, arg.cat = list(), ...)
 }
 \arguments{
-\item{x}{object of class inheriting from \code{"naive_bayes"}.}
+\item{x}{object of class inheriting from \code{"bernoulli_naive_bayes"}.}
 
 \item{which}{variables to be plotted (all by default). This can be any valid indexing vector or vector containing names of variables.}
 
