@@ -137,23 +137,6 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
 }
 
 
-get_bernoulli_tables <- function(prob1) {
-    if (!is.matrix(prob1))
-        stop("prob1 has to be a matrix and prob1 element of the bernoulli_naive_bayes object")
-    n_tables <- nrow(prob1)
-    tables <- lapply(seq_len(n_tables), function(i) {
-        ith_row <- prob1[i, ]
-        ith_tab <- as.table(rbind(1 - ith_row, ith_row))
-        rownames(ith_tab) <- c("0", "1")
-        ith_tab
-    })
-    names(tables) <- rownames(prob1)
-    attr(tables, "cond_dist") <- rep("Bernoulli", n_tables)
-    class(tables) <- "naive_bayes_tables"
-    tables
-}
-
-
 predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"), ...) {
 
     if (is.null(newdata))
