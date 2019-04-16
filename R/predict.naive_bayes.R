@@ -1,5 +1,5 @@
 predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob"),
-                                 threshold = 0.001, ...) {
+                                 threshold = 0.001, eps = 0, ...) {
     if (is.null(newdata)) {
         newdata <- object$data$x
     } else {
@@ -10,6 +10,12 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             stop("predict.naive_bayes(): \"newdata\" in \"predict\" function has to be either a matrix or a data.frame\n", call. = FALSE)
         }
     }
+
+    if (threshold < 0)
+        stop("predict.naive_bayes(): threshold has to be non-negative.", call. = FALSE)
+    if (eps < 0)
+        stop("predict.naive_bayes(): eps has to be non-negative.", call. = FALSE)
+
     na <- sapply(newdata, anyNA)
     type <- match.arg(type)
     lev <- object$levels
@@ -51,7 +57,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                 p <- sapply(lev, function(lambda) {
                     stats::dpois(V, lambda = tab[ ,lambda])
                 })
-                p[p == 0] <- threshold
+                p[p <= eps] <- threshold
                 if (na[var])
                     p[is.na(p)] <- 1
                 log_sum <- log_sum + log(p)
@@ -61,7 +67,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                         dens <- tab[[z]]
                         stats::approx(dens$x, dens$y, xout = V, rule = 2)$y
                     })
-                    p[p == 0] <- threshold
+                    p[p <= eps] <- threshold
                     if (na[var])
                         p[is.na(p)] <- 1
                     log_sum <- log_sum + log(p)

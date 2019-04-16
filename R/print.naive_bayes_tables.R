@@ -81,9 +81,12 @@ get_cond_dist <- function(object) {
     } else if (class(object) == "bernoulli_naive_bayes") {
         vars <- rownames(object$prob1)
         cond_dist <- stats::setNames(rep("Bernoulli", length(vars)), vars)
+    } else  if (class(object) == "gaussian_naive_bayes") {
+        vars <- colnames(object$params$mu)
+        cond_dist <- stats::setNames(rep("Gaussian", length(vars)), vars)
     } else {
-        stop("get_cond_dist() expects \"naive_bayes\", \"naive_bayes_tables\" or \"bernoulli_naive_bayes\" objects",
-             call. = FALSE)
+        stop(paste0("get_cond_dist() expects ", paste0(models(), collapse = ", "),
+                    " objects."), call. = FALSE)
     }
     cond_dist
 }

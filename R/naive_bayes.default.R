@@ -10,14 +10,18 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
+    nlev <- length(levels)
     vars <- names(data)
+
+    if (nlev < 2)
+        warning("naive_bayes(): y has less than two classes. ", call. = FALSE)
 
     if (is.null(prior)) {
         prior <- prop.table(table(y, dnn = ""))
     } else {
-        if (length(prior) != length(levels))
+        if (length(prior) != nlev)
             stop(paste0("naive_bayes(): Vector with prior probabilities should have ",
-                        length(levels), " entries"))
+                        nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
     tables <- sapply(names(data), function(x, ...) {

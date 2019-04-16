@@ -8,6 +8,7 @@
 	    \item Improvement: new function \code{bernoulli_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution. Smaller flexibility, higher efficiency.
 	    \item Improvement: enhanced print method for better readability
 	    \item Improvement: enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
+	    \item Improvement: \code{predict.naive_bayes} has new parameter \code{eps} that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables.
 	}
 }
 

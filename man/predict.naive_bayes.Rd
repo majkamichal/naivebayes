@@ -3,7 +3,7 @@
 \title{Predict Method for naive_bayes Objects}
 \usage{
 \method{predict}{naive_bayes}(object, newdata = NULL, type = c("class","prob"),
-  threshold = 0.001, ...)
+  threshold = 0.001, eps = 0, ...)
 }
 \arguments{
 \item{object}{object of class inheriting from \code{"naive_bayes"}.}
@@ -12,7 +12,9 @@
 
 \item{type}{if "class", new data points are classified according to the highest posterior probabilities. If "prob", the posterior probabilities for each class are returned.}
 
-\item{threshold}{value by which zero probabilities corresponding to metric variables are replaced (zero probabilities corresponding to categorical variables can be handled with Laplace smoothing).}
+\item{threshold}{value by which zero probabilities or probabilities within the epsilon-range corresponding to metric variables are replaced (zero probabilities corresponding to categorical variables can be handled with Laplace (additive) smoothing).}
+
+\item{eps}{value that specifies an epsilon-range to replace zero or close to zero probabilities by \code{threshold}. It applies to metric variables.}
 
 \item{...}{not used.}
 }

@@ -9,6 +9,8 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     nlev <- nlevels(y)
     vars <- colnames(x)
 
+    if (nlev < 2)
+        warning("bernoulli_naive_bayes(): y has less than two classes. ", call. = FALSE)
 
     if (is.null(vars)) {
         xname <- deparse(substitute(x))
@@ -28,13 +30,18 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         warning("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
     y_counts <- stats::setNames(tabulate(y), levels)
+    y_min <- y_counts < 1
+    if (any(y_min))
+        stop(paste0("bernoulli_naive_bayes(): y variable has to contain at least one observation per class for estimation process.",
+                    " Class ", paste0(levels[y_min], collapse =  ", "),
+                    " has less than 1 observation."), call. = FALSE)
 
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
     } else {
-        if (length(prior) != length(levels))
+        if (length(prior) != nlev)
             stop(paste0("bernoulli_naive_bayes(): Vector with prior probabilities should have ",
-                        length(levels), " entries"))
+                        nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
 
@@ -133,15 +140,15 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
 get_bernoulli_tables <- function(prob1) {
     if (!is.matrix(prob1))
         stop("prob1 has to be a matrix and prob1 element of the bernoulli_naive_bayes object")
-    nrows <- nrow(prob1)
-    tables <- lapply(seq_len(nrows), function(i) {
+    n_tables <- nrow(prob1)
+    tables <- lapply(seq_len(n_tables), function(i) {
         ith_row <- prob1[i, ]
         ith_tab <- as.table(rbind(1 - ith_row, ith_row))
         rownames(ith_tab) <- c("0", "1")
         ith_tab
     })
     names(tables) <- rownames(prob1)
-    attr(tables, "cond_dist") <- rep("Bernoulli", nrows)
+    attr(tables, "cond_dist") <- rep("Bernoulli", n_tables)
     class(tables) <- "naive_bayes_tables"
     tables
 }

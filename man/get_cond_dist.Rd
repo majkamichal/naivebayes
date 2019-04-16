@@ -5,13 +5,13 @@
 get_cond_dist(object)
 }
 \arguments{
-\item{object}{object of class inheriting from \code{"naive_bayes"} or \code{"naive_bayes_tables"}.}
+\item{object}{object of class inheriting from \code{"naive_bayes"} or \code{"*_naive_bayes"} or \code{"naive_bayes_tables"}.}
 }
 \value{
 vector with names of class conditional distributions assigned to the features.
 }
 \description{
-Auxiliary function for \code{"naive_bayes"} and \code{"naive_bayes_tables"} objects for obtaining names of class conditional distributions assigned to the features.
+Auxiliary function for \code{"naive_bayes"}, \code{"*_naive_bayes"} and \code{"naive_bayes_tables"}  objects for obtaining names of class conditional distributions assigned to the features.
 }
 \examples{
 data(iris)
