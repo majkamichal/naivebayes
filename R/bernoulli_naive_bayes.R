@@ -25,7 +25,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
                  "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
     }
     if (anyNA(y))
-        stop("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
+        warning("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
     y_counts <- stats::setNames(tabulate(y), levels)
 

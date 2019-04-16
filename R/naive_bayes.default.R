@@ -5,7 +5,7 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
         stop("naive_bayes(): y has to be either a factor or character or logical vector")
 
     if (anyNA(y))
-        stop("naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
+        warning("naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
     if (!is.factor(y))
         y <- factor(y)
