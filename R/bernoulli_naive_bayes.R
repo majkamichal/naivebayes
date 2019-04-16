@@ -27,7 +27,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     if (anyNA(y))
         stop("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
-    y_counts <- stats::setNames(tabulate(y, na.rm = TRUE), levels)
+    y_counts <- stats::setNames(tabulate(y), levels)
 
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
