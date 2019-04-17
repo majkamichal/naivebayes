@@ -26,5 +26,6 @@ models <- function() {
     #   "Non parametric Naive Bayes" = "non_parametric_naive_bayes")
 
     c("Naive Bayes"                = "naive_bayes",
-      "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes")
+      "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes",
+      "Gaussian Naive Bayes"       = "gaussian_naive_bayes")
 }
