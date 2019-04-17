@@ -59,8 +59,8 @@ get_tables <- function(object) {
 get_bernoulli_tables <- function(prob1) {
     if (!is.matrix(prob1))
         stop("prob1 has to be a matrix and prob1 element of the bernoulli_naive_bayes object")
-    vars <- rownames(prob1)
     n_tables <- nrow(prob1)
+    vars <- rownames(prob1)
     tables <- lapply(seq_len(n_tables), function(i) {
         ith_row <- prob1[i, ]
         ith_tab <- as.table(rbind(1 - ith_row, ith_row))
@@ -68,17 +68,18 @@ get_bernoulli_tables <- function(prob1) {
         ith_tab
     })
     names(tables) <- vars
-    attr(tables, "cond_dist") <- stats::setNames(rep("Bernoulli", n_tables), vars)
     class(tables) <- "naive_bayes_tables"
+    attr(tables, "cond_dist") <- stats::setNames(rep("Bernoulli", n_tables), vars)
     tables
 }
 
 get_gaussian_tables <- function(params) {
     if (!is.list(params))
         stop("get_gaussian_tables(): params has to be a list with parameter estimates.", call. = FALSE)
-    vars <- colnames(mu)
+
     mu <- params$mu
     sd <- params$sd
+    vars <- colnames(mu)
     n_tables <- ncol(mu)
     tables <- lapply(seq_len(n_tables), function(i) {
         ith_mu <- mu[ ,i]
@@ -88,7 +89,7 @@ get_gaussian_tables <- function(params) {
         ith_tab
     })
     names(tables) <- vars
-    attr(tables, "cond_dist") <- stats::setNames(rep("Gaussian", n_tables), vars)
     class(tables) <- "naive_bayes_tables"
+    attr(tables, "cond_dist") <- stats::setNames(rep("Gaussian", n_tables), vars)
     tables
 }

@@ -48,6 +48,7 @@ print.naive_bayes_tables <- function(x, ...) {
     len_i <- length(i)
     len_x <- length(x)
     nam_x <- names(x)
+    cond_dist <- attr(x, "cond_dist")
     class(x)  <- "list"
 
     if (any(is.na(i))) {
@@ -70,6 +71,7 @@ print.naive_bayes_tables <- function(x, ...) {
 
     res <- x[i]
     class(res) <- "naive_bayes_tables"
+    attr(res, "cond_dist") <- cond_dist
     res
 }
 

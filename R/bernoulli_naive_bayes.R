@@ -52,91 +52,6 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
                    call = match.call()), class = "bernoulli_naive_bayes")
 }
 
-print.bernoulli_naive_bayes <- function (x, ...) {
-
-    model <- "Bernoulli Naive Bayes"
-    n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
-                             collapse = "")
-    str_full <- paste0(str_left_right, " ", model, " ",
-                       ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
-    len <- nchar(str_full)
-    l <- paste0(rep("-", len), collapse = "")
-    cat("\n")
-    cat(str_full, "\n", "\n", "Call:", "\n")
-    print(x$call)
-    cat("\n")
-    cat(l, "\n", "\n")
-    cat(" A priori probabilities:", "\n")
-    print(x$prior)
-    cat("\n")
-    cat(l, "\n", "\n")
-    cat(" Tables:", "\n")
-    tabs <- get_bernoulli_tables(x$prob1)
-    n <- length(tabs)
-    indices <- seq_len(min(5,n))
-    tabs <- tabs[indices]
-    print(tabs)
-    if (n > 5) {
-        cat("\n\n")
-        cat("# ... and", n - 5, ifelse(n - 5 == 1, "more table\n\n", "more tables\n\n"))
-        cat(l)
-    }
-    cat("\n\n")
-}
-
-plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
-                                       arg.cat = list(), ...) {
-
-    model <- "bernoulli_naive_bayes"
-    if (!class(x) %in% model)
-        stop(paste0("plot.bernoulli_naive_bayes(): x must be of class ",
-                    model), call. = FALSE)
-
-    tables <- get_bernoulli_tables(x$prob1)
-    vars <- names(tables)
-
-    if (is.null(x$data))
-        stop("plot.bernoulli_naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
-
-    if (is.character(which) && !all(which %in% vars))
-        stop("plot.bernoulli_naive_bayes(): At least one variable is not available.", call. = FALSE)
-
-    if (length(which) > length(vars))
-        stop("plot.bernoulli_naive_bayes(): Too many variables selected", call. = FALSE)
-
-    if (!is.null(which) && !is.character(which) && !is.numeric(which))
-        stop("plot.bernoulli_naive_bayes(): \"which\" has to be either character or numeric vector.", call. = FALSE)
-
-    if (length(list(...)) > 0)
-        warning("plot.bernoulli_naive_bayes(): Please specify additional parameters with 'arg.cat'", call. = FALSE)
-
-    if (is.null(which))
-        which <- seq_along(vars)
-
-    if (is.numeric(which))
-        v <- vars[which]
-
-    if (is.character(which))
-        v <- vars[vars %in% which]
-
-    opar <- graphics::par()$ask
-    graphics::par(ask = ask)
-    on.exit(graphics::par(ask = opar))
-
-    for (i in v) {
-        i_tab <- tables[[i]]
-        lev <- x$levels
-        if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
-        if (!("color" %in% names(arg.cat))) arg.cat$color <- c("red", "yellow")
-        arg.cat$xlab <- i
-        params <- c(list(x = quote(t(i_tab))), c(arg.cat))
-        do.call("mosaicplot", params)
-    }
-    invisible()
-}
-
-
 predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("class", "prob"), ...) {
 
     if (is.null(newdata))
@@ -212,6 +127,89 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     }
 }
 
+print.bernoulli_naive_bayes <- function (x, ...) {
+
+    model <- "Bernoulli Naive Bayes"
+    n_char <- getOption("width")
+    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+                             collapse = "")
+    str_full <- paste0(str_left_right, " ", model, " ",
+                       ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
+    len <- nchar(str_full)
+    l <- paste0(rep("-", len), collapse = "")
+    cat("\n")
+    cat(str_full, "\n", "\n", "Call:", "\n")
+    print(x$call)
+    cat("\n")
+    cat(l, "\n", "\n")
+    cat(" A priori probabilities:", "\n")
+    print(x$prior)
+    cat("\n")
+    cat(l, "\n", "\n")
+    cat(" Tables:", "\n")
+    tabs <- get_tables(x)
+    n <- length(tabs)
+    indices <- seq_len(min(5,n))
+    tabs <- tabs[indices]
+    print(tabs)
+    if (n > 5) {
+        cat("\n\n")
+        cat("# ... and", n - 5, ifelse(n - 5 == 1, "more table\n\n", "more tables\n\n"))
+        cat(l)
+    }
+    cat("\n\n")
+}
+
+plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
+                                       arg.cat = list(), ...) {
+
+    model <- "bernoulli_naive_bayes"
+    if (!class(x) %in% model)
+        stop(paste0("plot.bernoulli_naive_bayes(): x must be of class ",
+                    model), call. = FALSE)
+
+    tables <- get_bernoulli_tables(x$prob1)
+    vars <- names(tables)
+
+    if (is.null(x$data))
+        stop("plot.bernoulli_naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
+
+    if (is.character(which) && !all(which %in% vars))
+        stop("plot.bernoulli_naive_bayes(): At least one variable is not available.", call. = FALSE)
+
+    if (length(which) > length(vars))
+        stop("plot.bernoulli_naive_bayes(): Too many variables selected", call. = FALSE)
+
+    if (!is.null(which) && !is.character(which) && !is.numeric(which))
+        stop("plot.bernoulli_naive_bayes(): \"which\" has to be either character or numeric vector.", call. = FALSE)
+
+    if (length(list(...)) > 0)
+        warning("plot.bernoulli_naive_bayes(): Please specify additional parameters with 'arg.cat'", call. = FALSE)
+
+    if (is.null(which))
+        which <- seq_along(vars)
+
+    if (is.numeric(which))
+        v <- vars[which]
+
+    if (is.character(which))
+        v <- vars[vars %in% which]
+
+    opar <- graphics::par()$ask
+    graphics::par(ask = ask)
+    on.exit(graphics::par(ask = opar))
+
+    for (i in v) {
+        i_tab <- tables[[i]]
+        lev <- x$levels
+        if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
+        if (!("color" %in% names(arg.cat))) arg.cat$color <- c("red", "yellow")
+        arg.cat$xlab <- i
+        params <- c(list(x = quote(t(i_tab))), c(arg.cat))
+        do.call("mosaicplot", params)
+    }
+    invisible()
+}
 
 bernoulli_tables_to_df  <- function(object, format = "wide") {
 

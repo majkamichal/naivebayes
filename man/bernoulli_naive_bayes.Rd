@@ -54,6 +54,7 @@ laplace <- 0.5
 
 ### Train the Bernoulli Naive Bayes
 bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+bnb
 head(predict(bnb, newdata = M, type = "prob"))
 
 
