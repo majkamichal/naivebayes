@@ -16,10 +16,10 @@
 \item{...}{not used.}
 }
 \description{
-Plot method for objects of class \code{"bernoulli_naive_bayes"} designed for a quick look at the class conditional distributions of 0-1 valued predictor variables.
+Plot method for objects of class \code{"bernoulli_naive_bayes"} designed for a quick look at the class conditional distributions of 0-1 valued predictors.
 }
 \details{
-Class conditional distributions are visualised by\code{\link[graphics]{mosaicplot}}.
+Class conditional distributions are visualised by \code{\link[graphics]{mosaicplot}}.
 }
 \examples{
 

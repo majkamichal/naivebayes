@@ -2,7 +2,6 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                              legend.box = FALSE, arg.num = list(),
                              arg.cat = list(), ...) {
 
-
     vars <- names(x$tables)
 
     if (is.null(x$data))

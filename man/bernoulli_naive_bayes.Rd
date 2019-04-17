@@ -19,7 +19,7 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 }
 
 \value{
-\code{naive_bayes} returns an object of class \code{"naive_bayes"} which is a list with following components:
+\code{bernoulli_naive_bayes} returns an object of class \code{"bernoulli_naive_bayes"} which is a list with following components:
     \item{data}{list with two components: \code{x} (matrix with predictors) and \code{y} (class variable).}
     \item{levels}{character vector with values of the class variable.}
     \item{laplace}{value of Laplace smoothing (additive smoothing).}
@@ -28,14 +28,14 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
     \item{call}{the call that produced this object.}
 }
 \description{
-\code{bernoulli_naive_bayes} is used to fit the Bernoulli Naive Bayes model in which all predictors are assumed to take on two values only and be independent within each class label.
+\code{bernoulli_naive_bayes} is used to fit the Bernoulli Naive Bayes model in which all class conditional distributions are assumed to be Bernoulli and be independent.
 }
 
 \details{
 
 This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.
 
-The Bernoulli Naive Bayes is available in both, \code{naive_bayes} and \code{bernoulli_naive_bayes} and corresponding \code{predict} functions. The implementation of the specialized Naive Bayes proovides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra operations on it. In other words, the efficiency comes at cost of the flexibility.
+The Bernoulli Naive Bayes is available in both, \code{naive_bayes} and \code{bernoulli_naive_bayes}. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra as well as vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.
 
 The \code{bernoulli_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.
 

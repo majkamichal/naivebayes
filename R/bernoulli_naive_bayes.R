@@ -1,7 +1,7 @@
 bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("bernoulli_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
+        stop("plot(): y has to be either a factor or character or logical vector", call. = FALSE)
 
     if (!is.factor(y))
         y <- factor(y)
@@ -10,24 +10,24 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     vars <- colnames(x)
 
     if (nlev < 2)
-        warning("bernoulli_naive_bayes(): y has less than two classes. ", call. = FALSE)
+        warning("plot(): y has less than two classes. ", call. = FALSE)
 
     if (is.null(vars)) {
         xname <- deparse(substitute(x))
-        stop(paste0("bernoulli_naive_bayes(): Column names in the matrix x are required.\n",
+        stop(paste0("plot(): Column names in the matrix x are required.\n",
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
     if (class(x) != "matrix") {
-        stop("bernoulli_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
+        stop("plot(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("bernoulli_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
+            stop("plot(): x has to contain numeric columns with 0-1 values. ",
                  "Please consider coercing features to numeric 0-1 or using the general \"naive_bayes\"",
                  "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
     }
     if (anyNA(y))
-        warning("bernoulli_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
+        warning("plot(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
 
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 1
@@ -40,7 +40,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         prior <- prop.table(y_counts)
     } else {
         if (length(prior) != nlev)
-            stop(paste0("bernoulli_naive_bayes(): Vector with prior probabilities should have ",
+            stop(paste0("plot(): Vector with prior probabilities should have ",
                         nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
