@@ -52,22 +52,29 @@ print.naive_bayes_tables <- function(x, ...) {
     class(x)  <- "list"
 
     if (any(is.na(i))) {
-        stop(paste0("`[`: NAs are not allowed for indexing of \"naive_bayes\" tables"), call. = FALSE)
+        stop(paste0("`[`: NAs are not allowed for indexing of \"naive_bayes\" tables."), call. = FALSE)
     }
 
-    if ((len_x < len_i) | is.numeric(i) & any(i > len_x))
-        stop(paste0("`[`: There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
-                    ifelse(len_x == 1, " \"naive_bayes\" table", " \"naive_bayes\" tables")), call. = FALSE)
-
     if (!is.numeric(i) & !is.character(i) & !is.factor(i) & !is.logical(i))
-        stop("`[`: Indexing vector can only be \"character\", \"factor\", \"numeric\" or \"logical\"")
+        stop("`[`: Indexing vector can only be \"character\", \"factor\", \"numeric\" or \"logical\".")
 
     if (is.numeric(i)) {
         if (any(i < 0) | any(i %% 1 != 0))
-            stop("`[`: Indexing vector should contain only positive integers", call. = FALSE)
+            stop("`[`: Indexing vector should contain only positive integers.", call. = FALSE)
+        if (any(i > len_x))
+            stop(paste0("`[`: There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
+                        ifelse(len_x == 1, " table.", " \"naive_bayes\" tables.")), call. = FALSE)
     }
-    if (is.character(i) & any(!i %in% nam_x))
-        stop("`[`: Indexing vector does not contain correct name(s) of feature(s)", call. = FALSE)
+    if (is.logical(i)) {
+        if (length(i) > len_x)
+            stop(paste0("`[`: There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
+                        ifelse(len_x == 1, " table.", " \"naive_bayes\" tables.")), call. = FALSE)
+        if (all(i == FALSE)) {
+            return(list())
+        }
+    }
+    if ((is.character(i) | is.factor(i)) & any(!i %in% nam_x))
+        stop("`[`: Undefined columns selected - indexing vector does not contain correct name(s) of feature(s).", call. = FALSE)
 
     res <- x[i]
     class(res) <- "naive_bayes_tables"
