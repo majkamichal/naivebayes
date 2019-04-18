@@ -117,9 +117,35 @@ plot(nb, "V1")
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(bnb) == get_cond_dist(nb))
 
-# Coerce the Bernoulli probability tables to a data.frame
-bernoulli_tables_to_df(bnb)
+# # Coerce the Bernoulli probability tables to a data.frame
+# bernoulli_tables_to_df(bnb)
 
+```
+
+
+#### 3.1.1 Gaussian Naive Bayes ("gaussian_naive_bayes")
+
+```{r, cache=TRUE}
+### Simulate the data:
+cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
+M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
+colnames(M) <- paste0("V", seq_len(ncol(M)))
+
+### Train the Gaussian Naive Bayes
+gnb <- gaussian_naive_bayes(x = M, y = y)
+head(predict(gnb, newdata = M, type = "prob"))
+
+###  Equivalent calculation with general naive_bayes function.
+nb <- naive_bayes(M, y)
+head(predict(nb, type = "prob"))
+
+# Obtain probability tables
+tables(gnb, which = "V1")
+tables(nb, "V1")
+
+# Visualise class conditional Gaussian distributions
+plot(gnb, which = "V1")
 ```
 
 

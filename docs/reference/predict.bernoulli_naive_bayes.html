@@ -140,9 +140,9 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Computes conditional posterior probabilities for each class label using the Bayes' rule under the assumption of independence of predictors. If no new data is provided, the data from the object is used. Currently the <code>predict.bernoulli_naive_bayes</code> function does not handle missing values.</p>
+    <p>Computes conditional posterior probabilities for each class label using the Bayes' rule under the assumption of independence of predictors. If no new data is provided, the data from the object is used. Currently <code>predict.bernoulli_naive_bayes</code> does not handle missing values.</p>
 <p>This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.</p>
-<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code> and corresponding <code>predict</code> functions. The implementation of the specialized Naive Bayes proovides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
+<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra as well as vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
 <p>The <code>bernoulli_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
@@ -162,12 +162,12 @@
 <span class='co'>### Train the Bernoulli Naive Bayes</span>
 <span class='no'>bnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bernoulli_naive_bayes.html'>bernoulli_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.3454398 0.6545602
-#&gt; [2,] 0.2935339 0.7064661
-#&gt; [3,] 0.4983688 0.5016312
-#&gt; [4,] 0.4084851 0.5915149
-#&gt; [5,] 0.3857277 0.6142723
-#&gt; [6,] 0.2252869 0.7747131</div><div class='input'>
+#&gt; [1,] 0.3736965 0.6263035
+#&gt; [2,] 0.3320530 0.6679470
+#&gt; [3,] 0.3286376 0.6713624
+#&gt; [4,] 0.3286376 0.6713624
+#&gt; [5,] 0.1745075 0.8254925
+#&gt; [6,] 0.3035093 0.6964907</div><div class='input'>
 
 <span class='co'>###  Equivalent calculation with general naive_bayes function.</span>
 <span class='co'>###  (it is made sure that the columns are factors with the 0-1 levels)</span>
@@ -176,12 +176,12 @@
 <span class='co'># sapply(df, class)</span>
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.3454398 0.6545602
-#&gt; [2,] 0.2935339 0.7064661
-#&gt; [3,] 0.4983688 0.5016312
-#&gt; [4,] 0.4084851 0.5915149
-#&gt; [5,] 0.3857277 0.6142723
-#&gt; [6,] 0.2252869 0.7747131</div><div class='input'>
+#&gt; [1,] 0.3736965 0.6263035
+#&gt; [2,] 0.3320530 0.6679470
+#&gt; [3,] 0.3286376 0.6713624
+#&gt; [4,] 0.3286376 0.6713624
+#&gt; [5,] 0.1745075 0.8254925
+#&gt; [6,] 0.3035093 0.6964907</div><div class='input'>
 
 <span class='co'># Obtain probability tables</span>
 <span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
@@ -189,8 +189,8 @@
 #&gt;  ::: V1 (Bernoulli) 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;      classA    classB
-#&gt; 0 0.8548387 0.7957746
-#&gt; 1 0.1451613 0.2042254
+#&gt; 0 0.6500000 0.7986111
+#&gt; 1 0.3500000 0.2013889
 #&gt; 
 #&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
@@ -198,8 +198,8 @@
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;    
 #&gt; V1     classA    classB
-#&gt;   0 0.8548387 0.7957746
-#&gt;   1 0.1451613 0.2042254
+#&gt;   0 0.6500000 0.7986111
+#&gt;   1 0.3500000 0.2013889
 #&gt; 
 #&gt; ---------------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># Visualise class conditional Bernoulli distributions</span>
@@ -208,16 +208,16 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>bnb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># Coerce the Bernoulli probability tables to a data.frame</span>
 <span class='fu'><a href='bernoulli_tables_to_df.html'>bernoulli_tables_to_df</a></span>(<span class='no'>bnb</span>)</div><div class='output co'>#&gt;      classA:0  classA:1  classB:0  classB:1
-#&gt; V1  0.8548387 0.1451613 0.7957746 0.2042254
-#&gt; V2  0.7258065 0.2741935 0.7676056 0.2323944
-#&gt; V3  0.8225806 0.1774194 0.7535211 0.2464789
-#&gt; V4  0.8870968 0.1129032 0.8239437 0.1760563
-#&gt; V5  0.8225806 0.1774194 0.7957746 0.2042254
-#&gt; V6  0.9516129 0.0483871 0.8521127 0.1478873
-#&gt; V7  0.6935484 0.3064516 0.7816901 0.2183099
-#&gt; V8  0.8548387 0.1451613 0.7676056 0.2323944
-#&gt; V9  0.7580645 0.2419355 0.7676056 0.2323944
-#&gt; V10 0.7903226 0.2096774 0.7253521 0.2746479</div><div class='input'>
+#&gt; V1  0.6500000 0.3500000 0.7986111 0.2013889
+#&gt; V2  0.8166667 0.1833333 0.7430556 0.2569444
+#&gt; V3  0.7500000 0.2500000 0.7986111 0.2013889
+#&gt; V4  0.8833333 0.1166667 0.8263889 0.1736111
+#&gt; V5  0.7500000 0.2500000 0.7986111 0.2013889
+#&gt; V6  0.7833333 0.2166667 0.7708333 0.2291667
+#&gt; V7  0.8166667 0.1833333 0.7986111 0.2013889
+#&gt; V8  0.7833333 0.2166667 0.6736111 0.3263889
+#&gt; V9  0.8500000 0.1500000 0.8819444 0.1180556
+#&gt; V10 0.7500000 0.2500000 0.8125000 0.1875000</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

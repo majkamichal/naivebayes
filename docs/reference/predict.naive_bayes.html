@@ -112,7 +112,7 @@
 
     <pre class="usage"><span class='co'># S3 method for naive_bayes</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"class"</span>,<span class='st'>"prob"</span>),
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>eps</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -131,7 +131,11 @@
     </tr>
     <tr>
       <th>threshold</th>
-      <td><p>value by which zero probabilities corresponding to metric variables are replaced (zero probabilities corresponding to categorical variables can be handled with Laplace smoothing).</p></td>
+      <td><p>value by which zero probabilities or probabilities within the epsilon-range corresponding to metric variables are replaced (zero probabilities corresponding to categorical variables can be handled with Laplace (additive) smoothing).</p></td>
+    </tr>
+    <tr>
+      <th>eps</th>
+      <td><p>value that specifies an epsilon-range to replace zero or close to zero probabilities by <code>threshold</code>. It applies to metric variables.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -158,21 +162,21 @@
 <span class='no'>iris_test</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='no'>ind_iris</span>, ]
 
 <span class='no'>nb_iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='no'>iris_train</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt;  [1] virginica  setosa     virginica  versicolor virginica  setosa    
-#&gt;  [7] setosa     versicolor virginica  virginica  versicolor virginica 
-#&gt; [13] setosa     versicolor virginica  versicolor versicolor setosa    
-#&gt; [19] setosa     virginica  virginica  versicolor virginica  setosa    
-#&gt; [25] versicolor setosa     virginica  setosa     setosa     versicolor
-#&gt; [31] versicolor virginica  versicolor setosa     virginica  versicolor
-#&gt; [37] versicolor setosa     versicolor versicolor virginica  virginica 
-#&gt; [43] setosa     setosa     virginica 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt;  [1] versicolor versicolor setosa     virginica  virginica  versicolor
+#&gt;  [7] setosa     setosa     setosa     versicolor setosa     virginica 
+#&gt; [13] setosa     versicolor setosa     versicolor virginica  virginica 
+#&gt; [19] virginica  virginica  setosa     setosa     virginica  setosa    
+#&gt; [25] setosa     virginica  virginica  versicolor versicolor virginica 
+#&gt; [31] versicolor setosa     versicolor setosa     setosa     versicolor
+#&gt; [37] virginica  virginica  versicolor versicolor setosa     setosa    
+#&gt; [43] virginica  setosa     versicolor
 #&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;             setosa   versicolor    virginica
-#&gt; [1,] 2.022221e-209 5.952230e-09 1.000000e+00
-#&gt; [2,]  1.000000e+00 5.150173e-17 9.479711e-30
-#&gt; [3,] 5.563322e-136 4.732645e-02 9.526736e-01
-#&gt; [4,] 8.182652e-141 7.012921e-01 2.987079e-01
-#&gt; [5,] 2.365797e-166 1.077208e-05 9.999892e-01
-#&gt; [6,]  1.000000e+00 4.360419e-15 2.662505e-27</div><div class='input'>
+#&gt; [1,] 2.785237e-136 8.162159e-01 1.837841e-01
+#&gt; [2,]  1.620408e-83 9.999300e-01 7.002729e-05
+#&gt; [3,]  1.000000e+00 7.737598e-19 4.364439e-26
+#&gt; [4,] 2.940664e-232 1.634900e-06 9.999984e-01
+#&gt; [5,] 2.862296e-242 8.524708e-06 9.999915e-01
+#&gt; [6,]  1.762480e-99 9.993849e-01 6.150715e-04</div><div class='input'>
 
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>

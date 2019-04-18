@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Bernoulli Naive Bayes Classifier — bernoulli_naive_bayes" />
 
-<meta property="og:description" content="bernoulli_naive_bayes is used to fit the Bernoulli Naive Bayes model in which all predictors are assumed to take on two values only and be independent within each class label." />
+<meta property="og:description" content="bernoulli_naive_bayes is used to fit the Bernoulli Naive Bayes model in which all class conditional distributions are assumed to be Bernoulli and be independent." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -106,7 +106,7 @@
 
     <div class="ref-description">
     
-    <p><code>bernoulli_naive_bayes</code> is used to fit the Bernoulli Naive Bayes model in which all predictors are assumed to take on two values only and be independent within each class label.</p>
+    <p><code>bernoulli_naive_bayes</code> is used to fit the Bernoulli Naive Bayes model in which all class conditional distributions are assumed to be Bernoulli and be independent.</p>
     
     </div>
 
@@ -139,7 +139,7 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>naive_bayes</code> returns an object of class <code>"naive_bayes"</code> which is a list with following components:</p>
+    <p><code>bernoulli_naive_bayes</code> returns an object of class <code>"bernoulli_naive_bayes"</code> which is a list with following components:</p>
 <dt>data</dt><dd><p>list with two components: <code>x</code> (matrix with predictors) and <code>y</code> (class variable).</p></dd>
     <dt>levels</dt><dd><p>character vector with values of the class variable.</p></dd>
     <dt>laplace</dt><dd><p>value of Laplace smoothing (additive smoothing).</p></dd>
@@ -152,7 +152,7 @@
 
     
     <p>This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.</p>
-<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code> and corresponding <code>predict</code> functions. The implementation of the specialized Naive Bayes proovides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
+<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra as well as vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
 <p>The <code>bernoulli_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.</p>
 <p>The missing values are omited while constructing the probability tables. The NAs in the newdata in <code>predict.bernoulli_naive_bayes</code> compared to the <code>predict.naive_bayes</code> are currently not handled.</p>
     
@@ -172,7 +172,63 @@
 
 <span class='co'>### Train the Bernoulli Naive Bayes</span>
 <span class='no'>bnb</span> <span class='kw'>&lt;-</span> <span class='fu'>bernoulli_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
+<span class='no'>bnb</span></div><div class='output co'>#&gt; 
+#&gt; ============================= Bernoulli Naive Bayes ============================= 
+#&gt;  
+#&gt;  Call: 
+#&gt; bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  
+#&gt;  A priori probabilities: 
+#&gt; classA classB 
+#&gt;   0.36   0.64 
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  
+#&gt;  Tables: 
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V1 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA    classB
+#&gt; 0 0.8243243 0.8692308
+#&gt; 1 0.1756757 0.1307692
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V2 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA    classB
+#&gt; 0 0.6081081 0.7461538
+#&gt; 1 0.3918919 0.2538462
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V3 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA    classB
+#&gt; 0 0.8513514 0.7153846
+#&gt; 1 0.1486486 0.2846154
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V4 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA    classB
+#&gt; 0 0.6351351 0.7615385
+#&gt; 1 0.3648649 0.2384615
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V5 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA    classB
+#&gt; 0 0.7702703 0.8384615
+#&gt; 1 0.2297297 0.1615385
+#&gt; 
+#&gt; ---------------------------------------------------------------------------------
+#&gt; 
+#&gt; # ... and 5 more tables
+#&gt; 
+#&gt; ---------------------------------------------------------------------------------
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
 #&gt; [1,] 0.1536234 0.8463766
 #&gt; [2,] 0.3689116 0.6310884
 #&gt; [3,] 0.4345206 0.5654794

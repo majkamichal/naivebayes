@@ -240,20 +240,69 @@ plot(nb, "V1")
 all(get_cond_dist(bnb) == get_cond_dist(nb))
 #> [1] TRUE
 
-# Coerce the Bernoulli probability tables to a data.frame
-bernoulli_tables_to_df(bnb)
-#>      classA:0  classA:1  classB:0  classB:1
-#> V1  0.9137931 0.0862069 0.7876712 0.2123288
-#> V2  0.7413793 0.2586207 0.8424658 0.1575342
-#> V3  0.8103448 0.1896552 0.8698630 0.1301370
-#> V4  0.7413793 0.2586207 0.7739726 0.2260274
-#> V5  0.7413793 0.2586207 0.7739726 0.2260274
-#> V6  0.7413793 0.2586207 0.8013699 0.1986301
-#> V7  0.8103448 0.1896552 0.7739726 0.2260274
-#> V8  0.8448276 0.1551724 0.8013699 0.1986301
-#> V9  0.8103448 0.1896552 0.7602740 0.2397260
-#> V10 0.7068966 0.2931034 0.8150685 0.1849315
+# # Coerce the Bernoulli probability tables to a data.frame
+# bernoulli_tables_to_df(bnb)
 ```
+
+#### 3.1.1 Gaussian Naive Bayes (“gaussian\_naive\_bayes”)
+
+``` r
+### Simulate the data:
+cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
+M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
+colnames(M) <- paste0("V", seq_len(ncol(M)))
+
+### Train the Gaussian Naive Bayes
+gnb <- gaussian_naive_bayes(x = M, y = y)
+head(predict(gnb, newdata = M, type = "prob"))
+#>         classA    classB
+#> [1,] 0.4858042 0.5141958
+#> [2,] 0.4851806 0.5148194
+#> [3,] 0.7706261 0.2293739
+#> [4,] 0.6513155 0.3486845
+#> [5,] 0.4770423 0.5229577
+#> [6,] 0.8346050 0.1653950
+
+###  Equivalent calculation with general naive_bayes function.
+nb <- naive_bayes(M, y)
+head(predict(nb, type = "prob"))
+#>         classA    classB
+#> [1,] 0.4858042 0.5141958
+#> [2,] 0.4851806 0.5148194
+#> [3,] 0.7706261 0.2293739
+#> [4,] 0.6513155 0.3486845
+#> [5,] 0.4770423 0.5229577
+#> [6,] 0.8346050 0.1653950
+
+# Obtain probability tables
+tables(gnb, which = "V1")
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  ::: V1 (Gaussian) 
+#> ------------------------------------------------------------------------------ 
+#>         classA      classB
+#> mu -0.15263804 -0.01306092
+#> sd  1.04955060  1.04174322
+#> 
+#> ------------------------------------------------------------------------------
+tables(nb, "V1")
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  ::: V1 (Gaussian) 
+#> ------------------------------------------------------------------------------ 
+#>       
+#> V1          classA      classB
+#>   mean -0.15263804 -0.01306092
+#>   sd    1.04955060  1.04174322
+#> 
+#> ------------------------------------------------------------------------------
+
+# Visualise class conditional Gaussian distributions
+plot(gnb, which = "V1")
+```
+
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ### 3.2 Usage with Caret package (“naive\_bayes”)
 

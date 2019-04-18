@@ -110,7 +110,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>bernoulli_tables_to_df</span>(<span class='no'>object</span>)</pre>
+    <pre class="usage"><span class='fu'>bernoulli_tables_to_df</span>(<span class='no'>object</span>, <span class='kw'>format</span> <span class='kw'>=</span> <span class='st'>"wide"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -118,6 +118,10 @@
     <tr>
       <th>object</th>
       <td><p>object of class inheriting from <code>"bernoulli_naive_bayes"</code>.</p></td>
+    </tr>
+    <tr>
+      <th>format</th>
+      <td><p>character string with the format of the resulting data.frame - either "wide"" or "long".</p></td>
     </tr>
     </table>
     
@@ -127,7 +131,7 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Default print method for <code>"naive_bayes"</code> objects shows at most five first tables. This auxiliary function <code>tables</code> returns by default all tables.</p>
+    <p>This auxiliary function coerces the Bernoulli probability tables to a data frame with either wide or long format.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -159,13 +163,13 @@
 #&gt; V9  0.6166667 0.3833333 0.8680556 0.1319444
 #&gt; V10 0.9500000 0.0500000 0.7986111 0.2013889</div><div class='input'>
 <span class='co'># Compare first row with the first table:</span>
-<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V2 (Bernoulli) 
+#&gt;  ::: V1 (Bernoulli) 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;      classA    classB
-#&gt; 0 0.7833333 0.8541667
-#&gt; 1 0.2166667 0.1458333
+#&gt; 0 0.8166667 0.7986111
+#&gt; 1 0.1833333 0.2013889
 #&gt; 
 #&gt; ---------------------------------------------------------------------------------</div></pre>
   </div>
