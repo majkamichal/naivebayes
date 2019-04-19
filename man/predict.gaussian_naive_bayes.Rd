@@ -31,6 +31,8 @@ This is a specialized version of the Naive Bayes classifier, in which all featur
 
 The Gaussian Naive Bayes is available in both, \code{naive_bayes} and \code{gaussian_naive_bayes}. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric matrix and performing the linear algebra as well vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.
 
+The NAs in the newdata are not included into the calculation of posterior probabilities; and if present an informative warning is given.
+
 The \code{gaussian_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric matrix or a data.frame contains only numeric variables.
 
 }
