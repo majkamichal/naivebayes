@@ -96,11 +96,15 @@ plot(nb)
 nb_kernel <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE)
 plot(nb_kernel, which = 1) # Gaussian kernel by default (see ?density)
 
+nb_kernel_adj2 <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE, adjust = 2)
+plot(nb_kernel_adj2, which = 1)
+
 nb_kernel_triangular <- naive_bayes(x = iris[-5], y = iris[ ,5],
                                     usekernel = TRUE, kernel = "biweight")
 plot(nb_kernel_triangular,
      which = "Sepal.Length",
      arg.num = list(main = c("Biweight kernel")))
+
 
 
 \dontrun{
