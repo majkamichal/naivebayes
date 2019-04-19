@@ -48,7 +48,8 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                                                           "they miss"), " some levels.", " Please consider filling missing levels or coercing to \"character\"", "\n"), call. = FALSE)
         }
     }
-    log_sum <- 0
+    log_sum <- matrix(log(prior), ncol = n_lev, nrow = n_obs, byrow = TRUE)
+    colnames(log_sum) <- lev
     for (var in features) {
         V <- newdata[[var]]
         tab <- tables[[var]]
@@ -75,11 +76,11 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                 else {
                     dimnames(tab) <- NULL
                     s <- tab[2, ]
-                    s[s == 0] <- threshold
+                    s[s <= eps] <- threshold
                     p <- sapply(seq_along(lev), function(z) {
                         stats::dnorm(V, tab[1, z], s[z])
                     })
-                    p[p == 0] <- threshold
+                    p[p <= 0] <- threshold
                     if (na[var])
                         p[is.na(p)] <- 1
                     log_sum <- log_sum + log(p)
@@ -89,38 +90,36 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         else {
             if (class(V) == "logical")
                 V <- as.character(V)
+            tab <- log(tab)
             if (na[var]) {
                 na_ind <- which(is.na(V))
                 V[na_ind] <- attributes(tab)$dimnames[[1]][1]
                 p <- tab[V, ]
                 if (n_obs == 1)
-                    p <- 1
-                else p[na_ind, ] <- 1
+                    p <- 0
+                else p[na_ind, ] <- 0
+                log_sum <- log_sum + p
             }
             else {
-                p <- tab[V, ]
+                log_sum <- log_sum + tab[V, ]
             }
-            log_sum <- log_sum + log(p)
         }
     }
     if (type == "class") {
         if (n_obs == 1) {
-            post <- log_sum + log(prior)
-            return(factor(lev[which.max(post)], levels = lev))
+            return(factor(lev[which.max(log_sum)], levels = lev))
         }
         if (n_features == 0) {
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         }
         else {
-            post <- t(t(log_sum) + log(prior))
-            return(factor(lev[max.col(post, "first")], levels = lev))
+            return(factor(lev[max.col(log_sum, "first")], levels = lev))
         }
     }
     else {
         if (n_obs == 1) {
-            LL <- log_sum + log(prior)
-            post <- sapply(LL, function(x) { 1 / sum(exp(LL - x)) })
+            post <- sapply(log_sum, function(x) { 1 / sum(exp(log_sum - x)) })
             mat <- t(as.matrix(post))
             colnames(mat) <- lev
             return(mat)
@@ -130,10 +129,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                           byrow = TRUE, dimnames = list(NULL, lev)))
         }
         else {
-            LL <- t(t(log_sum) + log(prior))
-            dimnames(LL) <- NULL
-            colnames(LL) <- lev
-            return(apply(LL, 2, function(x) { 1 / rowSums(exp(LL - x)) }))
+            return(apply(log_sum, 2, function(x) { 1 / rowSums(exp(log_sum - x)) }))
         }
     }
 }
