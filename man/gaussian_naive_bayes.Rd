@@ -42,11 +42,9 @@ The missing values are omited while constructing the probability tables. The NAs
 
 \examples{
 
-### Simulate the data:
-cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
+data(iris)
+y <- iris[[5]]
+M <- as.matrix(iris[-5])
 
 ### Train the Gaussian Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
@@ -58,11 +56,11 @@ nb <- naive_bayes(M, y)
 head(predict(nb, type = "prob"))
 
 # Obtain probability tables
-tables(gnb, which = "V1")
-tables(nb, "V1")
+tables(gnb, which = 1)
+tables(nb, "Sepal.Width")
 
 # Visualise class conditional Gaussian distributions
-plot(gnb, which = "V1")
+plot(gnb, which = "Sepal.Width")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(gnb) == get_cond_dist(nb))

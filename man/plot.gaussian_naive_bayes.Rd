@@ -28,13 +28,11 @@ Class conditional Gaussian distributions are visualised by \code{\link[graphics]
 }
 \examples{
 
-# Simulate the data:
-cols <- 4 ; rows <- 100
-M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
+data(iris)
+y <- iris[[5]]
+M <- as.matrix(iris[-5])
 
-# Train the Gaussian Naive Bayes
+### Train the Gaussian Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
 
 # Visualize class conditional Gaussian distributions corresponding

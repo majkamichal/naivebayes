@@ -36,20 +36,18 @@ The \code{gaussian_naive_bayes} function is equivalent to the \code{naive_bayes}
 }
 \examples{
 
-### Simulate the data:
-cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
+data(iris)
+y <- iris[[5]]
+M <- as.matrix(iris[-5])
 
 ### Train the Gaussian Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
-gnb
-head(predict(gnb, newdata = M, type = "prob"))
 
-###  Equivalent calculation with general naive_bayes function.
-nb <- naive_bayes(M, y)
-head(predict(nb, type = "prob"))
+### Classification
+head(predict(gnb, newdata = M, type = "class"))
+
+### Posterior probabilities
+head(predict(gnb, newdata = M, type = "prob"))
 
 }
 \author{

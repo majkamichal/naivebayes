@@ -30,7 +30,6 @@ The \code{bernoulli_naive_bayes} function is equivalent to the \code{naive_bayes
 }
 \examples{
 
-### Simulate the data:
 cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
 M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
 y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
@@ -39,31 +38,12 @@ laplace <- 0.5
 
 ### Train the Bernoulli Naive Bayes
 bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+
+### Classification
+head(predict(bnb, newdata = M, type = "class"))
+
+### Posterior probabilities
 head(predict(bnb, newdata = M, type = "prob"))
-
-
-###  Equivalent calculation with general naive_bayes function.
-###  (it is made sure that the columns are factors with the 0-1 levels)
-
-df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
-# sapply(df, class)
-nb <- naive_bayes(df, y, laplace = laplace)
-head(predict(nb, type = "prob"))
-
-
-# Obtain probability tables
-tables(bnb, which = "V1")
-tables(nb, "V1")
-
-# Visualise class conditional Bernoulli distributions
-plot(bnb, which = "V1")
-plot(nb, "V1")
-
-# Check the equivalence of the class conditional distributions
-all(get_cond_dist(bnb) == get_cond_dist(nb))
-
-# Coerce the Bernoulli probability tables to a data.frame
-bernoulli_tables_to_df(bnb)
 
 }
 \author{
