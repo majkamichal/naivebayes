@@ -36,7 +36,7 @@ The Gaussian Naive Bayes is available in both, \code{naive_bayes} and \code{gaus
 
 The \code{gaussian_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric matrix or a data.frame contains only numeric variables.
 
-The missing values are omited while constructing the probability tables. The NAs in the newdata in \code{predict.gaussian_naive_bayes} compared to the \code{predict.naive_bayes} are currently not handled.
+The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in \code{predict.gaussian_naive_bayes} are not included into the calculation of posterior probabilities; and if present an informative warning is given.
 }
 
 

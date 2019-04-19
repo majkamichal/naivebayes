@@ -19,7 +19,7 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 }
 
 \value{
-\code{bernoulli_naive_bayes} returns an object of class \code{"bernoulli_naive_bayes"} which is a list with following components:
+\code{bernoulli_naive_bayes} returns an object of class "bernoulli_naive_bayes" which is a list with following components:
     \item{data}{list with two components: \code{x} (matrix with predictors) and \code{y} (class variable).}
     \item{levels}{character vector with values of the class variable.}
     \item{laplace}{value of Laplace smoothing (additive smoothing).}
@@ -39,9 +39,8 @@ The Bernoulli Naive Bayes is available in both, \code{naive_bayes} and \code{ber
 
 The \code{bernoulli_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.
 
-The missing values are omited while constructing the probability tables. The NAs in the newdata in \code{predict.bernoulli_naive_bayes} compared to the \code{predict.naive_bayes} are currently not handled.
+The missing values (NAs) are omited while constructing the probability tables. The NAs in the newdata in \code{predict.gaussian_naive_bayes} are not included into the calculation of posterior probabilities; and if present an informative warning is given.
 }
-
 
 \examples{
 

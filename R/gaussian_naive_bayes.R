@@ -86,6 +86,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
     n_features <- length(features)
     n_features_newdata <- nrow(newdata)
 
+
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.gaussian_naive_bayes(): ",
@@ -115,6 +116,13 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
                        "Calculation is performed based on features to be found in the tables."), call. = FALSE)
         newdata <- newdata[ ,features]
     }
+    ind_na <- which(is.na(newdata))
+    len_na <- length(ind_na)
+    if (len_na > 0)
+        warning(paste0("predict.gaussian_naive_bayes(): ", len_na, " missing",
+                       ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
+                       ifelse(len_na == 1, "It is", "They are"),
+                       " not included into the calculation."), call. = FALSE)
 
     sd[sd <= eps] <- threshold
     eps <- ifelse(eps == 0, log(.Machine$double.xmin), log(eps))
@@ -124,6 +132,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
     for (ith_class in seq_along(lev)) {
         ith_class_sd <- sd[ith_class, ]
         ith_post <- -0.5 * log(2 * pi * ith_class_sd^2) - 0.5 * ((newdata - mu[ith_class, ]) / ith_class_sd)^2
+        ith_post[ind_na] <- 0
         ith_post[ith_post <= eps] <- threshold
         post[ ,ith_class] <- colSums(ith_post) + log(prior[ith_class])
     }
@@ -147,6 +156,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
         }
     }
 }
+
 
 print.gaussian_naive_bayes <- function (x, ...) {
 
