@@ -8,7 +8,7 @@ tables <- function (object, which = NULL) {
     }
 
     tabs <- get_tables(object)
-    cond_dist <- get_cond_dist(tabs)
+    cond_dist <- get_cond_dist(object)
     vars <- names(tabs)
 
     if (is.null(cond_dist))
