@@ -1,7 +1,7 @@
 bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("plot(): y has to be either a factor or character or logical vector", call. = FALSE)
+        stop("bernoulli_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
 
     if (!is.factor(y))
         y <- factor(y)
@@ -10,43 +10,71 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     vars <- colnames(x)
 
     if (nlev < 2)
-        warning("plot(): y has less than two classes. ", call. = FALSE)
+        warning("bernoulli_naive_bayes(): y has less than two classes. ", call. = FALSE)
 
     if (is.null(vars)) {
         xname <- deparse(substitute(x))
-        stop(paste0("plot(): Column names in the matrix x are required.\n",
+        stop(paste0("bernoulli_naive_bayes(): Column names in the matrix x are required.\n",
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
     if (class(x) != "matrix") {
-        stop("plot(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
+        stop("bernoulli_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("plot(): x has to contain numeric columns with 0-1 values. ",
+            stop("bernoulli_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
                  "Please consider coercing features to numeric 0-1 or using the general \"naive_bayes\"",
                  "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
     }
-    if (anyNA(y))
-        warning("plot(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
-
+    NAy <- anyNA(y)
+    NAx <- anyNA(x)
+    if (NAy) {
+        na_y_bool <- is.na(y)
+        len_na <- sum(na_y_bool)
+        warning(paste0("bernoulli_naive_bayes(): y contains ", len_na, " missing",
+                       ifelse(len_na == 1, " value", " values"), ". ",
+                       ifelse(len_na == 1, "It is", "They are"),
+                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+        y <- y[!na_y_bool]
+        x <- x[!na_y_bool, ]
+    }
+    if (NAx) {
+        na_x_bool <- is.na(x)
+        len_nax <- sum(na_x_bool)
+        warning(paste0("bernoulli_naive_bayes(): x contains ", len_nax, " missing",
+                       ifelse(len_nax == 1, " value", " values"), ". ",
+                       ifelse(len_nax == 1, "It is", "They are"),
+                       " not included into the estimation process."), call. = FALSE)
+    }
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 1
     if (any(y_min))
         stop(paste0("bernoulli_naive_bayes(): y variable has to contain at least one observation per class for estimation process.",
                     " Class ", paste0(levels[y_min], collapse =  ", "),
                     " has less than 1 observation."), call. = FALSE)
-
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
     } else {
         if (length(prior) != nlev)
-            stop(paste0("plot(): Vector with prior probabilities should have ",
+            stop(paste0("bernoulli_naive_bayes(): Vector with prior probabilities should have ",
                         nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
-
-    prob1 <- t((rowsum(x, y, na.rm = TRUE) + laplace) /  (y_counts + laplace * 2))
-
+    if (!NAx) {
+        prob1 <- t((rowsum(x, y, na.rm = TRUE) + laplace) /  (y_counts + laplace * 2))
+    } else {
+        n <- rowsum((!na_x_bool) * 1, y)
+        if (any(n < 2)) {
+            warning(paste0("bernoulli_naive_bayes(): x has to contain at least one ",
+                           "non-missing observation per class for estimation process."), call. = FALSE)
+        }
+        prob1 <- t((rowsum(x, y, na.rm = TRUE) + laplace) /  (n + laplace * 2))
+    }
+    if (any(prob1 == 0)) {
+        ind_var <- unique(vars[sort(which(prob1 == 0, arr.ind = TRUE)[,1])])
+        warning(paste0("bernoulli_naive_bayes(): Feature ", paste0(ind_var, collapse = ", "),
+                       " - zero probabilities are present. Consider Laplace smoothing."), call. = FALSE)
+    }
     structure(list(data = list(x = x, y = y), levels = levels,
                    laplace = laplace, prob1 = prob1, prior = prior,
                    call = match.call()), class = "bernoulli_naive_bayes")
@@ -61,7 +89,6 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     if (mode(newdata) != "numeric")
         stop("predict.bernoulli_naive_bayes(): \"newdata\" has to be a matrix with numeric 0-1 values.", call. = FALSE)
 
-    # na <- sapply(newdata, anyNA)
     type <- match.arg(type)
     lev <- object$levels
     n_lev <- length(lev)
@@ -72,7 +99,6 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     n_tables <- ncol(prob1)
     prob1 <- prob1[ ,features]
     n_features <- length(features)
-
 
     if (n_features == 0) {
         if (type == "class") {
@@ -103,8 +129,32 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
                        "Calculation is performed based on features to be found in the tables."), call. = FALSE)
         newdata <- newdata[ ,features]
     }
-
-    post <- tcrossprod(newdata, log(prob1)) + tcrossprod(1 - newdata, log(1 - prob1))
+    if (object$laplace == 0) {
+        threshold <- 0.001
+        eps <- 0
+        prob1[prob1 <= eps] <- threshold
+        prob1[prob1 >= (1 - eps)] <- 1 - threshold
+    }
+    lprob1 <- log(prob1)
+    lprob0 <- log(1 - prob1)
+    NAs <- anyNA(newdata)
+    if (NAs) {
+        ind_na <- which(is.na(newdata), arr.ind = TRUE)
+        len_na <- nrow(ind_na)
+        warning(paste0("predict.gaussian_naive_bayes(): ", len_na, " missing",
+                       ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
+                       ifelse(len_na == 1, "It is", "They are"),
+                       " not included into the calculation."), call. = FALSE)
+        ind_obs <- ind_na[ ,1]
+        ind_var <- ind_na[ ,2]
+        newdata[ind_na] <- 1
+        neutral <- do.call(rbind, tapply(ind_var, ind_obs, function(x) rowSums(lprob1[ ,x, drop = FALSE])))
+        ind_obs <- sort(unique(ind_obs))
+    }
+    post <- tcrossprod(newdata, lprob1) + tcrossprod(1 - newdata, lprob0)
+    if (NAs) {
+        post[ind_obs, ] <- post[ind_obs, ] - neutral
+    }
     for (ith_class in seq_along(prior))
         post[ ,ith_class] <- post[ ,ith_class] + log(prior[ith_class])
 
@@ -126,7 +176,6 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         }
     }
 }
-
 print.bernoulli_naive_bayes <- function (x, ...) {
 
     model <- "Bernoulli Naive Bayes"
