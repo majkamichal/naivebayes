@@ -54,6 +54,8 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
         }
         else {
             tab <- table(y, var, dnn = c("", x))
+            if (any(tab == 0) & laplace == FALSE)
+                warning(paste0("naive_bayes(): Feature ", x, " - zero probabilities are present. Consider Laplace smoothing."), call. = FALSE)
             tab <- t((tab + laplace) / (rowSums(tab) + laplace * ncol(tab)))
             attr(tab, "cond_dist") <- ifelse(nrow(tab) == 2, "Bernoulli", "Categorical")
             tab

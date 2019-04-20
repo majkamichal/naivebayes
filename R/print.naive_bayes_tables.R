@@ -95,7 +95,7 @@ get_cond_dist <- function(object) {
         cond_dist <- stats::setNames(rep("Gaussian", length(vars)), vars)
     } else {
         stop(paste0("get_cond_dist() expects ", paste0(models(), collapse = ", "),
-                    " objects."), call. = FALSE)
+                    ", naive_bayes_tables objects."), call. = FALSE)
     }
     cond_dist
 }
