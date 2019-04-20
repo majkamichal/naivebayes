@@ -2,42 +2,53 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
         stop("gaussian_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
-
-    if (anyNA(y))
-        warning("gaussian_naive_bayes(): y contains NAs. They are excluded from the estimation process.", call. = FALSE)
-
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
     nlev <- nlevels(y)
     vars <- colnames(x)
-
     if (nlev < 2)
         warning("gaussian_naive_bayes(): y has less than two classes. ", call. = FALSE)
-
     if (is.null(vars)) {
         xname <- deparse(substitute(x))
         stop(paste0("gaussian_naive_bayes(): Column names in the matrix x are required.\n",
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
-
     if (class(x) != "matrix") {
-        stop("bernoulli_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
+        stop("gaussiam_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("bernoulli_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
+            stop("gaussian_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
                  "Please consider coercing features to numeric 0-1 or using the general \"naive_bayes\"",
                  "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
     }
-
+    NAy <- anyNA(y)
+    NAx <- anyNA(x)
+    if (NAy) {
+        na_y_bool <- is.na(y)
+        len_na <- sum(na_y_bool)
+        warning(paste0("gaussian_naive_bayes(): y contains ", len_na, " missing",
+                       ifelse(len_na == 1, " value", " values"), ". ",
+                       ifelse(len_na == 1, "It is", "They are"),
+                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+        y <- y[!na_y_bool]
+        x <- x[!na_y_bool, ]
+    }
+    if (NAx) {
+        na_x_bool <- is.na(x)
+        len_nax <- sum(na_x_bool)
+        warning(paste0("gaussian_naive_bayes(): x contains ", len_nax, " missing",
+                       ifelse(len_nax == 1, " value", " values"), ". ",
+                       ifelse(len_nax == 1, "It is", "They are"),
+                       " not included into the estimation process."), call. = FALSE)
+    }
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 2
     if (any(y_min))
         stop(paste0("gaussian_naive_bayes(): y variable has to contain at least two observations per class for estimation process.",
                     " Class ", paste0(levels[y_min], collapse =  ", "),
                     " has less than 2 observations."), call. = FALSE)
-
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
     } else {
@@ -46,15 +57,24 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
                         nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
-
-    N <- nrow(x)
-    mu <- rowsum(x, y, na.rm = TRUE) / y_counts
-    sd <- sqrt((rowsum(x^2, y, na.rm = TRUE) - mu^2 * y_counts) / (y_counts - 1)) #  algebraic formulae for the variance
-    params <- list(mu = mu, sd = sd)
+    if (!NAx) {
+        mu <- rowsum(x, y, na.rm = TRUE) / y_counts
+        sd <- sqrt((rowsum(x^2, y, na.rm = TRUE) - mu^2 * y_counts) / (y_counts - 1))
+    } else {
+        n <- rowsum((!na_x_bool) * 1, y, na.rm = TRUE)
+        if (any(n < 2)) {
+            warning(paste0("gaussian_naive_bayes(): x has to contain at least two ",
+                           "non-missing observations per class for estimation process.",
+                           " Zero standard deviations are present."), call. = FALSE)
+        }
+        mu <- rowsum(x, y, na.rm = TRUE) / n
+        sd <- sqrt((rowsum(x^2, y, na.rm = TRUE) - mu^2 * n) / (n - 1))
+    }
     structure(list(data = list(x = x, y = y), levels = levels,
-                   params = params, prior = prior,
+                   params = list(mu = mu, sd = sd), prior = prior,
                    call = match.call()), class = "gaussian_naive_bayes")
 }
+
 
 predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("class", "prob"), threshold = 0.001, eps = 0, ...) {
 
