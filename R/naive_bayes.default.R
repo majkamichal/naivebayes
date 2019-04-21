@@ -34,7 +34,10 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                 tab <- rbind(tapply(var, y, function(x) (sum(x, na.rm = TRUE) + laplace) / ifelse(anyNA(x), length(x[!is.na(x)]), length(x))))
                 attr(tab, "cond_dist") <- "Poisson"
                 rownames(tab) <- "lambda"
-                as.table(tab)
+                tab <- as.table(tab)
+                if (any(tab == 0))
+                    warning(paste0("naive_bayes(): Feature ", x, " - zero lambda estimates are present. Consider Laplace smoothing."), call. = FALSE)
+                tab
             } else {
                 if (usekernel) {
                     tab <- tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...), ...)
