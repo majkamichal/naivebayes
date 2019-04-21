@@ -28,9 +28,9 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
         var <- data[[x]]
         if (is.numeric(var)) {
             if (is.integer(var) & usepoisson) {
-                if (any(var < 0))
+                if (any(var < 0, na.rm = TRUE))
                     warning(paste0("naive_bayes(): The feature ", x, " is modelled with Poisson ",
-                                   "distribution in \"naive_bayes\" and it contains negative counts"),  call. = FALSE)
+                                   "distribution in \"naive_bayes\" and it contains negative counts"), call. = FALSE)
                 tab <- rbind(tapply(var, y, function(x) (sum(x, na.rm = TRUE) + laplace) / length(x)))
                 attr(tab, "cond_dist") <- "Poisson"
                 rownames(tab) <- "lambda"
