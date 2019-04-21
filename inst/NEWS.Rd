@@ -6,7 +6,8 @@
 	    \item Improvement: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = FALSE}) and hence it does not change the posterior probabilities obtained with the previous versions of the package. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
 	    \item Improvement: new function \code{get_cond_dist()} for obtaining names of class conditional distributions assigned to features
 	    \item Improvement: new function \code{bernoulli_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution.
-	    \item Improvement: new function \code{gaussian_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take are real valued and each feature is modelled with the Gaussian distribution.
+	    \item Improvement: new function \code{gaussian_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features are real valued and each feature is modelled with the Gaussian distribution.
+	    \item Improvement: new function \code{poisson_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take are non-negative integers and each feature is modelled with the Poisson distribution.
 	    \item Improvement: improved performance and reliability of \code{predict.naive_bayes()}.
 	    \item Improvement: enhanced print method for better readability
 	    \item Improvement: enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
