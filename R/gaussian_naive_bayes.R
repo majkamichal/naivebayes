@@ -65,7 +65,7 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
         if (any(n < 2)) {
             warning(paste0("gaussian_naive_bayes(): x has to contain at least two ",
                            "non-missing observations per class for estimation process.",
-                           " Zero standard deviations are present."), call. = FALSE)
+                           " Infinite standard deviations are present."), call. = FALSE)
         }
         mu <- rowsum(x, y, na.rm = TRUE) / n
         sd <- sqrt((rowsum(x^2, y, na.rm = TRUE) - mu^2 * n) / (n - 1))

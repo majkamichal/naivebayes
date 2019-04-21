@@ -71,7 +71,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         prob1 <- t((rowsum(x, y, na.rm = TRUE) + laplace) /  (n + laplace * 2))
     }
     if (any(prob1 == 0)) {
-        ind_var <- unique(vars[sort(which(prob1 == 0, arr.ind = TRUE)[,1])])
+        ind_var <- unique(vars[sort(which(prob1 == 0, arr.ind = TRUE)[ ,1])])
         warning(paste0("bernoulli_naive_bayes(): Feature ", paste0(ind_var, collapse = ", "),
                        " - zero probabilities are present. Consider Laplace smoothing."), call. = FALSE)
     }
