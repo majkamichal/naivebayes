@@ -44,7 +44,7 @@ poisson_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
                        " not included into the estimation process."), call. = FALSE)
     }
     y_counts <- tabulate(y)
-    if (length(y_counts) != nlev)
+    if (any(y_counts == 0))
         stop("poisson_naive_bayes(): y variable has to contain at least one observation per class for estimation process.", call. = FALSE)
     y_counts <- stats::setNames(y_counts, levels)
     if (is.null(prior)) {
