@@ -1,6 +1,6 @@
 \name{plot.bernoulli_naive_bayes}
 \alias{plot.bernoulli_naive_bayes}
-\title{Plot Method for bernoulli_naive_bayes Object}
+\title{Plot Method for bernoulli_naive_bayes Objects}
 \usage{
 \method{plot}{bernoulli_naive_bayes}(x, which = NULL, ask = FALSE, arg.cat = list(), ...)
 }

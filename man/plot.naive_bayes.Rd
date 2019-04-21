@@ -1,6 +1,6 @@
 \name{plot.naive_bayes}
 \alias{plot.naive_bayes}
-\title{Plot Method for naive_bayes Object}
+\title{Plot Method for naive_bayes Objects}
 \usage{
 \method{plot}{naive_bayes}(x, which = NULL, ask = FALSE, legend = TRUE,
   legend.box = FALSE, arg.num = list(), arg.cat = list(), ...)

@@ -22,7 +22,7 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 \code{bernoulli_naive_bayes} returns an object of class "bernoulli_naive_bayes" which is a list with following components:
     \item{data}{list with two components: \code{x} (matrix with predictors) and \code{y} (class variable).}
     \item{levels}{character vector with values of the class variable.}
-    \item{laplace}{value of Laplace smoothing (additive smoothing).}
+    \item{laplace}{amount of Laplace smoothing (additive smoothing).}
     \item{prob1}{matrix with class conditional probabilities for the value 1. Based on this matrix full probability tables can be constructed. Please, see \code{\link[naivebayes]{tables}} and \code{\link[naivebayes]{bernoulli_tables_to_df}}.}
     \item{prior}{numeric vector with prior probabilities.}
     \item{call}{the call that produced this object.}
