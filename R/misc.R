@@ -27,5 +27,6 @@ models <- function() {
 
     c("Naive Bayes"                = "naive_bayes",
       "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes",
-      "Gaussian Naive Bayes"       = "gaussian_naive_bayes")
+      "Gaussian Naive Bayes"       = "gaussian_naive_bayes",
+      "Poisson Naive Bayes"        = "poisson_naive_bayes")
 }

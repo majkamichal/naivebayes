@@ -45,16 +45,16 @@ get_tables <- function(object) {
                     paste0(models(), collapse = ", "),
                     " objects."), call. = FALSE)
     }
-
     switch(model,
            "naive_bayes" = object$tables,
            "bernoulli_naive_bayes" = get_bernoulli_tables(object$prob1),
-           "gaussian_naive_bayes" = get_gaussian_tables(object$params)
-           # "poisson_naive_bayes" = get_poisson_tables(object$params),
+           "gaussian_naive_bayes" = get_gaussian_tables(object$params),
+           "poisson_naive_bayes" = get_poisson_tables(object$params)
            # "multinomial_naive_bayes" = get_multinomial_tables(object$probs),
            # "nonparametric_naive_bayes" = get_nonparametric_tables(object$dens)
     )
 }
+
 
 get_bernoulli_tables <- function(prob1) {
     if (!is.matrix(prob1))
@@ -91,5 +91,23 @@ get_gaussian_tables <- function(params) {
     names(tables) <- vars
     class(tables) <- "naive_bayes_tables"
     attr(tables, "cond_dist") <- stats::setNames(rep("Gaussian", n_tables), vars)
+    tables
+}
+
+get_poisson_tables <- function(params) {
+    if (!is.matrix(params))
+        stop("get_poisson_tables(): params has to be a matrix with parameter estimates.", call. = FALSE)
+
+    vars <- rownames(params)
+    n_tables <- length(vars)
+    tables <- lapply(seq_len(n_tables), function(i) {
+        ith_lambda <- params[i, ]
+        ith_tab <- as.table(rbind(ith_lambda))
+        rownames(ith_tab) <- c("lambda")
+        ith_tab
+    })
+    names(tables) <- vars
+    class(tables) <- "naive_bayes_tables"
+    attr(tables, "cond_dist") <- stats::setNames(rep("Poisson", n_tables), vars)
     tables
 }
