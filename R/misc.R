@@ -1,4 +1,3 @@
-
 # .onAttach <- function(libname, pkgname) {
 #
 #     rule <- paste0(rep("=", getOption("width")), collapse = "")
@@ -18,15 +17,11 @@
 }
 
 models <- function() {
-    # c("Naive Bayes"                = "naive_bayes",
-    #   "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes",
-    #   "Multinomial Naive Bayes"    = "multinomial_naive_bayes",
-    #   "Poisson Naive Bayes"        = "poisson_naive_bayes",
-    #   "Gaussian Naive Bayes"       = "gaussian_naive_bayes",
-    #   "Non parametric Naive Bayes" = "non_parametric_naive_bayes")
+  #   "Non parametric Naive Bayes" = "non_parametric_naive_bayes"
 
-    c("Naive Bayes"                = "naive_bayes",
-      "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes",
-      "Gaussian Naive Bayes"       = "gaussian_naive_bayes",
-      "Poisson Naive Bayes"        = "poisson_naive_bayes")
+  c("Naive Bayes"                = "naive_bayes",
+    "Bernoulli Naive Bayes"      = "bernoulli_naive_bayes",
+    "Gaussian Naive Bayes"       = "gaussian_naive_bayes",
+    "Poisson Naive Bayes"        = "poisson_naive_bayes",
+    "Multinomial Naive Bayes"    = "multinomial_naive_bayes")
 }
