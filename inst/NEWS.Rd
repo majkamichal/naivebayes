@@ -2,17 +2,20 @@
 \title{News for Package \pkg{naivebayes}}
 
 \section{Changes in version 0.9.6}{
+
+Improvements:
 	\itemize{
-	    \item Improvement: \code{naive_bayes()}: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = FALSE}) and hence it does not change the posterior probabilities obtained with the previous versions of the package. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
-	    \item Improvement: \code{predict.naive_bayes} has new parameter \code{eps} that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables.
-	    \item Improvement: new function \code{get_cond_dist()} for obtaining names of class conditional distributions assigned to features
-	    \item Improvement: new function \code{bernoulli_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution.
-	    \item Improvement: new function \code{gaussian_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features are real valued and each feature is modelled with the Gaussian distribution.
-	    \item Improvement: new function \code{poisson_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take are non-negative integers and each feature is modelled with the Poisson distribution.
-	    \item Improvement: new function \code{multinomial_naive_bayes()} - specialised Naive Bayes classifier.
-	    \item Improvement: improved performance and reliability of \code{predict.naive_bayes()}.
-	    \item Improvement: enhanced print method for better readability
-	    \item Improvement: enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
+	    \item  \code{naive_bayes()}: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{naive_bayes(..., usepoisson = FALSE}) and hence it does not change the posterior probabilities obtained with the previous versions of the package. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
+	    \item \code{predict.naive_bayes} has new parameter \code{eps} that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables.
+	    \item new function \code{get_cond_dist()} for obtaining names of class conditional distributions assigned to features
+	    \item new function \code{bernoulli_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution.
+	    \item new function \code{gaussian_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features are real valued and each feature is modelled with the Gaussian distribution.
+	    \item new function \code{poisson_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take are non-negative integers and each feature is modelled with the Poisson distribution.
+	    \item new function \code{nonparametric_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take real valued and distribution of each is estimated with kernel density estimation (KDE).
+	    \item new function \code{multinomial_naive_bayes()} - specialised Naive Bayes classifier.
+	    \item improved performance and reliability of \code{predict.naive_bayes()}.
+	    \item enhanced print method for better readability
+	    \item enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
 
 	}
 }

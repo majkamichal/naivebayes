@@ -28,14 +28,13 @@
 \item{usekernel}{logical; if \code{TRUE}, \code{\link[stats]{density}} is used to estimate the class conditional densities of metric predictors. This applies to vectors with class "numeric". For further details on interaction between \code{usekernel} and \code{usepoisson} parameters please see Note below.}
 
 
-
 \item{usepoisson}{logical; if \code{TRUE}, Poisson distribution is used to estimate the class conditional PMFs of integer predictors (vectors with class "integer").}
 
 \item{subset}{an optional vector specifying a subset of observations to be used in the fitting process.}
 
 \item{na.action}{a function which indicates what should happen when the data contain \code{NAs}. By default (\code{\link[stats]{na.pass}}), missing values are not removed from the data and are then omited while constructing tables. Alternatively, \code{\link[stats]{na.omit}} can be used to exclude rows with at least one missing value before constructing tables.}
 
-\item{...}{other parameters to \code{\link[stats]{density}} when \code{usekernel = TRUE} (\code{na.rm} defaults to \code{TRUE}).}
+\item{...}{other parameters to \code{\link[stats]{density}} when \code{usekernel = TRUE} (\code{na.rm} defaults to \code{TRUE}) (for instance \code{adjust}, \code{kernel} or \code{bw}).}
 
 }
 
