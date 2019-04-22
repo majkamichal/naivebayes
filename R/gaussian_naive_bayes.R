@@ -16,12 +16,10 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
                     "       in both train and test datasets."), call. = FALSE)
     }
     if (class(x) != "matrix") {
-        stop("gaussiam_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
+        stop("gaussiam_naive_bayes(): x has to be a numeric matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("gaussian_naive_bayes(): x has to contain numeric columns with 0-1 values. ",
-                 "Please consider coercing features to numeric 0-1 or using the general \"naive_bayes\"",
-                 "function, which models \"character\", \"factor\" or \"logical\" variables with two levels with Bernoulli.", call. = FALSE)
+            stop("gaussian_naive_bayes(): x has to contain numeric columns.", call. = FALSE)
     }
     NAy <- anyNA(y)
     NAx <- anyNA(x)
