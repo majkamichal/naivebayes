@@ -8,7 +8,7 @@
 \arguments{
 \item{object}{object of class inheriting from \code{"gaussian_naive_bayes"}.}
 
-\item{newdata}{matrix with metric (numeric) predictors.}
+\item{newdata}{matrix with metric predictors (only numeric matrix accepted).}
 
 \item{type}{if "class", new data points are classified according to the highest posterior probabilities. If "prob", the posterior probabilities for each class are returned.}
 
