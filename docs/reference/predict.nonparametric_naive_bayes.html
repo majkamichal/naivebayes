@@ -171,14 +171,19 @@
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>iris</span>[-<span class='fl'>5</span>])
 
 <span class='co'>### Train the Non-Parametric Naive Bayes</span>
-<span class='no'>nnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nonparametric_naive_bayes.html'>nonparametric_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)
+<span class='no'>nnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nonparametric_naive_bayes.html'>nonparametric_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>bw</span> <span class='kw'>=</span> <span class='st'>"SJ"</span>)
 
 <span class='co'>### Classification</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
 #&gt; Levels: setosa versicolor virginica</div><div class='input'>
 <span class='co'>### Posterior probabilities</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
-#&gt; Levels: setosa versicolor virginica</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
+#&gt; [1,]      1 6.116221e-10 2.047042e-11
+#&gt; [2,]      1 7.759481e-09 1.852369e-10
+#&gt; [3,]      1 3.286125e-09 1.637165e-10
+#&gt; [4,]      1 2.327491e-09 1.151089e-10
+#&gt; [5,]      1 1.910768e-10 1.597211e-11
+#&gt; [6,]      1 5.298859e-10 1.044005e-09</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

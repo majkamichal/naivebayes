@@ -88,21 +88,53 @@ Prior the model fitting the classes of columns in the data.frame "data" can be e
 }
 
 \examples{
+
+### General usage
+
 data(iris)
 nb <- naive_bayes(Species ~ ., data = iris)
-plot(nb)
+plot(nb, which = 1)
+prob <- predict(nb, newdata = iris, type = "prob")
+tables(nb, 1)
+get_cond_dist(nb)
 
+
+### Non-Parametric Naive Bayes
+
+# Default: Gaussian kernel and "nrd0" bandwidth selector
+# (Silverman's 'rule of thumb'):
 nb_kernel <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE)
-plot(nb_kernel, which = 1) # Gaussian kernel by default (see ?density)
+plot(nb_kernel, which = 1)
 
-nb_kernel_adj2 <- naive_bayes(x = iris[-5], y = iris[ ,5], usekernel = TRUE, adjust = 2)
+# Change kernel
+nb_kernel_biweight <- naive_bayes(Species ~ ., data = iris, usekernel = TRUE,
+                        kernel = "biweight")
+plot(nb_kernel_biweight, which = "Sepal.Length",
+     arg.num = list(main = c("Biweight kernel")))
+
+# Adjust bandwidth
+nb_kernel_adj2 <- naive_bayes(Species ~ ., data = iris, usekernel = TRUE, adjust = 1.5)
 plot(nb_kernel_adj2, which = 1)
 
-nb_kernel_triangular <- naive_bayes(x = iris[-5], y = iris[ ,5],
-                                    usekernel = TRUE, kernel = "biweight")
-plot(nb_kernel_triangular,
-     which = "Sepal.Length",
-     arg.num = list(main = c("Biweight kernel")))
+# Change bandwidth selector ?bw.SJ
+nb_kernel_bw <- naive_bayes(Species ~ ., data = iris, usekernel = TRUE, bw = "SJ")
+plot(nb_kernel_bw, which = 1)
+
+
+### Poisson Naive Bayes
+
+# Examples to come
+
+### Gaussian Naive Bayes
+
+# Examples to come
+
+### Bernoulli Naive Bayes
+
+# Examples to come
+
+
+
 
 
 

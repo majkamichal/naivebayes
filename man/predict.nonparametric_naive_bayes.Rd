@@ -46,13 +46,13 @@ y <- iris[[5]]
 M <- as.matrix(iris[-5])
 
 ### Train the Non-Parametric Naive Bayes
-nnb <- nonparametric_naive_bayes(x = M, y = y)
+nnb <- nonparametric_naive_bayes(x = M, y = y, bw = "SJ")
 
 ### Classification
 head(predict(nnb, newdata = M, type = "class"))
 
 ### Posterior probabilities
-head(predict(nnb, newdata = M, type = "class"))
+head(predict(nnb, newdata = M, type = "prob"))
 
 }
 \author{

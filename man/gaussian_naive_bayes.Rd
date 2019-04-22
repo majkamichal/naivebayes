@@ -65,16 +65,12 @@ plot(gnb, which = "Sepal.Width")
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(gnb) == get_cond_dist(nb))
 
-## Coerce the Bernoulli probability tables to a data.frame
-## THIS EXAMPLE HAS TO BE IMPROVED AS SOON AS THERE WILL BE A GENERAL
-## FUNCTION FOR COERCING THE TABLES TO DF
-# tables_to_df(gnb)
 
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{bernoulli_tables_to_df}}
+\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 

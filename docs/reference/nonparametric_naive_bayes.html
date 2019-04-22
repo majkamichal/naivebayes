@@ -175,7 +175,7 @@
 #&gt; [4,] 1.0000000 1.151469e-08 6.592116e-10
 #&gt; [5,] 1.0000000 8.886374e-10 8.621293e-11
 #&gt; [6,] 1.0000000 3.842342e-09 5.960213e-09</div><div class='input'>
-<span class='co'>###  Equivalent calculation with general naive_bayes function.</span>
+<span class='co'>###  Equivalent calculation with general naive_bayes function:</span>
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         setosa   versicolor    virginica
 #&gt; [1,] 1.0000000 3.066728e-09 9.020367e-11
@@ -184,20 +184,17 @@
 #&gt; [4,] 1.0000000 1.151469e-08 6.592116e-10
 #&gt; [5,] 1.0000000 8.886374e-10 8.621293e-11
 #&gt; [6,] 1.0000000 3.842342e-09 5.960213e-09</div><div class='input'>
+<span class='co'>### Change kernel</span>
+<span class='no'>nnb_kernel</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='st'>"biweight"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_kernel</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### Adjust bandwidth</span>
-<span class='no'>nnb2</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>adjust</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb2</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
-#&gt; [1,]      1 5.384053e-09 2.179809e-10
-#&gt; [2,]      1 3.949685e-08 1.046813e-09
-#&gt; [3,]      1 1.931851e-08 8.631200e-10
-#&gt; [4,]      1 1.590415e-08 7.238298e-10
-#&gt; [5,]      1 2.075807e-09 1.324290e-10
-#&gt; [6,]      1 6.351343e-09 7.114582e-09</div><div class='input'>
-<span class='co'>### Obtain tables with conditional densities</span>
-<span class='co'># tables(nnb, which = 1)</span>
-
-<span class='co'>###  Visualise estimated class conditional distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Width"</span>)</div><div class='img'><img src='nonparametric_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb2</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Width"</span>)</div><div class='img'><img src='nonparametric_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>nnb_adjust</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>adjust</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_adjust</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'>### Change bnandwidth selector</span>
+<span class='no'>nnb_bw</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>bw</span> <span class='kw'>=</span> <span class='st'>"SJ"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_bw</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='input'>
+### Obtain tables with conditional densities
+# tables(nnb, which = 1)
 
 </div></pre>
   </div>

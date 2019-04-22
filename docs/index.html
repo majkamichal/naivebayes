@@ -78,7 +78,7 @@
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>1. Overview</h2>
 <p>The <code>naivebayes</code> package provides an efficient implementation of the popular Naïve Bayes classifier in <code>R</code>. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in <code>Base R</code>. The last implies no dependencies, however, it neither denies nor interferes with being efficient as many functions from the <code>Base R</code> distribution use highly efficient routines programmed in lower level languages, such as <code>C</code> or <code>FORTRAN</code>. In fact, the <code>naivebayes</code> package utilizes only such functions for resource-intensive calculations.</p>
-<p>Currently, the general function <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> supports following class conditional distributions:</p>
+<p>The general function <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> automatically detects the class of the feature and assumes different distribution depending on the kind of the feature and the user choices. It currently supports following class conditional distributions:</p>
 <ul>
 <li>categorical distribution for discrete features</li>
 <li>Poisson distribution for non-negative integers</li>
@@ -98,7 +98,7 @@
 <li>Non-Parametric Naive Bayes via <code><a href="reference/nonparametric_naive_bayes.html">nonparametric_naive_bayes()</a></code>
 </li>
 </ul>
-<p>Also few helper functions are provided that are supposed to improve the user experience. The <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
+<p>They will support sparse matrices in close future in order to boost the performance on the sparse data. Also few helper functions are provided that are supposed to improve the user experience. The <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">

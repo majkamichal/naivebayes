@@ -15,16 +15,18 @@ Thanks:)](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://sayth
 ## 1\. Overview
 
 The `naivebayes` package provides an efficient implementation of the
-popular Naïve Bayes classifier. It was developed and is now maintained
-based on three principles: it should be efficient, user friendly and
-written in `Base R`. The last implies no dependencies, however, it
-neither denies nor interferes with being efficient as many functions
-from the `Base R` distribution use highly efficient routines programmed
-in lower level languages, such as `C` or `FORTRAN`. In fact, the
-`naivebayes` package utilizes only such functions for resource-intensive
-calculations.
+popular Naïve Bayes classifier in `R`. It was developed and is now
+maintained based on three principles: it should be efficient, user
+friendly and written in `Base R`. The last implies no dependencies,
+however, it neither denies nor interferes with being efficient as many
+functions from the `Base R` distribution use highly efficient routines
+programmed in lower level languages, such as `C` or `FORTRAN`. In fact,
+the `naivebayes` package utilizes only such functions for
+resource-intensive calculations.
 
-Currently, the general function `naive_bayes()` supports following class
+The general function `naive_bayes()` automatically detects the class of
+the feature and assumes different distribution depending on the kind of
+the feature and the user choices. It currently supports following class
 conditional distributions:
 
   - categorical distribution for discrete features
@@ -42,9 +44,10 @@ specifically:
   - Gaussian Naive Bayes via `gaussian_naive_bayes()`
   - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
-Also few helper functions are provided that are supposed to improve the
-user experience. The `naive_bayes()` function is also available through
-the excellent `Caret` package.
+They will support sparse matrices in close future in order to boost the
+performance on the sparse data. Also few helper functions are provided
+that are supposed to improve the user experience. The `naive_bayes()`
+function is also available through the excellent `Caret` package.
 
 ## 2\. Installation
 

@@ -53,21 +53,24 @@ M <- as.matrix(iris[-5])
 nnb <- nonparametric_naive_bayes(x = M, y = y)
 head(predict(nnb, newdata = M, type = "prob"))
 
-###  Equivalent calculation with general naive_bayes function.
+###  Equivalent calculation with general naive_bayes function:
 nb <- naive_bayes(M, y, usekernel = TRUE)
 head(predict(nb, type = "prob"))
 
+### Change kernel
+nnb_kernel <- nonparametric_naive_bayes(x = M, y = y, kernel = "biweight")
+plot(nnb_kernel, 1)
+
 ### Adjust bandwidth
-nnb2 <- nonparametric_naive_bayes(x = M, y = y, adjust = 1.5)
-head(predict(nnb2, newdata = M, type = "prob"))
+nnb_adjust <- nonparametric_naive_bayes(M, y, adjust = 1.5)
+plot(nnb_adjust, 1)
+
+### Change bnandwidth selector
+nnb_bw <- nonparametric_naive_bayes(M, y, bw = "SJ")
+plot(nnb_bw, 1)
 
 ### Obtain tables with conditional densities
 # tables(nnb, which = 1)
-
-###  Visualise estimated class conditional distributions
-plot(nnb, which = "Sepal.Width")
-plot(nnb2, which = "Sepal.Width")
-
 
 }
 \author{
