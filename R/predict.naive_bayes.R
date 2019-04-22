@@ -66,7 +66,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                 if (usekernel) {
                     p <- sapply(lev, function(z) {
                         dens <- tab[[z]]
-                        stats::approx(dens$x, dens$y, xout = V, rule = 2)$y
+                        stats::approx(dens$x, dens$y, xout = V, rule = 2, ties = "ordered")$y
                     })
                     p[p <= eps] <- threshold
                     if (na[var])
@@ -90,6 +90,8 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         else {
             if (class(V) == "logical")
                 V <- as.character(V)
+            if (object$laplace == 0)
+                tab[tab <= eps] <- threshold
             tab <- log(tab)
             if (na[var]) {
                 na_ind <- which(is.na(V))
