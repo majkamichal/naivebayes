@@ -164,7 +164,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters to <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> when <code>usekernel = TRUE</code> (<code>na.rm</code> defaults to <code>TRUE</code>).</p></td>
+      <td><p>other parameters to <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> when <code>usekernel = TRUE</code> (<code>na.rm</code> defaults to <code>TRUE</code>) (for instance <code>adjust</code>, <code>kernel</code> or <code>bw</code>).</p></td>
     </tr>
     </table>
     
@@ -173,7 +173,7 @@
     <p><code>naive_bayes</code> returns an object of class <code>"naive_bayes"</code> which is a list with following components:</p>
 <dt>data</dt><dd><p>list with two components: <code>x</code> (dataframe with predictors) and <code>y</code> (class variable).</p></dd>
     <dt>levels</dt><dd><p>character vector with values of the class variable.</p></dd>
-    <dt>laplace</dt><dd><p>value of Laplace smoothing (additive smoothing).</p></dd>
+    <dt>laplace</dt><dd><p>amount of Laplace smoothing (additive smoothing).</p></dd>
     <dt>tables</dt><dd><p>list of tables. For each categorical predictor a table with class-conditional probabilities, for each integer predictor a table with Poisson mean (if <code>usepoisson = TRUE</code>) and for each metric predictor a table with a mean and standard deviation or <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> objects for each class. The object <code>tables</code> contains also an additional attribute "cond_dist" - a character vector with the names of conditional distributions assigned to each feature.</p></dd>
     <dt>prior</dt><dd><p>numeric vector with prior probabilities.</p></dd>
     <dt>usekernel</dt><dd><p>logical; <code>TRUE</code>, if the kernel density estimation was used for estimating class conditional densities of numeric variables.</p></dd>
@@ -214,11 +214,14 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>)</div><div class='img'><img src='naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>nb_kernel</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iris</span>[-<span class='fl'>5</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>iris</span>[ ,<span class='fl'>5</span>], <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>) <span class='co'># Gaussian kernel by default (see ?density)</span></div><div class='img'><img src='naive_bayes-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='no'>nb_kernel_adj2</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iris</span>[-<span class='fl'>5</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>iris</span>[ ,<span class='fl'>5</span>], <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>adjust</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel_adj2</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>nb_kernel_triangular</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>iris</span>[-<span class='fl'>5</span>], <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>iris</span>[ ,<span class='fl'>5</span>],
                                     <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='st'>"biweight"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kernel_triangular</span>,
      <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Length"</span>,
-     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Biweight kernel"</span>)))</div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='input'>
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>main</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Biweight kernel"</span>)))</div><div class='img'><img src='naive_bayes-7.png' alt='' width='700' height='433' /></div><div class='input'>
+
 
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>

@@ -77,7 +77,28 @@
 <div id="overview" class="section level2">
 <h2 class="hasAnchor">
 <a href="#overview" class="anchor"></a>1. Overview</h2>
-<p>The <code>naivebayes</code> package provides an efficient implementation of the popular Naïve Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in <code>Base R</code>. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the <code>Base R</code> distribution use highly efficient routines programmed in lower level languages, such as <code>C</code> or <code>FORTRAN</code>. In fact, the <code>naivebayes</code> package utilizes only such functions for resource-intensive calculations. Currently, <code>naivebayes</code> supports following class conditional distributions: categorical distribution for discrete features, Poisson distribution for non-negative integer (counts) features and Gaussian distribution or kernel density estimation for continuous features.</p>
+<p>The <code>naivebayes</code> package provides an efficient implementation of the popular Naïve Bayes classifier in <code>R</code>. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in <code>Base R</code>. The last implies no dependencies, however, it neither denies nor interferes with being efficient as many functions from the <code>Base R</code> distribution use highly efficient routines programmed in lower level languages, such as <code>C</code> or <code>FORTRAN</code>. In fact, the <code>naivebayes</code> package utilizes only such functions for resource-intensive calculations.</p>
+<p>Currently, the general function <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> supports following class conditional distributions:</p>
+<ul>
+<li>categorical distribution for discrete features</li>
+<li>Poisson distribution for non-negative integers</li>
+<li>Gaussian distribution for continuous features</li>
+<li>non-parametrically estimated densities via Kernel Density Estimation for continuous features</li>
+</ul>
+<p>In addition to that specialized functions are available which implement specifically:</p>
+<ul>
+<li>Bernoulli Naive Bayes via <code><a href="reference/bernoulli_naive_bayes.html">bernoulli_naive_bayes()</a></code>
+</li>
+<li>Multinomial Naive Bayes via <code><a href="reference/multinomial_naive_bayes.html">multinomial_naive_bayes()</a></code>
+</li>
+<li>Poisson Naive Bayes via <code><a href="reference/poisson_naive_bayes.html">poisson_naive_bayes()</a></code>
+</li>
+<li>Gaussian Naive Bayes via <code><a href="reference/gaussian_naive_bayes.html">gaussian_naive_bayes()</a></code>
+</li>
+<li>Non-Parametric Naive Bayes via <code><a href="reference/nonparametric_naive_bayes.html">nonparametric_naive_bayes()</a></code>
+</li>
+</ul>
+<p>Also few helper functions are provided that are supposed to improve the user experience. The <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -91,7 +112,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>3. Usage</h2>
-<p>The <code>naivebayes</code> package provides a user friendly implementation of the Naïve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. The main function <code>naive_bayes</code> can be also used within the excellent <code>Caret</code> package via <code><a href="https://www.rdocumentation.org/packages/caret/topics/train">caret::train</a></code> and <code>naive_bayes</code> method. Furthermore the <code>naive_bayes</code> function is also available in <code>nproc</code> and <code>superml</code> packages. In following the basic usage of the <code>naivebayes</code> package is demonstrated:</p>
+<p>The <code>naivebayes</code> package provides a user friendly implementation of the Naïve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they can handle them. In following the basic usage of the <code>naivebayes</code> package is demonstrated:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(iris)</a>
@@ -266,19 +287,8 @@
 <a class="sourceLine" id="cb6-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all">all</a></span>(<span class="kw"><a href="reference/get_cond_dist.html">get_cond_dist</a></span>(bnb) <span class="op">==</span><span class="st"> </span><span class="kw"><a href="reference/get_cond_dist.html">get_cond_dist</a></span>(nb))</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4"><span class="co">#&gt; [1] TRUE</span></a>
 <a class="sourceLine" id="cb6-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># Coerce the Bernoulli probability tables to a data.frame</span></a>
-<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="kw"><a href="reference/bernoulli_tables_to_df.html">bernoulli_tables_to_df</a></span>(bnb)</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt;      classA:0  classA:1  classB:0  classB:1</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; V1  0.9137931 0.0862069 0.7876712 0.2123288</span></a>
-<a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; V2  0.7413793 0.2586207 0.8424658 0.1575342</span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; V3  0.8103448 0.1896552 0.8698630 0.1301370</span></a>
-<a class="sourceLine" id="cb6-12" data-line-number="12"><span class="co">#&gt; V4  0.7413793 0.2586207 0.7739726 0.2260274</span></a>
-<a class="sourceLine" id="cb6-13" data-line-number="13"><span class="co">#&gt; V5  0.7413793 0.2586207 0.7739726 0.2260274</span></a>
-<a class="sourceLine" id="cb6-14" data-line-number="14"><span class="co">#&gt; V6  0.7413793 0.2586207 0.8013699 0.1986301</span></a>
-<a class="sourceLine" id="cb6-15" data-line-number="15"><span class="co">#&gt; V7  0.8103448 0.1896552 0.7739726 0.2260274</span></a>
-<a class="sourceLine" id="cb6-16" data-line-number="16"><span class="co">#&gt; V8  0.8448276 0.1551724 0.8013699 0.1986301</span></a>
-<a class="sourceLine" id="cb6-17" data-line-number="17"><span class="co">#&gt; V9  0.8103448 0.1896552 0.7602740 0.2397260</span></a>
-<a class="sourceLine" id="cb6-18" data-line-number="18"><span class="co">#&gt; V10 0.7068966 0.2931034 0.8150685 0.1849315</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co"># # Coerce the Bernoulli probability tables to a data.frame</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co"># bernoulli_tables_to_df(bnb)</span></a></code></pre></div>
 </div>
 <div id="gaussian-naive-bayes-gaussian_naive_bayes" class="section level4">
 <h4 class="hasAnchor">
@@ -291,97 +301,51 @@
 <a class="sourceLine" id="cb7-6" data-line-number="6"></a>
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">### Train the Gaussian Naive Bayes</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8">gnb &lt;-<span class="st"> </span><span class="kw"><a href="reference/gaussian_naive_bayes.html">gaussian_naive_bayes</a></span>(<span class="dt">x =</span> M, <span class="dt">y =</span> y)</a>
-<a class="sourceLine" id="cb7-9" data-line-number="9">gnb</a>
-<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; =========================== Gaussian Naive Bayes ============================ </span></a>
-<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt;  </span></a>
-<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt;  Call: </span></a>
-<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; gaussian_naive_bayes(x = M, y = y)</span></a>
-<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; ----------------------------------------------------------------------------- </span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">#&gt;  </span></a>
-<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt;  A priori probabilities: </span></a>
-<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; classA classB </span></a>
-<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt;   0.54   0.46 </span></a>
-<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; ----------------------------------------------------------------------------- </span></a>
-<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt;  </span></a>
-<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt;  Tables: </span></a>
-<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt;  ::: V1 (Gaussian) </span></a>
-<a class="sourceLine" id="cb7-28" data-line-number="28"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co">#&gt;         classA      classB</span></a>
-<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="co">#&gt; mu -0.15263804 -0.01306092</span></a>
-<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; sd  1.04955060  1.04174322</span></a>
-<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt;  ::: V2 (Gaussian) </span></a>
-<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt;         classA      classB</span></a>
-<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; mu -0.05483696 -0.17010761</span></a>
-<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; sd  1.23674816  0.98249083</span></a>
-<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt;  ::: V3 (Gaussian) </span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(gnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">#&gt;         classA    classB</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; [1,] 0.4858042 0.5141958</span></a>
+<a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; [2,] 0.4851806 0.5148194</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; [3,] 0.7706261 0.2293739</span></a>
+<a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; [4,] 0.6513155 0.3486845</span></a>
+<a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; [5,] 0.4770423 0.5229577</span></a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; [6,] 0.8346050 0.1653950</span></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">###  Equivalent calculation with general naive_bayes function.</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19">nb &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(M, y)</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
+<a class="sourceLine" id="cb7-21" data-line-number="21"><span class="co">#&gt;         classA    classB</span></a>
+<a class="sourceLine" id="cb7-22" data-line-number="22"><span class="co">#&gt; [1,] 0.4858042 0.5141958</span></a>
+<a class="sourceLine" id="cb7-23" data-line-number="23"><span class="co">#&gt; [2,] 0.4851806 0.5148194</span></a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"><span class="co">#&gt; [3,] 0.7706261 0.2293739</span></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">#&gt; [4,] 0.6513155 0.3486845</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="co">#&gt; [5,] 0.4770423 0.5229577</span></a>
+<a class="sourceLine" id="cb7-27" data-line-number="27"><span class="co">#&gt; [6,] 0.8346050 0.1653950</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb7-29" data-line-number="29"><span class="co"># Obtain probability tables</span></a>
+<a class="sourceLine" id="cb7-30" data-line-number="30"><span class="kw"><a href="reference/tables.html">tables</a></span>(gnb, <span class="dt">which =</span> <span class="st">"V1"</span>)</a>
+<a class="sourceLine" id="cb7-31" data-line-number="31"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-32" data-line-number="32"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
+<a class="sourceLine" id="cb7-33" data-line-number="33"><span class="co">#&gt;  ::: V1 (Gaussian) </span></a>
+<a class="sourceLine" id="cb7-34" data-line-number="34"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
+<a class="sourceLine" id="cb7-35" data-line-number="35"><span class="co">#&gt;         classA      classB</span></a>
+<a class="sourceLine" id="cb7-36" data-line-number="36"><span class="co">#&gt; mu -0.15263804 -0.01306092</span></a>
+<a class="sourceLine" id="cb7-37" data-line-number="37"><span class="co">#&gt; sd  1.04955060  1.04174322</span></a>
+<a class="sourceLine" id="cb7-38" data-line-number="38"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-39" data-line-number="39"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb7-40" data-line-number="40"><span class="kw"><a href="reference/tables.html">tables</a></span>(nb, <span class="st">"V1"</span>)</a>
+<a class="sourceLine" id="cb7-41" data-line-number="41"><span class="co">#&gt; </span></a>
 <a class="sourceLine" id="cb7-42" data-line-number="42"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt;         classA      classB</span></a>
-<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt; mu -0.04642050  0.07540914</span></a>
-<a class="sourceLine" id="cb7-45" data-line-number="45"><span class="co">#&gt; sd  1.16215692  1.12575981</span></a>
-<a class="sourceLine" id="cb7-46" data-line-number="46"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co">#&gt;  ::: V4 (Gaussian) </span></a>
-<a class="sourceLine" id="cb7-49" data-line-number="49"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-50" data-line-number="50"><span class="co">#&gt;         classA      classB</span></a>
-<a class="sourceLine" id="cb7-51" data-line-number="51"><span class="co">#&gt; mu 0.007807965 0.097672438</span></a>
-<a class="sourceLine" id="cb7-52" data-line-number="52"><span class="co">#&gt; sd 1.015502086 0.954379232</span></a>
-<a class="sourceLine" id="cb7-53" data-line-number="53"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-54" data-line-number="54"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb7-55" data-line-number="55"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(gnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
-<a class="sourceLine" id="cb7-56" data-line-number="56"><span class="co">#&gt;         classA    classB</span></a>
-<a class="sourceLine" id="cb7-57" data-line-number="57"><span class="co">#&gt; [1,] 0.4858042 0.5141958</span></a>
-<a class="sourceLine" id="cb7-58" data-line-number="58"><span class="co">#&gt; [2,] 0.4851806 0.5148194</span></a>
-<a class="sourceLine" id="cb7-59" data-line-number="59"><span class="co">#&gt; [3,] 0.7706261 0.2293739</span></a>
-<a class="sourceLine" id="cb7-60" data-line-number="60"><span class="co">#&gt; [4,] 0.6513155 0.3486845</span></a>
-<a class="sourceLine" id="cb7-61" data-line-number="61"><span class="co">#&gt; [5,] 0.4770423 0.5229577</span></a>
-<a class="sourceLine" id="cb7-62" data-line-number="62"><span class="co">#&gt; [6,] 0.8346050 0.1653950</span></a>
-<a class="sourceLine" id="cb7-63" data-line-number="63"></a>
-<a class="sourceLine" id="cb7-64" data-line-number="64"><span class="co">###  Equivalent calculation with general naive_bayes function.</span></a>
-<a class="sourceLine" id="cb7-65" data-line-number="65">nb &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(M, y)</a>
-<a class="sourceLine" id="cb7-66" data-line-number="66"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
-<a class="sourceLine" id="cb7-67" data-line-number="67"><span class="co">#&gt;         classA    classB</span></a>
-<a class="sourceLine" id="cb7-68" data-line-number="68"><span class="co">#&gt; [1,] 0.4858042 0.5141958</span></a>
-<a class="sourceLine" id="cb7-69" data-line-number="69"><span class="co">#&gt; [2,] 0.4851806 0.5148194</span></a>
-<a class="sourceLine" id="cb7-70" data-line-number="70"><span class="co">#&gt; [3,] 0.7706261 0.2293739</span></a>
-<a class="sourceLine" id="cb7-71" data-line-number="71"><span class="co">#&gt; [4,] 0.6513155 0.3486845</span></a>
-<a class="sourceLine" id="cb7-72" data-line-number="72"><span class="co">#&gt; [5,] 0.4770423 0.5229577</span></a>
-<a class="sourceLine" id="cb7-73" data-line-number="73"><span class="co">#&gt; [6,] 0.8346050 0.1653950</span></a>
-<a class="sourceLine" id="cb7-74" data-line-number="74"></a>
-<a class="sourceLine" id="cb7-75" data-line-number="75"><span class="co"># Obtain probability tables</span></a>
-<a class="sourceLine" id="cb7-76" data-line-number="76"><span class="kw"><a href="reference/tables.html">tables</a></span>(gnb, <span class="dt">which =</span> <span class="st">"V1"</span>)</a>
-<a class="sourceLine" id="cb7-77" data-line-number="77"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-78" data-line-number="78"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-79" data-line-number="79"><span class="co">#&gt;  ::: V1 (Gaussian) </span></a>
-<a class="sourceLine" id="cb7-80" data-line-number="80"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-81" data-line-number="81"><span class="co">#&gt;         classA      classB</span></a>
-<a class="sourceLine" id="cb7-82" data-line-number="82"><span class="co">#&gt; mu -0.15263804 -0.01306092</span></a>
-<a class="sourceLine" id="cb7-83" data-line-number="83"><span class="co">#&gt; sd  1.04955060  1.04174322</span></a>
-<a class="sourceLine" id="cb7-84" data-line-number="84"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-85" data-line-number="85"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb7-86" data-line-number="86"><span class="kw"><a href="reference/tables.html">tables</a></span>(nb, <span class="st">"V1"</span>)</a>
-<a class="sourceLine" id="cb7-87" data-line-number="87"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-88" data-line-number="88"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-89" data-line-number="89"><span class="co">#&gt;  ::: V1 (Gaussian) </span></a>
-<a class="sourceLine" id="cb7-90" data-line-number="90"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
-<a class="sourceLine" id="cb7-91" data-line-number="91"><span class="co">#&gt;       </span></a>
-<a class="sourceLine" id="cb7-92" data-line-number="92"><span class="co">#&gt; V1          classA      classB</span></a>
-<a class="sourceLine" id="cb7-93" data-line-number="93"><span class="co">#&gt;   mean -0.15263804 -0.01306092</span></a>
-<a class="sourceLine" id="cb7-94" data-line-number="94"><span class="co">#&gt;   sd    1.04955060  1.04174322</span></a>
-<a class="sourceLine" id="cb7-95" data-line-number="95"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb7-96" data-line-number="96"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
-<a class="sourceLine" id="cb7-97" data-line-number="97"></a>
-<a class="sourceLine" id="cb7-98" data-line-number="98"><span class="co"># Visualise class conditional Gaussian distributions</span></a>
-<a class="sourceLine" id="cb7-99" data-line-number="99"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(gnb, <span class="dt">which =</span> <span class="st">"V1"</span>)</a></code></pre></div>
+<a class="sourceLine" id="cb7-43" data-line-number="43"><span class="co">#&gt;  ::: V1 (Gaussian) </span></a>
+<a class="sourceLine" id="cb7-44" data-line-number="44"><span class="co">#&gt; ------------------------------------------------------------------------------ </span></a>
+<a class="sourceLine" id="cb7-45" data-line-number="45"><span class="co">#&gt;       </span></a>
+<a class="sourceLine" id="cb7-46" data-line-number="46"><span class="co">#&gt; V1          classA      classB</span></a>
+<a class="sourceLine" id="cb7-47" data-line-number="47"><span class="co">#&gt;   mean -0.15263804 -0.01306092</span></a>
+<a class="sourceLine" id="cb7-48" data-line-number="48"><span class="co">#&gt;   sd    1.04955060  1.04174322</span></a>
+<a class="sourceLine" id="cb7-49" data-line-number="49"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb7-50" data-line-number="50"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
+<a class="sourceLine" id="cb7-51" data-line-number="51"></a>
+<a class="sourceLine" id="cb7-52" data-line-number="52"><span class="co"># Visualise class conditional Gaussian distributions</span></a>
+<a class="sourceLine" id="cb7-53" data-line-number="53"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(gnb, <span class="dt">which =</span> <span class="st">"V1"</span>)</a></code></pre></div>
 <p><img src="../../Master%20Statistics/naivebayes/man/figures/unnamed-chunk-3-1.png" width="700"></p>
 </div>
 </div>

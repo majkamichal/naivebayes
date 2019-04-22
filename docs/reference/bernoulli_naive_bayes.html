@@ -139,10 +139,10 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>bernoulli_naive_bayes</code> returns an object of class <code>"bernoulli_naive_bayes"</code> which is a list with following components:</p>
+    <p><code>bernoulli_naive_bayes</code> returns an object of class "bernoulli_naive_bayes" which is a list with following components:</p>
 <dt>data</dt><dd><p>list with two components: <code>x</code> (matrix with predictors) and <code>y</code> (class variable).</p></dd>
     <dt>levels</dt><dd><p>character vector with values of the class variable.</p></dd>
-    <dt>laplace</dt><dd><p>value of Laplace smoothing (additive smoothing).</p></dd>
+    <dt>laplace</dt><dd><p>amount of Laplace smoothing (additive smoothing).</p></dd>
     <dt>prob1</dt><dd><p>matrix with class conditional probabilities for the value 1. Based on this matrix full probability tables can be constructed. Please, see <code><a href='tables.html'>tables</a></code> and <code><a href='bernoulli_tables_to_df.html'>bernoulli_tables_to_df</a></code>.</p></dd>
     <dt>prior</dt><dd><p>numeric vector with prior probabilities.</p></dd>
     <dt>call</dt><dd><p>the call that produced this object.</p></dd>
@@ -154,7 +154,7 @@
     <p>This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.</p>
 <p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra as well as vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
 <p>The <code>bernoulli_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.</p>
-<p>The missing values are omited while constructing the probability tables. The NAs in the newdata in <code>predict.bernoulli_naive_bayes</code> compared to the <code>predict.naive_bayes</code> are currently not handled.</p>
+<p>The missing values (NAs) are omited while constructing the probability tables. The NAs in the newdata in <code>predict.gaussian_naive_bayes</code> are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -177,6 +177,10 @@
 #&gt;  
 #&gt;  Call: 
 #&gt; bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  
+#&gt; Laplace smoothing: 0.5
 #&gt; 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;  

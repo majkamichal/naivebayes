@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predict Method for gaussian_naive_bayes Objects — predict.gaussian_naive_bayes • naivebayes</title>
+<title>Predict Method for nonparametric_naive_bayes Objects — predict.nonparametric_naive_bayes • naivebayes</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Predict Method for gaussian_naive_bayes Objects — predict.gaussian_naive_bayes" />
+<meta property="og:title" content="Predict Method for nonparametric_naive_bayes Objects — predict.nonparametric_naive_bayes" />
 
-<meta property="og:description" content="Classification based on the Gaussian Naive Bayes model." />
+<meta property="og:description" content="Classification based on the Non-Parametric Naive Bayes model." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,18 +99,18 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predict Method for gaussian_naive_bayes Objects</h1>
+    <h1>Predict Method for nonparametric_naive_bayes Objects</h1>
     
-    <div class="hidden name"><code>predict.gaussian_naive_bayes.Rd</code></div>
+    <div class="hidden name"><code>predict.nonparametric_naive_bayes.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Classification based on the Gaussian Naive Bayes model.</p>
+    <p>Classification based on the Non-Parametric Naive Bayes model.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for gaussian_naive_bayes</span>
+    <pre class="usage"><span class='co'># S3 method for nonparametric_naive_bayes</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>object</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"class"</span>,<span class='st'>"prob"</span>),
   <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>0.001</span>, <span class='kw'>eps</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
     
@@ -119,7 +119,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>object of class inheriting from <code>"gaussian_naive_bayes"</code>.</p></td>
+      <td><p>object of class inheriting from <code>"nonparametric_naive_bayes"</code>.</p></td>
     </tr>
     <tr>
       <th>newdata</th>
@@ -145,20 +145,23 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>predict.gaussian_naive_bayes</code> returns either a factor with class labels corresponding to the maximal conditional posterior probabilities or a matrix with class label specific conditional posterior probabilities.</p>
+    <p><code>predict.nonparametric_naive_bayes</code> returns either a factor with class labels corresponding to the maximal conditional posterior probabilities or a matrix with class label specific conditional posterior probabilities.</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p>This is a specialized version of the Naive Bayes classifier, in which all features take on real values and class conditional probabilities are modelled with the Gaussian distribution.</p>
-<p>Class posterior probabilities are calculated using the Bayes' rule under the assumption of independence of predictors. If no <code>newdata</code> is provided, the data from the object is used.</p>
-<p>The Gaussian Naive Bayes is available in both, <code>naive_bayes</code> and <code>gaussian_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric matrix and performing the linear algebra as well vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
-<p>The NAs in the newdata are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
-<p>The <code>gaussian_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function with the numeric matrix or a data.frame containing only numeric variables.</p>
+    <p>This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are non-parametrically estimated with kernel density estimator. By default Gaussian kernel is used and the smoothing bandwidth is selected according to the Silverman's 'rule of thumb'. For more details, please see the references and the documentation of <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> and <code><a href='https://www.rdocumentation.org/packages/stats/topics/bandwidth'>bw.nrd0</a></code>.</p>
+<p>The Non-Parametric Naive Bayes is available in both, <code><a href='naive_bayes.html'>naive_bayes()</a></code> and <code><a href='nonparametric_naive_bayes.html'>nonparametric_naive_bayes()</a></code>. This specialized implementation of the Naive Bayes does not provide a substantial speed-up over the general <code><a href='naive_bayes.html'>naive_bayes()</a></code> function but it should be more transparent and user friendly.</p>
+<p>The <code>nonparametric_naive_bayes</code> function is equivalent to <code><a href='naive_bayes.html'>naive_bayes()</a></code> when the numeric matrix or a data.frame contains only numeric variables and <code>usekernel = TRUE</code>.</p>
+<p>The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in <code>predict.nonparametric_naive_bayes()</code> are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
+    
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Silverman, B. W. (1986). Density Estimation for Statistics and Data Analysis. Chapman &amp; Hall.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='bernoulli_tables_to_df.html'>bernoulli_tables_to_df</a></code></p></div>
+    <div class='dont-index'><p><code><a href='nonparametric_naive_bayes.html'>nonparametric_naive_bayes</a></code>, <code><a href='plot.nonparametric_naive_bayes.html'>plot.nonparametric_naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='naive_bayes.html'>naive_bayes</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -167,20 +170,15 @@
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span><span class='kw'>[[</span><span class='fl'>5</span>]]
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>iris</span>[-<span class='fl'>5</span>])
 
-<span class='co'>### Train the Gaussian Naive Bayes</span>
-<span class='no'>gnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='gaussian_naive_bayes.html'>gaussian_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)
+<span class='co'>### Train the Non-Parametric Naive Bayes</span>
+<span class='no'>nnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nonparametric_naive_bayes.html'>nonparametric_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)
 
 <span class='co'>### Classification</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
 #&gt; Levels: setosa versicolor virginica</div><div class='input'>
 <span class='co'>### Posterior probabilities</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
-#&gt; [1,]      1 2.981309e-18 2.152373e-25
-#&gt; [2,]      1 3.169312e-17 6.938030e-25
-#&gt; [3,]      1 2.367113e-18 7.240956e-26
-#&gt; [4,]      1 3.069606e-17 8.690636e-25
-#&gt; [5,]      1 1.017337e-18 8.885794e-26
-#&gt; [6,]      1 2.717732e-14 4.344285e-21</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
+#&gt; Levels: setosa versicolor virginica</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -191,6 +189,8 @@
       <li><a href="#value">Value</a></li>
 
       <li><a href="#details">Details</a></li>
+
+      <li><a href="#references">References</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
