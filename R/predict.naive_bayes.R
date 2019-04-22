@@ -96,11 +96,11 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             if (na[var]) {
                 na_ind <- which(is.na(V))
                 V[na_ind] <- attributes(tab)$dimnames[[1]][1]
-                p <- tab[V, ]
+                logp <- tab[V, ]
                 if (n_obs == 1)
-                    p <- 0
-                else p[na_ind, ] <- 0
-                log_sum <- log_sum + p
+                    logp <- 0
+                else logp[na_ind, ] <- 0
+                log_sum <- log_sum + logp
             }
             else {
                 log_sum <- log_sum + tab[V, ]
