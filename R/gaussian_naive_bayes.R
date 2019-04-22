@@ -16,7 +16,7 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
                     "       in both train and test datasets."), call. = FALSE)
     }
     if (class(x) != "matrix") {
-        stop("gaussiam_naive_bayes(): x has to be a numeric matrix. ", call. = FALSE)
+        stop("gaussian_naive_bayes(): x has to be a numeric matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
             stop("gaussian_naive_bayes(): x has to contain numeric columns.", call. = FALSE)
@@ -220,6 +220,7 @@ plot.gaussian_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRU
     class(x) <- "naive_bayes"
     x$data$x <- as.data.frame(x$data$x)
     x$usekernel <- FALSE
+    x$usepoisson <- FALSE
     plot.naive_bayes(x, which = which, ask = ask, legend = legend, legend.box = legend.box,
          arg.num = arg.num, ...)
 }
