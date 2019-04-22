@@ -16,6 +16,13 @@ tables <- function (object, which = NULL) {
     if (is.null(cond_dist))
         cond_dist <- recognize_cond_dist(tabs)
 
+    if (is.numeric(which)) {
+        len_x <- length(vars)
+        if (any(which > len_x))
+            stop(paste0("tables(): There ", ifelse(len_x == 1, "is", "are"), " only ", len_x,
+                        ifelse(len_x == 1, " table.", " \"naive_bayes\" tables.")), call. = FALSE)
+    }
+
     if (is.character(which) && !all(which %in% vars))
         stop("tables(): At least one variable is not available")
 
@@ -38,7 +45,6 @@ tables <- function (object, which = NULL) {
         res <- tabs[v, ,drop = FALSE]
         return(res)
     }
-
     res <- tabs[v]
     attr(res, "cond_dist") <- cond_dist[v]
     res
@@ -57,7 +63,7 @@ get_tables <- function(object) {
            "gaussian_naive_bayes"      = get_gaussian_tables(object$params),
            "poisson_naive_bayes"       = get_poisson_tables(object$params),
            "multinomial_naive_bayes"   = get_multinomial_tables(object$params),
-           "nonparametric_naive_bayes" = object$dens
+           "nonparametric_naive_bayes" = object$dens,
     )
 }
 
