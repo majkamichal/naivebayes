@@ -52,15 +52,14 @@ get_tables <- function(object) {
                     " objects."), call. = FALSE)
     }
     switch(model,
-           "naive_bayes" = object$tables,
-           "bernoulli_naive_bayes" = get_bernoulli_tables(object$prob1),
-           "gaussian_naive_bayes" = get_gaussian_tables(object$params),
-           "poisson_naive_bayes" = get_poisson_tables(object$params),
-           "multinomial_naive_bayes" = get_multinomial_tables(object$params),
-           # "nonparametric_naive_bayes" = get_nonparametric_tables(object$dens)
+           "naive_bayes"               = object$tables,
+           "bernoulli_naive_bayes"     = get_bernoulli_tables(object$prob1),
+           "gaussian_naive_bayes"      = get_gaussian_tables(object$params),
+           "poisson_naive_bayes"       = get_poisson_tables(object$params),
+           "multinomial_naive_bayes"   = get_multinomial_tables(object$params),
+           "nonparametric_naive_bayes" = object$dens
     )
 }
-
 
 get_bernoulli_tables <- function(prob1) {
     if (!is.matrix(prob1))
