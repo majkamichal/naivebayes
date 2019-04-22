@@ -18,15 +18,33 @@ The `naivebayes` package provides an efficient implementation of the
 popular Naïve Bayes classifier. It was developed and is now maintained
 based on three principles: it should be efficient, user friendly and
 written in `Base R`. The last implies no dependencies, however, it
-neither denies nor interferes with the first as many functions from the
-`Base R` distribution use highly efficient routines programmed in lower
-level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes`
-package utilizes only such functions for resource-intensive
-calculations. Currently, `naivebayes` supports following class
-conditional distributions: categorical distribution for discrete
-features, Poisson distribution for non-negative integer (counts)
-features and Gaussian distribution or kernel density estimation for
-continuous features.
+neither denies nor interferes with being efficient as many functions
+from the `Base R` distribution use highly efficient routines programmed
+in lower level languages, such as `C` or `FORTRAN`. In fact, the
+`naivebayes` package utilizes only such functions for resource-intensive
+calculations.
+
+Currently, the general function `naive_bayes()` supports following class
+conditional distributions:
+
+  - categorical distribution for discrete features
+  - Poisson distribution for non-negative integers
+  - Gaussian distribution for continuous features
+  - non-parametrically estimated densities via Kernel Density Estimation
+    for continuous features
+
+In addition to that specialized functions are available which implement
+specifically:
+
+  - Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
+  - Multinomial Naive Bayes via `multinomial_naive_bayes()`
+  - Poisson Naive Bayes via `poisson_naive_bayes()`
+  - Gaussian Naive Bayes via `gaussian_naive_bayes()`
+  - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
+
+Also few helper functions are provided that are supposed to improve the
+user experience. The `naive_bayes()` function is also available through
+the excellent `Caret` package.
 
 ## 2\. Installation
 
@@ -46,11 +64,9 @@ devtools::install_github("majkamichal/naivebayes")
 The `naivebayes` package provides a user friendly implementation of the
 Naïve Bayes algorithm via formula interace and classical combination of
 the matrix/data.frame containing the features and a vector with the
-class labels. The main function `naive_bayes` can be also used within
-the excellent `Caret` package via `caret::train` and `naive_bayes`
-method. Furthermore the `naive_bayes` function is also available in
-`nproc` and `superml` packages. In following the basic usage of the
-`naivebayes` package is demonstrated:
+class labels. All functions can recognize missing values, give an
+informative warning and more importantly - they can handle them. In
+following the basic usage of the `naivebayes` package is demonstrated:
 
 ``` r
 library(naivebayes)
@@ -404,6 +420,7 @@ Please find more information about the `nproc` package under:
 ``` r
 library(nproc)
 library(naivebayes)
+#> naivebayes 0.9.6 loaded
 
 # Simulate data
 set.seed(2550)
