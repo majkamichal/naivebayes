@@ -62,19 +62,21 @@ poisson_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         if (any(n < 1)) {
             warning(paste0("poisson_naive_bayes(): x has to contain at least one ",
                            "non-missing observation per class for estimation process.",
-                           " Infinite lambdas are present."), call. = FALSE)
+                           " Zero lambdas are present."), call. = FALSE)
         }
         lambda <- (rowsum(x, y, na.rm = TRUE) + laplace) / n
     }
     if (any(lambda == 0)) {
         ind_zero <- which(lambda == 0, arr.ind = TRUE)
-        ind_var <- unique(vars[sort(ind_zero[ ,2])])
+        nzero <- nrow(ind_zero)
         if (!NAx)
-            lambda[ind_zero] <-  1 / rowsum((!na_x_bool) * 1, y, na.rm = TRUE)[ind_zero]
+            lambda[ind_zero] <-  1 / rowsum((!is.na(x)) * 1, y, na.rm = TRUE)[ind_zero]
         else
             lambda[ind_zero] <- 1 / n[ind_zero]
-        warning(paste0("poisson_naive_bayes(): Feature ", paste0(ind_var, collapse = ", "),
-                       " - zero estimates are present. Adding one pseudo-count to each 0 feature/class cell (uniform prior). Consider Laplace smoothing."), call. = FALSE)
+        warning(paste0("poisson_naive_bayes(): Zero estimates are present.",
+        " Adding one pseudo-count to each empty feature/class cell.",
+        " This applies to ", nzero, ifelse(nzero == 1, " empty cell.", " empty cells."),
+        " Consider Laplace smoothing."), call. = FALSE)
     }
     structure(list(data = list(x = x, y = y), levels = levels,
                    laplace = laplace, params = t(lambda), prior = prior,
