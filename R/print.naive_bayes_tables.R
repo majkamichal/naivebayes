@@ -96,6 +96,9 @@ get_cond_dist <- function(object) {
     } else  if (class(object) == "poisson_naive_bayes") {
         vars <- rownames(object$params)
         cond_dist <- stats::setNames(rep("Poisson", length(vars)), vars)
+    } else  if (class(object) == "multinomial_naive_bayes") {
+        vars <- rownames(object$params)
+        cond_dist <- stats::setNames(rep("Multinomial", length(vars)), vars)
     } else {
         stop(paste0("get_cond_dist() expects ", paste0(models(), collapse = ", "),
                     ", naive_bayes_tables objects."), call. = FALSE)

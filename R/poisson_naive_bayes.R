@@ -138,14 +138,17 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
                        "Calculation is performed based on features to be found in the tables."), call. = FALSE)
         newdata <- newdata[ ,features]
     }
-    ind_na <- which(is.na(newdata))
-    len_na <- length(ind_na)
-    if (len_na > 0)
-        warning(paste0("predict.poisson_naive_bayes(): ", len_na, " missing",
-                       ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
-                       ifelse(len_na == 1, "It is", "They are"),
-                       " not included into the calculation."), call. = FALSE)
 
+    NAx <- anyNA(newdata)
+    if (NAx) {
+        ind_na <- which(is.na(newdata))
+        len_na <- length(ind_na)
+        if (len_na > 0)
+            warning(paste0("predict.poisson_naive_bayes(): ", len_na, " missing",
+                           ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
+                           ifelse(len_na == 1, "It is", "They are"),
+                           " not included into the calculation."), call. = FALSE)
+    }
     eps <- ifelse(eps == 0, log(.Machine$double.xmin), log(eps))
     threshold <- log(threshold)
 
@@ -153,7 +156,7 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
     for (ith_class in seq_along(lev)) {
         ith_class_lambda <- lambda[ ,ith_class]
         ith_post <- -ith_class_lambda + newdata * log(ith_class_lambda) - lgamma(newdata + 1)
-        ith_post[ind_na] <- 0
+        if (NAx) ith_post[ind_na] <- 0
         ith_post[ith_post <= eps] <- threshold
         post[ ,ith_class] <- colSums(ith_post) + log(prior[ith_class])
     }
@@ -191,6 +194,10 @@ print.poisson_naive_bayes <- function (x, ...) {
     cat("\n")
     cat(str_full, "\n", "\n", "Call:", "\n")
     print(x$call)
+    cat("\n")
+    cat(l, "\n", "\n")
+    cat( "Laplace smoothing:", x$laplace)
+    cat("\n")
     cat("\n")
     cat(l, "\n", "\n")
     cat(" A priori probabilities:", "\n")

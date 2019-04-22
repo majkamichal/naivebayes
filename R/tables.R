@@ -9,7 +9,9 @@ tables <- function (object, which = NULL) {
 
     tabs <- get_tables(object)
     cond_dist <- get_cond_dist(object)
-    vars <- names(tabs)
+    vars <- if (obj_class == "multinomial_naive_bayes"){
+        rownames(tabs)
+    } else { names(tabs) }
 
     if (is.null(cond_dist))
         cond_dist <- recognize_cond_dist(tabs)
@@ -32,11 +34,15 @@ tables <- function (object, which = NULL) {
     if (is.character(which))
         v <- vars[vars %in% which]
 
+    if (obj_class == "multinomial_naive_bayes") {
+        res <- tabs[v, ,drop = FALSE]
+        return(res)
+    }
+
     res <- tabs[v]
     attr(res, "cond_dist") <- cond_dist[v]
     res
 }
-
 
 get_tables <- function(object) {
     model <- class(object)
@@ -49,8 +55,8 @@ get_tables <- function(object) {
            "naive_bayes" = object$tables,
            "bernoulli_naive_bayes" = get_bernoulli_tables(object$prob1),
            "gaussian_naive_bayes" = get_gaussian_tables(object$params),
-           "poisson_naive_bayes" = get_poisson_tables(object$params)
-           # "multinomial_naive_bayes" = get_multinomial_tables(object$probs),
+           "poisson_naive_bayes" = get_poisson_tables(object$params),
+           "multinomial_naive_bayes" = get_multinomial_tables(object$params),
            # "nonparametric_naive_bayes" = get_nonparametric_tables(object$dens)
     )
 }
@@ -110,4 +116,13 @@ get_poisson_tables <- function(params) {
     class(tables) <- "naive_bayes_tables"
     attr(tables, "cond_dist") <- stats::setNames(rep("Poisson", n_tables), vars)
     tables
+}
+
+get_multinomial_tables <- function(params) {
+    if (!is.matrix(params))
+        stop("get_multinomial_tables(): params has to be a matrix with parameter estimates.", call. = FALSE)
+    vars <- rownames(params)
+    n_tables <- length(vars)
+    attr(params, "cond_dist") <- stats::setNames(rep("Multinomial", n_tables), vars)
+    params
 }
