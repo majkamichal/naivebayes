@@ -8,7 +8,8 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
     nlev <- nlevels(y)
     vars <- colnames(x)
     if (nlev < 2)
-        warning("gaussian_naive_bayes(): y has less than two classes. ", call. = FALSE)
+        warning("gaussian_naive_bayes(): y has less than two classes. ",
+                call. = FALSE)
     if (is.null(vars)) {
         xname <- deparse(substitute(x))
         stop(paste0("gaussian_naive_bayes(): Column names in the matrix x are required.\n",
@@ -16,10 +17,12 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
                     "       in both train and test datasets."), call. = FALSE)
     }
     if (class(x) != "matrix") {
-        stop("gaussian_naive_bayes(): x has to be a numeric matrix. ", call. = FALSE)
+        stop("gaussian_naive_bayes(): x has to be a numeric matrix. ",
+             call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("gaussian_naive_bayes(): x has to contain numeric columns.", call. = FALSE)
+            stop("gaussian_naive_bayes(): x has to contain numeric columns.",
+                 call. = FALSE)
     }
     NAy <- anyNA(y)
     NAx <- anyNA(x)
@@ -29,7 +32,9 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
         warning(paste0("gaussian_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+                       " not included (together with the corresponding instances in x) ",
+                       " into the estimation process."),
+                call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
     }
@@ -44,7 +49,8 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 2
     if (any(y_min))
-        stop(paste0("gaussian_naive_bayes(): y variable has to contain at least two observations per class for estimation process.",
+        stop(paste0("gaussian_naive_bayes(): y variable has to contain at least ",
+                    "two observations per class for estimation process.",
                     " Class ", paste0(levels[y_min], collapse =  ", "),
                     " has less than 2 observations."), call. = FALSE)
     if (is.null(prior)) {

@@ -29,7 +29,8 @@ nonparametric_naive_bayes <- function (x, y, prior = NULL, ...)  {
         warning(paste0("nonparametric_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+                       " not included (together with the corresponding instances in x) ",
+                       "into the estimation process."), call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
     }

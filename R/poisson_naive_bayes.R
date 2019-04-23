@@ -62,7 +62,7 @@ poisson_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         if (any(n < 1)) {
             warning(paste0("poisson_naive_bayes(): x has to contain at least one ",
                            "non-missing observation per class for estimation process.",
-                           " Zero lambdas are present."), call. = FALSE)
+                           " Infinite lambdas are present."), call. = FALSE)
         }
         lambda <- (rowsum(x, y, na.rm = TRUE) + laplace) / n
     }
@@ -116,28 +116,33 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
             warning(paste0("predict.poisson_naive_bayes(): ",
                            "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
-                           "Classification is done based on the prior probabilities"), call. = FALSE)
+                           "Classification is done based on the prior probabilities"),
+                    call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         } else {
             warning(paste0("predict.poisson_naive_bayes(): ",
                            "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
-                           "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
+                           "Posterior probabilities are equal to prior probabilities."),
+                    call. = FALSE)
             return(matrix(prior, ncol = n_lev, nrow = n_obs,
                           byrow = TRUE, dimnames = list(NULL, lev)))
         }
     }
     if (n_features < n_tables) {
-        warning(paste0("predict.poisson_naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
+        warning(paste0("predict.poisson_naive_bayes(): Only ", n_features,
+                       " feature(s) out of ", n_tables,
                        " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction\n"), call. = FALSE)
+                       "\" are used for prediction\n"),
+                call. = FALSE)
     }
     if (n_features_newdata > n_features) {
         warning(paste0("predict.poisson_naive_bayes(): ",
                        "More features in the newdata are provided ",
                        "as there are probability tables in the object. ",
-                       "Calculation is performed based on features to be found in the tables."), call. = FALSE)
+                       "Calculation is performed based on features to be found in the tables."),
+                call. = FALSE)
         newdata <- newdata[ ,features]
     }
 

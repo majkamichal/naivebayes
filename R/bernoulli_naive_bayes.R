@@ -34,7 +34,8 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         warning(paste0("bernoulli_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+                       " not included (together with the corresponding instances in x) ",
+                       "into the estimation process."), call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
     }
@@ -49,7 +50,8 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 1
     if (any(y_min))
-        stop(paste0("bernoulli_naive_bayes(): y variable has to contain at least one observation per class for estimation process.",
+        stop(paste0("bernoulli_naive_bayes(): y variable has to contain at least ",
+                    "one observation per class for estimation process.",
                     " Class ", paste0(levels[y_min], collapse =  ", "),
                     " has less than 1 observation."), call. = FALSE)
     if (is.null(prior)) {
@@ -71,9 +73,11 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         prob1 <- t((rowsum(x, y, na.rm = TRUE) + laplace) /  (n + laplace * 2))
     }
     if (any(prob1 == 0)) {
-        ind_var <- unique(vars[sort(which(prob1 == 0, arr.ind = TRUE)[ ,1])])
-        warning(paste0("bernoulli_naive_bayes(): Feature ", paste0(ind_var, collapse = ", "),
-                       " - zero probabilities are present. Consider Laplace smoothing."), call. = FALSE)
+        nempty <- length(which(prob1 == 0, arr.ind = TRUE)[ ,1])
+        warning(paste0("multinomial_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
+                       nempty, " empty ", ifelse(nempty == 1, "cell ", "cells "),
+                       "leading to zero estimates. Consider Laplace smoothing."), call. = FALSE)
+
     }
     structure(list(data = list(x = x, y = y), levels = levels,
                    laplace = laplace, prob1 = prob1, prior = prior,
@@ -105,14 +109,16 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
             warning(paste0("predict.bernoulli_naive_bayes(): ",
                            "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
-                           "Classification is done based on the prior probabilities"), call. = FALSE)
+                           "Classification is done based on the prior probabilities"),
+                    call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         } else {
             warning(paste0("predict.bernoulli_naive_bayes(): ",
                            "No feature in the newdata correspond to ",
                            "probability tables in the object. ",
-                           "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
+                           "Posterior probabilities are equal to prior probabilities."),
+                    call. = FALSE)
             return(matrix(prior, ncol = n_lev, nrow = n_obs,
                           byrow = TRUE, dimnames = list(NULL, lev)))
         }
@@ -126,7 +132,8 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         warning(paste0("predict.bernoulli_naive_bayes(): ",
                        "More features in the newdata are provided ",
                        "as there are probability tables in the object. ",
-                       "Calculation is performed based on features to be found in the tables."), call. = FALSE)
+                       "Calculation is performed based on features to be found in the tables."),
+                call. = FALSE)
         newdata <- newdata[ ,features]
     }
     if (object$laplace == 0) {

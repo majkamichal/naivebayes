@@ -29,7 +29,8 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         warning(paste0("multinomial_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) into the estimation process."), call. = FALSE)
+                       " not included (together with the corresponding instances in x) ",
+                       "into the estimation process."), call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
     }
@@ -38,11 +39,14 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         len_nax <- sum(na_x_bool)
         warning(paste0("multinomial_naive_bayes(): x contains ", len_nax, " missing",
                        ifelse(len_nax == 1, " value", " values"), ". ",
-                       "Missing values in x are currently not handled in this function"), call. = FALSE)
+                       "They are not included into the estimation process."),
+                call. = FALSE)
     }
     y_counts <- tabulate(y)
     if (any(y_counts == 0))
-        stop("multinomial_naive_bayes(): y variable has to contain at least one observation per class for estimation process.", call. = FALSE)
+        stop(paste0("multinomial_naive_bayes(): y variable has to contain",
+                    " at least one observation per class for estimation process."),
+                    call. = FALSE)
     y_counts <- stats::setNames(y_counts, levels)
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
@@ -58,9 +62,10 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
 
     if (any(params == 0)) {
         ind_zero <- which(params == 0, arr.ind = TRUE)
-        ind_var <- unique(vars[sort(ind_zero[ ,2])])
-        warning(paste0("multinomial_naive_bayes(): Feature ", paste0(ind_var, collapse = ", "),
-                       " - zero estimates are present. Consider Laplace smoothing."), call. = FALSE)
+        nempty <- length(ind_zero[ ,2])
+        warning(paste0("multinomial_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
+                       nempty, " empty ", ifelse(nempty == 1, "cell ", "cells "),
+                       "leading to zero estimates. Consider Laplace smoothing."), call. = FALSE)
     }
     structure(list(data = list(x = x, y = y), levels = levels,
                    laplace = laplace, params = t(params), prior = prior,
@@ -124,9 +129,11 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
         len_na <- length(ind_na)
         if (len_na > 0)
             warning(paste0("predict.multinomial_naive_bayes(): ", len_na, " missing",
-                           ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
+                           ifelse(len_na == 1, " value", " values"),
+                           " discovered in the newdata. ",
                            ifelse(len_na == 1, "It is", "They are"),
-                           " not included into the calculation."), call. = FALSE)
+                           " not included into the calculation."),
+                    call. = FALSE)
         newdata[ind_na] <- 0
     }
     # if (object$laplace == 0)
