@@ -24,10 +24,10 @@ programmed in lower level languages, such as `C` or `FORTRAN`. In fact,
 the `naivebayes` package utilizes only such functions for
 resource-intensive calculations.
 
-The general function `naive_bayes()` automatically detects the class of
-the feature and assumes different distribution depending on the kind of
-the feature and the user choices. It currently supports following class
-conditional distributions:
+The general function `naive_bayes()` detects the class of each feature
+in the dataset and, depending on the user choices, assumes possibly
+different distribution for each feature. It currently supports following
+class conditional distributions:
 
   - categorical distribution for discrete features
   - Poisson distribution for non-negative integers
@@ -44,10 +44,12 @@ specifically:
   - Gaussian Naive Bayes via `gaussian_naive_bayes()`
   - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
-They will support sparse matrices in close future in order to boost the
-performance on the sparse data. Also few helper functions are provided
-that are supposed to improve the user experience. The `naive_bayes()`
-function is also available through the excellent `Caret` package.
+They are implemented based on the linear algebra operations which makes
+them efficient on the dense matrices. They will support sparse matrices
+in close future in order to boost the performance also on the sparse
+data. Also few helper functions are provided that are supposed to
+improve the user experience. The general `naive_bayes()` function is
+also available through the excellent `Caret` package.
 
 ## 2\. Installation
 
