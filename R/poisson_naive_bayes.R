@@ -15,7 +15,7 @@ poisson_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
-    if (class(x) != "matrix") {
+    if (class(x)[1] != "matrix") {
         stop("poisson_naive_bayes(): x has to be a numeric 0-1 matrix. ", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")

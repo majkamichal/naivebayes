@@ -1,6 +1,6 @@
 tables <- function (object, which = NULL) {
 
-    obj_class <- class(object)
+    obj_class <- class(object)[1]
     if (!obj_class %in% models()) {
         stop(paste0("tables(): Tables are available only for ",
                     paste0(models(), collapse = ", "),

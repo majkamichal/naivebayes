@@ -16,7 +16,7 @@ gaussian_naive_bayes <- function (x, y, prior = NULL, ...)  {
                     "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
                     "       in both train and test datasets."), call. = FALSE)
     }
-    if (class(x) != "matrix") {
+    if (class(x)[1] != "matrix") {
         stop("gaussian_naive_bayes(): x has to be a numeric matrix. ",
              call. = FALSE)
         x <- as.matrix(x)
