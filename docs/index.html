@@ -45,6 +45,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
@@ -98,12 +101,13 @@
 <li>Non-Parametric Naive Bayes via <code><a href="reference/nonparametric_naive_bayes.html">nonparametric_naive_bayes()</a></code>
 </li>
 </ul>
-<p>They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. They will support sparse matrices in close future in order to boost the performance also on the sparse data. Also few helper functions are provided that are supposed to improve the user experience. The general <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
+<p>They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. In close future sparse matrices will be supported in order to boost the performance on the sparse data. Also few helper functions are provided that are supposed to improve the user experience. The general <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
+<p>Extended documentation can be found on the website: <a href="https://majkamichal.github.io/naivebayes/" class="uri">https://majkamichal.github.io/naivebayes/</a></p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>2. Installation</h2>
-<p>Just like many other <code>R</code> packages, <code>naivebayes</code> can be installed from the <code>CRAN</code> repository by simply typing into the console the following line:</p>
+<p>Just like many other <code>R</code> packages, <code>naivebayes</code> can be installed from the <code>CRAN</code> repository by simply executing in the console the following line:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"naivebayes"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Or the the development version from GitHub:</span></a>
@@ -112,7 +116,7 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>3. Usage</h2>
-<p>The <code>naivebayes</code> package provides a user friendly implementation of the Naïve Bayes algorithm via formula interace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they can handle them. In following the basic usage of the <code>naivebayes</code> package is demonstrated:</p>
+<p>The <code>naivebayes</code> package provides a user friendly implementation of the Naïve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they can handle them. In following the basic usage of the <code>naivebayes</code> package is demonstrated:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(iris)</a>

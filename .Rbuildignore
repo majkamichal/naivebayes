@@ -1,8 +1,9 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^README.Rmd
-^README.md
-^README_cache
+^README\.Rmd$
+^README\.md$
+^README_cache$
+^NEWS\.md$
 ^docs/
 ^\.travis\.yml$
 ^_pkgdown\.yml$
