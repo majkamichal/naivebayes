@@ -35,8 +35,7 @@ class conditional distributions:
   - non-parametrically estimated densities via Kernel Density Estimation
     for continuous features
 
-In addition to that specialized functions are available which implement
-specifically:
+In addition to that specialized functions are available which implement:
 
   - Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
   - Multinomial Naive Bayes via `multinomial_naive_bayes()`
@@ -45,11 +44,14 @@ specifically:
   - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
 They are implemented based on the linear algebra operations which makes
-them efficient on the dense matrices. They will support sparse matrices
-in close future in order to boost the performance also on the sparse
-data. Also few helper functions are provided that are supposed to
-improve the user experience. The general `naive_bayes()` function is
-also available through the excellent `Caret` package.
+them efficient on the dense matrices. In close future sparse matrices
+will be supported in order to boost the performance on the sparse data.
+Also few helper functions are provided that are supposed to improve the
+user experience. The general `naive_bayes()` function is also available
+through the excellent `Caret` package.
+
+Extended documentation can be found on the website:
+<https://majkamichal.github.io/naivebayes/>
 
 ## 2\. Installation
 
