@@ -78,11 +78,6 @@ plot(pnb, which = "V1")
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(pnb) == get_cond_dist(nb))
 
-## Coerce the Bernoulli probability tables to a data.frame
-## THIS EXAMPLE HAS TO BE IMPROVED AS SOON AS THERE WILL BE A GENERAL
-## FUNCTION FOR COERCING THE TABLES TO DF
-# coef(pnb)
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

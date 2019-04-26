@@ -28,7 +28,7 @@
 
 # naivebayes 0.9.5
 
-* Fixed: when `laplace} > 0` and discrete feature with `>2` distinct values, the probabilities in the probability table do not sum up to 1.
+* Fixed: when `laplace > 0` and discrete feature with `>2` distinct values, the probabilities in the probability table do not sum up to 1.
 
 # naivebayes 0.9.4
 
