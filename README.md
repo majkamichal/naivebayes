@@ -1,9 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# naivebayes
-
-<!-- # naivebayes <img src="man/figures/logo.png" align="right" /> -->
+# naivebayes <img src="man/figures/logo.png" align="right" />
 
 [![Build
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -56,7 +54,7 @@ Extended documentation can be found on the website:
 ## 2\. Installation
 
 Just like many other `R` packages, `naivebayes` can be installed from
-the `CRAN` repository by simply typing into the console the following
+the `CRAN` repository by simply executing in the console the following
 line:
 
 ``` r
@@ -69,7 +67,7 @@ devtools::install_github("majkamichal/naivebayes")
 ## 3\. Usage
 
 The `naivebayes` package provides a user friendly implementation of the
-Naïve Bayes algorithm via formula interace and classical combination of
+Naïve Bayes algorithm via formula interlace and classical combination of
 the matrix/data.frame containing the features and a vector with the
 class labels. All functions can recognize missing values, give an
 informative warning and more importantly - they can handle them. In
