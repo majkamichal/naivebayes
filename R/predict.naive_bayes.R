@@ -28,32 +28,54 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     features <- names(newdata)[names(newdata) %in% names(tables)]
     n_features <- length(features)
     n_tables <- length(tables)
-    if (n_features < n_tables) {
-        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
-                       " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction\n"), call. = FALSE)
-    }
+    n_features_newdata <- ncol(newdata)
+
     ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
     if (any(ind_factor)) {
         ind_missing_levels <- which((sapply(newdata[ind_factor],
                                             nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
         if (nm > 0) {
-            stop(paste0("predict.naive_bayes(): ", ifelse(nm == 1, "Feature ", "Features "),
-                        paste0(names(ind_missing_levels), collapse = " "),
-                        ifelse(nm == 1, " is of class \"factor\" ",
-                               " are of class \"factor\" "), "but compared to the corresponding probability ",
+            stop(paste0("predict.naive_bayes(): ", nm, ifelse(nm == 1, " Feature ", " Features "),
+                        ifelse(nm == 1, "are EITHER discrete, ",
+                               "are EITHER discrete, "), "and compared to the corresponding probability ",
                         ifelse(nm == 1, "table", "tables"), " from the object \"",
-                        substitute(object), "\" ", ifelse(nm == 1, "it misses",
-                                                          "they miss"), " some levels.", " Please consider filling missing levels or coercing to \"character\"", "\n"), call. = FALSE)
+                        substitute(object), "\", ",
+                        ifelse(nm == 1, "it misses some levels or has more levels,",
+                               "some of them miss levels or have more levels,"),
+                        " OR for some of them there is type mismatch between training data and newdata",
+                        " (it should be numeric but is character/factor).\n"),
+                 call. = FALSE)
         }
+    }
+    if (n_features < n_tables) {
+        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
+                       " defined in the naive_bayes object \"", substitute(object),
+                       "\" are used for prediction.\n"), call. = FALSE)
+    }
+    if (n_features_newdata > n_tables) {
+        warning(paste0("predict.naive_bayes(): ",
+                       "More features in the newdata are provided ",
+                       "as there are probability tables in the object. ",
+                       "Calculation is performed based on features to be found in the tables."),
+                call. = FALSE)
+        newdata <- newdata[ ,features]
     }
     log_sum <- matrix(log(prior), ncol = n_lev, nrow = n_obs, byrow = TRUE)
     colnames(log_sum) <- lev
     for (var in features) {
         V <- newdata[[var]]
         tab <- tables[[var]]
+        a <- attr(tab, "cond_dist")
         if (is.numeric(V)) {
+            if (!is.null(a)) {
+                if (!a %in% c("Gaussian", "KDE", "Poisson")) {
+                    stop(paste0("predict.naive_bayes(): Type mismatch between ",
+                            "training and newdata for the feature ",
+                            var, " - it was not numeric in the training dataset."),
+                         call. = FALSE)
+                }
+            }
             if (is.integer(V) & usepoisson) {
                 p <- sapply(lev, function(lambda) {
                     stats::dpois(V, lambda = tab[ ,lambda])
@@ -88,6 +110,14 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             }
         }
         else {
+            if (!is.null(a)) {
+                if (!a %in% c("Bernoulli", "Categorical")) {
+                    stop(paste0("predict.naive_bayes(): Type mismatch between ",
+                                "training and newdata for the feature ",
+                                var, " - it was numeric in the training dataset."),
+                         call. = FALSE)
+                }
+            }
             if (class(V) == "logical")
                 V <- as.character(V)
             if (object$laplace == 0)
@@ -108,29 +138,37 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         }
     }
     if (type == "class") {
-        if (n_obs == 1) {
-            return(factor(lev[which.max(log_sum)], levels = lev))
-        }
         if (n_features == 0) {
+            warning(paste0("predict.naive_bayes(): ",
+                           "No feature in the newdata corresponds to ",
+                           "probability tables in the object. ",
+                           "Classification is done based on the prior probabilities"),
+                    call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         }
-        else {
+        if (n_obs == 1) {
+            return(factor(lev[which.max(log_sum)], levels = lev))
+        } else {
             return(factor(lev[max.col(log_sum, "first")], levels = lev))
         }
     }
     else {
+        if (n_features == 0) {
+            warning(paste0("predict.naive_bayes(): ",
+                           "No feature in the newdata corresponds to ",
+                           "probability tables in the object. ",
+                           "Posterior probabilities are equal to prior probabilities."),
+                    call. = FALSE)
+            return(matrix(prior, ncol = n_lev, nrow = n_obs,
+                          byrow = TRUE, dimnames = list(NULL, lev)))
+        }
         if (n_obs == 1) {
             post <- sapply(log_sum, function(x) { 1 / sum(exp(log_sum - x)) })
             mat <- t(as.matrix(post))
             colnames(mat) <- lev
             return(mat)
-        }
-        if (n_features == 0) {
-            return(matrix(prior, ncol = n_lev, nrow = n_obs,
-                          byrow = TRUE, dimnames = list(NULL, lev)))
-        }
-        else {
+        } else {
             return(apply(log_sum, 2, function(x) { 1 / rowSums(exp(log_sum - x)) }))
         }
     }
