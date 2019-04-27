@@ -76,7 +76,9 @@ nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
 nb
 
 # Or equivalently matrix/data.frame and class vector
-nb2 <- naive_bayes(x = new[-2], y = new[[2]], usepoisson = TRUE)
+df <- new[-2]
+class_vec <- new[[2]]
+nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),

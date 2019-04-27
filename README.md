@@ -95,6 +95,10 @@ nb
 #> 
 #> ------------------------------------------------------------------------------ 
 #>  
+#> Laplace smoothing: 0
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  
 #>  A priori probabilities: 
 #> 
 #>     setosa versicolor  virginica 
@@ -131,7 +135,9 @@ nb
 #> ------------------------------------------------------------------------------
 
 # Or equivalently matrix/data.frame and class vector
-nb2 <- naive_bayes(x = new[-2], y = new[[2]], usepoisson = TRUE)
+df <- new[-2]
+class_vec <- new[[2]]
+nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
@@ -350,8 +356,8 @@ naive_bayes_via_caret
 #> Resampling results across tuning parameters:
 #> 
 #>   usekernel  Accuracy   Kappa    
-#>   FALSE      0.9972388  0.9957693
-#>    TRUE      0.9877195  0.9813846
+#>   FALSE      0.9984157  0.9976174
+#>    TRUE      0.9891468  0.9835235
 #> 
 #> Tuning parameter 'laplace' was held constant at a value of 0
 #> 
@@ -425,7 +431,6 @@ Please find more information about the `nproc` package under:
 ``` r
 library(nproc)
 library(naivebayes)
-#> naivebayes 0.9.6 loaded
 
 # Simulate data
 set.seed(2550)
@@ -471,7 +476,6 @@ Please find more information about the `superml` package under:
 
 ``` r
 library(superml)
-#> Loading required package: R6
 data(iris)
 naive_bayes_via_superml <- NBTrainer$new()
 naive_bayes_via_superml$fit(iris, 'Species')
