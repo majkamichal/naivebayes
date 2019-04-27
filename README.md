@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# naivebayes <img src="man/figures/logo.png" align="right" />
+# naivebayes <img src="docs/reference/figures/logo.png" align="right" />
 
 [![Build
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -144,7 +144,7 @@ plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 ```
 
-![](man/figures/example-1.png)<!-- -->![](man/figures/example-2.png)<!-- -->
+![](docs/reference/figures/example-1.png)<!-- -->![](docs/reference/figures/example-2.png)<!-- -->
 
 ``` r
 
@@ -253,13 +253,13 @@ tables(nb, "V1")
 plot(bnb, which = "V1")
 ```
 
-![](man/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
+![](docs/reference/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
 
 ``` r
 plot(nb, "V1")
 ```
 
-![](man/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
+![](docs/reference/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
 
 ``` r
 
@@ -329,7 +329,7 @@ tables(nb, "V1")
 plot(gnb, which = "V1")
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
+![](docs/reference/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ### 3.2 Usage with Caret package (“naive\_bayes”)
 
@@ -413,7 +413,7 @@ naive_bayes_via_caret2$finalModel$tuneValue
 plot(naive_bayes_via_caret2)
 ```
 
-![](man/figures/example_caret2-1.png)<!-- -->
+![](docs/reference/figures/example_caret2-1.png)<!-- -->
 
 ``` r
 
@@ -485,11 +485,17 @@ naive_bayes_via_superml$fit(iris, 'Species')
 
 # Classification
 head(naive_bayes_via_superml$predict(iris))
+#> Warning: predict.naive_bayes(): More features in the newdata are provided
+#> as there are probability tables in the object. Calculation is performed
+#> based on features to be found in the tables.
 #> [1] setosa setosa setosa setosa setosa setosa
 #> Levels: setosa versicolor virginica
 
 # Posterior probabilites
 head(naive_bayes_via_superml$predict(iris, type = "prob"))
+#> Warning: predict.naive_bayes(): More features in the newdata are provided
+#> as there are probability tables in the object. Calculation is performed
+#> based on features to be found in the tables.
 #>      setosa   versicolor    virginica
 #> [1,]      1 2.981309e-18 2.152373e-25
 #> [2,]      1 3.169312e-17 6.938030e-25

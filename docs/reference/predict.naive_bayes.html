@@ -167,7 +167,7 @@
 <span class='no'>iris_test</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='no'>ind_iris</span>, ]
 
 <span class='no'>nb_iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='no'>iris_train</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt;  [1] setosa     setosa     virginica  virginica  setosa     virginica 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: predict.naive_bayes(): More features in the newdata are provided as there are probability tables in the object. Calculation is performed based on features to be found in the tables.</span></div><div class='output co'>#&gt;  [1] setosa     setosa     virginica  virginica  setosa     virginica 
 #&gt;  [7] setosa     versicolor virginica  setosa     versicolor setosa    
 #&gt; [13] virginica  virginica  virginica  virginica  versicolor versicolor
 #&gt; [19] setosa     setosa     virginica  virginica  virginica  versicolor
@@ -175,7 +175,7 @@
 #&gt; [31] setosa     virginica  setosa     setosa     setosa     virginica 
 #&gt; [37] versicolor versicolor virginica  setosa     setosa     setosa    
 #&gt; [43] versicolor virginica  versicolor
-#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;             setosa   versicolor    virginica
+#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb_iris</span>, <span class='no'>iris_test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: predict.naive_bayes(): More features in the newdata are provided as there are probability tables in the object. Calculation is performed based on features to be found in the tables.</span></div><div class='output co'>#&gt;             setosa   versicolor    virginica
 #&gt; [1,]  1.000000e+00 4.054291e-15 2.281728e-21
 #&gt; [2,]  1.000000e+00 1.099206e-18 2.831382e-25
 #&gt; [3,] 9.389589e-134 2.929155e-02 9.707085e-01

@@ -179,11 +179,13 @@
 <a class="sourceLine" id="cb2-59" data-line-number="59"><span class="co">#&gt; ------------------------------------------------------------------------------</span></a>
 <a class="sourceLine" id="cb2-60" data-line-number="60"></a>
 <a class="sourceLine" id="cb2-61" data-line-number="61"><span class="co"># Or equivalently matrix/data.frame and class vector</span></a>
-<a class="sourceLine" id="cb2-62" data-line-number="62">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> new[<span class="op">-</span><span class="dv">2</span>], <span class="dt">y =</span> new[[<span class="dv">2</span>]], <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb2-63" data-line-number="63"></a>
-<a class="sourceLine" id="cb2-64" data-line-number="64"><span class="co"># Visualize class conditional probability distributions</span></a>
-<a class="sourceLine" id="cb2-65" data-line-number="65"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Discrete"</span>),</a>
-<a class="sourceLine" id="cb2-66" data-line-number="66">     <span class="dt">arg.cat =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/palettes">heat.colors</a></span>(<span class="dv">3</span>)))</a></code></pre></div>
+<a class="sourceLine" id="cb2-62" data-line-number="62">df &lt;-<span class="st"> </span>new[<span class="op">-</span><span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb2-63" data-line-number="63">class_vec &lt;-<span class="st"> </span>new[[<span class="dv">2</span>]]</a>
+<a class="sourceLine" id="cb2-64" data-line-number="64">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> df, <span class="dt">y =</span> class_vec, <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb2-66" data-line-number="66"><span class="co"># Visualize class conditional probability distributions</span></a>
+<a class="sourceLine" id="cb2-67" data-line-number="67"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb, <span class="dt">which =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Petal.Width"</span>, <span class="st">"Discrete"</span>),</a>
+<a class="sourceLine" id="cb2-68" data-line-number="68">     <span class="dt">arg.cat =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">color =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/grDevices/topics/palettes">heat.colors</a></span>(<span class="dv">3</span>)))</a></code></pre></div>
 <p><img src="reference/figures/example-1.png" width="700"><img src="reference/figures/example-2.png" width="700"></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"><span class="co"># Browse tables</span></a>
@@ -498,18 +500,24 @@
 <a class="sourceLine" id="cb12-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb12-9" data-line-number="9"><span class="co"># Classification</span></a>
 <a class="sourceLine" id="cb12-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(naive_bayes_via_superml<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(iris))</a>
-<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; [1] setosa setosa setosa setosa setosa setosa</span></a>
-<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; Levels: setosa versicolor virginica</span></a>
-<a class="sourceLine" id="cb12-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co"># Posterior probabilites</span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(naive_bayes_via_superml<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(iris, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
-<a class="sourceLine" id="cb12-16" data-line-number="16"><span class="co">#&gt;      setosa   versicolor    virginica</span></a>
-<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co">#&gt; [1,]      1 2.981309e-18 2.152373e-25</span></a>
-<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="co">#&gt; [2,]      1 3.169312e-17 6.938030e-25</span></a>
-<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt; [3,]      1 2.367113e-18 7.240956e-26</span></a>
-<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; [4,]      1 3.069606e-17 8.690636e-25</span></a>
-<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; [5,]      1 1.017337e-18 8.885794e-26</span></a>
-<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt; [6,]      1 2.717732e-14 4.344285e-21</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; Warning: predict.naive_bayes(): More features in the newdata are provided</span></a>
+<a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt; as there are probability tables in the object. Calculation is performed</span></a>
+<a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt; based on features to be found in the tables.</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; [1] setosa setosa setosa setosa setosa setosa</span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; Levels: setosa versicolor virginica</span></a>
+<a class="sourceLine" id="cb12-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb12-17" data-line-number="17"><span class="co"># Posterior probabilites</span></a>
+<a class="sourceLine" id="cb12-18" data-line-number="18"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(naive_bayes_via_superml<span class="op">$</span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(iris, <span class="dt">type =</span> <span class="st">"prob"</span>))</a>
+<a class="sourceLine" id="cb12-19" data-line-number="19"><span class="co">#&gt; Warning: predict.naive_bayes(): More features in the newdata are provided</span></a>
+<a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; as there are probability tables in the object. Calculation is performed</span></a>
+<a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt; based on features to be found in the tables.</span></a>
+<a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt;      setosa   versicolor    virginica</span></a>
+<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; [1,]      1 2.981309e-18 2.152373e-25</span></a>
+<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; [2,]      1 3.169312e-17 6.938030e-25</span></a>
+<a class="sourceLine" id="cb12-25" data-line-number="25"><span class="co">#&gt; [3,]      1 2.367113e-18 7.240956e-26</span></a>
+<a class="sourceLine" id="cb12-26" data-line-number="26"><span class="co">#&gt; [4,]      1 3.069606e-17 8.690636e-25</span></a>
+<a class="sourceLine" id="cb12-27" data-line-number="27"><span class="co">#&gt; [5,]      1 1.017337e-18 8.885794e-26</span></a>
+<a class="sourceLine" id="cb12-28" data-line-number="28"><span class="co">#&gt; [6,]      1 2.717732e-14 4.344285e-21</span></a></code></pre></div>
 </div>
 </div>
 </div>
