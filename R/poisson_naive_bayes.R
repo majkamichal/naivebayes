@@ -114,7 +114,7 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.poisson_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"),
                     call. = FALSE)
@@ -122,7 +122,7 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
                           levels = lev))
         } else {
             warning(paste0("predict.poisson_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Posterior probabilities are equal to prior probabilities."),
                     call. = FALSE)

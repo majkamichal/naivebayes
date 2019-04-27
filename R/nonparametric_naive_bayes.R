@@ -98,14 +98,14 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.nonparametric_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"), call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         } else {
             warning(paste0("predict.nonparametric_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
             return(matrix(prior, ncol = n_lev, nrow = n_obs,

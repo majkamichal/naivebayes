@@ -107,7 +107,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.bernoulli_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"),
                     call. = FALSE)
@@ -115,7 +115,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
                           levels = lev))
         } else {
             warning(paste0("predict.bernoulli_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Posterior probabilities are equal to prior probabilities."),
                     call. = FALSE)
