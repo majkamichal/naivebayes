@@ -3,7 +3,7 @@
 
 \title{Multinomial Naive Bayes Classifier}
 \usage{
-multinomial_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
+multinomial_naive_bayes(x, y, prior = NULL, laplace = 0.5, ...)
 }
 \arguments{
 \item{x}{numeric matrix with integer predictors.}
@@ -12,7 +12,7 @@ multinomial_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 
 \item{prior}{vector with prior probabilities of the classes. If unspecified, the class proportions for the training set are used. If present, the probabilities should be specified in the order of the factor levels.}
 
-\item{laplace}{value used for Laplace smoothing (additive smoothing). Defaults to 0 (no Laplace smoothing).}
+\item{laplace}{value used for Laplace smoothing (additive smoothing). Defaults to 0.5.}
 
 \item{...}{not used.}
 

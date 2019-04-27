@@ -1,4 +1,4 @@
-multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
+multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
         stop("multinomial_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
@@ -97,14 +97,14 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
     if (n_features == 0) {
         if (type == "class") {
             warning(paste0("predict.multinomial_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"), call. = FALSE)
             return(factor(rep(lev[which.max(prior)], n_obs),
                           levels = lev))
         } else {
             warning(paste0("predict.multinomial_naive_bayes(): ",
-                           "No feature in the newdata correspond to ",
+                           "No feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
             return(matrix(prior, ncol = n_lev, nrow = n_obs,
