@@ -40,7 +40,7 @@ plot(nb, which = c(1, 2), ask = FALSE,
      main = "Naive Bayes Plot", legend.position = "topright",
      legend.cex = 0.55))
 
-plot(nb, which = "New", arg.cat = list(color = heat.colors(3)))
+plot(nb, which = "New", arg.cat = list(color = gray.colors(3)))
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
