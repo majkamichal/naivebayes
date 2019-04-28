@@ -8,6 +8,13 @@
 
 <title>Poisson Naive Bayes Classifier — poisson_naive_bayes • naivebayes</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -183,7 +190,19 @@
 
 <span class='co'>### Train the Poisson Naive Bayes</span>
 <span class='no'>pnb</span> <span class='kw'>&lt;-</span> <span class='fu'>poisson_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>pnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>pnb</span>)</div><div class='output co'>#&gt; 
+#&gt; ============================== Poisson Naive Bayes ============================== 
+#&gt;  
+#&gt; - Call: poisson_naive_bayes(x = M, y = y, laplace = laplace) 
+#&gt; - Laplace: 0 
+#&gt; - Classes: 2 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
+#&gt; - Prior probabilities: 
+#&gt;     - classA: 0.46
+#&gt;     - classB: 0.54
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>pnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
 #&gt; [1,] 0.5483795 0.4516205
 #&gt; [2,] 0.3600140 0.6399860
 #&gt; [3,] 0.3635415 0.6364585

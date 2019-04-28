@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# naivebayes <img src="man/figures/logo.png" align="right" />
+# naivebayes <img src="docs/reference/figures/logo.png" align="right" />
 
 [![Build
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -164,7 +164,7 @@ plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 ```
 
-![](man/figures/example-1.png)<!-- -->![](man/figures/example-2.png)<!-- -->
+![](docs/reference/figures/example-1.png)<!-- -->![](docs/reference/figures/example-2.png)<!-- -->
 
 ``` r
 
@@ -273,13 +273,13 @@ tables(nb, "V1")
 plot(bnb, which = "V1")
 ```
 
-![](man/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
+![](docs/reference/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
 
 ``` r
 plot(nb, "V1")
 ```
 
-![](man/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
+![](docs/reference/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
 
 ``` r
 
@@ -349,7 +349,7 @@ tables(nb, "V1")
 plot(gnb, which = "V1")
 ```
 
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
+![](docs/reference/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ### 3.2 Usage with Caret package (“naive\_bayes”)
 
@@ -433,7 +433,7 @@ naive_bayes_via_caret2$finalModel$tuneValue
 plot(naive_bayes_via_caret2)
 ```
 
-![](man/figures/example_caret2-1.png)<!-- -->
+![](docs/reference/figures/example_caret2-1.png)<!-- -->
 
 ``` r
 
