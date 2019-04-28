@@ -5,5 +5,7 @@
 ^README_cache$
 ^NEWS\.md$
 ^docs/
+^pkgdown/
 ^\.travis\.yml$
 ^_pkgdown\.yml$
+
