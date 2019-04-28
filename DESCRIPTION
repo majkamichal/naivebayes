@@ -1,6 +1,6 @@
 Package: naivebayes
 Type: Package
-Title: High Performance Implementation of the Naive Bayes Algorithm
+Title: High Performance Implementation of the Naive Bayes Algorithm in R
 Version: 0.9.6
 Author: Michal Majka
 Maintainer: Michal Majka <michalmajka@hotmail.com>

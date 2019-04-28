@@ -5,6 +5,7 @@
 ^README_cache$
 ^index\.Rmd$
 ^index\.md$
+^index_cache$
 ^NEWS\.md$
 ^docs/
 ^pkgdown/

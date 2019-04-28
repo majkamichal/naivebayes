@@ -207,6 +207,10 @@ plot.multinomial_naive_bayes <- function(x, ...) {
     stop("plot(): Plot method is not available for \"multinomial_naive_bayes\" objects.", call. = FALSE)
 }
 
+coef.multinomial_naive_bayes  <- function(object, ...) {
+    as.data.frame(object$params)
+}
+
 summary.multinomial_naive_bayes <- function(object, ...) {
     model <- "Multinomial Naive Bayes"
     n_char <- getOption("width")

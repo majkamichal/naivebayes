@@ -38,7 +38,7 @@ The Multinomial Naive Bayes is not available through the \code{\link{naive_bayes
 }
 
 \references{
-McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. \code{http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf}
+McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. \url{http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf}
 }
 
 \examples{
@@ -52,7 +52,7 @@ laplace <- 1
 
 ### Train the Multinomial Naive Bayes
 mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
-mnb
+summary(mnb)
 
 # Classification
 head(predict(mnb, newdata = M, type = "class"))
@@ -60,11 +60,14 @@ head(predict(mnb, newdata = M, type = "class"))
 # Posterior probabilities
 head(predict(mnb, newdata = M, type = "prob"))
 
+# Parameter estimates
+coef(mnb)
+
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{bernoulli_tables_to_df}}
+\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 

@@ -53,5 +53,5 @@ head(predict(bnb, newdata = M, type = "prob"))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{bernoulli_tables_to_df}}
+\code{\link{naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }

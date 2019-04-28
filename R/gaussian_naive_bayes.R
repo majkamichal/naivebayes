@@ -231,6 +231,18 @@ plot.gaussian_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRU
          arg.num = arg.num, ...)
 }
 
+coef.gaussian_naive_bayes  <- function(object, ...) {
+    params <- object$params
+    levels <- object$levels
+    nlev <- length(levels)
+    m <- do.call("rbind", params)
+    m <- t(m)
+    ind <- rep(seq_len(nlev), each = 2)
+    m <- m[ ,ifelse(seq_along(ind) %% 2 != 0, ind, ind + nlev)]
+    colnames(m) <- (paste0(rep(levels, each = 2), ":", c("mu", "sd")))
+    as.data.frame(m)
+}
+
 summary.gaussian_naive_bayes <- function(object, ...) {
     model <- "Gaussian Naive Bayes"
     n_char <- getOption("width")

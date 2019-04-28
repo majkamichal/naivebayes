@@ -23,7 +23,7 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
     \item{data}{list with two components: \code{x} (matrix with predictors) and \code{y} (class variable).}
     \item{levels}{character vector with values of the class variable.}
     \item{laplace}{amount of Laplace smoothing (additive smoothing).}
-    \item{prob1}{matrix with class conditional probabilities for the value 1. Based on this matrix full probability tables can be constructed. Please, see \code{\link[naivebayes]{tables}} and \code{\link[naivebayes]{bernoulli_tables_to_df}}.}
+    \item{prob1}{matrix with class conditional probabilities for the value 1. Based on this matrix full probability tables can be constructed. Please, see \code{\link[naivebayes]{tables}} and \code{\link[naivebayes]{coef}}.}
     \item{prior}{numeric vector with prior probabilities.}
     \item{call}{the call that produced this object.}
 }
@@ -56,7 +56,6 @@ bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
 bnb
 head(predict(bnb, newdata = M, type = "prob"))
 
-
 ###  Equivalent calculation with general naive_bayes function.
 ###  (it is made sure that the columns are factors with the 0-1 levels)
 
@@ -65,10 +64,10 @@ df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
 nb <- naive_bayes(df, y, laplace = laplace)
 head(predict(nb, type = "prob"))
 
-
 # Obtain probability tables
 tables(bnb, which = "V1")
 tables(nb, "V1")
+coef(bnb)
 
 # Visualise class conditional Bernoulli distributions
 plot(bnb, which = "V1")
@@ -77,14 +76,11 @@ plot(nb, "V1")
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(bnb) == get_cond_dist(nb))
 
-# Coerce the Bernoulli probability tables to a data.frame
-bernoulli_tables_to_df(bnb)
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{bernoulli_tables_to_df}}
+\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 

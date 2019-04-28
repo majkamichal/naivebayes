@@ -58,6 +58,8 @@ head(predict(nb, type = "prob"))
 # Obtain probability tables
 tables(gnb, which = 1)
 tables(nb, "Sepal.Width")
+coef(gnb)[c(TRUE,FALSE)] # Only means
+
 
 # Visualise class conditional Gaussian distributions
 plot(gnb, which = "Sepal.Width")

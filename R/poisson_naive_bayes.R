@@ -237,6 +237,10 @@ plot.poisson_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE
                      arg.num = arg.num, ...)
 }
 
+coef.poisson_naive_bayes  <- function(object, ...) {
+    as.data.frame(object$params)
+}
+
 summary.poisson_naive_bayes <- function(object, ...) {
     model <- "Poisson Naive Bayes"
     n_char <- getOption("width")

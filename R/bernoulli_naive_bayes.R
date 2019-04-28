@@ -271,29 +271,15 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
     invisible()
 }
 
-bernoulli_tables_to_df  <- function(object, format = "wide") {
-
-    if (class(object) != "bernoulli_naive_bayes")
-        stop("bernoulli_tables_to_df() expects object of class \"bernoulli_naive_bayes\".", call. = FALSE)
-
-    if (length(format) != 1 | !format %in% c("wide", "long"))
-        stop("bernoulli_tables_to_df(): format has to be either \"wide\" or \"long\".", call. = FALSE)
-
-    if (format == "wide") {
-        prob1 <- object$prob1
-        levels <- object$levels
-        nlev <- length(levels)
-        m <- cbind(1 - prob1, prob1)
-        ind <- rep(seq_len(nlev), each = 2)
-        m <- m[ ,ifelse(seq_along(ind) %% 2 != 0, ind, ind + nlev)]
-        colnames(m) <- (paste0(rep(levels, each = 2), ":", c("0", "1")))
-        as.data.frame(m)
-    } else {
-        # TODO
-        "I am working on the long format :) "
-    }
-
-
+coef.bernoulli_naive_bayes  <- function(object, ...) {
+    prob1 <- object$prob1
+    levels <- object$levels
+    nlev <- length(levels)
+    m <- cbind(1 - prob1, prob1)
+    ind <- rep(seq_len(nlev), each = 2)
+    m <- m[ ,ifelse(seq_along(ind) %% 2 != 0, ind, ind + nlev)]
+    colnames(m) <- (paste0(rep(levels, each = 2), ":", c("0", "1")))
+    as.data.frame(m)
 }
 
 summary.bernoulli_naive_bayes <- function(object, ...) {

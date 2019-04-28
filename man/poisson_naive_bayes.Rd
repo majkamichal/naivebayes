@@ -72,6 +72,7 @@ head(predict(nb, type = "prob"))
 # Obtain probability tables
 tables(pnb, which = 1)
 tables(nb, "V1")
+coef(pnb)
 
 # Visualise class conditional Poisson distributions
 plot(pnb, which = "V1")
@@ -84,6 +85,6 @@ all(get_cond_dist(pnb) == get_cond_dist(nb))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{bernoulli_tables_to_df}}
+\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 

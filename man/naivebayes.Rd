@@ -30,12 +30,12 @@ In addition to that specialized functions are available which implement:
 
 \bold{Extended documentation can be found on the website:}
 \itemize{
-    \item https://majkamichal.github.io/naivebayes/
+    \item \url{https://majkamichal.github.io/naivebayes/}
 }
 
 \bold{Bug reports:}
 \itemize{
-    \item https://github.com/majkamichal/naivebayes/issues
+    \item \url{https://github.com/majkamichal/naivebayes/issues}
 }
 
 \bold{Suggestions:}
