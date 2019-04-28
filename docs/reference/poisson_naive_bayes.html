@@ -185,7 +185,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='bernoulli_tables_to_df.html'>bernoulli_tables_to_df</a></code></p></div>
+    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -213,21 +213,21 @@
 #&gt;     - classB: 0.54
 #&gt; 
 #&gt; --------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>pnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.5483795 0.4516205
-#&gt; [2,] 0.3600140 0.6399860
-#&gt; [3,] 0.3635415 0.6364585
-#&gt; [4,] 0.6664998 0.3335002
-#&gt; [5,] 0.2800202 0.7199798
-#&gt; [6,] 0.4403930 0.5596070</div><div class='input'>
+#&gt; [1,] 0.6248439 0.3751561
+#&gt; [2,] 0.6408767 0.3591233
+#&gt; [3,] 0.4505947 0.5494053
+#&gt; [4,] 0.6468326 0.3531674
+#&gt; [5,] 0.3077192 0.6922808
+#&gt; [6,] 0.3939396 0.6060604</div><div class='input'>
 <span class='co'>###  Equivalent calculation with general naive_bayes function.</span>
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.5483795 0.4516205
-#&gt; [2,] 0.3600140 0.6399860
-#&gt; [3,] 0.3635415 0.6364585
-#&gt; [4,] 0.6664998 0.3335002
-#&gt; [5,] 0.2800202 0.7199798
-#&gt; [6,] 0.4403930 0.5596070</div><div class='input'>
+#&gt; [1,] 0.6248439 0.3751561
+#&gt; [2,] 0.6408767 0.3591233
+#&gt; [3,] 0.4505947 0.5494053
+#&gt; [4,] 0.6468326 0.3531674
+#&gt; [5,] 0.3077192 0.6922808
+#&gt; [6,] 0.3939396 0.6060604</div><div class='input'>
 <span class='co'># Obtain probability tables</span>
 <span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>pnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
@@ -235,7 +235,7 @@
 #&gt; --------------------------------------------------------------------------------- 
 #&gt; 
 #&gt;          classA   classB
-#&gt; lambda 3.217391 2.759259
+#&gt; lambda 2.913043 3.037037
 #&gt; 
 #&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
@@ -243,9 +243,19 @@
 #&gt; --------------------------------------------------------------------------------- 
 #&gt; 
 #&gt;          classA   classB
-#&gt; lambda 3.217391 2.759259
+#&gt; lambda 2.913043 3.037037
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'>
+#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>pnb</span>)</div><div class='output co'>#&gt;       classA   classB
+#&gt; V1  2.913043 3.037037
+#&gt; V2  2.891304 3.296296
+#&gt; V3  2.630435 2.962963
+#&gt; V4  3.152174 3.018519
+#&gt; V5  3.000000 3.370370
+#&gt; V6  2.760870 3.074074
+#&gt; V7  3.195652 2.685185
+#&gt; V8  3.043478 3.129630
+#&gt; V9  2.934783 3.629630
+#&gt; V10 2.826087 2.851852</div><div class='input'>
 <span class='co'># Visualise class conditional Poisson distributions</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>pnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='img'><img src='poisson_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Check the equivalence of the class conditional distributions</span>

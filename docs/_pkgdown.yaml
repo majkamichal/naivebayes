@@ -31,4 +31,7 @@ reference:
   contents:
     - '`tables`'
     - '`get_cond_dist`'
-    - '`bernoulli_tables_to_df`'
+    - '`coef.bernoulli_naive_bayes`'
+    - '`coef.multinomial_naive_bayes`'
+    - '`coef.poisson_naive_bayes`'
+    - '`coef.gaussian_naive_bayes`'

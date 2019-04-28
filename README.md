@@ -344,6 +344,12 @@ tables(nb, "V1")
 #>   sd    1.04955060  1.04174322
 #> 
 #> ------------------------------------------------------------------------------
+coef(gnb)
+#>       classA:mu classA:sd   classB:mu classB:sd
+#> V1 -0.152638040  1.049551 -0.01306092 1.0417432
+#> V2 -0.054836961  1.236748 -0.17010761 0.9824908
+#> V3 -0.046420500  1.162157  0.07540914 1.1257598
+#> V4  0.007807965  1.015502  0.09767244 0.9543792
 
 # Visualise class conditional Gaussian distributions
 plot(gnb, which = "V1")
@@ -451,7 +457,6 @@ Please find more information about the `nproc` package under:
 ``` r
 library(nproc)
 library(naivebayes)
-#> naivebayes 0.9.6 loaded
 
 # Simulate data
 set.seed(2550)

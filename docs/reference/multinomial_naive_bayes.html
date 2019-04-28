@@ -177,11 +177,11 @@
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. <code>http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf</code></p>
+    <p>McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. <a href='http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf'>http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf</a></p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='bernoulli_tables_to_df.html'>bernoulli_tables_to_df</a></code></p></div>
+    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -195,51 +195,42 @@
 
 <span class='co'>### Train the Multinomial Naive Bayes</span>
 <span class='no'>mnb</span> <span class='kw'>&lt;-</span> <span class='fu'>multinomial_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='no'>mnb</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mnb</span>)</div><div class='output co'>#&gt; 
 #&gt; ============================ Multinomial Naive Bayes ============================ 
 #&gt;  
-#&gt;  Call: 
-#&gt; multinomial_naive_bayes(x = M, y = y, laplace = laplace)
+#&gt; - Call: multinomial_naive_bayes(x = M, y = y, laplace = laplace) 
+#&gt; - Laplace: 1 
+#&gt; - Classes: 2 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
+#&gt; - Prior probabilities: 
+#&gt;     - classA: 0.29
+#&gt;     - classB: 0.71
 #&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt; Laplace smoothing: 1
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  A priori probabilities: 
-#&gt; classA classB 
-#&gt;   0.28   0.72 
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;         Classes
-#&gt; Features     classA     classB
-#&gt;      V1  0.07814761 0.09213483
-#&gt;      V2  0.09696093 0.09157303
-#&gt;      V3  0.11143271 0.10393258
-#&gt;      V4  0.07525326 0.09101124
-#&gt;      V5  0.11577424 0.09494382
-#&gt;      V6  0.10998553 0.10168539
-#&gt;      V7  0.13892909 0.11516854
-#&gt;      V8  0.08538350 0.10449438
-#&gt;      V9  0.10709117 0.10730337
-#&gt;      V10 0.08104197 0.09775281
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt; 
-#&gt; </div><div class='input'>
+#&gt; --------------------------------------------------------------------------------- </div><div class='input'>
 <span class='co'># Classification</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classB classB classB classB
 #&gt; Levels: classA classB</div><div class='input'>
 <span class='co'># Posterior probabilities</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;          classA    classB
-#&gt; [1,] 0.07492956 0.9250704
-#&gt; [2,] 0.27071978 0.7292802
-#&gt; [3,] 0.34231409 0.6576859
-#&gt; [4,] 0.08733342 0.9126666
-#&gt; [5,] 0.33603780 0.6639622
-#&gt; [6,] 0.26231087 0.7376891</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
+#&gt; [1,] 0.1967351 0.8032649
+#&gt; [2,] 0.3540362 0.6459638
+#&gt; [3,] 0.3896224 0.6103776
+#&gt; [4,] 0.1204691 0.8795309
+#&gt; [5,] 0.1879130 0.8120870
+#&gt; [6,] 0.3381093 0.6618907</div><div class='input'>
+<span class='co'># Parameter estimates</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>mnb</span>)</div><div class='output co'>#&gt;         classA     classB
+#&gt; V1  0.09517426 0.10374640
+#&gt; V2  0.09249330 0.09279539
+#&gt; V3  0.09785523 0.08645533
+#&gt; V4  0.08445040 0.10432277
+#&gt; V5  0.10589812 0.11585014
+#&gt; V6  0.10187668 0.09855908
+#&gt; V7  0.10455764 0.08703170
+#&gt; V8  0.10723861 0.11700288
+#&gt; V9  0.11796247 0.10144092
+#&gt; V10 0.09249330 0.09279539</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

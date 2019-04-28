@@ -200,37 +200,37 @@
 #&gt;  
 #&gt;  A priori probabilities: 
 #&gt; classA classB 
-#&gt;   0.28   0.72 
+#&gt;   0.33   0.67 
 #&gt; 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;  
 #&gt;         Classes
 #&gt; Features     classA     classB
-#&gt;      V1  0.10252809 0.10311493
-#&gt;      V2  0.10955056 0.09989259
-#&gt;      V3  0.11516854 0.10902256
-#&gt;      V4  0.09831461 0.09935553
-#&gt;      V5  0.09831461 0.10365199
-#&gt;      V6  0.11516854 0.10955961
-#&gt;      V7  0.09129213 0.09774436
-#&gt;      V8  0.09129213 0.08915145
-#&gt;      V9  0.08286517 0.09076262
-#&gt;      V10 0.09550562 0.09774436
+#&gt;      V1  0.08801956 0.09639267
+#&gt;      V2  0.09779951 0.09757540
+#&gt;      V3  0.11246944 0.08574808
+#&gt;      V4  0.10880196 0.09520993
+#&gt;      V5  0.09902200 0.11531638
+#&gt;      V6  0.07701711 0.09225310
+#&gt;      V7  0.12224939 0.10999409
+#&gt;      V8  0.09535452 0.10467179
+#&gt;      V9  0.10391198 0.08811354
+#&gt;      V10 0.09535452 0.11472501
 #&gt; 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt; 
 #&gt; </div><div class='input'>
 <span class='co'># Classification</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classB classB classB classB
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classB classB classB classA
 #&gt; Levels: classA classB</div><div class='input'>
 <span class='co'># Posterior probabilities</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.1941549 0.8058451
-#&gt; [2,] 0.3030244 0.6969756
-#&gt; [3,] 0.2360529 0.7639471
-#&gt; [4,] 0.2919285 0.7080715
-#&gt; [5,] 0.2379393 0.7620607
-#&gt; [6,] 0.1958530 0.8041470</div><div class='input'>
+#&gt; [1,] 0.2104012 0.7895988
+#&gt; [2,] 0.3273308 0.6726692
+#&gt; [3,] 0.2850683 0.7149317
+#&gt; [4,] 0.3272100 0.6727900
+#&gt; [5,] 0.1013870 0.8986130
+#&gt; [6,] 0.6206831 0.3793169</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

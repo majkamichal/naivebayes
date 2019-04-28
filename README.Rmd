@@ -165,6 +165,7 @@ head(predict(nb, type = "prob"))
 # Obtain probability tables
 tables(gnb, which = "V1")
 tables(nb, "V1")
+coef(gnb)
 
 # Visualise class conditional Gaussian distributions
 plot(gnb, which = "V1")
