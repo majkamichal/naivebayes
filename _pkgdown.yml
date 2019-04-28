@@ -1,3 +1,8 @@
+url: https://majkamichal.github.io/naivebayes/
+template:
+  params:
+    bootswatch: spacelab
+    ganalytics: UA-87132983-2
 reference:
 - title: Naive Bayes Classifiers
   desc: Functions for fitting the Naive Bayes models.

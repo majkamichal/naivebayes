@@ -3,6 +3,8 @@
 ^README\.Rmd$
 ^README\.md$
 ^README_cache$
+^index\.Rmd$
+^index\.md$
 ^NEWS\.md$
 ^docs/
 ^pkgdown/
