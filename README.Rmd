@@ -73,12 +73,14 @@ new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10))
 
 # Formula interface
 nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
-nb
+summary(nb)
+
 
 # Or equivalently matrix/data.frame and class vector
 df <- new[-2]
 class_vec <- new[[2]]
 nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
+nb2
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),

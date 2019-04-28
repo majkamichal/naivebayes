@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# naivebayes <img src="docs/reference/figures/logo.png" align="right" />
+# naivebayes <img src="man/figures/logo.png" align="right" />
 
 [![Build
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -86,12 +86,37 @@ new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10))
 
 # Formula interface
 nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
-nb
+summary(nb)
+#> 
+#> ================================ Naive Bayes ================================= 
+#>  
+#> - Call: naive_bayes.formula(formula = Species ~ ., data = new, usepoisson = TRUE) 
+#> - Laplace: 0 
+#> - Classes: 3 
+#> - Samples: 150 
+#> - Features: 3 
+#> - Conditional distributions: 
+#>     - Categorical: 1
+#>     - Poisson: 1
+#>     - Gaussian: 1
+#> - Prior probabilities: 
+#>     - setosa: 0.3333
+#>     - versicolor: 0.3333
+#>     - virginica: 0.3333
+#> 
+#> ------------------------------------------------------------------------------
+
+
+# Or equivalently matrix/data.frame and class vector
+df <- new[-2]
+class_vec <- new[[2]]
+nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
+nb2
 #> 
 #> ================================ Naive Bayes ================================= 
 #>  
 #>  Call: 
-#> naive_bayes.formula(formula = Species ~ ., data = new, usepoisson = TRUE)
+#> naive_bayes.default(x = df, y = class_vec, usepoisson = TRUE)
 #> 
 #> ------------------------------------------------------------------------------ 
 #>  
@@ -134,17 +159,12 @@ nb
 #> 
 #> ------------------------------------------------------------------------------
 
-# Or equivalently matrix/data.frame and class vector
-df <- new[-2]
-class_vec <- new[[2]]
-nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
-
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
      arg.cat = list(color = heat.colors(3)))
 ```
 
-![](docs/reference/figures/example-1.png)<!-- -->![](docs/reference/figures/example-2.png)<!-- -->
+![](man/figures/example-1.png)<!-- -->![](man/figures/example-2.png)<!-- -->
 
 ``` r
 
@@ -253,13 +273,13 @@ tables(nb, "V1")
 plot(bnb, which = "V1")
 ```
 
-![](docs/reference/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
+![](man/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
 
 ``` r
 plot(nb, "V1")
 ```
 
-![](docs/reference/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
+![](man/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
 
 ``` r
 
@@ -329,7 +349,7 @@ tables(nb, "V1")
 plot(gnb, which = "V1")
 ```
 
-![](docs/reference/figures/unnamed-chunk-3-1.png)<!-- -->
+![](man/figures/unnamed-chunk-3-1.png)<!-- -->
 
 ### 3.2 Usage with Caret package (“naive\_bayes”)
 
@@ -413,7 +433,7 @@ naive_bayes_via_caret2$finalModel$tuneValue
 plot(naive_bayes_via_caret2)
 ```
 
-![](docs/reference/figures/example_caret2-1.png)<!-- -->
+![](man/figures/example_caret2-1.png)<!-- -->
 
 ``` r
 

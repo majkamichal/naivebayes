@@ -231,3 +231,23 @@ plot.gaussian_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRU
          arg.num = arg.num, ...)
 }
 
+summary.gaussian_naive_bayes <- function(object, ...) {
+    model <- "Gaussian Naive Bayes"
+    n_char <- getOption("width")
+    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+                             collapse = "")
+    str_full <- paste0(str_left_right, " ", model, " ",
+                       ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
+    len <- nchar(str_full)
+    l <- paste0(rep("-", len), collapse = "")
+    cat("\n")
+    cat(str_full, "\n", "\n")
+    cat("- Call:", deparse(object$call), "\n")
+    cat("- Samples:", length(object$data$y), "\n")
+    cat("- Features:", ncol(object$params$mu), "\n")
+    cat("- Prior probabilities: \n")
+    cat("    -", paste0(names(object$prior), ": ", round(object$prior, 4),
+                        collapse = "\n    - "))
+    cat("\n\n")
+    cat(l, "\n")
+}

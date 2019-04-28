@@ -196,12 +196,12 @@ print.nonparametric_naive_bayes <- function (x, ...) {
     cat(" Conditional densities:", "\n")
     tabs <- get_tables(x)
     n <- length(tabs)
-    indices <- seq_len(min(2,n))
+    indices <- seq_len(min(1,n))
     tabs <- tabs[indices]
     print(tabs)
     if (n > 1) {
         cat("\n\n")
-        cat("# ... and", n - 2, ifelse(n - 1 == 1, "more table\n\n", "more tables\n\n"))
+        cat("# ... and", n - 1, ifelse(n - 1 == 1, "more table\n\n", "more tables\n\n"))
         cat(l)
     }
     cat("\n\n")
@@ -217,4 +217,25 @@ plot.nonparametric_naive_bayes <- function(x, which = NULL, ask = FALSE, legend 
     x$usepoisson <- FALSE
     plot.naive_bayes(x, which = which, ask = ask, legend = legend, legend.box = legend.box,
                      arg.num = arg.num, ...)
+}
+
+summary.nonparametric_naive_bayes <- function(object, ...) {
+    model <- "Nonparametric Naive Bayes"
+    n_char <- getOption("width")
+    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+                             collapse = "")
+    str_full <- paste0(str_left_right, " ", model, " ",
+                       ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
+    len <- nchar(str_full)
+    l <- paste0(rep("-", len), collapse = "")
+    cat("\n")
+    cat(str_full, "\n", "\n")
+    cat("- Call:", deparse(object$call), "\n")
+    cat("- Classes:", nlevels(object$data$y), "\n")
+    cat("- Samples:", length(object$data$y), "\n")
+    cat("- Features:", length(object$dens), "\n")
+    cat("- Prior probabilities: \n")
+    cat("    -", paste0(names(object$prior), ": ", round(object$prior, 4), collapse = "\n    - "))
+    cat("\n\n")
+    cat(l, "\n")
 }
