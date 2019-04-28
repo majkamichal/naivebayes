@@ -62,6 +62,7 @@ laplace <- 0
 
 ### Train the Poisson Naive Bayes
 pnb <- poisson_naive_bayes(x = M, y = y, laplace = laplace)
+summary(pnb)
 head(predict(pnb, newdata = M, type = "prob"))
 
 ###  Equivalent calculation with general naive_bayes function.
