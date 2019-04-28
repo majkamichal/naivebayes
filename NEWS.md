@@ -24,6 +24,8 @@
 
 * `multinomial_naive_bayes()` - specialised Naive Bayes classifier suitable for text classification.
 	    
+* `coef()` - a generic function which extracts model coefficients from specialized Naive Bayes objects.
+	    
 * `get_cond_dist()` - for obtaining names of class conditional distributions assigned to features.
 
 # naivebayes 0.9.5
