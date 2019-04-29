@@ -23,10 +23,10 @@
 \item{...}{not used.}
 }
 \description{
-Plot method for objects of class \code{"naive_bayes"} designed for a quick look at the class conditional distributions of predictor variables.
+Plot method for objects of class \code{"naive_bayes"} designed for a quick look at the class marginal distributions of predictor variables.
 }
 \details{
-Conditional probabilities are visualised by \code{\link[graphics]{matplot}} (for numeric (metric) predictors) and  \code{\link[graphics]{mosaicplot}} (for categorical predictors). In case of non parametric estimation of class-conditional densities, the bandwidths are reported. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via \code{arg.num(..., legend.position = "topright")}. \code{legend.position} can be one of \code{"topright" "topleft", "bottomright", "bottomleft"}.
+Marginal probabilities are visualised by \code{\link[graphics]{matplot}} (for numeric (metric) predictors) and  \code{\link[graphics]{mosaicplot}} (for categorical predictors). In case of non parametric estimation of marginal densities, the bandwidths are reported for each class. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via \code{arg.num(..., legend.position = "topright")}. \code{legend.position} can be one of \code{"topright" "topleft", "bottomright", "bottomleft"}.
 }
 \examples{
 data(iris)
