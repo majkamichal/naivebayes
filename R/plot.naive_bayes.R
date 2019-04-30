@@ -45,6 +45,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 X <- 0:max(x$data$x[[i]], na.rm = TRUE)
                 Y <- matrix(stats::dpois(x = X, lambda = rep(i_tab, each = length(X))),
                             ncol = length(lev))
+
                 n <- names(arg.num2)
                 if (!("col"  %in% n)) arg.num2$col <- seq_along(lev) + 1
                 if (!("las"  %in% n)) arg.num2$las <- 1
