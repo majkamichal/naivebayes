@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# naivebayes <img src="docs/reference/figures/logo.png" align="right" />
+# Naïve Bayes <img src="docs/reference/figures/logo.png" align="right" />
 
 [![Build
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -458,6 +458,7 @@ Please find more information about the `nproc` package under:
 ``` r
 library(nproc)
 library(naivebayes)
+#> naivebayes 0.9.6 loaded
 
 # Simulate data
 set.seed(2550)
