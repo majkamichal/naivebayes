@@ -28,6 +28,18 @@ Classification based on Naive Bayes models.
 Computes conditional posterior probabilities for each class label using the Bayes' rule under the assumption of independence of predictors. If no new data is provided, the data from the object is used. Logical variables are treated as categorical (binary) variables. Predictors with missing values are not included into the computation of posterior probabilities.
 }
 \examples{
+### Simulate example data
+n <- 100
+set.seed(1)
+data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
+                   bern = sample(LETTERS[1:2], n, TRUE),
+                   cat  = sample(letters[1:3], n, TRUE),
+                   logical = sample(c(TRUE,FALSE), n, TRUE),
+                   norm = rnorm(n),
+                   count = rpois(n, lambda = c(5,15)))
+train <- data[1:95, ]
+test <- data[96:100, -1]
+
 ### 1) General usage via formula interface
 nb <- naive_bayes(class ~ ., train)
 summary(nb)
@@ -40,60 +52,6 @@ nb \%class\% test
 predict(nb, test, type = "prob")
 nb \%prob\% test
 
-# Helper functions
-tables(nb, 1)
-get_cond_dist(nb)
-
-# Note: all "numeric" (integer, double) variables are modelled
-#       with Gaussian distribution by default.
-
-
-### 2) General usage via matrix/data.frame and class vector
-X <- train[-1]
-class <- train$class
-nb2 <- naive_bayes(x = X, y = class)
-nb2 \%prob\% test
-
-
-### 3) Model continuous variables non-parametrically
-#   via kernel density estimation (KDE)
-nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
-summary(nb_kde)
-get_cond_dist(nb_kde)
-
-nb_kde \%prob\% test
-plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9))
-plot(nb_kde, "count", arg.num = list(legend.cex = 0.9))
-
-# ?density and ?bw.nrd for further documentation
-
-# 3.1) Change Gaussian kernel to biweight kernel
-nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
-                               kernel = "biweight")
-nb_kde_biweight \%prob\% test
-plot(nb_kde_biweight, c("norm", "count"), arg.num = list(legend.cex = 0.9))
-
-# 3.2) Change "nrd0" (Silverman's rule of thumb) bandwidth selector
-nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
-                               bw = "SJ")
-nb_kde_SJ \%prob\% test
-plot(nb_kde_SJ, c("norm", "count"), arg.num = list(legend.cex = 0.9))
-
-
-# 3.3) Adjust bandwidth
-nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
-                         adjust = 1.5)
-nb_kde_adjust \%prob\% test
-plot(nb_kde_adjust, c("norm", "count"), arg.num = list(legend.cex = 0.9))
-
-
-### 4) Model non-negative integers with Poisson distribution
-nb_pois <- naive_bayes(class ~ ., train, usekernel = TRUE, usepoisson = TRUE)
-summary(nb_pois)
-get_cond_dist(nb_pois)
-
-nb_pois \%prob\% test
-plot(nb_pois, "count")
 
 \dontrun{
 vars <- 10
