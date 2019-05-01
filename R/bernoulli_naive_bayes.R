@@ -134,7 +134,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
                        "as there are probability tables in the object. ",
                        "Calculation is performed based on features to be found in the tables."),
                 call. = FALSE)
-        newdata <- newdata[ ,features]
+        newdata <- newdata[ ,features, drop = FALSE]
     }
     if (object$laplace == 0) {
         threshold <- 0.001
