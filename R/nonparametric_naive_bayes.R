@@ -122,7 +122,7 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
                        "More features in the newdata are provided ",
                        "as there are probability tables in the object. ",
                        "Calculation is performed based on features to be found in the tables."), call. = FALSE)
-        newdata <- newdata[ ,features]
+        newdata <- newdata[ ,features, drop = FALSE]
     }
 
     NAx <- anyNA(newdata)

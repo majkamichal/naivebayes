@@ -121,7 +121,7 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
                        "More features in the newdata are provided ",
                        "as there are parameter estimates in the object. ",
                        "Calculation is performed based on features to be found in the object."), call. = FALSE)
-        newdata <- newdata[ ,features]
+        newdata <- newdata[ ,features, drop = FALSE]
     }
     NAx <- anyNA(newdata)
     if (NAx) {
