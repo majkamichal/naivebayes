@@ -29,6 +29,20 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     n_features <- length(features)
     n_tables <- length(tables)
     n_features_newdata <- ncol(newdata)
+
+    if (n_features < n_tables) {
+        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
+                       " defined in the naive_bayes object \"", substitute(object),
+                       "\" are used for prediction.\n"), call. = FALSE)
+    }
+    if (n_features_newdata > n_tables) {
+        warning(paste0("predict.naive_bayes(): ",
+                       "More features in the newdata are provided ",
+                       "as there are probability tables in the object. ",
+                       "Calculation is performed based on features to be found in the tables."),
+                call. = FALSE)
+        newdata <- newdata[ ,features, drop = FALSE]
+    }
     ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
     ind_factor <- names(which(ind_factor != 0))
     if (length(ind_factor) > 0) {
@@ -47,19 +61,6 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                         " (it should be numeric but is character/factor).\n"),
                  call. = FALSE)
         }
-    }
-    if (n_features < n_tables) {
-        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
-                       " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction.\n"), call. = FALSE)
-    }
-    if (n_features_newdata > n_tables) {
-        warning(paste0("predict.naive_bayes(): ",
-                       "More features in the newdata are provided ",
-                       "as there are probability tables in the object. ",
-                       "Calculation is performed based on features to be found in the tables."),
-                call. = FALSE)
-        newdata <- newdata[ ,features]
     }
     log_sum <- matrix(log(prior), ncol = n_lev, nrow = n_obs, byrow = TRUE)
     colnames(log_sum) <- lev
