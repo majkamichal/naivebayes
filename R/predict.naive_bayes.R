@@ -7,7 +7,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             newdata <- as.data.frame(newdata)
         }
         else {
-            stop("predict.naive_bayes(): \"newdata\" in \"predict\" function has to be either a matrix or a data.frame\n", call. = FALSE)
+            stop("predict.naive_bayes(): \"newdata\" has to be either a matrix or a data.frame.\n", call. = FALSE)
         }
     }
 
