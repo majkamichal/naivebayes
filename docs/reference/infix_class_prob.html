@@ -161,9 +161,10 @@
 
     
     <p>If <code>lhs</code> is of class inheriting from the family of the Naive Bayes objects and <code>rhs</code> is either dataframe or matrix then the infix operators <code>%class%</code> and <code>%prob%</code> are equivalent to:</p><ul>
-<li><p><code>lhs %class% rhs</code> &lt;=&gt; <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(lhs, newdata = rhs, type = "class")</a></code></p></li>
-<li><p><code>lhs %prob% rhs</code> &lt;=&gt; <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(lhs, newdata = rhs, type == "prob")</a></code></p></li>
+<li><p><code>lhs %class% rhs</code> &lt;=&gt; <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(lhs, newdata = rhs, type = "class", threshold = 0.001, eps = 0)</a></code></p></li>
+<li><p><code>lhs %prob% rhs</code> &lt;=&gt; <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict(lhs, newdata = rhs, type == "prob", threshold = 0.001, eps = 0)</a></code></p></li>
 </ul>
+    <p>Compared to <code><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict()</a></code>, both operators do not allow changing values of fine tuning parameters <code>threshold</code> and <code>eps</code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -172,8 +173,9 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### Fit the model</span>
-<span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,-<span class='fl'>5</span>] <span class='co'># Let's pretend</span>
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='no'>iris</span>)
+
+<span class='no'>newdata</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span>[<span class='fl'>1</span>:<span class='fl'>5</span>,-<span class='fl'>5</span>] <span class='co'># Let's pretend</span>
 
 <span class='co'>### Classification</span>
 <span class='no'>nb</span> <span class='kw'>%class%</span> <span class='no'>newdata</span></div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa

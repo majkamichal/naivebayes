@@ -65,7 +65,7 @@ plot(nnb_kernel, 1)
 nnb_adjust <- nonparametric_naive_bayes(M, y, adjust = 1.5)
 plot(nnb_adjust, 1)
 
-### Change bnandwidth selector
+### Change bandwidth selector
 nnb_bw <- nonparametric_naive_bayes(M, y, bw = "SJ")
 plot(nnb_bw, 1)
 

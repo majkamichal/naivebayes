@@ -27,14 +27,18 @@ The infix operators \code{\%class\%} and \code{\%prob\%} are shorthands for perf
 
 If \code{lhs} is of class inheriting from the family of the Naive Bayes objects and \code{rhs} is either dataframe or matrix then the infix operators \code{\%class\%} and \code{\%prob\%} are equivalent to:
 \itemize{
-    \item \code{lhs \%class\% rhs} <=> \code{predict(lhs, newdata = rhs, type = "class")}
-    \item \code{lhs \%prob\% rhs} <=> \code{predict(lhs, newdata = rhs, type == "prob")}
+    \item \code{lhs \%class\% rhs} <=> \code{predict(lhs, newdata = rhs, type = "class", threshold = 0.001, eps = 0)}
+    \item \code{lhs \%prob\% rhs} <=> \code{predict(lhs, newdata = rhs, type == "prob", threshold = 0.001, eps = 0)}
 }
+
+Compared to \code{predict()}, both operators do not allow changing values of fine tuning parameters \code{threshold} and \code{eps}.
+
 }
 \examples{
 ### Fit the model
-newdata <- iris[1:5,-5] # Let's pretend
 nb <- naive_bayes(Species ~ ., iris)
+
+newdata <- iris[1:5,-5] # Let's pretend
 
 ### Classification
 nb \%class\% newdata

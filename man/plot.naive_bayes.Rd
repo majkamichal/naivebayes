@@ -27,6 +27,9 @@ Plot method for objects of class \code{"naive_bayes"} designed for a quick look 
 }
 \details{
 Marginal probabilities are visualised by \code{\link[graphics]{matplot}} (for numeric (metric) predictors) and  \code{\link[graphics]{mosaicplot}} (for categorical predictors). In case of non parametric estimation of marginal densities, the bandwidths are reported for each class. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via \code{arg.num(..., legend.position = "topright")}. \code{legend.position} can be one of \code{"topright" "topleft", "bottomright", "bottomleft"}.
+
+- \code{arg.num(..., legend.cex = 0.9)} to adjust legend size.
+
 }
 \examples{
 data(iris)
