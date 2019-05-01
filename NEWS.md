@@ -24,6 +24,8 @@
 
 * `multinomial_naive_bayes()` - specialised Naive Bayes classifier suitable for text classification.
 	    
+* `%class%` and `%prob%` - infix operators that are shorthands for performing classification and obtaining posterior probabilities, respectively.
+	    
 * `coef()` - a generic function which extracts model coefficients from specialized Naive Bayes objects.
 	    
 * `get_cond_dist()` - for obtaining names of class conditional distributions assigned to features.

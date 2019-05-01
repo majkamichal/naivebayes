@@ -10,6 +10,9 @@
 	    \item \code{poisson_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take are non-negative integers and each feature is modelled with the Poisson distribution.
 	    \item \code{nonparametric_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take real valued and distribution of each is estimated with kernel density estimation (KDE).
 	    \item \code{multinomial_naive_bayes()} - specialised Naive Bayes classifier suitable for text classification.
+
+	    \item \%class\% and \%prob\% - infix operators that are shorthands for performing classification and obtaining posterior probabilities, respectively.
+
 	    \item \code{coef()} - a generic function which extracts model coefficients from specialized Naive Bayes objects.
 
 	    \item \code{get_cond_dist()} - for obtaining names of class conditional distributions assigned to features.
