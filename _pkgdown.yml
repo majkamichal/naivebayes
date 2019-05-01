@@ -16,6 +16,7 @@ reference:
 - title: Predict functions
   desc: Functions used for classification or obtaining posterior probabilities.
   contents:
+  - '`Infix operators`'
   - '`predict.naive_bayes`'
   - '`predict.bernoulli_naive_bayes`'
   - '`predict.multinomial_naive_bayes`'

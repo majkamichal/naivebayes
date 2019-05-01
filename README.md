@@ -106,58 +106,10 @@ summary(nb)
 #> 
 #> ------------------------------------------------------------------------------
 
-
 # Or equivalently matrix/data.frame and class vector
 df <- new[-2]
 class_vec <- new[[2]]
 nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
-nb2
-#> 
-#> ================================ Naive Bayes ================================= 
-#>  
-#>  Call: 
-#> naive_bayes.default(x = df, y = class_vec, usepoisson = TRUE)
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  
-#> Laplace smoothing: 0
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  
-#>  A priori probabilities: 
-#> 
-#>     setosa versicolor  virginica 
-#>  0.3333333  0.3333333  0.3333333 
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  
-#>  Tables: 
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: Petal.Width (Gaussian) 
-#> ------------------------------------------------------------------------------ 
-#>            
-#> Petal.Width    setosa versicolor virginica
-#>        mean 0.2460000  1.3260000 2.0260000
-#>        sd   0.1053856  0.1977527 0.2746501
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: Discrete (Categorical) 
-#> ------------------------------------------------------------------------------ 
-#>         
-#> Discrete setosa versicolor virginica
-#>        A   0.24       0.30      0.30
-#>        B   0.38       0.38      0.44
-#>        C   0.38       0.32      0.26
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: Counts (Poisson) 
-#> ------------------------------------------------------------------------------ 
-#> 
-#>        setosa versicolor virginica
-#> lambda   1.08       1.98     10.16
-#> 
-#> ------------------------------------------------------------------------------
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
@@ -190,12 +142,18 @@ get_cond_dist(nb) # <=> attr(nb$tables, "cond_dist")
 # data.frame("Dist" = get_cond_dist(nb))
 
 # Classification
-head(predict(nb))
+head(predict(nb, newdata = new)) # <==> head(nb %class% new)
+#> Warning: predict.naive_bayes(): More features in the newdata are provided
+#> as there are probability tables in the object. Calculation is performed
+#> based on features to be found in the tables.
 #> [1] setosa setosa setosa setosa setosa setosa
 #> Levels: setosa versicolor virginica
 
 # Posterior probabilities
-head(predict(nb, type = "prob"))
+head(predict(nb, newdata = new, type = "prob")) # <==> head(nb %prob% new)
+#> Warning: predict.naive_bayes(): More features in the newdata are provided
+#> as there are probability tables in the object. Calculation is performed
+#> based on features to be found in the tables.
 #>         setosa   versicolor    virginica
 #> [1,] 1.0000000 2.715527e-08 1.515451e-14
 #> [2,] 1.0000000 3.982773e-08 1.320599e-13
@@ -287,8 +245,18 @@ plot(nb, "V1")
 all(get_cond_dist(bnb) == get_cond_dist(nb))
 #> [1] TRUE
 
-# # Coerce the Bernoulli probability tables to a data.frame
-# bernoulli_tables_to_df(bnb)
+coef(bnb)
+#>      classA:0  classA:1  classB:0  classB:1
+#> V1  0.9137931 0.0862069 0.7876712 0.2123288
+#> V2  0.7413793 0.2586207 0.8424658 0.1575342
+#> V3  0.8103448 0.1896552 0.8698630 0.1301370
+#> V4  0.7413793 0.2586207 0.7739726 0.2260274
+#> V5  0.7413793 0.2586207 0.7739726 0.2260274
+#> V6  0.7413793 0.2586207 0.8013699 0.1986301
+#> V7  0.8103448 0.1896552 0.7739726 0.2260274
+#> V8  0.8448276 0.1551724 0.8013699 0.1986301
+#> V9  0.8103448 0.1896552 0.7602740 0.2397260
+#> V10 0.7068966 0.2931034 0.8150685 0.1849315
 ```
 
 #### 3.1.1 Gaussian Naive Bayes (“gaussian\_naive\_bayes”)
@@ -457,7 +425,6 @@ Please find more information about the `nproc` package under:
 ``` r
 library(nproc)
 library(naivebayes)
-#> naivebayes 0.9.6 loaded
 
 # Simulate data
 set.seed(2550)

@@ -75,12 +75,10 @@ new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10))
 nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
 summary(nb)
 
-
 # Or equivalently matrix/data.frame and class vector
 df <- new[-2]
 class_vec <- new[[2]]
 nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
-nb2
 
 # Visualize class conditional probability distributions
 plot(nb, which = c("Petal.Width", "Discrete"),
@@ -95,10 +93,10 @@ get_cond_dist(nb) # <=> attr(nb$tables, "cond_dist")
 # data.frame("Dist" = get_cond_dist(nb))
 
 # Classification
-head(predict(nb))
+head(predict(nb, newdata = new)) # <==> head(nb %class% new)
 
 # Posterior probabilities
-head(predict(nb, type = "prob"))
+head(predict(nb, newdata = new, type = "prob")) # <==> head(nb %prob% new)
 ```
 
 ### 3.1 Specialized Naive Bayes
@@ -139,8 +137,7 @@ plot(nb, "V1")
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(bnb) == get_cond_dist(nb))
 
-# # Coerce the Bernoulli probability tables to a data.frame
-# bernoulli_tables_to_df(bnb)
+coef(bnb)
 
 ```
 
