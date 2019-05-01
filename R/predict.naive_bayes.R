@@ -29,9 +29,9 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     n_features <- length(features)
     n_tables <- length(tables)
     n_features_newdata <- ncol(newdata)
-
     ind_factor <- sapply(newdata, class) == "factor" & names(newdata) %in% names(tables)
-    if (any(ind_factor)) {
+    ind_factor <- names(which(ind_factor != 0))
+    if (length(ind_factor) > 0) {
         ind_missing_levels <- which((sapply(newdata[ind_factor],
                                             nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
