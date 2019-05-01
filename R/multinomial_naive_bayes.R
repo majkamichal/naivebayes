@@ -90,7 +90,7 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
     col_names <- colnames(newdata)
     features <- col_names[col_names %in% colnames(params)]
     n_tables <- ncol(params)
-    params <- params[ ,features , drop = FALSE]
+    params <- params[ ,features, drop = FALSE]
     n_features <- length(features)
     n_features_newdata <- ncol(newdata)
 

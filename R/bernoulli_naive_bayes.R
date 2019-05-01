@@ -101,7 +101,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     prob1 <- t(object$prob1)
     features <- colnames(newdata)[colnames(newdata) %in% colnames(prob1)]
     n_tables <- ncol(prob1)
-    prob1 <- prob1[ ,features]
+    prob1 <- prob1[ ,features, drop = FALSE]
     n_features <- length(features)
 
     if (n_features == 0) {
@@ -148,7 +148,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     if (NAs) {
         ind_na <- which(is.na(newdata), arr.ind = TRUE)
         len_na <- nrow(ind_na)
-        warning(paste0("predict.gaussian_naive_bayes(): ", len_na, " missing",
+        warning(paste0("predict.bernoulli_naive_bayes(): ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
                        ifelse(len_na == 1, "It is", "They are"),
                        " not included into the calculation."), call. = FALSE)
