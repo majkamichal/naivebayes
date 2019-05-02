@@ -6,6 +6,7 @@
 ^index\.Rmd$
 ^index\.md$
 ^index_cache$
+^LICENSE
 ^NEWS\.md$
 ^docs/
 ^pkgdown/
