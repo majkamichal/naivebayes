@@ -77,5 +77,5 @@ plot(nnb_bw, 1)
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.nonparametric_naive_bayes}}, \code{\link{plot.nonparametric_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{predict.nonparametric_naive_bayes}}, \code{\link{plot.nonparametric_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}
 }

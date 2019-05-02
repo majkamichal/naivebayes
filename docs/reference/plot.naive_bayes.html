@@ -39,7 +39,7 @@
 
 <meta property="og:title" content="Plot Method for naive_bayes Objects — plot.naive_bayes" />
 
-<meta property="og:description" content="Plot method for objects of class &quot;naive_bayes&quot; designed for a quick look at the class marginal distributions of predictor variables." />
+<meta property="og:description" content="Plot method for objects of class &quot;naive_bayes&quot; designed for a quick look at the class marginal distributions or class conditional distributions of predictor variables." />
 
 <meta property="og:image" content="https://majkamichal.github.io/naivebayes/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,13 +128,14 @@
 
     <div class="ref-description">
     
-    <p>Plot method for objects of class <code>"naive_bayes"</code> designed for a quick look at the class marginal distributions of predictor variables.</p>
+    <p>Plot method for objects of class <code>"naive_bayes"</code> designed for a quick look at the class marginal distributions or class conditional distributions of predictor variables.</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for naive_bayes</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>legend</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>legend.box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>arg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
+  <span class='kw'>legend.box</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>arg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+  <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"marginal"</span>, <span class='st'>"conditional"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,6 +169,10 @@
       <td><p>other parameters to be passed as a named list to <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code>.</p></td>
     </tr>
     <tr>
+      <th>prob</th>
+      <td><p>character; if "marginal" then marginal distributions of predictor variables for each class are visualised and if "conditional" then the class conditional distributions of predictor variables are depicted. By default, prob="marginal".</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>not used.</p></td>
     </tr>
@@ -175,24 +180,40 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Marginal probabilities are visualised by <code><a href='https://www.rdocumentation.org/packages/graphics/topics/matplot'>matplot</a></code> (for numeric (metric) predictors) and  <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code> (for categorical predictors). In case of non parametric estimation of marginal densities, the bandwidths are reported for each class. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via <code>arg.num(..., legend.position = "topright")</code>. <code>legend.position</code> can be one of <code>"topright" "topleft", "bottomright", "bottomleft"</code>.</p>
-<p>- <code>arg.num(..., legend.cex = 0.9)</code> to adjust legend size.</p>
+    <p>Probabilities are visualised by <code><a href='https://www.rdocumentation.org/packages/graphics/topics/matplot'>matplot</a></code> (for numeric (metric) predictors) and  <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code> (for categorical predictors). In case of non parametric estimation of densities, the bandwidths are reported for each class. Nothing is returned. For numeric (metric) predictors position of the legend can be adjusted changed via <code>arg.num(..., legend.position = "topright")</code>. <code>legend.position</code> can be one of <code>"topright" "topleft", "bottomright", "bottomleft"</code>. In order to adjust the legend size following argument can be used: <code>arg.num(..., legend.cex = 0.9)</code>.</p>
+    <p>The parameter <code>prob</code> controls the kind of probabilities to be visualized for each individual predictor \(Xi\). It can take on two values:</p><ul>
+<li><p>"marginal": \(P(Xi|class) * P(class)\)</p></li>
+<li><p>"conditional": \(P(Xi|class)\)</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
+    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='infix_class_prob.html'>%class%</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
 <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>iris</span>, <span class='kw'>New</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='fl'>150</span>, <span class='fl'>TRUE</span>))
-<span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris2</span>)
 
+<span class='co'># Fit the model with custom prior probabilities</span>
+<span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>Species</span> ~ <span class='no'>.</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>iris2</span>, <span class='kw'>prior</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.1</span>, <span class='fl'>0.3</span>, <span class='fl'>0.6</span>))
+
+<span class='co'># Visualize marginal distributions of two predictors</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Sepal.Width"</span>, <span class='st'>"Sepal.Length"</span>), <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='img'><img src='plot.naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>), <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+<span class='co'># Visualize class conditional distributions corresponding to the first predictor</span>
+<span class='co'># with customized settings</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>,
      <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>,
      <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Naive Bayes Plot"</span>, <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
-     <span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.55</span>))</div><div class='img'><img src='plot.naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='plot.naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
+     <span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.55</span>))</div><div class='img'><img src='plot.naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Visualize class marginal distributions corresponding to the first predictor</span>
+<span class='co'># with customized settings</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"marginal"</span>,
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>col</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>, <span class='kw'>lty</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+     <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Naive Bayes Plot"</span>, <span class='kw'>legend.position</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
+     <span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.55</span>))</div><div class='img'><img src='plot.naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Visualize class marginal distribution corresponding to the predictor "new"</span>
+<span class='co'># with custom colours</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"New"</span>, <span class='kw'>arg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>color</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray.colors'>gray.colors</a></span>(<span class='fl'>3</span>)))</div><div class='img'><img src='plot.naive_bayes-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -167,8 +167,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span><span class='kw'>[[</span><span class='fl'>5</span>]]
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>iris</span>[-<span class='fl'>5</span>])
 
@@ -185,16 +184,17 @@
 #&gt; Sepal.Length    0.6358796
 #&gt; Sepal.Width     0.3224966
 #&gt; Petal.Length    0.5518947
-#&gt; Petal.Width     0.2746501</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>)] <span class='co'># only means</span></div><div class='output co'>#&gt;              setosa:mu versicolor:mu virginica:mu
+#&gt; Petal.Width     0.2746501</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>)] <span class='co'># only means</span></div><div class='output co'>#&gt;              setosa:mu versicolor:mu virginica:mu
 #&gt; Sepal.Length     5.006         5.936        6.588
 #&gt; Sepal.Width      3.428         2.770        2.974
 #&gt; Petal.Length     1.462         4.260        5.552
-#&gt; Petal.Width      0.246         1.326        2.026</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>)] <span class='co'># only standard deviations</span></div><div class='output co'>#&gt;              setosa:sd versicolor:sd virginica:sd
+#&gt; Petal.Width      0.246         1.326        2.026</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>FALSE</span>,<span class='fl'>TRUE</span>)] <span class='co'># only standard deviations</span></div><div class='output co'>#&gt;              setosa:sd versicolor:sd virginica:sd
 #&gt; Sepal.Length 0.3524897     0.5161711    0.6358796
 #&gt; Sepal.Width  0.3790644     0.3137983    0.3224966
 #&gt; Petal.Length 0.1736640     0.4699110    0.5518947
-#&gt; Petal.Width  0.1053856     0.1977527    0.2746501</div><div class='input'>
-</div></pre>
+#&gt; Petal.Width  0.1053856     0.1977527    0.2746501</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

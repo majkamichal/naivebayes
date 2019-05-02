@@ -68,6 +68,6 @@ coef(mnb)
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{predict.multinomial_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}, \code{\link[naivebayes]{coef.multinomial_naive_bayes}}
 }
 

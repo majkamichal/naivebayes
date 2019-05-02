@@ -34,7 +34,6 @@ McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Ba
 }
 
 \examples{
-
 ### Simulate the data:
 cols <- 10 ; rows <- 100
 M <- matrix(sample(0:5, rows * cols,  TRUE), nrow = rows, ncol = cols)
@@ -44,7 +43,6 @@ laplace <- 1
 
 ### Train the Multinomial Naive Bayes
 mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
-mnb
 
 # Classification
 head(predict(mnb, newdata = M, type = "class"))
@@ -57,6 +55,6 @@ head(predict(mnb, newdata = M, type = "prob"))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{multinomial_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}, \code{\link[naivebayes]{coef.multinomial_naive_bayes}}
 }
 

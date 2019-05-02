@@ -39,7 +39,7 @@
 
 <meta property="og:title" content="Plot Method for bernoulli_naive_bayes Objects — plot.bernoulli_naive_bayes" />
 
-<meta property="og:description" content="Plot method for objects of class &quot;bernoulli_naive_bayes&quot; designed for a quick look at the class conditional distributions of 0-1 valued predictors." />
+<meta property="og:description" content="Plot method for objects of class &quot;bernoulli_naive_bayes&quot; designed for a quick look at the class marginal distributions or class conditional distributions of 0-1 valued predictors." />
 
 <meta property="og:image" content="https://majkamichal.github.io/naivebayes/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,12 +128,13 @@
 
     <div class="ref-description">
     
-    <p>Plot method for objects of class <code>"bernoulli_naive_bayes"</code> designed for a quick look at the class conditional distributions of 0-1 valued predictors.</p>
+    <p>Plot method for objects of class <code>"bernoulli_naive_bayes"</code> designed for a quick look at the class marginal distributions or class conditional distributions of 0-1 valued predictors.</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for bernoulli_naive_bayes</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>arg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ask</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>arg.cat</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(),
+     <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"marginal"</span>, <span class='st'>"conditional"</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +156,10 @@
       <td><p>other parameters to be passed as a named list to <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code>.</p></td>
     </tr>
     <tr>
+      <th>prob</th>
+      <td><p>character; if "marginal" then marginal distributions of predictor variables for each class are visualised and if "conditional" then the class conditional distributions of predictor variables are depicted. By default, prob="marginal".</p></td>
+    </tr>
+    <tr>
       <th>...</th>
       <td><p>not used.</p></td>
     </tr>
@@ -162,16 +167,19 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Class conditional distributions are visualised by <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code>.</p>
+    <p>Class conditional or class conditional distributions are visualised by <code><a href='https://www.rdocumentation.org/packages/graphics/topics/mosaicplot'>mosaicplot</a></code>.</p>
+<p>The parameter <code>prob</code> controls the kind of probabilities to be visualized for each individual predictor \(Xi\). It can take on two values:</p><ul>
+<li><p>"marginal": \(P(Xi|class) * P(class)\)</p></li>
+<li><p>"conditional": \(P(Xi|class)\)</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
+    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>,<code><a href='bernoulli_naive_bayes.html'>bernoulli_naive_bayes</a></code> <code><a href='predict.bernoulli_naive_bayes.html'>predict.bernoulli_naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'># Simulate data</span>
+    <pre class="examples"><div class='input'><span class='co'># Simulate data</span>
 <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> ; <span class='no'>probs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0"</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='st'>"1"</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='no'>rows</span> * <span class='no'>cols</span>,  <span class='fl'>TRUE</span>, <span class='no'>probs</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>rows</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>cols</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"class"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]), <span class='no'>rows</span>, <span class='fl'>TRUE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.3</span>,<span class='fl'>0.7</span>)))
@@ -181,8 +189,10 @@
 <span class='co'># Train the Bernoulli Naive Bayes model</span>
 <span class='no'>bnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='bernoulli_naive_bayes.html'>bernoulli_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
 
-<span class='co'># Visualize probability table corresponding to the first feature</span>
+<span class='co'># Visualize class marginal probabilities corresponding to the first feature</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='img'><img src='plot.bernoulli_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Visualize class conditional probabilities corresponding to the first feature</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='plot.bernoulli_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

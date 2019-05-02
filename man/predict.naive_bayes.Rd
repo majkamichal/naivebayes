@@ -40,9 +40,8 @@ data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
 train <- data[1:95, ]
 test <- data[96:100, -1]
 
-### 1) General usage via formula interface
+### Fit the model with default settings
 nb <- naive_bayes(class ~ ., train)
-summary(nb)
 
 # Classification
 predict(nb, test, type = "class")

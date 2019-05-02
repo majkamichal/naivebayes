@@ -172,12 +172,11 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
+    <div class='dont-index'><p><code><a href='multinomial_naive_bayes.html'>multinomial_naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='infix_class_prob.html'>%class%</a></code>, <code><a href='coef.html'>coef.multinomial_naive_bayes</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>### Simulate the data:</span>
+    <pre class="examples"><div class='input'><span class='co'>### Simulate the data:</span>
 <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>5</span>, <span class='no'>rows</span> * <span class='no'>cols</span>,  <span class='fl'>TRUE</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>rows</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>cols</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"class"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]), <span class='no'>rows</span>, <span class='fl'>TRUE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.3</span>,<span class='fl'>0.7</span>)))
@@ -186,51 +185,18 @@
 
 <span class='co'>### Train the Multinomial Naive Bayes</span>
 <span class='no'>mnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='multinomial_naive_bayes.html'>multinomial_naive_bayes</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='no'>mnb</span></div><div class='output co'>#&gt; 
-#&gt; ============================ Multinomial Naive Bayes ============================ 
-#&gt;  
-#&gt;  Call: 
-#&gt; multinomial_naive_bayes(x = M, y = y, laplace = laplace)
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt; Laplace smoothing: 1
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  A priori probabilities: 
-#&gt; classA classB 
-#&gt;   0.33   0.67 
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;         Classes
-#&gt; Features     classA     classB
-#&gt;      V1  0.08801956 0.09639267
-#&gt;      V2  0.09779951 0.09757540
-#&gt;      V3  0.11246944 0.08574808
-#&gt;      V4  0.10880196 0.09520993
-#&gt;      V5  0.09902200 0.11531638
-#&gt;      V6  0.07701711 0.09225310
-#&gt;      V7  0.12224939 0.10999409
-#&gt;      V8  0.09535452 0.10467179
-#&gt;      V9  0.10391198 0.08811354
-#&gt;      V10 0.09535452 0.11472501
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt; 
-#&gt; </div><div class='input'>
+
 <span class='co'># Classification</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classB classB classB classA
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classB classB classB classB
 #&gt; Levels: classA classB</div><div class='input'>
 <span class='co'># Posterior probabilities</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.2104012 0.7895988
-#&gt; [2,] 0.3273308 0.6726692
-#&gt; [3,] 0.2850683 0.7149317
-#&gt; [4,] 0.3272100 0.6727900
-#&gt; [5,] 0.1013870 0.8986130
-#&gt; [6,] 0.6206831 0.3793169</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>mnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;          classA    classB
+#&gt; [1,] 0.12620909 0.8737909
+#&gt; [2,] 0.05260444 0.9473956
+#&gt; [3,] 0.19094055 0.8090595
+#&gt; [4,] 0.11860888 0.8813911
+#&gt; [5,] 0.28591001 0.7140900
+#&gt; [6,] 0.08710702 0.9128930</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

@@ -40,7 +40,6 @@ Silverman, B. W. (1986). Density Estimation for Statistics and Data Analysis. Ch
 }
 
 \examples{
-
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
@@ -59,5 +58,5 @@ head(predict(nnb, newdata = M, type = "prob"))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{nonparametric_naive_bayes}}, \code{\link{plot.nonparametric_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link{naive_bayes}}
+\code{\link{naive_bayes}}, \code{\link{nonparametric_naive_bayes}}, \code{\link{plot.nonparametric_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link{naive_bayes}}, \code{\link[naivebayes]{\%class\%}}
 }

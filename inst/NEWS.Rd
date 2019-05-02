@@ -3,6 +3,19 @@
 
 \section{Changes in version 0.9.6}{
 
+\subsection{Improvements:}{
+
+    \itemize{
+        \item Enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
+	    \item \code{naive_bayes()}: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{usepoisson = FALSE}. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
+
+	    \item \code{predict.naive_bayes()} has new parameter \code{eps} that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables.
+	    \item \code{predict.naive_bayes()} is now more efficient and more reliable.
+	    \item \code{print()} method has been enhanced for better readability.
+	    \item \code{plot()} method allows now visualising class marginal and class conditional distributions for each predictor variable via new parameter \code{prob} with two possible values: "marginal" or "conditional".
+}
+}
+
 \subsection{New functions:}{
 \itemize{
 	    \item \code{bernoulli_naive_bayes()} - specialised version of the \code{naive_bayes()}, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution.
@@ -19,17 +32,6 @@
 }
 }
 
-\subsection{Improvements:}{
-
-    \itemize{
-        \item Enhanced documentation - this includes a new webpage: https://majkamichal.github.io/naivebayes/
-	    \item \code{naive_bayes()}: Poisson distribution is now available to model class conditional probabilities of non-negative integer predictors. It is applied to all vectors with class "integer" via a new parameter \code{usepoisson = TRUE} in \code{naive_bayes} function. By default \code{usepoisson = FALSE}. All \code{naive_bayes} objects created with previous versions are fully compatible with the 0.9.6 version.
-
-	    \item \code{predict.naive_bayes()} has new parameter \code{eps} that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables.
-	    \item \code{predict.naive_bayes()} is now more efficient and more reliable.
-	    \item \code{print()} method has been enhanced for better readability.
-}
-}
 }
 
 

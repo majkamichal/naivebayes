@@ -48,7 +48,7 @@ M <- as.matrix(iris[-5])
 
 ### Train the Gaussian Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
-gnb
+summary(gnb)
 head(predict(gnb, newdata = M, type = "prob"))
 
 ###  Equivalent calculation with general naive_bayes function.
@@ -57,9 +57,8 @@ head(predict(nb, type = "prob"))
 
 # Obtain probability tables
 tables(gnb, which = 1)
-tables(nb, "Sepal.Width")
-coef(gnb)[c(TRUE,FALSE)] # Only means
 
+coef(gnb)[c(TRUE,FALSE)] # Only means
 
 # Visualise class conditional Gaussian distributions
 plot(gnb, which = "Sepal.Width")
@@ -73,6 +72,6 @@ all(get_cond_dist(gnb) == get_cond_dist(nb))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{naive_bayes}}, \code{\link{predict.gaussian_naive_bayes}}, \code{\link{plot.gaussian_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}
 }
 

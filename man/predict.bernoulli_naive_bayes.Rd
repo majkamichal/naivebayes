@@ -32,7 +32,6 @@ The NAs in the newdata are not included into the calculation of posterior probab
 The \code{bernoulli_naive_bayes} function is equivalent to the \code{naive_bayes} function with the numeric 0-1 matrix being coerced, for instance,  to the "0"-"1" character matrix.
 }
 \examples{
-
 cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
 M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
 y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
@@ -53,5 +52,5 @@ head(predict(bnb, newdata = M, type = "prob"))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{naive_bayes}}, \code{\link{bernoulli_naive_bayes}}, \code{\link{plot.bernoulli_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}
 }

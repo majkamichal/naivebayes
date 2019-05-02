@@ -1,7 +1,7 @@
 plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                              legend.box = FALSE, arg.num = list(),
-                             arg.cat = list(), ...) {
-
+                             arg.cat = list(), prob = c("marginal", "conditional"), ...) {
+    prob <- match.arg(prob)
     vars <- names(x$tables)
 
     if (is.null(x$data))
@@ -33,7 +33,7 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
     opar <- graphics::par()$ask
     graphics::par(ask = ask)
     on.exit(graphics::par(ask = opar))
-
+    prior <- x$prior
     for (i in v) {
         i_tab <- x$tables[[i]]
         lev <- x$levels
@@ -45,7 +45,10 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                 X <- 0:max(x$data$x[[i]], na.rm = TRUE)
                 Y <- matrix(stats::dpois(x = X, lambda = rep(i_tab, each = length(X))),
                             ncol = length(lev))
-
+                if (prob == "marginal") {
+                    for (ith_class in 1:length(prior))
+                        Y[ ,ith_class] <- Y[ ,ith_class] * prior[ith_class]
+                }
                 n <- names(arg.num2)
                 if (!("col"  %in% n)) arg.num2$col <- seq_along(lev) + 1
                 if (!("las"  %in% n)) arg.num2$las <- 1
@@ -89,6 +92,10 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
                                              sd   = rep(i_tab[2, ], each = length(X))),
                                 ncol = length(lev))
                 }
+                if (prob == "marginal") {
+                    for (ith_class in 1:length(prior))
+                        Y[ ,ith_class] <- Y[ ,ith_class] * prior[ith_class]
+                }
                 n <- names(arg.num2)
                 if (!("col"  %in% n)) arg.num2$col <- seq_along(lev) + 1
                 if (!("las"  %in% n)) arg.num2$las <- 1
@@ -117,7 +124,11 @@ plot.naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
         } else {
             if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
             if (!("color" %in% names(arg.cat))) arg.cat$color <- grDevices::heat.colors(length(lev))
-            arg.cat$xlab <- i
+            arg.cat$ylab <- i
+            if (prob == "marginal") {
+                for (ith_class in 1:length(prior))
+                    i_tab[ ,ith_class] <- i_tab[ ,ith_class] * prior[ith_class]
+            }
             params <- c(list(x = quote(t(i_tab))), c(arg.cat))
             do.call("mosaicplot", params)
         }

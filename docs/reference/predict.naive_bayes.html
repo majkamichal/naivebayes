@@ -191,25 +191,9 @@
 <span class='no'>train</span> <span class='kw'>&lt;-</span> <span class='no'>data</span>[<span class='fl'>1</span>:<span class='fl'>95</span>, ]
 <span class='no'>test</span> <span class='kw'>&lt;-</span> <span class='no'>data</span>[<span class='fl'>96</span>:<span class='fl'>100</span>, -<span class='fl'>1</span>]
 
-<span class='co'>### 1) General usage via formula interface</span>
+<span class='co'>### Fit the model with default settings</span>
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>class</span> ~ <span class='no'>.</span>, <span class='no'>train</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nb</span>)</div><div class='output co'>#&gt; 
-#&gt; ================================== Naive Bayes ================================== 
-#&gt;  
-#&gt; - Call: naive_bayes.formula(formula = class ~ ., data = train) 
-#&gt; - Laplace: 0 
-#&gt; - Classes: 2 
-#&gt; - Samples: 95 
-#&gt; - Features: 5 
-#&gt; - Conditional distributions: 
-#&gt;     - Bernoulli: 2
-#&gt;     - Categorical: 1
-#&gt;     - Gaussian: 2
-#&gt; - Prior probabilities: 
-#&gt;     - classA: 0.5263
-#&gt;     - classB: 0.4737
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- </div><div class='input'>
+
 <span class='co'># Classification</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='no'>test</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>)</div><div class='output co'>#&gt; [1] classB classA classA classA classA
 #&gt; Levels: classA classB</div><div class='input'><span class='no'>nb</span> <span class='kw'>%class%</span> <span class='no'>test</span></div><div class='output co'>#&gt; [1] classB classA classA classA classA

@@ -456,42 +456,43 @@
 <p>Please find more information about the <code>nproc</code> package under: <a href="https://cran.r-project.org/web/packages/nproc/" class="uri">https://cran.r-project.org/web/packages/nproc/</a></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nproc)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co"># Simulate data</span></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">c &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>x[ ,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>c)))</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">xtest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11">ctest &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>xtest[,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">ytest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>ctest)))</a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; naivebayes 0.9.6 loaded</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># Simulate data</span></a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb11-9" data-line-number="9">c &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>x[ ,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb11-10" data-line-number="10">y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>c)))</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11">xtest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb11-12" data-line-number="12">ctest &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>xtest[,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13">ytest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>ctest)))</a>
 <a class="sourceLine" id="cb11-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co"># Use Naive Bayes classifier and the default type I error control with alpha=0.05</span></a>
-<a class="sourceLine" id="cb11-16" data-line-number="16">naive_bayes_via_nproc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/nproc/topics/npc">npc</a></span>(x, y, <span class="dt">method =</span> <span class="st">"nb"</span>)</a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">## Recover the "naive_bayes" object</span></a>
-<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co"># naive_bayes_via_nproc$fits[[1]]$fit</span></a>
-<a class="sourceLine" id="cb11-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="co"># Classification</span></a>
-<a class="sourceLine" id="cb11-22" data-line-number="22">nb_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_nproc, xtest)</a>
-<a class="sourceLine" id="cb11-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb11-24" data-line-number="24"><span class="co"># head(nb_pred$pred.label)</span></a>
-<a class="sourceLine" id="cb11-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb11-26" data-line-number="26"><span class="co"># Obtain various measures</span></a>
-<a class="sourceLine" id="cb11-27" data-line-number="27">accuracy &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label <span class="op">==</span><span class="st"> </span>ytest)</a>
-<a class="sourceLine" id="cb11-28" data-line-number="28">ind0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb11-29" data-line-number="29">ind1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb11-30" data-line-number="30">typeI &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind0] <span class="op">!=</span><span class="st"> </span>ytest[ind0]) <span class="co">#type I error on test set</span></a>
-<a class="sourceLine" id="cb11-31" data-line-number="31">typeII &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind1] <span class="op">!=</span><span class="st"> </span>ytest[ind1]) <span class="co">#type II error on test set</span></a>
-<a class="sourceLine" id="cb11-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb11-33" data-line-number="33"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">" Overall Accuracy: "</span>,  accuracy,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, </a>
-<a class="sourceLine" id="cb11-34" data-line-number="34">    <span class="st">"Type I error:     "</span>, typeI, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
-<a class="sourceLine" id="cb11-35" data-line-number="35">    <span class="st">"Type II error:    "</span>, typeII, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a>
-<a class="sourceLine" id="cb11-36" data-line-number="36"><span class="co">#&gt;  Overall Accuracy:  0.68 </span></a>
-<a class="sourceLine" id="cb11-37" data-line-number="37"><span class="co">#&gt;  Type I error:      0.02072539 </span></a>
-<a class="sourceLine" id="cb11-38" data-line-number="38"><span class="co">#&gt;  Type II error:     0.5081433</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co"># Use Naive Bayes classifier and the default type I error control with alpha=0.05</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17">naive_bayes_via_nproc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/nproc/topics/npc">npc</a></span>(x, y, <span class="dt">method =</span> <span class="st">"nb"</span>)</a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co">## Recover the "naive_bayes" object</span></a>
+<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="co"># naive_bayes_via_nproc$fits[[1]]$fit</span></a>
+<a class="sourceLine" id="cb11-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb11-22" data-line-number="22"><span class="co"># Classification</span></a>
+<a class="sourceLine" id="cb11-23" data-line-number="23">nb_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_nproc, xtest)</a>
+<a class="sourceLine" id="cb11-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb11-25" data-line-number="25"><span class="co"># head(nb_pred$pred.label)</span></a>
+<a class="sourceLine" id="cb11-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb11-27" data-line-number="27"><span class="co"># Obtain various measures</span></a>
+<a class="sourceLine" id="cb11-28" data-line-number="28">accuracy &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label <span class="op">==</span><span class="st"> </span>ytest)</a>
+<a class="sourceLine" id="cb11-29" data-line-number="29">ind0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb11-30" data-line-number="30">ind1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb11-31" data-line-number="31">typeI &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind0] <span class="op">!=</span><span class="st"> </span>ytest[ind0]) <span class="co">#type I error on test set</span></a>
+<a class="sourceLine" id="cb11-32" data-line-number="32">typeII &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind1] <span class="op">!=</span><span class="st"> </span>ytest[ind1]) <span class="co">#type II error on test set</span></a>
+<a class="sourceLine" id="cb11-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb11-34" data-line-number="34"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">" Overall Accuracy: "</span>,  accuracy,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>, </a>
+<a class="sourceLine" id="cb11-35" data-line-number="35">    <span class="st">"Type I error:     "</span>, typeI, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
+<a class="sourceLine" id="cb11-36" data-line-number="36">    <span class="st">"Type II error:    "</span>, typeII, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a>
+<a class="sourceLine" id="cb11-37" data-line-number="37"><span class="co">#&gt;  Overall Accuracy:  0.68 </span></a>
+<a class="sourceLine" id="cb11-38" data-line-number="38"><span class="co">#&gt;  Type I error:      0.02072539 </span></a>
+<a class="sourceLine" id="cb11-39" data-line-number="39"><span class="co">#&gt;  Type II error:     0.5081433</span></a></code></pre></div>
 </div>
 <div id="usage-with-superml-package-naive_bayes" class="section level3">
 <h3 class="hasAnchor">

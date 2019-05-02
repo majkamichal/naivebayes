@@ -175,7 +175,7 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
+    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='predict.gaussian_naive_bayes.html'>predict.gaussian_naive_bayes</a></code>, <code><a href='plot.gaussian_naive_bayes.html'>plot.gaussian_naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='infix_class_prob.html'>%class%</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -186,52 +186,18 @@
 
 <span class='co'>### Train the Gaussian Naive Bayes</span>
 <span class='no'>gnb</span> <span class='kw'>&lt;-</span> <span class='fu'>gaussian_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)
-<span class='no'>gnb</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gnb</span>)</div><div class='output co'>#&gt; 
 #&gt; ============================== Gaussian Naive Bayes ============================== 
 #&gt;  
-#&gt;  Call: 
-#&gt; gaussian_naive_bayes(x = M, y = y)
+#&gt; - Call: gaussian_naive_bayes(x = M, y = y) 
+#&gt; - Samples: 150 
+#&gt; - Features: 4 
+#&gt; - Prior probabilities: 
+#&gt;     - setosa: 0.3333
+#&gt;     - versicolor: 0.3333
+#&gt;     - virginica: 0.3333
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  A priori probabilities: 
-#&gt;     setosa versicolor  virginica 
-#&gt;  0.3333333  0.3333333  0.3333333 
-#&gt; 
-#&gt; ---------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  Tables: 
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Sepal.Length (Gaussian) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;       setosa versicolor virginica
-#&gt; mu 5.0060000  5.9360000 6.5880000
-#&gt; sd 0.3524897  0.5161711 0.6358796
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Sepal.Width (Gaussian) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;       setosa versicolor virginica
-#&gt; mu 3.4280000  2.7700000 2.9740000
-#&gt; sd 0.3790644  0.3137983 0.3224966
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Petal.Length (Gaussian) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;       setosa versicolor virginica
-#&gt; mu 1.4620000  4.2600000 5.5520000
-#&gt; sd 0.1736640  0.4699110 0.5518947
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Petal.Width (Gaussian) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;       setosa versicolor virginica
-#&gt; mu 0.2460000  1.3260000 2.0260000
-#&gt; sd 0.1053856  0.1977527 0.2746501
-#&gt; 
-#&gt; ---------------------------------------------------------------------------------
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
+#&gt; ---------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
 #&gt; [1,]      1 2.981309e-18 2.152373e-25
 #&gt; [2,]      1 3.169312e-17 6.938030e-25
 #&gt; [3,]      1 2.367113e-18 7.240956e-26
@@ -256,21 +222,12 @@
 #&gt; mu 5.0060000  5.9360000 6.5880000
 #&gt; sd 0.3524897  0.5161711 0.6358796
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='st'>"Sepal.Width"</span>)</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Sepal.Width (Gaussian) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;            
-#&gt; Sepal.Width    setosa versicolor virginica
-#&gt;        mean 3.4280000  2.7700000 2.9740000
-#&gt;        sd   0.3790644  0.3137983 0.3224966
-#&gt; 
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>)] <span class='co'># Only means</span></div><div class='output co'>#&gt;              setosa:mu versicolor:mu virginica:mu
+#&gt; ---------------------------------------------------------------------------------</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>)] <span class='co'># Only means</span></div><div class='output co'>#&gt;              setosa:mu versicolor:mu virginica:mu
 #&gt; Sepal.Length     5.006         5.936        6.588
 #&gt; Sepal.Width      3.428         2.770        2.974
 #&gt; Petal.Length     1.462         4.260        5.552
 #&gt; Petal.Width      0.246         1.326        2.026</div><div class='input'>
-
 <span class='co'># Visualise class conditional Gaussian distributions</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>gnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Width"</span>)</div><div class='img'><img src='gaussian_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Check the equivalence of the class conditional distributions</span>

@@ -12,6 +12,8 @@
 
 * `print()` method has been enhanced for better readability.
 
+* ` plot()` method allows now visualising class marginal and class conditional distributions for each predictor variable via new parameter `prob` with two possible values: `"marginal"` or `"conditional"`.
+
 ## New functions
 
 * `bernoulli_naive_bayes()` - specialised version of `naive_bayes()`, where all features take on 0-1 values and each feature is modelled with the Bernoulli distribution.

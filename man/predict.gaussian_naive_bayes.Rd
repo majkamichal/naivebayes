@@ -38,7 +38,6 @@ The \code{gaussian_naive_bayes} function is equivalent to the \code{naive_bayes}
 
 }
 \examples{
-
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
@@ -57,5 +56,5 @@ head(predict(gnb, newdata = M, type = "prob"))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{naive_bayes}}, \code{\link{gaussian_naive_bayes}},  \code{\link{plot.gaussian_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}
 }

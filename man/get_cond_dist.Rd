@@ -23,6 +23,6 @@ get_cond_dist(tables(nb))
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link{tables}}
+\code{\link{naive_bayes}}, \code{\link{bernoulli_naive_bayes}}, \code{\link{multinomial_naive_bayes}}, \code{\link{poisson_naive_bayes}}, \code{\link{gaussian_naive_bayes}}, \code{\link{tables}}
 }
 

@@ -30,7 +30,6 @@ Coefficients extracted from the specialised Naive Bayes objects in form of a dat
 }
 
 \examples{
-
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
@@ -40,9 +39,10 @@ gnb <- gaussian_naive_bayes(x = M, y = y)
 
 ### Extract coefficients
 coef(gnb)
-coef(gnb)[c(TRUE,FALSE)] # only means
-coef(gnb)[c(FALSE,TRUE)] # only standard deviations
 
+coef(gnb)[c(TRUE,FALSE)] # only means
+
+coef(gnb)[c(FALSE,TRUE)] # only standard deviations
 }
 
 \author{

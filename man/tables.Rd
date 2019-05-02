@@ -26,13 +26,11 @@ tables(nb, c("Sepal.Length", "Sepal.Width"))
 tabs <- tables(nb, 1:2)
 tabs
 tabs[1]
-
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{naive_bayes}}, \code{\link{bernoulli_naive_bayes}}, \code{\link{multinomial_naive_bayes}}, \code{\link{poisson_naive_bayes}}, \code{\link{gaussian_naive_bayes}}, \code{\link{tables}}, \code{\link[naivebayes]{get_cond_dist}}
 }
 

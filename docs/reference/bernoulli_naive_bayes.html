@@ -180,12 +180,11 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='predict.naive_bayes.html'>predict.naive_bayes</a></code>, <code><a href='plot.naive_bayes.html'>plot.naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code></p></div>
+    <div class='dont-index'><p><code><a href='naive_bayes.html'>naive_bayes</a></code>, <code><a href='predict.bernoulli_naive_bayes.html'>predict.bernoulli_naive_bayes</a></code>, <code><a href='plot.bernoulli_naive_bayes.html'>plot.bernoulli_naive_bayes</a></code>, <code><a href='tables.html'>tables</a></code>, <code><a href='get_cond_dist.html'>get_cond_dist</a></code>, <code><a href='infix_class_prob.html'>%class%</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='co'>### Simulate the data:</span>
+    <pre class="examples"><div class='input'><span class='co'>### Simulate the data:</span>
 <span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> ; <span class='no'>probs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0"</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='st'>"1"</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='no'>rows</span> * <span class='no'>cols</span>,  <span class='fl'>TRUE</span>, <span class='no'>probs</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>rows</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>cols</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"class"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]), <span class='no'>rows</span>, <span class='fl'>TRUE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.3</span>,<span class='fl'>0.7</span>)))
@@ -306,8 +305,7 @@
 <span class='co'># Visualise class conditional Bernoulli distributions</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Check the equivalence of the class conditional distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>bnb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>bnb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

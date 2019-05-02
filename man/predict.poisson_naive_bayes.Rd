@@ -38,7 +38,6 @@ The \code{poisson_naive_bayes} function is equivalent to the \code{naive_bayes} 
 
 }
 \examples{
-
 cols <- 10 ; rows <- 100
 M <- matrix(rpois(rows * cols, lambda = 3), nrow = rows, ncol = cols)
 # is.integer(M) # [1] TRUE
@@ -54,11 +53,10 @@ head(predict(pnb, newdata = M, type = "class"))
 
 ### Posterior probabilities
 head(predict(pnb, newdata = M, type = "prob"))
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{poisson_naive_bayes}}, \code{\link{plot.poisson_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}, \code{\link[naivebayes]{coef.poisson_naive_bayes}}
 }

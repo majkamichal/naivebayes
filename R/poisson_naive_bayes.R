@@ -226,7 +226,8 @@ print.poisson_naive_bayes <- function (x, ...) {
 }
 
 plot.poisson_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE,
-                                     legend.box = FALSE, arg.num = list(), ...) {
+                                     legend.box = FALSE, arg.num = list(),
+                                     prob = c("marginal", "conditional"), ...) {
 
     x$tables <- get_tables(x)
     class(x) <- "naive_bayes"
@@ -234,7 +235,7 @@ plot.poisson_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRUE
     x$usekernel <- FALSE
     x$usepoisson <- TRUE
     plot.naive_bayes(x, which = which, ask = ask, legend = legend, legend.box = legend.box,
-                     arg.num = arg.num, ...)
+                     arg.num = arg.num, prob = prob, ...)
 }
 
 coef.poisson_naive_bayes  <- function(object, ...) {

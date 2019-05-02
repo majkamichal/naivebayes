@@ -221,8 +221,9 @@ print.bernoulli_naive_bayes <- function (x, ...) {
 }
 
 plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
-                                       arg.cat = list(), ...) {
-
+                                       arg.cat = list(),
+                                       prob = c("marginal", "conditional"), ...) {
+    prob <- match.arg(prob)
     model <- "bernoulli_naive_bayes"
     if (!class(x) %in% model)
         stop(paste0("plot.bernoulli_naive_bayes(): x must be of class ",
@@ -230,7 +231,7 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
 
     tables <- get_bernoulli_tables(x$prob1)
     vars <- names(tables)
-
+    prior <- x$prior
     if (is.null(x$data))
         stop("plot.bernoulli_naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
 
@@ -264,7 +265,11 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
         lev <- x$levels
         if (!("main" %in% names(arg.cat))) arg.cat$main <- ""
         if (!("color" %in% names(arg.cat))) arg.cat$color <- c("red", "yellow")
-        arg.cat$xlab <- i
+        arg.cat$ylab <- i
+        if (prob == "marginal") {
+            for (ith_class in 1:length(prior))
+                i_tab[ ,ith_class] <- i_tab[ ,ith_class] * prior[ith_class]
+        }
         params <- c(list(x = quote(t(i_tab))), c(arg.cat))
         do.call("mosaicplot", params)
     }

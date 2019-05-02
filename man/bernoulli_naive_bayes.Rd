@@ -43,7 +43,6 @@ The missing values (NAs) are omited while constructing the probability tables. T
 }
 
 \examples{
-
 ### Simulate the data:
 cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
 M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
@@ -75,12 +74,11 @@ plot(nb, "V1")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(bnb) == get_cond_dist(nb))
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
 }
 \seealso{
-\code{\link{predict.naive_bayes}}, \code{\link{plot.naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}
+\code{\link{naive_bayes}}, \code{\link{predict.bernoulli_naive_bayes}}, \code{\link{plot.bernoulli_naive_bayes}}, \code{\link[naivebayes]{tables}}, \code{\link[naivebayes]{get_cond_dist}}, \code{\link[naivebayes]{\%class\%}}
 }
 
