@@ -13,3 +13,5 @@
 ^\.travis\.yml$
 ^_pkgdown\.yml$
 
+^doc$
+^Meta$
