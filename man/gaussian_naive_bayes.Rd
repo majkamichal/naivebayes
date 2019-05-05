@@ -60,7 +60,7 @@ tables(gnb, which = 1)
 coef(gnb)[c(TRUE,FALSE)] # Only means
 
 # Visualise class conditional Gaussian distributions
-plot(gnb, which = "Sepal.Width")
+plot(gnb, which = "Sepal.Width", prob = "conditional")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(gnb) == get_cond_dist(nb))

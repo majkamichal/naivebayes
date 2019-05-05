@@ -43,10 +43,11 @@ bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
 
 ### Classification
 head(predict(bnb, newdata = M, type = "class"))
+head(bnb \%class\% M)
 
 ### Posterior probabilities
 head(predict(bnb, newdata = M, type = "prob"))
-
+head(bnb \%prob\% M)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

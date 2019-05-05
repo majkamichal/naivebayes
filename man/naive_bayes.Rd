@@ -132,8 +132,10 @@ summary(nb_kde)
 get_cond_dist(nb_kde)
 
 nb_kde \%prob\% test
-plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9))
-plot(nb_kde, "count", arg.num = list(legend.cex = 0.9))
+
+# Visualize class conditional densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+plot(nb_kde, "count", arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 ### ?density and ?bw.nrd for further documentation
 
@@ -141,21 +143,24 @@ plot(nb_kde, "count", arg.num = list(legend.cex = 0.9))
 nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                kernel = "biweight")
 nb_kde_biweight \%prob\% test
-plot(nb_kde_biweight, c("norm", "count"), arg.num = list(legend.cex = 0.9))
+plot(nb_kde_biweight, c("norm", "count"),
+     arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 
 # 3.2) Change "nrd0" (Silverman's rule of thumb) bandwidth selector
 nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                bw = "SJ")
 nb_kde_SJ \%prob\% test
-plot(nb_kde_SJ, c("norm", "count"), arg.num = list(legend.cex = 0.9))
+plot(nb_kde_SJ, c("norm", "count"),
+     arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 
 # 3.3) Adjust bandwidth
 nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
                          adjust = 1.5)
 nb_kde_adjust \%prob\% test
-plot(nb_kde_adjust, c("norm", "count"), arg.num = list(legend.cex = 0.9))
+plot(nb_kde_adjust, c("norm", "count"),
+     arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 
 ### 4) Model non-negative integers with Poisson distribution
@@ -163,8 +168,14 @@ nb_pois <- naive_bayes(class ~ ., train, usekernel = TRUE, usepoisson = TRUE)
 summary(nb_pois)
 get_cond_dist(nb_pois)
 
+# Posterior probabilities
 nb_pois \%prob\% test
-plot(nb_pois, "count")
+
+# Class conditional distributions
+plot(nb_pois, "count", prob = "conditional")
+
+# Marginal distributions
+plot(nb_pois, "count", prob = "marginal")
 
 
 \dontrun{

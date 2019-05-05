@@ -74,7 +74,10 @@ tables(nb, "V1")
 coef(pnb)
 
 # Visualise class conditional Poisson distributions
-plot(pnb, which = "V1")
+plot(pnb, which = "V1", prob = "conditional")
+
+# Visualise class marginal distributions
+plot(pnb, which = "V1", prob = "marginal")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(pnb) == get_cond_dist(nb))

@@ -69,7 +69,7 @@ tables(nb, "V1")
 coef(bnb)
 
 # Visualise class conditional Bernoulli distributions
-plot(bnb, which = "V1")
+plot(bnb, which = "V1", prob = "conditional")
 plot(nb, "V1")
 
 # Check the equivalence of the class conditional distributions

@@ -47,10 +47,11 @@ gnb <- gaussian_naive_bayes(x = M, y = y)
 
 ### Classification
 head(predict(gnb, newdata = M, type = "class"))
+head(gnb \%class\% M)
 
 ### Posterior probabilities
 head(predict(gnb, newdata = M, type = "prob"))
-
+head(gnb \%prob\% M)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

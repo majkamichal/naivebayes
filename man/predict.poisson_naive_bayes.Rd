@@ -50,9 +50,11 @@ pnb <- poisson_naive_bayes(x = M, y = y, laplace = laplace)
 
 ### Classification
 head(predict(pnb, newdata = M, type = "class"))
+head(pnb \%class\% M)
 
 ### Posterior probabilities
 head(predict(pnb, newdata = M, type = "prob"))
+head(pnb \%prob\% M)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

@@ -46,10 +46,11 @@ mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
 
 # Classification
 head(predict(mnb, newdata = M, type = "class"))
+head(mnb \%class\% M)
 
 # Posterior probabilities
 head(predict(mnb, newdata = M, type = "prob"))
-
+head(mnb \%prob\% M)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

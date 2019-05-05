@@ -55,9 +55,11 @@ summary(mnb)
 
 # Classification
 head(predict(mnb, newdata = M, type = "class"))
+head(mnb \%class\% M)
 
 # Posterior probabilities
 head(predict(mnb, newdata = M, type = "prob"))
+head(mnb \%prob\% M)
 
 # Parameter estimates
 coef(mnb)

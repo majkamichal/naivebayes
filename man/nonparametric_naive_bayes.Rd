@@ -58,15 +58,15 @@ head(predict(nb, type = "prob"))
 
 ### Change kernel
 nnb_kernel <- nonparametric_naive_bayes(x = M, y = y, kernel = "biweight")
-plot(nnb_kernel, 1)
+plot(nnb_kernel, 1, prob = "conditional")
 
 ### Adjust bandwidth
 nnb_adjust <- nonparametric_naive_bayes(M, y, adjust = 1.5)
-plot(nnb_adjust, 1)
+plot(nnb_adjust, 1, prob = "conditional")
 
 ### Change bandwidth selector
 nnb_bw <- nonparametric_naive_bayes(M, y, bw = "SJ")
-plot(nnb_bw, 1)
+plot(nnb_bw, 1, prob = "conditional")
 
 ### Obtain tables with conditional densities
 # tables(nnb, which = 1)

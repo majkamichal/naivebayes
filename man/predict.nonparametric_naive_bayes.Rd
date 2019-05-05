@@ -49,10 +49,11 @@ nnb <- nonparametric_naive_bayes(x = M, y = y, bw = "SJ")
 
 ### Classification
 head(predict(nnb, newdata = M, type = "class"))
+head(nnb \%class\% M)
 
 ### Posterior probabilities
 head(predict(nnb, newdata = M, type = "prob"))
-
+head(nnb \%prob\% M)
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
