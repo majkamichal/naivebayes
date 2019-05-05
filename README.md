@@ -76,7 +76,7 @@ demonstrated. Examples with the specialized Naive Bayes classifiers can
 be found in the extended documentation:
 <https://majkamichal.github.io/naivebayes/>
 
-### 3.1) Example data
+### 3.1 Example data
 
 ``` r
 library(naivebayes)
@@ -94,7 +94,7 @@ train <- data[1:95, ]
 test <- data[96:100, -1]
 ```
 
-### 3.2) Formula interface
+### 3.2 Formula interface
 
 ``` r
 nb <- naive_bayes(class ~ ., train)
@@ -161,7 +161,7 @@ get_cond_dist(nb)
 #       with Gaussian distribution by default.
 ```
 
-### 3.3) Matrix/data.frame and class vector
+### 3.3 Matrix/data.frame and class vector
 
 ``` r
 X <- train[-1]
@@ -176,7 +176,7 @@ nb2 %prob% test
 #> [5,] 0.5087005 0.4912995
 ```
 
-### 3.4) Non-parametric estimation for continuous features
+### 3.4 Non-parametric estimation for continuous features
 
 Kernel density estimation can be used to estimate class conditional
 densities of continuous features. It has to be explicitly requested via
@@ -230,7 +230,7 @@ plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
 
 ![](man/figures/kde-2.png)<!-- -->
 
-#### 3.4.1) Changing kernel
+#### 3.4.1 Changing kernel
 
 In general, there are 7 different smoothing kernels available:
 
@@ -262,7 +262,7 @@ plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditio
 
 ![](man/figures/kde_kernel-1.png)<!-- -->
 
-#### 3.4.2) Changing bandwidth selector
+#### 3.4.2 Changing bandwidth selector
 
 There are 5 different bandwidth selectors:
 
@@ -289,7 +289,7 @@ plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 ![](man/figures/kde_bw-1.png)<!-- -->
 
-#### 3.4.3) Adjusting bandwidth
+#### 3.4.3 Adjusting bandwidth
 
 Each Bandwidth is chosen according to the bandwidth selector and they
 can be additionally adjusted by a factor given by `adjust` parameter:
@@ -309,7 +309,7 @@ plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditiona
 
 ![](man/figures/kde_adjust-1.png)<!-- -->
 
-### 3.5) Model non-negative integers with Poisson distribution
+### 3.5 Model non-negative integers with Poisson distribution
 
 Class conditional distributions of non-negative integer predictors can
 be modelled with Poisson distribution. This can be achieved by setting

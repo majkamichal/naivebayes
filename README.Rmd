@@ -63,7 +63,7 @@ devtools::install_github("majkamichal/naivebayes")
 The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they know how to handle them. In following the basic usage of the main function  `naive_bayes()` is demonstrated. Examples with the specialized Naive Bayes classifiers can be found in the extended documentation: https://majkamichal.github.io/naivebayes/  
 
 
-### 3.1) Example data
+### 3.1 Example data
 
 ```{r data, cache=TRUE}
 library(naivebayes)
@@ -81,7 +81,7 @@ train <- data[1:95, ]
 test <- data[96:100, -1]
 ```
 
-### 3.2) Formula interface
+### 3.2 Formula interface
 
 ```{r formula_interface, cache=TRUE}
 nb <- naive_bayes(class ~ ., train)
@@ -103,7 +103,7 @@ get_cond_dist(nb)
 #       with Gaussian distribution by default.
 ```
 
-### 3.3) Matrix/data.frame and class vector
+### 3.3 Matrix/data.frame and class vector
 
 ```{r generalusage, cache=TRUE}
 X <- train[-1]
@@ -114,7 +114,7 @@ nb2 %prob% test
 
 
 
-### 3.4) Non-parametric estimation for continuous features
+### 3.4 Non-parametric estimation for continuous features
 
 Kernel density estimation can be used to estimate class conditional densities of continuous features. It has to be explicitly requested via the parameter `usekernel=TRUE` otherwise Gaussian distribution will be assumed. The estimation is performed with the built in `R` function `density()`. By default, Gaussian smoothing kernel and Silverman's rule of thumb as bandwidth selector are used:
 
@@ -132,7 +132,7 @@ plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
 ```
 
 
-#### 3.4.1) Changing kernel
+#### 3.4.1 Changing kernel
 
 In general, there are 7 different smoothing kernels available:
 
@@ -155,7 +155,7 @@ plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditio
 ```
 
 
-#### 3.4.2) Changing bandwidth selector
+#### 3.4.2 Changing bandwidth selector
 
 There are 5 different bandwidth selectors:
 
@@ -174,7 +174,7 @@ nb_kde_SJ %prob% test
 plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
 
-#### 3.4.3) Adjusting bandwidth
+#### 3.4.3 Adjusting bandwidth
 
 Each Bandwidth is chosen according to the bandwidth selector and they can be additionally adjusted by a factor given by `adjust` parameter:
 
@@ -186,7 +186,7 @@ plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditiona
 ```
 
 
-### 3.5) Model non-negative integers with Poisson distribution
+### 3.5 Model non-negative integers with Poisson distribution
 
 Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting `usepoisson=TRUE` in the `naive_bayes()` function and by making sure that the variables representing counts in the dataset are of class `integer`.
 
