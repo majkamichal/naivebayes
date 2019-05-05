@@ -12,6 +12,6 @@
 ^pkgdown/
 ^\.travis\.yml$
 ^_pkgdown\.yml$
-
+^vignettes/
 ^doc$
 ^Meta$
