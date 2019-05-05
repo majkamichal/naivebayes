@@ -95,7 +95,25 @@
   </a>
 </li>
 <li>
+  <a href="../articles/naivebayes.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
+    </li>
+    <li>
+      <a href="../articles/specialized_naive_bayes.html">Specialized Naive Bayes</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -332,7 +350,9 @@
 #&gt; [2,] 0.5441986 0.4558014
 #&gt; [3,] 0.6515139 0.3484861
 #&gt; [4,] 0.6661044 0.3338956
-#&gt; [5,] 0.6736159 0.3263841</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde</span>, <span class='st'>"norm"</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>))</div><div class='img'><img src='naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde</span>, <span class='st'>"count"</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>))</div><div class='img'><img src='naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; [5,] 0.6736159 0.3263841</div><div class='input'>
+<span class='co'># Visualize class conditional densities</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde</span>, <span class='st'>"norm"</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde</span>, <span class='st'>"count"</span>, <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### ?density and ?bw.nrd for further documentation</span>
 
 <span class='co'># 3.1) Change Gaussian kernel to biweight kernel</span>
@@ -343,7 +363,8 @@
 #&gt; [2,] 0.5588270 0.4411730
 #&gt; [3,] 0.6594737 0.3405263
 #&gt; [4,] 0.6650295 0.3349705
-#&gt; [5,] 0.6631951 0.3368049</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_biweight</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>), <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>))</div><div class='img'><img src='naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; [5,] 0.6631951 0.3368049</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_biweight</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>),
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-4.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'># 3.2) Change "nrd0" (Silverman's rule of thumb) bandwidth selector</span>
 <span class='no'>nb_kde_SJ</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='no'>class</span> ~ <span class='no'>.</span>, <span class='no'>train</span>, <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -353,7 +374,8 @@
 #&gt; [2,] 0.4858273 0.5141727
 #&gt; [3,] 0.7004134 0.2995866
 #&gt; [4,] 0.7005704 0.2994296
-#&gt; [5,] 0.7089626 0.2910374</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_SJ</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>), <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>))</div><div class='img'><img src='naive_bayes-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; [5,] 0.7089626 0.2910374</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_SJ</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>),
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-6.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'># 3.3) Adjust bandwidth</span>
 <span class='no'>nb_kde_adjust</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='no'>class</span> ~ <span class='no'>.</span>, <span class='no'>train</span>, <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
@@ -363,7 +385,8 @@
 #&gt; [2,] 0.5953904 0.4046096
 #&gt; [3,] 0.6512967 0.3487033
 #&gt; [4,] 0.6550197 0.3449803
-#&gt; [5,] 0.6024013 0.3975987</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_adjust</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>), <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>))</div><div class='img'><img src='naive_bayes-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-8.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; [5,] 0.6024013 0.3975987</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_kde_adjust</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"norm"</span>, <span class='st'>"count"</span>),
+     <span class='kw'>arg.num</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>legend.cex</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-7.png' alt='' width='700' height='433' /></div><div class='img'><img src='naive_bayes-8.png' alt='' width='700' height='433' /></div><div class='input'>
 
 <span class='co'>### 4) Model non-negative integers with Poisson distribution</span>
 <span class='no'>nb_pois</span> <span class='kw'>&lt;-</span> <span class='fu'>naive_bayes</span>(<span class='no'>class</span> ~ <span class='no'>.</span>, <span class='no'>train</span>, <span class='kw'>usekernel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>usepoisson</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
@@ -386,12 +409,17 @@
 #&gt; 
 #&gt; --------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb_pois</span>)</div><div class='output co'>#&gt;          bern           cat       logical          norm         count 
 #&gt;   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"     "Poisson" </div><div class='input'>
+<span class='co'># Posterior probabilities</span>
 <span class='no'>nb_pois</span> <span class='kw'>%prob%</span> <span class='no'>test</span></div><div class='output co'>#&gt;         classA    classB
 #&gt; [1,] 0.4968058 0.5031942
 #&gt; [2,] 0.3844139 0.6155861
 #&gt; [3,] 0.6289413 0.3710587
 #&gt; [4,] 0.5183059 0.4816941
-#&gt; [5,] 0.5921726 0.4078274</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_pois</span>, <span class='st'>"count"</span>)</div><div class='img'><img src='naive_bayes-9.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; [5,] 0.5921726 0.4078274</div><div class='input'>
+<span class='co'># Class conditional distributions</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_pois</span>, <span class='st'>"count"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='naive_bayes-9.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Marginal distributions</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb_pois</span>, <span class='st'>"count"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"marginal"</span>)</div><div class='img'><img src='naive_bayes-10.png' alt='' width='700' height='433' /></div><div class='input'>
 
 </div><span class='co'># NOT RUN {</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>

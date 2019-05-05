@@ -1,0 +1,114 @@
+---
+title: "Caret, nproc and naivebayes"
+---
+
+The general `naive_bayes()` function is available through the excellent `Caret` package. It can be also used via `nproc` package. In this short vignette the basic usage in both cases is demonstrated.
+
+
+## naive_bayes in Caret
+
+```{r example_caret, cache=TRUE}
+library(caret, quietly = TRUE)
+library(naivebayes)
+
+data(iris)
+new <- iris[-c(1,2,3)]
+# Add one categorical and count variable
+set.seed(1)
+new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
+set.seed(1)
+new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
+
+
+# Train the Naive Bayes model with the Caret package
+naive_bayes_via_caret <- train(Species ~ ., 
+                               data = new, 
+                               method = "naive_bayes", 
+                               usepoisson = TRUE)
+
+naive_bayes_via_caret
+
+# Classification
+head(predict(naive_bayes_via_caret, newdata = new))
+
+# Posterior probabilities
+head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
+
+## Recover the naive_bayes object
+nb_object <- naive_bayes_via_caret$finalModel
+class(nb_object)
+```
+
+
+Define tuning grid, do resampling and find the "optimal" model:
+
+```{r example_caret2, cache=TRUE}
+
+# Define tuning grid 
+nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
+                         laplace = c(0, 0.5, 1), 
+                         adjust = c(0.75, 1, 1.25, 1.5))
+# Fit the Naive Bayes model 
+set.seed(2550)
+naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
+                               method = "naive_bayes",
+                               usepoisson = TRUE,
+                               tuneGrid = nb_grid)
+# Selected tuning parameters
+naive_bayes_via_caret2$finalModel$tuneValue
+
+## View the final naive_bayes model
+# naive_bayes_via_caret2$finalModel
+
+# Visualize the tuning process
+plot(naive_bayes_via_caret2)
+
+# Perform classification 
+head(predict(naive_bayes_via_caret2, newdata = new))
+```
+
+
+## naive_bayes in nproc
+
+Please find more information about the `nproc` package under: https://cran.r-project.org/web/packages/nproc/
+
+
+
+```{r example_nproc, cache = FALSE}
+library(nproc)
+library(naivebayes)
+
+# Simulate data
+set.seed(2550)
+n <- 1000
+x <- matrix(rnorm(n * 2), n, 2)
+c <- 1 + 3 * x[ ,1]
+y <- rbinom(n, 1, 1 / (1 + exp(-c)))
+xtest <- matrix(rnorm(n * 2), n, 2)
+ctest <- 1 + 3 * xtest[,1]
+ytest <- rbinom(n, 1, 1 / (1 + exp(-ctest)))
+
+
+# Use Naive Bayes classifier and the default type I error control with alpha=0.05
+naive_bayes_via_nproc <- npc(x, y, method = "nb")
+
+## Recover the "naive_bayes" object
+# naive_bayes_via_nproc$fits[[1]]$fit
+
+# Classification
+nb_pred <- predict(naive_bayes_via_nproc, xtest)
+
+# head(nb_pred$pred.label)
+
+# Obtain various measures
+accuracy <- mean(nb_pred$pred.label == ytest)
+ind0 <- which(ytest == 0)
+ind1 <- which(ytest == 1)
+typeI <- mean(nb_pred$pred.label[ind0] != ytest[ind0]) #type I error on test set
+typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
+
+cat(" Overall Accuracy: ",  accuracy,"\n",
+    "Type I error:     ", typeI, "\n",
+    "Type II error:    ", typeII, "\n")
+```
+

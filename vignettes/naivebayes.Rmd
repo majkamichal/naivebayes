@@ -1,0 +1,149 @@
+---
+output: github_document
+---
+
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they can handle them. In following the basic usage of the `naivebayes` package is demonstrated:
+
+
+## Example data
+
+```{r data, cache=TRUE}
+library(naivebayes)
+
+# Simulate example data
+n <- 100
+set.seed(1)
+data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
+                   bern = sample(LETTERS[1:2], n, TRUE),
+                   cat  = sample(letters[1:3], n, TRUE),
+                   logical = sample(c(TRUE,FALSE), n, TRUE),
+                   norm = rnorm(n),
+                   count = rpois(n, lambda = c(5,15)))
+train <- data[1:95, ]
+test <- data[96:100, -1]
+```
+
+## Formula interface
+
+```{r formula_interface, cache=TRUE}
+nb <- naive_bayes(class ~ ., train)
+summary(nb)
+
+# Classification
+predict(nb, test, type = "class")
+nb %class% test
+
+# Posterior probabilities
+predict(nb, test, type = "prob")
+nb %prob% test
+
+# Helper functions
+tables(nb, 1)
+get_cond_dist(nb)
+
+# Note: all "numeric" (integer, double) variables are modelled
+#       with Gaussian distribution by default.
+```
+
+## Matrix/data.frame and class vector
+
+```{r generalusage, cache=TRUE}
+X <- train[-1]
+class <- train$class
+nb2 <- naive_bayes(x = X, y = class)
+nb2 %prob% test
+```
+
+
+
+## Non-parametric estimation for continuous features
+
+Kernel density estimation can be used to estimate class conditional densities of continuous features. It has to be explicitly requested via the parameter `usekernel=TRUE` otherwise Gaussian distribution will be assumed. The estimation is performed with the built in `R` function `density()`. By default, Gaussian smoothing kernel and Silverman's rule of thumb as bandwidth selector are used:
+
+```{r kde, cache=TRUE}
+nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
+summary(nb_kde)
+get_cond_dist(nb_kde)
+nb_kde %prob% test
+
+# Class conditional densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+
+# Marginal densities for each class
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
+```
+
+
+### Changing kernel
+
+In general, there are 7 different smoothing kernels available:
+
+- `gaussian` 
+- `epanechnikov`
+- `rectangular`
+- `triangular`
+- `biweight`
+- `cosine`
+- `optcosine`
+
+and they can be specified in `naive_bayes()` via parameter additional parameter `kernel`. Gaussian kernel is the default smoothing kernel. Please see `density()` and `bw.nrd()` for further details.
+
+```{r kde_kernel, cache=TRUE}
+# Change Gaussian kernel to biweight kernel
+nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               kernel = "biweight")
+nb_kde_biweight %prob% test
+plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+
+### Changing bandwidth selector
+
+There are 5 different bandwidth selectors:
+
+- `nrd0` (Silverman's rule-of-thumb)
+- `nrd` (variation of the rule-of-thumb)
+- `ucv` (unbiased cross-validation)
+- `bcv` (biased cross-validation)
+- `SJ` (Sheather & Jones method)
+
+They can be specified via `bw` parameter.
+
+```{r kde_bw, cache=TRUE}
+nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               bw = "SJ")
+nb_kde_SJ %prob% test
+plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+### Adjusting bandwidth
+
+Each Bandwidth is chosen according to the bandwidth selector and they can be additionally adjusted by a factor given by `adjust` parameter:
+
+```{r kde_adjust, cache=TRUE}
+nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                         adjust = 1.5)
+nb_kde_adjust %prob% test
+plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+
+## Model non-negative integers with Poisson distribution
+
+Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting `usepoisson=TRUE` in the `naive_bayes()` function and by making sure that the variables representing counts in the dataset are of class `integer`.
+
+```{r poisson, cache=TRUE}
+is.integer(train$count)
+nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
+summary(nb_pois)
+get_cond_dist(nb_pois)
+
+nb_pois %prob% test
+
+# Class conditional distributions
+plot(nb_pois, "count", prob = "conditional")
+
+# Marginal distributions
+plot(nb_pois, "count", prob = "marginal")
+```
+

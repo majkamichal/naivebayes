@@ -95,7 +95,25 @@
   </a>
 </li>
 <li>
+  <a href="../articles/naivebayes.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
+    </li>
+    <li>
+      <a href="../articles/specialized_naive_bayes.html">Specialized Naive Bayes</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -196,6 +214,7 @@
 
 <span class='co'>### Classification</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
+#&gt; Levels: setosa versicolor virginica</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>nnb</span> <span class='kw'>%class%</span> <span class='no'>M</span>)</div><div class='output co'>#&gt; [1] setosa setosa setosa setosa setosa setosa
 #&gt; Levels: setosa versicolor virginica</div><div class='input'>
 <span class='co'>### Posterior probabilities</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
@@ -204,8 +223,13 @@
 #&gt; [3,]      1 3.286125e-09 1.637165e-10
 #&gt; [4,]      1 2.327491e-09 1.151089e-10
 #&gt; [5,]      1 1.910768e-10 1.597211e-11
-#&gt; [6,]      1 5.298859e-10 1.044005e-09</div><div class='input'>
-</div></pre>
+#&gt; [6,]      1 5.298859e-10 1.044005e-09</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>nnb</span> <span class='kw'>%prob%</span> <span class='no'>M</span>)</div><div class='output co'>#&gt;      setosa   versicolor    virginica
+#&gt; [1,]      1 6.116221e-10 2.047042e-11
+#&gt; [2,]      1 7.759481e-09 1.852369e-10
+#&gt; [3,]      1 3.286125e-09 1.637165e-10
+#&gt; [4,]      1 2.327491e-09 1.151089e-10
+#&gt; [5,]      1 1.910768e-10 1.597211e-11
+#&gt; [6,]      1 5.298859e-10 1.044005e-09</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

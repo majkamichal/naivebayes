@@ -13,6 +13,9 @@ knitr::opts_chunk$set(
 ```
 
 
+Extended documentation can be found on the website: https://majkamichal.github.io/naivebayes/  
+
+
 # Na&iuml;ve Bayes <img src="man/figures/logo.png" align="right" />
 
 [![Build Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
@@ -41,7 +44,7 @@ In addition to that specialized functions are available which implement:
 
 They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. In close future sparse matrices will be supported in order to boost the performance on the sparse data. Also few helper functions are provided that are supposed to improve the user experience. The general `naive_bayes()` function is also available through the excellent `Caret` package.
 
-Extended documentation can be found on the website: https://majkamichal.github.io/naivebayes/  
+
 
 
 ## 2. Installation
@@ -57,237 +60,148 @@ devtools::install_github("majkamichal/naivebayes")
 
 ## 3. Usage
 
-The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they can handle them. In following the basic usage of the `naivebayes` package is demonstrated:
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give an informative warning and more importantly - they know how to handle them. In following the basic usage of the main function  `naive_bayes()` is demonstrated. Examples with the specialized Naive Bayes classifiers can be found in the extended documentation: https://majkamichal.github.io/naivebayes/  
 
 
-```{r example, cache=TRUE}
+### 3.1) Example data
+
+```{r data, cache=TRUE}
 library(naivebayes)
 
-data(iris)
-new <- iris[-c(1,2,3)]
-# Add one categorical and count variable
+# Simulate example data
+n <- 100
 set.seed(1)
-new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
-set.seed(1)
-new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
+data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
+                   bern = sample(LETTERS[1:2], n, TRUE),
+                   cat  = sample(letters[1:3], n, TRUE),
+                   logical = sample(c(TRUE,FALSE), n, TRUE),
+                   norm = rnorm(n),
+                   count = rpois(n, lambda = c(5,15)))
+train <- data[1:95, ]
+test <- data[96:100, -1]
+```
 
-# Formula interface
-nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
+### 3.2) Formula interface
+
+```{r formula_interface, cache=TRUE}
+nb <- naive_bayes(class ~ ., train)
 summary(nb)
 
-# Or equivalently matrix/data.frame and class vector
-df <- new[-2]
-class_vec <- new[[2]]
-nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
-
-# Visualize class conditional probability distributions
-plot(nb, which = c("Petal.Width", "Discrete"),
-     arg.cat = list(color = heat.colors(3)))
-
-# Browse tables
-tables(nb, which = "Discrete") # <=> nb$tables["Discrete"]
-
-# Get name of conditional distributions for each feature
-get_cond_dist(nb) # <=> attr(nb$tables, "cond_dist") 
-
-# data.frame("Dist" = get_cond_dist(nb))
-
 # Classification
-head(predict(nb, newdata = new)) # <==> head(nb %class% new)
+predict(nb, test, type = "class")
+nb %class% test
 
 # Posterior probabilities
-head(predict(nb, newdata = new, type = "prob")) # <==> head(nb %prob% new)
+predict(nb, test, type = "prob")
+nb %prob% test
+
+# Helper functions
+tables(nb, 1)
+get_cond_dist(nb)
+
+# Note: all "numeric" (integer, double) variables are modelled
+#       with Gaussian distribution by default.
 ```
 
-### 3.1 Specialized Naive Bayes
+### 3.3) Matrix/data.frame and class vector
 
-#### 3.1.1 Bernoulli Naive Bayes ("bernoulli_naive_bayes")
-
-```{r example_bernoulli_naive_bayes, cache=TRUE}
-### Simulate the data:
-set.seed(1)
-cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
-laplace <- 0.5
-
-### Train the Bernoulli Naive Bayes
-bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
-head(predict(bnb, newdata = M, type = "prob"))
-
-
-###  Equivalent calculation with general naive_bayes function.
-###  (it is made sure that the columns are factors with the 0-1 levels)
-
-df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
-# sapply(df, class)
-nb <- naive_bayes(df, y, laplace = laplace)
-head(predict(nb, type = "prob"))
-
-
-# Obtain probability tables
-tables(bnb, which = "V1")
-tables(nb, "V1")
-
-# Visualise class conditional Bernoulli distributions
-plot(bnb, which = "V1")
-plot(nb, "V1")
-
-# Check the equivalence of the class conditional distributions
-all(get_cond_dist(bnb) == get_cond_dist(nb))
-
-coef(bnb)
-
-```
-
-
-#### 3.1.1 Gaussian Naive Bayes ("gaussian_naive_bayes")
-
-```{r, cache=TRUE}
-### Simulate the data:
-cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
-
-### Train the Gaussian Naive Bayes
-gnb <- gaussian_naive_bayes(x = M, y = y)
-head(predict(gnb, newdata = M, type = "prob"))
-
-###  Equivalent calculation with general naive_bayes function.
-nb <- naive_bayes(M, y)
-head(predict(nb, type = "prob"))
-
-# Obtain probability tables
-tables(gnb, which = "V1")
-tables(nb, "V1")
-coef(gnb)
-
-# Visualise class conditional Gaussian distributions
-plot(gnb, which = "V1")
-```
-
-
-### 3.2 Usage with Caret package ("naive_bayes")
-
-```{r example_caret, cache=TRUE}
-library(caret, quietly = TRUE)
-library(naivebayes)
-
-# Train the Naive Bayes model with the Caret package
-naive_bayes_via_caret <- train(Species ~ ., 
-                               data = new, 
-                               method = "naive_bayes", 
-                               usepoisson = TRUE)
-
-naive_bayes_via_caret
-
-# Classification
-head(predict(naive_bayes_via_caret, newdata = new))
-
-# Posterior probabilities
-head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
-
-## Recover the naive_bayes object
-nb_object <- naive_bayes_via_caret$finalModel
-class(nb_object)
-```
-
-Define tuning grid, do resampling and find the "optimal" model:
-
-```{r example_caret2, cache=TRUE}
-
-# Define tuning grid 
-nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
-                         laplace = c(0, 0.5, 1), 
-                         adjust = c(0.75, 1, 1.25, 1.5))
-# Fit the Naive Bayes model 
-set.seed(2550)
-naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
-                               method = "naive_bayes",
-                               usepoisson = TRUE,
-                               tuneGrid = nb_grid)
-# Selected tuning parameters
-naive_bayes_via_caret2$finalModel$tuneValue
-
-## View the final naive_bayes model
-# naive_bayes_via_caret2$finalModel
-
-# Visualize the tuning process
-plot(naive_bayes_via_caret2)
-
-# Perform classification 
-head(predict(naive_bayes_via_caret2, newdata = new))
-```
-
-
-### 3.3 Usage with nproc package ("naive_bayes")
-
-Please find more information about the `nproc` package under: https://cran.r-project.org/web/packages/nproc/
-
-
-```{r example_nproc, cache = FALSE}
-library(nproc)
-library(naivebayes)
-
-# Simulate data
-set.seed(2550)
-n <- 1000
-x <- matrix(rnorm(n * 2), n, 2)
-c <- 1 + 3 * x[ ,1]
-y <- rbinom(n, 1, 1 / (1 + exp(-c)))
-xtest <- matrix(rnorm(n * 2), n, 2)
-ctest <- 1 + 3 * xtest[,1]
-ytest <- rbinom(n, 1, 1 / (1 + exp(-ctest)))
-
-
-# Use Naive Bayes classifier and the default type I error control with alpha=0.05
-naive_bayes_via_nproc <- npc(x, y, method = "nb")
-
-## Recover the "naive_bayes" object
-# naive_bayes_via_nproc$fits[[1]]$fit
-
-# Classification
-nb_pred <- predict(naive_bayes_via_nproc, xtest)
-
-# head(nb_pred$pred.label)
-
-# Obtain various measures
-accuracy <- mean(nb_pred$pred.label == ytest)
-ind0 <- which(ytest == 0)
-ind1 <- which(ytest == 1)
-typeI <- mean(nb_pred$pred.label[ind0] != ytest[ind0]) #type I error on test set
-typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
-
-cat(" Overall Accuracy: ",  accuracy,"\n", 
-    "Type I error:     ", typeI, "\n",
-    "Type II error:    ", typeII, "\n")
+```{r generalusage, cache=TRUE}
+X <- train[-1]
+class <- train$class
+nb2 <- naive_bayes(x = X, y = class)
+nb2 %prob% test
 ```
 
 
 
-### 3.4 Usage with superml package ("naive_bayes")
+### 3.4) Non-parametric estimation for continuous features
 
-Please find more information about the `superml` package under: https://cran.r-project.org/web/packages/superml/
+Kernel density estimation can be used to estimate class conditional densities of continuous features. It has to be explicitly requested via the parameter `usekernel=TRUE` otherwise Gaussian distribution will be assumed. The estimation is performed with the built in `R` function `density()`. By default, Gaussian smoothing kernel and Silverman's rule of thumb as bandwidth selector are used:
 
-```{r example_superml, cache=TRUE}
-library(superml)
-data(iris)
-naive_bayes_via_superml <- NBTrainer$new()
-naive_bayes_via_superml$fit(iris, 'Species')
+```{r kde, cache=TRUE}
+nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
+summary(nb_kde)
+get_cond_dist(nb_kde)
+nb_kde %prob% test
 
-## Recover the naive_bayes object
-# naive_bayes_via_superml$model
+# Class conditional densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 
-# Classification
-head(naive_bayes_via_superml$predict(iris))
-
-# Posterior probabilites
-head(naive_bayes_via_superml$predict(iris, type = "prob"))
-
-
+# Marginal densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
 ```
 
 
+#### 3.4.1) Changing kernel
+
+In general, there are 7 different smoothing kernels available:
+
+- `gaussian` 
+- `epanechnikov`
+- `rectangular`
+- `triangular`
+- `biweight`
+- `cosine`
+- `optcosine`
+
+and they can be specified in `naive_bayes()` via parameter additional parameter `kernel`. Gaussian kernel is the default smoothing kernel. Please see `density()` and `bw.nrd()` for further details.
+
+```{r kde_kernel, cache=TRUE}
+# Change Gaussian kernel to biweight kernel
+nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               kernel = "biweight")
+nb_kde_biweight %prob% test
+plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+
+#### 3.4.2) Changing bandwidth selector
+
+There are 5 different bandwidth selectors:
+
+- `nrd0` (Silverman's rule-of-thumb)
+- `nrd` (variation of the rule-of-thumb)
+- `ucv` (unbiased cross-validation)
+- `bcv` (biased cross-validation)
+- `SJ` (Sheather & Jones method)
+
+They can be specified via `bw` parameter.
+
+```{r kde_bw, cache=TRUE}
+nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               bw = "SJ")
+nb_kde_SJ %prob% test
+plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+#### 3.4.3) Adjusting bandwidth
+
+Each Bandwidth is chosen according to the bandwidth selector and they can be additionally adjusted by a factor given by `adjust` parameter:
+
+```{r kde_adjust, cache=TRUE}
+nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                         adjust = 1.5)
+nb_kde_adjust %prob% test
+plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+
+### 3.5) Model non-negative integers with Poisson distribution
+
+Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting `usepoisson=TRUE` in the `naive_bayes()` function and by making sure that the variables representing counts in the dataset are of class `integer`.
+
+```{r poisson, cache=TRUE}
+is.integer(train$count)
+nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
+summary(nb_pois)
+get_cond_dist(nb_pois)
+
+nb_pois %prob% test
+
+# Class conditional distributions
+plot(nb_pois, "count", prob = "conditional")
+
+# Marginal distributions
+plot(nb_pois, "count", prob = "marginal")
+```
 

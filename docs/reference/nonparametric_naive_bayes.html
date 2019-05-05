@@ -95,7 +95,25 @@
   </a>
 </li>
 <li>
+  <a href="../articles/naivebayes.html">Get started</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
+    </li>
+    <li>
+      <a href="../articles/specialized_naive_bayes.html">Specialized Naive Bayes</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -207,13 +225,13 @@
 #&gt; [6,] 1.0000000 3.842342e-09 5.960213e-09</div><div class='input'>
 <span class='co'>### Change kernel</span>
 <span class='no'>nnb_kernel</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>kernel</span> <span class='kw'>=</span> <span class='st'>"biweight"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_kernel</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_kernel</span>, <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='nonparametric_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### Adjust bandwidth</span>
 <span class='no'>nnb_adjust</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>adjust</span> <span class='kw'>=</span> <span class='fl'>1.5</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_adjust</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_adjust</span>, <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='nonparametric_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### Change bandwidth selector</span>
 <span class='no'>nnb_bw</span> <span class='kw'>&lt;-</span> <span class='fu'>nonparametric_naive_bayes</span>(<span class='no'>M</span>, <span class='no'>y</span>, <span class='kw'>bw</span> <span class='kw'>=</span> <span class='st'>"SJ"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_bw</span>, <span class='fl'>1</span>)</div><div class='img'><img src='nonparametric_naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nnb_bw</span>, <span class='fl'>1</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='nonparametric_naive_bayes-3.png' alt='' width='700' height='433' /></div><div class='input'>
 ### Obtain tables with conditional densities
 # tables(nnb, which = 1)
 </div></pre>
