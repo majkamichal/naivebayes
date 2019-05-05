@@ -44,7 +44,6 @@ Silverman, B. W. (1986). Density Estimation for Statistics and Data Analysis. Ch
 }
 
 \examples{
-
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
@@ -71,7 +70,6 @@ plot(nnb_bw, 1)
 
 ### Obtain tables with conditional densities
 # tables(nnb, which = 1)
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

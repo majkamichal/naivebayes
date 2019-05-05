@@ -51,7 +51,6 @@ If in one cell there is a zero count and laplace = 0 then one pseudo-count is au
 
 
 \examples{
-
 ### Simulate data
 cols <- 10 ; rows <- 100
 M <- matrix(rpois(rows * cols, lambda = 3), nrow = rows, ncol = cols)
@@ -79,7 +78,6 @@ plot(pnb, which = "V1")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(pnb) == get_cond_dist(nb))
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

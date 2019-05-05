@@ -42,7 +42,6 @@ McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Ba
 }
 
 \examples{
-
 ### Simulate the data:
 cols <- 10 ; rows <- 100
 M <- matrix(sample(0:5, rows * cols,  TRUE), nrow = rows, ncol = cols)
@@ -62,7 +61,6 @@ head(predict(mnb, newdata = M, type = "prob"))
 
 # Parameter estimates
 coef(mnb)
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}

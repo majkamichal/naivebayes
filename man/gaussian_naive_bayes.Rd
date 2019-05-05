@@ -41,7 +41,6 @@ The missing values (NAs) are omitted during the parameter estimation. The NAs in
 
 
 \examples{
-
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
@@ -65,8 +64,6 @@ plot(gnb, which = "Sepal.Width")
 
 # Check the equivalence of the class conditional distributions
 all(get_cond_dist(gnb) == get_cond_dist(nb))
-
-
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
