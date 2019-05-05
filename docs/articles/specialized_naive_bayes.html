@@ -139,43 +139,43 @@
 ## - Samples: 100 
 ## - Features: 10 
 ## - Prior probabilities: 
-##     - classA: 0.34
-##     - classB: 0.66
+##     - classA: 0.2
+##     - classB: 0.8
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(bnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>)) </a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.4084972 0.5915028
-## [2,] 0.3030031 0.6969969
-## [3,] 0.4144362 0.5855638
-## [4,] 0.3207036 0.6792964
-## [5,] 0.5446675 0.4553325
-## [6,] 0.3305561 0.6694439</code></pre>
+## [1,] 0.1601802 0.8398198
+## [2,] 0.3245331 0.6754669
+## [3,] 0.1482191 0.8517809
+## [4,] 0.2963316 0.7036684
+## [5,] 0.3506847 0.6493153
+## [6,] 0.1785761 0.8214239</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Equivalently</span></a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(bnb <span class="op">%prob%</span><span class="st"> </span>M)</a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.4084972 0.5915028
-## [2,] 0.3030031 0.6969969
-## [3,] 0.4144362 0.5855638
-## [4,] 0.3207036 0.6792964
-## [5,] 0.5446675 0.4553325
-## [6,] 0.3305561 0.6694439</code></pre>
+## [1,] 0.1601802 0.8398198
+## [2,] 0.3245331 0.6754669
+## [3,] 0.1482191 0.8517809
+## [4,] 0.2963316 0.7036684
+## [5,] 0.3506847 0.6493153
+## [6,] 0.1785761 0.8214239</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="co"># Visualise marginal distributions</span></a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(bnb, <span class="dt">which =</span> <span class="st">"V1"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
 <p><img src="specialized_naive_bayes_files/figure-html/unnamed-chunk-1-1.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Obtain model coefficients</span></a>
 <a class="sourceLine" id="cb11-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/coef">coef</a></span>(bnb)</a></code></pre></div>
-<pre><code>##      classA:0  classA:1  classB:0  classB:1
-## V1  0.7000000 0.3000000 0.6940299 0.3059701
-## V2  0.7857143 0.2142857 0.8283582 0.1716418
-## V3  0.8714286 0.1285714 0.7686567 0.2313433
-## V4  0.7285714 0.2714286 0.7238806 0.2761194
-## V5  0.7857143 0.2142857 0.8582090 0.1417910
-## V6  0.7857143 0.2142857 0.7238806 0.2761194
-## V7  0.7857143 0.2142857 0.8283582 0.1716418
-## V8  0.8428571 0.1571429 0.8283582 0.1716418
-## V9  0.7285714 0.2714286 0.7835821 0.2164179
-## V10 0.8714286 0.1285714 0.8134328 0.1865672</code></pre>
+<pre><code>##      classA:0   classA:1  classB:0  classB:1
+## V1  0.7857143 0.21428571 0.8703704 0.1296296
+## V2  0.7380952 0.26190476 0.8086420 0.1913580
+## V3  0.7380952 0.26190476 0.7098765 0.2901235
+## V4  0.8809524 0.11904762 0.7962963 0.2037037
+## V5  0.7857143 0.21428571 0.7469136 0.2530864
+## V6  0.8333333 0.16666667 0.8580247 0.1419753
+## V7  0.8333333 0.16666667 0.8333333 0.1666667
+## V8  0.9285714 0.07142857 0.8827160 0.1172840
+## V9  0.7857143 0.21428571 0.7839506 0.2160494
+## V10 0.6428571 0.35714286 0.7469136 0.2530864</code></pre>
 </div>
 <div id="equivalent-calculation-with-naive_bayes-function" class="section level3">
 <h3 class="hasAnchor">
@@ -186,12 +186,12 @@
 <a class="sourceLine" id="cb13-4" data-line-number="4">nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(df, y, <span class="dt">laplace =</span> laplace)</a>
 <a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(nb <span class="op">%prob%</span><span class="st"> </span>df)</a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.4084972 0.5915028
-## [2,] 0.3030031 0.6969969
-## [3,] 0.4144362 0.5855638
-## [4,] 0.3207036 0.6792964
-## [5,] 0.5446675 0.4553325
-## [6,] 0.3305561 0.6694439</code></pre>
+## [1,] 0.1601802 0.8398198
+## [2,] 0.3245331 0.6754669
+## [3,] 0.1482191 0.8517809
+## [4,] 0.2963316 0.7036684
+## [5,] 0.3506847 0.6493153
+## [6,] 0.1785761 0.8214239</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co"># Visualise marginal distributions</span></a>
 <a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb, <span class="dt">which =</span> <span class="st">"V1"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
 <p><img src="specialized_naive_bayes_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
@@ -229,30 +229,30 @@
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># Classification</span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mnb <span class="op">%class%</span><span class="st"> </span>M)</a></code></pre></div>
-<pre><code>## [1] classB classB classB classB classB classB
+<pre><code>## [1] classB classB classB classA classA classB
 ## Levels: classA classB</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># Posterior probabilities</span></a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mnb <span class="op">%prob%</span><span class="st"> </span>M)</a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.1746670 0.8253330
-## [2,] 0.2499174 0.7500826
-## [3,] 0.2206472 0.7793528
-## [4,] 0.3259057 0.6740943
-## [5,] 0.2511586 0.7488414
-## [6,] 0.1867889 0.8132111</code></pre>
+## [1,] 0.1092156 0.8907844
+## [2,] 0.2881800 0.7118200
+## [3,] 0.3453909 0.6546091
+## [4,] 0.5372272 0.4627728
+## [5,] 0.5171486 0.4828514
+## [6,] 0.3538427 0.6461573</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># Parameter estimates</span></a>
 <a class="sourceLine" id="cb23-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/coef">coef</a></span>(mnb)</a></code></pre></div>
 <pre><code>##         classA     classB
-## V1  0.10000000 0.10220853
-## V2  0.11212121 0.09296353
-## V3  0.09848485 0.11402157
-## V4  0.09090909 0.08936826
-## V5  0.10151515 0.10837185
-## V6  0.08636364 0.09912686
-## V7  0.10909091 0.10272214
-## V8  0.09545455 0.10066769
-## V9  0.10757576 0.10015408
-## V10 0.09848485 0.09039548</code></pre>
+## V1  0.09890110 0.10051813
+## V2  0.12401884 0.11139896
+## V3  0.08163265 0.09222798
+## V4  0.09262166 0.10621762
+## V5  0.07535322 0.10051813
+## V6  0.08948195 0.10155440
+## V7  0.10989011 0.09637306
+## V8  0.11773940 0.10362694
+## V9  0.10832025 0.09326425
+## V10 0.10204082 0.09430052</code></pre>
 </div>
 </div>
 <div id="poisson-naive-bayes" class="section level2">
@@ -282,34 +282,34 @@
 ## - Samples: 100 
 ## - Features: 10 
 ## - Prior probabilities: 
-##     - classA: 0.55
-##     - classB: 0.45
+##     - classA: 0.34
+##     - classB: 0.66
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(pnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>))</a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.4050649 0.5949351
-## [2,] 0.4970542 0.5029458
-## [3,] 0.5822615 0.4177385
-## [4,] 0.3839420 0.6160580
-## [5,] 0.5911200 0.4088800
-## [6,] 0.8724454 0.1275546</code></pre>
+## [1,] 0.5015988 0.4984012
+## [2,] 0.3111356 0.6888644
+## [3,] 0.3577880 0.6422120
+## [4,] 0.3466078 0.6533922
+## [5,] 0.3759156 0.6240844
+## [6,] 0.2943018 0.7056982</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="co"># Visualise marginal distributions</span></a>
 <a class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(pnb, <span class="dt">which =</span> <span class="st">"V1"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
 <p><img src="specialized_naive_bayes_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># Obtain model coefficients</span></a>
 <a class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/coef">coef</a></span>(pnb)</a></code></pre></div>
 <pre><code>##       classA   classB
-## V1  3.036364 3.044444
-## V2  2.727273 3.177778
-## V3  2.963636 3.111111
-## V4  3.290909 2.844444
-## V5  3.090909 2.733333
-## V6  3.381818 2.888889
-## V7  2.727273 2.822222
-## V8  2.909091 2.777778
-## V9  3.200000 2.666667
-## V10 2.763636 2.911111</code></pre>
+## V1  2.764706 3.136364
+## V2  2.794118 3.363636
+## V3  3.264706 2.909091
+## V4  3.117647 3.090909
+## V5  2.735294 3.287879
+## V6  2.882353 2.893939
+## V7  3.147059 3.030303
+## V8  3.264706 2.681818
+## V9  2.558824 2.909091
+## V10 3.029412 2.727273</code></pre>
 </div>
 <div id="equivalent-calculation-with-naive_bayes-function-1" class="section level3">
 <h3 class="hasAnchor">
@@ -317,12 +317,12 @@
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(M, y, <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>, <span class="dt">laplace =</span> laplace)</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb2, <span class="dt">type =</span> <span class="st">"prob"</span>))</a></code></pre></div>
 <pre><code>##         classA    classB
-## [1,] 0.4050649 0.5949351
-## [2,] 0.4970542 0.5029458
-## [3,] 0.5822615 0.4177385
-## [4,] 0.3839420 0.6160580
-## [5,] 0.5911200 0.4088800
-## [6,] 0.8724454 0.1275546</code></pre>
+## [1,] 0.5015988 0.4984012
+## [2,] 0.3111356 0.6888644
+## [3,] 0.3577880 0.6422120
+## [4,] 0.3466078 0.6533922
+## [5,] 0.3759156 0.6240844
+## [6,] 0.2943018 0.7056982</code></pre>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># Visualise marginal distributions</span></a>
 <a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb2, <span class="dt">which =</span> <span class="st">"V1"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
 <p><img src="specialized_naive_bayes_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>

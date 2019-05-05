@@ -1,6 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+Extended documentation can be found on the website:
+<https://majkamichal.github.io/naivebayes/>
+
 # Naïve Bayes <img src="man/figures/logo.png" align="right" />
 
 [![Build
@@ -48,9 +51,6 @@ Also few helper functions are provided that are supposed to improve the
 user experience. The general `naive_bayes()` function is also available
 through the excellent `Caret` package.
 
-Extended documentation can be found on the website:
-<https://majkamichal.github.io/naivebayes/>
-
 ## 2\. Installation
 
 Just like many other `R` packages, `naivebayes` can be installed from
@@ -70,431 +70,298 @@ The `naivebayes` package provides a user friendly implementation of the
 Naïve Bayes algorithm via formula interlace and classical combination of
 the matrix/data.frame containing the features and a vector with the
 class labels. All functions can recognize missing values, give an
-informative warning and more importantly - they can handle them. In
-following the basic usage of the `naivebayes` package is demonstrated:
+informative warning and more importantly - they know how to handle them.
+In following the basic usage of the main function `naive_bayes()` is
+demonstrated. Examples with the specialized Naive Bayes classifiers can
+be found in the extended documentation:
+<https://majkamichal.github.io/naivebayes/>
+
+### 3.1) Example data
 
 ``` r
 library(naivebayes)
 
-data(iris)
-new <- iris[-c(1,2,3)]
-# Add one categorical and count variable
+# Simulate example data
+n <- 100
 set.seed(1)
-new$Discrete <- sample(LETTERS[1:3], nrow(new), TRUE) 
-set.seed(1)
-new$Counts <- c(rpois(50, 1), rpois(50, 2), rpois(50, 10)) 
+data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
+                   bern = sample(LETTERS[1:2], n, TRUE),
+                   cat  = sample(letters[1:3], n, TRUE),
+                   logical = sample(c(TRUE,FALSE), n, TRUE),
+                   norm = rnorm(n),
+                   count = rpois(n, lambda = c(5,15)))
+train <- data[1:95, ]
+test <- data[96:100, -1]
+```
 
-# Formula interface
-nb <- naive_bayes(Species ~ ., usepoisson = TRUE, data = new)
+### 3.2) Formula interface
+
+``` r
+nb <- naive_bayes(class ~ ., train)
 summary(nb)
 #> 
 #> ================================ Naive Bayes ================================= 
 #>  
-#> - Call: naive_bayes.formula(formula = Species ~ ., data = new, usepoisson = TRUE) 
+#> - Call: naive_bayes.formula(formula = class ~ ., data = train) 
 #> - Laplace: 0 
-#> - Classes: 3 
-#> - Samples: 150 
-#> - Features: 3 
+#> - Classes: 2 
+#> - Samples: 95 
+#> - Features: 5 
 #> - Conditional distributions: 
+#>     - Bernoulli: 2
+#>     - Categorical: 1
+#>     - Gaussian: 2
+#> - Prior probabilities: 
+#>     - classA: 0.5263
+#>     - classB: 0.4737
+#> 
+#> ------------------------------------------------------------------------------
+
+# Classification
+predict(nb, test, type = "class")
+#> [1] classB classA classA classA classA
+#> Levels: classA classB
+nb %class% test
+#> [1] classB classA classA classA classA
+#> Levels: classA classB
+
+# Posterior probabilities
+predict(nb, test, type = "prob")
+#>         classA    classB
+#> [1,] 0.4998488 0.5001512
+#> [2,] 0.5934597 0.4065403
+#> [3,] 0.6492845 0.3507155
+#> [4,] 0.5813621 0.4186379
+#> [5,] 0.5087005 0.4912995
+nb %prob% test
+#>         classA    classB
+#> [1,] 0.4998488 0.5001512
+#> [2,] 0.5934597 0.4065403
+#> [3,] 0.6492845 0.3507155
+#> [4,] 0.5813621 0.4186379
+#> [5,] 0.5087005 0.4912995
+
+# Helper functions
+tables(nb, 1)
+#> 
+#> ------------------------------------------------------------------------------ 
+#>  ::: bern (Bernoulli) 
+#> ------------------------------------------------------------------------------ 
+#>     
+#> bern    classA    classB
+#>    A 0.4400000 0.4888889
+#>    B 0.5600000 0.5111111
+#> 
+#> ------------------------------------------------------------------------------
+get_cond_dist(nb)
+#>          bern           cat       logical          norm         count 
+#>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"    "Gaussian"
+
+# Note: all "numeric" (integer, double) variables are modelled
+#       with Gaussian distribution by default.
+```
+
+### 3.3) Matrix/data.frame and class vector
+
+``` r
+X <- train[-1]
+class <- train$class
+nb2 <- naive_bayes(x = X, y = class)
+nb2 %prob% test
+#>         classA    classB
+#> [1,] 0.4998488 0.5001512
+#> [2,] 0.5934597 0.4065403
+#> [3,] 0.6492845 0.3507155
+#> [4,] 0.5813621 0.4186379
+#> [5,] 0.5087005 0.4912995
+```
+
+### 3.4) Non-parametric estimation for continuous features
+
+Kernel density estimation can be used to estimate class conditional
+densities of continuous features. It has to be explicitly requested via
+the parameter `usekernel=TRUE` otherwise Gaussian distribution will be
+assumed. The estimation is performed with the built in `R` function
+`density()`. By default, Gaussian smoothing kernel and Silverman’s rule
+of thumb as bandwidth selector are used:
+
+``` r
+nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
+summary(nb_kde)
+#> 
+#> ================================ Naive Bayes ================================= 
+#>  
+#> - Call: naive_bayes.formula(formula = class ~ ., data = train, usekernel = TRUE) 
+#> - Laplace: 0 
+#> - Classes: 2 
+#> - Samples: 95 
+#> - Features: 5 
+#> - Conditional distributions: 
+#>     - Bernoulli: 2
+#>     - Categorical: 1
+#>     - KDE: 2
+#> - Prior probabilities: 
+#>     - classA: 0.5263
+#>     - classB: 0.4737
+#> 
+#> ------------------------------------------------------------------------------
+get_cond_dist(nb_kde)
+#>          bern           cat       logical          norm         count 
+#>   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"         "KDE"
+nb_kde %prob% test
+#>         classA    classB
+#> [1,] 0.6252811 0.3747189
+#> [2,] 0.5441986 0.4558014
+#> [3,] 0.6515139 0.3484861
+#> [4,] 0.6661044 0.3338956
+#> [5,] 0.6736159 0.3263841
+
+# Class conditional densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+![](man/figures/kde-1.png)<!-- -->
+
+``` r
+
+# Marginal densities
+plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
+```
+
+![](man/figures/kde-2.png)<!-- -->
+
+#### 3.4.1) Changing kernel
+
+In general, there are 7 different smoothing kernels available:
+
+  - `gaussian`
+  - `epanechnikov`
+  - `rectangular`
+  - `triangular`
+  - `biweight`
+  - `cosine`
+  - `optcosine`
+
+and they can be specified in `naive_bayes()` via parameter additional
+parameter `kernel`. Gaussian kernel is the default smoothing kernel.
+Please see `density()` and `bw.nrd()` for further details.
+
+``` r
+# Change Gaussian kernel to biweight kernel
+nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               kernel = "biweight")
+nb_kde_biweight %prob% test
+#>         classA    classB
+#> [1,] 0.6237152 0.3762848
+#> [2,] 0.5588270 0.4411730
+#> [3,] 0.6594737 0.3405263
+#> [4,] 0.6650295 0.3349705
+#> [5,] 0.6631951 0.3368049
+plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+![](man/figures/kde_kernel-1.png)<!-- -->
+
+#### 3.4.2) Changing bandwidth selector
+
+There are 5 different bandwidth selectors:
+
+  - `nrd0` (Silverman’s rule-of-thumb)
+  - `nrd` (variation of the rule-of-thumb)
+  - `ucv` (unbiased cross-validation)
+  - `bcv` (biased cross-validation)
+  - `SJ` (Sheather & Jones method)
+
+They can be specified via `bw` parameter.
+
+``` r
+nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                               bw = "SJ")
+nb_kde_SJ %prob% test
+#>         classA    classB
+#> [1,] 0.7279209 0.2720791
+#> [2,] 0.4858273 0.5141727
+#> [3,] 0.7004134 0.2995866
+#> [4,] 0.7005704 0.2994296
+#> [5,] 0.7089626 0.2910374
+plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+![](man/figures/kde_bw-1.png)<!-- -->
+
+#### 3.4.3) Adjusting bandwidth
+
+Each Bandwidth is chosen according to the bandwidth selector and they
+can be additionally adjusted by a factor given by `adjust` parameter:
+
+``` r
+nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
+                         adjust = 1.5)
+nb_kde_adjust %prob% test
+#>         classA    classB
+#> [1,] 0.5769725 0.4230275
+#> [2,] 0.5953904 0.4046096
+#> [3,] 0.6512967 0.3487033
+#> [4,] 0.6550197 0.3449803
+#> [5,] 0.6024013 0.3975987
+plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
+```
+
+![](man/figures/kde_adjust-1.png)<!-- -->
+
+### 3.5) Model non-negative integers with Poisson distribution
+
+Class conditional distributions of non-negative integer predictors can
+be modelled with Poisson distribution. This can be achieved by setting
+`usepoisson=TRUE` in the `naive_bayes()` function and by making sure
+that the variables representing counts in the dataset are of class
+`integer`.
+
+``` r
+is.integer(train$count)
+#> [1] TRUE
+nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
+summary(nb_pois)
+#> 
+#> ================================ Naive Bayes ================================= 
+#>  
+#> - Call: naive_bayes.formula(formula = class ~ ., data = train, usepoisson = TRUE) 
+#> - Laplace: 0 
+#> - Classes: 2 
+#> - Samples: 95 
+#> - Features: 5 
+#> - Conditional distributions: 
+#>     - Bernoulli: 2
 #>     - Categorical: 1
 #>     - Poisson: 1
 #>     - Gaussian: 1
 #> - Prior probabilities: 
-#>     - setosa: 0.3333
-#>     - versicolor: 0.3333
-#>     - virginica: 0.3333
+#>     - classA: 0.5263
+#>     - classB: 0.4737
 #> 
 #> ------------------------------------------------------------------------------
+get_cond_dist(nb_pois)
+#>          bern           cat       logical          norm         count 
+#>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"
 
-# Or equivalently matrix/data.frame and class vector
-df <- new[-2]
-class_vec <- new[[2]]
-nb2 <- naive_bayes(x = df, y = class_vec, usepoisson = TRUE)
-
-# Visualize class conditional probability distributions
-plot(nb, which = c("Petal.Width", "Discrete"),
-     arg.cat = list(color = heat.colors(3)))
-```
-
-![](man/figures/example-1.png)<!-- -->![](man/figures/example-2.png)<!-- -->
-
-``` r
-
-# Browse tables
-tables(nb, which = "Discrete") # <=> nb$tables["Discrete"]
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: Discrete (Categorical) 
-#> ------------------------------------------------------------------------------ 
-#>         
-#> Discrete setosa versicolor virginica
-#>        A   0.24       0.30      0.30
-#>        B   0.38       0.38      0.44
-#>        C   0.38       0.32      0.26
-#> 
-#> ------------------------------------------------------------------------------
-
-# Get name of conditional distributions for each feature
-get_cond_dist(nb) # <=> attr(nb$tables, "cond_dist") 
-#>   Petal.Width      Discrete        Counts 
-#>    "Gaussian" "Categorical"     "Poisson"
-
-# data.frame("Dist" = get_cond_dist(nb))
-
-# Classification
-head(predict(nb, newdata = new)) # <==> head(nb %class% new)
-#> Warning: predict.naive_bayes(): More features in the newdata are provided
-#> as there are probability tables in the object. Calculation is performed
-#> based on features to be found in the tables.
-#> [1] setosa setosa setosa setosa setosa setosa
-#> Levels: setosa versicolor virginica
-
-# Posterior probabilities
-head(predict(nb, newdata = new, type = "prob")) # <==> head(nb %prob% new)
-#> Warning: predict.naive_bayes(): More features in the newdata are provided
-#> as there are probability tables in the object. Calculation is performed
-#> based on features to be found in the tables.
-#>         setosa   versicolor    virginica
-#> [1,] 1.0000000 2.715527e-08 1.515451e-14
-#> [2,] 1.0000000 3.982773e-08 1.320599e-13
-#> [3,] 1.0000000 3.982773e-08 1.320599e-13
-#> [4,] 0.9999999 6.148842e-08 7.341108e-13
-#> [5,] 1.0000000 2.715527e-08 1.515451e-14
-#> [6,] 0.9999691 3.090011e-05 1.885905e-10
-```
-
-### 3.1 Specialized Naive Bayes
-
-#### 3.1.1 Bernoulli Naive Bayes (“bernoulli\_naive\_bayes”)
-
-``` r
-### Simulate the data:
-set.seed(1)
-cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
-laplace <- 0.5
-
-### Train the Bernoulli Naive Bayes
-bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
-head(predict(bnb, newdata = M, type = "prob"))
+nb_pois %prob% test
 #>         classA    classB
-#> [1,] 0.2051196 0.7948804
-#> [2,] 0.1598350 0.8401650
-#> [3,] 0.2211967 0.7788033
-#> [4,] 0.1998863 0.8001137
-#> [5,] 0.2346913 0.7653087
-#> [6,] 0.1312229 0.8687771
+#> [1,] 0.4815380 0.5184620
+#> [2,] 0.4192209 0.5807791
+#> [3,] 0.6882270 0.3117730
+#> [4,] 0.4794415 0.5205585
+#> [5,] 0.5209152 0.4790848
 
-
-###  Equivalent calculation with general naive_bayes function.
-###  (it is made sure that the columns are factors with the 0-1 levels)
-
-df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
-# sapply(df, class)
-nb <- naive_bayes(df, y, laplace = laplace)
-head(predict(nb, type = "prob"))
-#>         classA    classB
-#> [1,] 0.2051196 0.7948804
-#> [2,] 0.1598350 0.8401650
-#> [3,] 0.2211967 0.7788033
-#> [4,] 0.1998863 0.8001137
-#> [5,] 0.2346913 0.7653087
-#> [6,] 0.1312229 0.8687771
-
-
-# Obtain probability tables
-tables(bnb, which = "V1")
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: V1 (Bernoulli) 
-#> ------------------------------------------------------------------------------ 
-#>      classA    classB
-#> 0 0.9137931 0.7876712
-#> 1 0.0862069 0.2123288
-#> 
-#> ------------------------------------------------------------------------------
-tables(nb, "V1")
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: V1 (Bernoulli) 
-#> ------------------------------------------------------------------------------ 
-#>    
-#> V1     classA    classB
-#>   0 0.9137931 0.7876712
-#>   1 0.0862069 0.2123288
-#> 
-#> ------------------------------------------------------------------------------
-
-# Visualise class conditional Bernoulli distributions
-plot(bnb, which = "V1")
+# Class conditional distributions
+plot(nb_pois, "count", prob = "conditional")
 ```
 
-![](man/figures/example_bernoulli_naive_bayes-1.png)<!-- -->
-
-``` r
-plot(nb, "V1")
-```
-
-![](man/figures/example_bernoulli_naive_bayes-2.png)<!-- -->
+![](man/figures/poisson-1.png)<!-- -->
 
 ``` r
 
-# Check the equivalence of the class conditional distributions
-all(get_cond_dist(bnb) == get_cond_dist(nb))
-#> [1] TRUE
-
-coef(bnb)
-#>      classA:0  classA:1  classB:0  classB:1
-#> V1  0.9137931 0.0862069 0.7876712 0.2123288
-#> V2  0.7413793 0.2586207 0.8424658 0.1575342
-#> V3  0.8103448 0.1896552 0.8698630 0.1301370
-#> V4  0.7413793 0.2586207 0.7739726 0.2260274
-#> V5  0.7413793 0.2586207 0.7739726 0.2260274
-#> V6  0.7413793 0.2586207 0.8013699 0.1986301
-#> V7  0.8103448 0.1896552 0.7739726 0.2260274
-#> V8  0.8448276 0.1551724 0.8013699 0.1986301
-#> V9  0.8103448 0.1896552 0.7602740 0.2397260
-#> V10 0.7068966 0.2931034 0.8150685 0.1849315
+# Marginal distributions
+plot(nb_pois, "count", prob = "marginal")
 ```
 
-#### 3.1.1 Gaussian Naive Bayes (“gaussian\_naive\_bayes”)
-
-``` r
-### Simulate the data:
-cols <- 4 ; rows <- 100 ; probs <- c("0" = 0.4, "1" = 0.1)
-M <- matrix(rnorm(rows * cols), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
-
-### Train the Gaussian Naive Bayes
-gnb <- gaussian_naive_bayes(x = M, y = y)
-head(predict(gnb, newdata = M, type = "prob"))
-#>         classA    classB
-#> [1,] 0.4858042 0.5141958
-#> [2,] 0.4851806 0.5148194
-#> [3,] 0.7706261 0.2293739
-#> [4,] 0.6513155 0.3486845
-#> [5,] 0.4770423 0.5229577
-#> [6,] 0.8346050 0.1653950
-
-###  Equivalent calculation with general naive_bayes function.
-nb <- naive_bayes(M, y)
-head(predict(nb, type = "prob"))
-#>         classA    classB
-#> [1,] 0.4858042 0.5141958
-#> [2,] 0.4851806 0.5148194
-#> [3,] 0.7706261 0.2293739
-#> [4,] 0.6513155 0.3486845
-#> [5,] 0.4770423 0.5229577
-#> [6,] 0.8346050 0.1653950
-
-# Obtain probability tables
-tables(gnb, which = "V1")
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: V1 (Gaussian) 
-#> ------------------------------------------------------------------------------ 
-#>         classA      classB
-#> mu -0.15263804 -0.01306092
-#> sd  1.04955060  1.04174322
-#> 
-#> ------------------------------------------------------------------------------
-tables(nb, "V1")
-#> 
-#> ------------------------------------------------------------------------------ 
-#>  ::: V1 (Gaussian) 
-#> ------------------------------------------------------------------------------ 
-#>       
-#> V1          classA      classB
-#>   mean -0.15263804 -0.01306092
-#>   sd    1.04955060  1.04174322
-#> 
-#> ------------------------------------------------------------------------------
-coef(gnb)
-#>       classA:mu classA:sd   classB:mu classB:sd
-#> V1 -0.152638040  1.049551 -0.01306092 1.0417432
-#> V2 -0.054836961  1.236748 -0.17010761 0.9824908
-#> V3 -0.046420500  1.162157  0.07540914 1.1257598
-#> V4  0.007807965  1.015502  0.09767244 0.9543792
-
-# Visualise class conditional Gaussian distributions
-plot(gnb, which = "V1")
-```
-
-![](man/figures/unnamed-chunk-3-1.png)<!-- -->
-
-### 3.2 Usage with Caret package (“naive\_bayes”)
-
-``` r
-library(caret, quietly = TRUE)
-library(naivebayes)
-
-# Train the Naive Bayes model with the Caret package
-naive_bayes_via_caret <- train(Species ~ ., 
-                               data = new, 
-                               method = "naive_bayes", 
-                               usepoisson = TRUE)
-
-naive_bayes_via_caret
-#> Naive Bayes 
-#> 
-#> 150 samples
-#>   3 predictor
-#>   3 classes: 'setosa', 'versicolor', 'virginica' 
-#> 
-#> No pre-processing
-#> Resampling: Bootstrapped (25 reps) 
-#> Summary of sample sizes: 150, 150, 150, 150, 150, 150, ... 
-#> Resampling results across tuning parameters:
-#> 
-#>   usekernel  Accuracy   Kappa    
-#>   FALSE      0.9984157  0.9976174
-#>    TRUE      0.9891468  0.9835235
-#> 
-#> Tuning parameter 'laplace' was held constant at a value of 0
-#> 
-#> Tuning parameter 'adjust' was held constant at a value of 1
-#> Accuracy was used to select the optimal model using the largest value.
-#> The final values used for the model were laplace = 0, usekernel =
-#>  FALSE and adjust = 1.
-
-# Classification
-head(predict(naive_bayes_via_caret, newdata = new))
-#> [1] setosa setosa setosa setosa setosa setosa
-#> Levels: setosa versicolor virginica
-
-# Posterior probabilities
-head(predict(naive_bayes_via_caret, newdata = new, type = "prob"))
-#>      setosa   versicolor    virginica
-#> 1 1.0000000 2.525461e-08 1.216783e-13
-#> 2 1.0000000 3.165327e-08 2.590761e-13
-#> 3 1.0000000 3.165327e-08 2.590761e-13
-#> 4 0.9999999 5.285298e-08 4.820271e-13
-#> 5 1.0000000 2.525461e-08 1.216783e-13
-#> 6 0.9999734 2.656060e-05 1.238316e-10
-
-## Recover the naive_bayes object
-nb_object <- naive_bayes_via_caret$finalModel
-class(nb_object)
-#> [1] "naive_bayes"
-```
-
-Define tuning grid, do resampling and find the “optimal” model:
-
-``` r
-
-# Define tuning grid 
-nb_grid <-   expand.grid(usekernel = c(TRUE, FALSE),
-                         laplace = c(0, 0.5, 1), 
-                         adjust = c(0.75, 1, 1.25, 1.5))
-# Fit the Naive Bayes model 
-set.seed(2550)
-naive_bayes_via_caret2 <- train(Species ~ ., data = new, 
-                               method = "naive_bayes",
-                               usepoisson = TRUE,
-                               tuneGrid = nb_grid)
-# Selected tuning parameters
-naive_bayes_via_caret2$finalModel$tuneValue
-#>   laplace usekernel adjust
-#> 1       0     FALSE   0.75
-
-## View the final naive_bayes model
-# naive_bayes_via_caret2$finalModel
-
-# Visualize the tuning process
-plot(naive_bayes_via_caret2)
-```
-
-![](man/figures/example_caret2-1.png)<!-- -->
-
-``` r
-
-# Perform classification 
-head(predict(naive_bayes_via_caret2, newdata = new))
-#> [1] setosa setosa setosa setosa setosa setosa
-#> Levels: setosa versicolor virginica
-```
-
-### 3.3 Usage with nproc package (“naive\_bayes”)
-
-Please find more information about the `nproc` package under:
-<https://cran.r-project.org/web/packages/nproc/>
-
-``` r
-library(nproc)
-library(naivebayes)
-
-# Simulate data
-set.seed(2550)
-n <- 1000
-x <- matrix(rnorm(n * 2), n, 2)
-c <- 1 + 3 * x[ ,1]
-y <- rbinom(n, 1, 1 / (1 + exp(-c)))
-xtest <- matrix(rnorm(n * 2), n, 2)
-ctest <- 1 + 3 * xtest[,1]
-ytest <- rbinom(n, 1, 1 / (1 + exp(-ctest)))
-
-
-# Use Naive Bayes classifier and the default type I error control with alpha=0.05
-naive_bayes_via_nproc <- npc(x, y, method = "nb")
-
-## Recover the "naive_bayes" object
-# naive_bayes_via_nproc$fits[[1]]$fit
-
-# Classification
-nb_pred <- predict(naive_bayes_via_nproc, xtest)
-
-# head(nb_pred$pred.label)
-
-# Obtain various measures
-accuracy <- mean(nb_pred$pred.label == ytest)
-ind0 <- which(ytest == 0)
-ind1 <- which(ytest == 1)
-typeI <- mean(nb_pred$pred.label[ind0] != ytest[ind0]) #type I error on test set
-typeII <- mean(nb_pred$pred.label[ind1] != ytest[ind1]) #type II error on test set
-
-cat(" Overall Accuracy: ",  accuracy,"\n", 
-    "Type I error:     ", typeI, "\n",
-    "Type II error:    ", typeII, "\n")
-#>  Overall Accuracy:  0.68 
-#>  Type I error:      0.02072539 
-#>  Type II error:     0.5081433
-```
-
-### 3.4 Usage with superml package (“naive\_bayes”)
-
-Please find more information about the `superml` package under:
-<https://cran.r-project.org/web/packages/superml/>
-
-``` r
-library(superml)
-data(iris)
-naive_bayes_via_superml <- NBTrainer$new()
-naive_bayes_via_superml$fit(iris, 'Species')
-
-## Recover the naive_bayes object
-# naive_bayes_via_superml$model
-
-# Classification
-head(naive_bayes_via_superml$predict(iris))
-#> Warning: predict.naive_bayes(): More features in the newdata are provided
-#> as there are probability tables in the object. Calculation is performed
-#> based on features to be found in the tables.
-#> [1] setosa setosa setosa setosa setosa setosa
-#> Levels: setosa versicolor virginica
-
-# Posterior probabilites
-head(naive_bayes_via_superml$predict(iris, type = "prob"))
-#> Warning: predict.naive_bayes(): More features in the newdata are provided
-#> as there are probability tables in the object. Calculation is performed
-#> based on features to be found in the tables.
-#>      setosa   versicolor    virginica
-#> [1,]      1 2.981309e-18 2.152373e-25
-#> [2,]      1 3.169312e-17 6.938030e-25
-#> [3,]      1 2.367113e-18 7.240956e-26
-#> [4,]      1 3.069606e-17 8.690636e-25
-#> [5,]      1 1.017337e-18 8.885794e-26
-#> [6,]      1 2.717732e-14 4.344285e-21
-```
+![](man/figures/poisson-2.png)<!-- -->

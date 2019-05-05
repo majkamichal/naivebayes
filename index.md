@@ -48,9 +48,6 @@ Also few helper functions are provided that are supposed to improve the
 user experience. The general `naive_bayes()` function is also available
 through the excellent `Caret` package.
 
-Extended documentation can be found on the website:
-<https://majkamichal.github.io/naivebayes/>
-
 ## Installation
 
 Just like many other `R` packages, `naivebayes` can be installed from
