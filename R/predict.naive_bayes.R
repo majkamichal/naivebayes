@@ -50,15 +50,15 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                                             nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
         if (nm > 0) {
-            stop(paste0("predict.naive_bayes(): ", nm, ifelse(nm == 1, " Feature ", " Features "),
-                        ifelse(nm == 1, "are EITHER discrete, ",
-                               "are EITHER discrete, "), "and compared to the corresponding probability ",
-                        ifelse(nm == 1, "table", "tables"), " from the object \"",
-                        substitute(object), "\", ",
-                        ifelse(nm == 1, "it misses some levels or has more levels,",
-                               "some of them miss levels or have more levels,"),
-                        " OR for some of them there is type mismatch between training data and newdata",
-                        " (it should be numeric but is character/factor).\n"),
+            stop(paste0("predict.naive_bayes(): \n\n", nm, ifelse(nm == 1, " Feature ", " Features "),
+                        ifelse(nm == 1, "is discrete, ",
+                               "are discrete, "), "and compared to the corresponding probability ",
+                        ifelse(nm == 1, "table ", "tables "),
+                        ifelse(nm == 1, "it misses some levels or has more levels.",
+                               "some of them miss levels or have more levels."),
+                        "\n\n",
+                        "Other possibility: there is type mismatch between training data and newdata",
+                        " (for instance, some variable should be numeric but is character/factor).\n\n"),
                  call. = FALSE)
         }
     }
