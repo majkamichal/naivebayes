@@ -1,3 +1,4 @@
+
 # VALIDATION: Bernoulli and Categorical  =======================================
 #
 # Benchmarking models:
@@ -235,11 +236,11 @@ train_na[sample(1:length(train_na$bern), N_na2), "bern2"] <- NA
 train_na[sample(1:length(train_na$bern), N_na2), "class"] <- NA
 
 ytrain_na <- train_na$class
-X_bern_train <- sapply(train_na[ ,c("bern", "bern2")], function(x) as.numeric(x) - 1)
+X_bern_train_na <- sapply(train_na[ ,c("bern", "bern2")], function(x) as.numeric(x) - 1)
 
 
 nb_bern_na <- naive_bayes(class ~ bern + bern2, train_na)
-bnb_na <- bernoulli_naive_bayes(x = X_bern_train, y = ytrain_na)
+bnb_na <- bernoulli_naive_bayes(x = X_bern_train_na, y = ytrain_na)
 e10_bern_na <- e1071::naiveBayes(class ~ bern + bern2, train_na)
 
 # Compare parameter estimates for bern
@@ -342,7 +343,7 @@ train_cat[5,"cat"] <- NA
 train_cat[23,"cat2"] <- NA
 test_cat[1,"cat"] <- NA
 
-
+# Train models
 nb_cat <- naive_bayes(class ~ cat + cat2, data = train_cat)
 e10_cat <- e1071::naiveBayes(class ~ cat + cat2, data = train_cat)
 
@@ -352,25 +353,29 @@ t(e10_cat$tables$cat)
 # Check absolute differences of parameter estimates
 sum(abs(tables(nb_cat, 1)[[1]] - t(e10_cat$tables$cat)))
 
-
 # Check posterior probabilities
-pred_nb_cat <- nb_bern_na %prob% test_cat
-pred_e10_bern_na_test <- predict(e10_bern_na, newdata = test_bern_na, type = "raw")
+pred_nb_cat <- nb_cat %prob% test_cat
+pred_e10_cat <- predict(e10_cat, newdata = test_cat, type = "raw")
 
-pred_nb_bern_na_test
-pred_nb_bern2_na_test
-pred_bnb_na_test
-pred_e10_bern_na_test
+pred_nb_cat
+pred_e10_cat
 
 # Check for absolute differences
-sum(abs(pred_nb_bern_na - pred_nb_bern2_na))
-sum(abs(pred_nb_bern_na - pred_bnb_na))
-sum(abs(pred_nb_bern_na - pred_e10_bern_na))
+sum(abs(pred_nb_cat - pred_e10_cat))
 
 
 # 1.2.1) SPECIAL CASES: --------------------------------------------------------
 
-# Check when there are too few/many levels in predictor variable
+# Check when there are too few/many levels in predictor variable in test data
+
+# - Too many levels
+test_cat_more_levels <- test_cat
+levels(test_cat_more_levels$cat) <- c(levels(test_cat_more_levels$cat), "newlevel")
+test_cat_more_levels$cat[2] <- "newlevel"
+
+nb_cat %prob% test_cat_more_levels
+# Informative error is correctly given (issues with the data that have to be
+# resolved by the user)
 
 
-
+# - Too many levels
