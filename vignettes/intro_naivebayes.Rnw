@@ -1,0 +1,600 @@
+\documentclass{article}
+
+%\VignetteEngine{knitr::knitr}
+%\VignetteEncoding{UTF-8}
+%\VignetteIndexEntry{An Introduction to Naivebayes}
+
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{fancyref}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage{geometry}
+\RequirePackage{setspace} % Required for changing line spacing
+\usepackage[T1]{fontenc}
+\usepackage{xcolor}
+
+% Define darkgreen colour
+\definecolor{darkgreen}{RGB}{0, 70, 0}
+\font\btt=rm-lmtk10
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper=a4paper, % Change to letterpaper for US letter
+	inner=2.5cm, % Inner margin
+	outer=3.8cm, % Outer margin
+	bindingoffset=.5cm, % Binding offset
+	top=1.5cm, % Top margin
+	bottom=1.5cm, % Bottom margin
+	% showframe, % Uncomment to show how the type block is set on the page
+}
+
+\geometry{
+	headheight=4ex,
+	includehead,
+	includefoot
+}
+
+\raggedbottom
+
+%-------------------------------------------------------------------------------
+
+\begin{document}
+
+\title{Introduction to naivebayes package}
+
+\author{Michal Majka}
+
+\onehalfspace
+
+
+% Introduction: ----------------------------------------------------------------
+
+\maketitle
+
+\section{Introduction}
+
+The \textcolor{darkgreen}{{\btt{naivebayes}}} package provides an efficient implementation of the popular Na\"ive Bayes classifier. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in \textcolor{darkgreen}{{\btt{Base R}}}. The last implies no dependencies, however, it neither denies nor interferes with the first as many functions from the \textcolor{darkgreen}{{\btt{Base R}}} distribution use highly efficient routines programmed in lower level languages, such as \textcolor{darkgreen}{{\btt{C}}} or \textcolor{darkgreen}{{\btt{FORTRAN}}}. In fact, the \textcolor{darkgreen}{{\btt{naivebayes}}} package utilizes only such functions for resource-intensive calculations. This vignette should make the implementation of the general \textcolor{darkgreen}{{\btt{naive\_bayes()}}} function more transparent and give an overview over its functionalities.
+
+
+\section{Installation}
+
+Just like many other \textcolor{darkgreen}{{\btt{R}}} packages, the \textcolor{darkgreen}{{\btt{naivebayes}}} can be installed from the \textcolor{darkgreen}{{\btt{CRAN}}} repository by simply typing into the console the following line:
+
+<<eval=FALSE>>=
+install.packages("naivebayes")
+@
+
+An alternative way of obtaining the package is first downloading the package source from \url{https://CRAN.R-project.org/package=naivebayes}, specifying the location of the file and running in the console:
+
+<<eval=FALSE>>=
+# path_to_tar.gz file <- " "
+install.packages(path_to_tar.gz, repos = NULL, type = "source")
+@
+
+The full source code can be viewed either on the official \textcolor{darkgreen}{{\btt{GitHub}}} \textcolor{darkgreen}{{\btt{CRAN}}} repository: \url{https://github.com/cran/naivebayes} or on the development repository: \url{https://github.com/majkamichal/naivebayes}. After successful installation, the package can be used with:
+
+<<eval=FALSE>>=
+library(naivebayes)
+@
+
+
+\section{Main functions}
+
+The general function \textcolor{darkgreen}{{\btt{naive\_bayes()}}} detects the class of each feature in the dataset and, depending on the user choices, assumes possibly different distribution for each feature. It currently supports following class conditional distributions:
+
+\begin{itemize}
+  \item categorical distribution for discrete features
+  \item Poisson distribution for non-negative integers
+  \item Gaussian distribution for continuous features
+  \item non-parametrically estimated densities via Kernel Density Estimation for continuous features
+\end{itemize}
+
+
+\vspace{2mm}
+In addition to that, specialized Naive Bayes classifiers are available and are listed below. They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. In future, sparse matrices will be also supported.
+
+\begin{itemize}
+ \item Bernoulli Naive Bayes via \textcolor{darkgreen}{{\btt{bernoulli\_naive\_bayes()}}}
+ \item Multinomial Naive Bayes via \textcolor{darkgreen}{{\btt{multinomial\_naive\_bayes()}}}
+ \item Poisson Naive Bayes via \textcolor{darkgreen}{{\btt{poisson\_naive\_bayes()}}}
+ \item Gaussian Naive Bayes via \textcolor{darkgreen}{{\btt{gaussian\_naive\_bayes()}}}
+ \item Non-Parametric Naive Bayes via \textcolor{darkgreen}{{\btt{nonparametric\_naive\_bayes()}}}
+\end{itemize}
+
+
+\section{Na\"ive Bayes Model}
+
+The Na\"ive Bayes is a family of probabilistic models that utilize Bayes' theorem under the assumption of conditional independence between the features to predict the class label for a given problem instance. This section introduces the Na\"ive Bayes framework in a somewhat formal way.
+
+Let us assume that a single problem instance $\boldsymbol{x} = (x_1, x_2, ..., x_d)$ is given. It consists of $d$ different values, each being an outcome of a measurement of a different characteristic $X_i$. For instance, for $d=3$, the characteristics $X_1$, $X_2$ and $X_3$ may represent age, yearly income and education level, respectively, and $x_1$, $x_2$, $x_3$ are their measurements of a particular person. Furthermore, given $\boldsymbol{X} = \boldsymbol{x}$, which is a compact notation for $(X_1 = x_1,...,X_d = x_d)$, we are interested in predicting another characteristic $Y$, which can take on $K$ possible values denoted by $(C_1,...,C_K)$. In other words, we have a multi-class classification problem with $K$ specifying the number of classes. If $K=2$ the problem reduces to the binary classification. The $X_i$s are usually referred to as "features" or "independent variables" and Y as "response" or "dependent variable". In the following $X_i$s are assumed to be random variables.
+
+In the Naive Bayes framework this classification problem is tackled first by applying the Bayes' theorem to the class specific conditional probabilities $\mathbb{P}(Y = C_k | \boldsymbol{X} = \boldsymbol{x})$ and hence decomposing them into the product of the likelihood and the prior scaled by the likelihood of the data:
+
+
+\begin{equation}
+ \mathbb{P}(Y = C_k | \,\boldsymbol{X} = \boldsymbol{x}) = \frac{\mathbb{P}(Y = C_k) \, \mathbb{P}(\boldsymbol{X} = \boldsymbol{x} \,| \, Y = C_k)}{ \mathbb{P}(\boldsymbol{X} = \boldsymbol{x})}.
+\end{equation}
+
+
+Since the random variables $\boldsymbol{X} = (X_1,X_2,...,X_d)$ are (na\"ively) assumed to be conditionally independent, given the class label $C_k$, the likelihood $\mathbb{P}(\boldsymbol{X} = \boldsymbol{x} | \, Y = C_k)$ on the right-hand side can be simply re-written as
+
+
+\begin{equation}
+ \mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) =  \frac{\mathbb{P}(Y = C_K) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)}{ \mathbb{P}(X_1 = x_1,..., X_d = x_d)}.
+\end{equation}
+
+
+Since the denominator $\mathbb{P}(X_1 = x_1,..., X_d = x_d)$ is a constant with respect to the class label $C_k$, the conditional probability $\mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x})$ is proportional to the numerator:
+
+
+\begin{equation}
+\label{eq:eq3}
+\mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) \propto \mathbb{P}(Y = C_K) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)
+\end{equation}
+
+
+In order to avoid a numerical underflow (when $d >> 0$), these calculations are performed on the log scale:
+
+
+\begin{equation}
+\label{eq:logprob}
+\log \mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) \propto  \log \mathbb{P}(Y = C_K) + \sum_{i=1}^d \log \mathbb{P}(X_i = x_i | \, Y = C_k).
+\end{equation}
+
+
+Lastly, the class with the highest log-posterior probability is chosen to be the prediction:
+
+\begin{equation}
+\hat{C} = \underset{k \in \{1,...,K \}}{\text{arg max}} \, \left( \log \mathbb{P}(Y = C_K) + \sum_{i=1}^d \log \mathbb{P}(X_i = x_i | \, Y = C_k) \right),
+\end{equation}
+
+which is equivalent to  \textcolor{darkgreen}{{\btt{predict(..., type = "class")}}}.
+
+\vspace{3mm}
+
+If instead, the conditional class probabilities $\mathbb{P}(Y = C_k | \boldsymbol{X} = \boldsymbol{x})$ are of the main interest, which, in turn, is equivalent to \textcolor{darkgreen}{{\btt{predict(..., type = "prob")}}}, then the log-posterior probabilities in \eqref{eq:logprob} are transformed back to the original space and then normalized.
+
+
+\label{subsection:prior_distribution}
+\subsection{Prior distribution}
+
+Since the response variable $Y$ can take on $K$ distinct values denoted as $(C_1,...,C_K)$, each prior probability $\mathbb{P}(Y = C_k)$ in \eqref{eq:eq3} can be interpreted as the probability of seeing the label $C_k$ and they are modelled, by default, with a Categorical distribution in the \textcolor{darkgreen}{{\btt{naivebayes}}} package. The parameters are estimated with MLE and thus the prior probabilities correspond to proportions of classes in the sample ((number of samples in the class) / (total number of samples)). Prior probabilities can be also specified using the parameter \texttt{prior}. For instance, if there are three classes ($K=3$) and we believe that they are equally likely then we may want to assign a uniform prior simply with \textcolor{darkgreen}{{\btt{naive\_bayes(..., prior = c(1/3, 1/3, 1/3)}}}.  Note that the manually specified probabilities have to follow the order of factor levels.
+
+
+\subsection{Available class conditional distributions}
+
+Each individual feature $X_i$ can take a value from a finite/infinte set of $m$ individually identified items (discrete feature) or it can be any real valued number (continuous feature). Discrete features are identified in \textcolor{darkgreen}{{\btt{naive\_bayes()}}} as variables of class "character", "factor", "logical" and "integer" when \textcolor{darkgreen}{{\btt{naive\_bayes(..., usepoisson = TRUE)}}}. On the other hand, continuous features are identified as variables with the class "numeric". Depending on the kind of the feature $X_i$, the \textcolor{darkgreen}{{\btt{naivebayes()}}} function uses a different probability distribution for modelling of the class conditional probability $\mathbb{P}(X_i = x_i | Y = C_k$). In this subsection, available class conditional distributions are first introduced and then it is elaborated on how they are assigned to the features.
+
+
+\subsubsection{Categorical distribution}
+
+If $X_i$ is discrete feature which takes on $M$ possible values denoted by $\mathcal{X}_i = \{item1, ..., item_M\}$, then the Categorical distribution is assumed:
+
+    \begin{equation}
+     \mathbb{P}(X_i = l \, | Y = C_k) = p_{ikl},
+    \end{equation}
+
+where $l \in \mathcal{X}_i$,  $p_{ikl} > 0$ and $\sum_{j \in\mathcal{X}_i} p_{ikj} = 1$. This mathematical formalism can be translated into plain English as follows: given the class label $C_k$, the probability that the $i$-th feature takes on $l$-th value is non-negative and the sum of $M$ such probabilities is 1. The Bernoulli distribution is the special case for $M=2$. It is important to note tha the logical (TRUE/FALSE) vectors are internally coerced to character ("TRUE"/"FALSE") and hence are assumed to be discrete features. Also, if the feature $X_i$ takes on 0 and 1 values only and is represented in R as a "numeric" then the Gaussian distribution is assumed by default.
+
+\subsubsection{Poisson distribution}
+
+If $X_i$ is a non-negative integer feature and explicitly requested via \textcolor{darkgreen}{{\btt{naive\_bayes(..., usepoisson = TRUE)}}} then the Poisson distribution is assumed:
+
+$$\mathbb{P}(X_i=v | \, Y = C_k) = \frac{\lambda_{ik}^v e^{-\lambda_{ik}}}{v!},$$
+
+where $\lambda_{ik} > 0$ and $v \in \{0,1,2,...\}$. If this applies to all features, then the model can be called a "Poisson Naive Bayes".
+
+
+\subsubsection{Gaussian distribution}
+
+If $X_i$ is a continuous feature then, by default, the Gaussian distribution is assumed:
+
+$$\mathbb{P}(X_i = v | \, Y = C_k) = \frac{1}{\sqrt{2 \pi \sigma^2_{ik}}} \, \exp \left(- \frac{(v - \mu_{ik})^2}{2 \sigma^2_{ik}}\right),$$
+
+where $\mu_{ik}$ and $\sigma^2_{ik}$ are the class conditional mean and variance. If this applies to all features, then the model can be called a "Gaussian Naive Bayes".
+
+\subsubsection{Kernel distribution}
+
+If $X_i$ is continuous, instead of the Gaussian distribution, a kernel density estimation (KDE) can be alternatively used to obtain a non-parametric representation of the conditional probability density function. It can be requested via \textcolor{darkgreen}{{\btt{naive\_bayes(..., usekernel = TRUE)}}}. If this applies to all features then the model can be called a "Non-parametric Naive Bayes".
+
+
+\subsection{Assignment of distributions to the features}
+
+The class "numeric" contains "double" (double precision floating point numbers) and "integer". Depending on the parameters \texttt{usekernel} and \texttt{usepoisson} different class conditional distributions are applied to columns in the dataset with the class "numeric":
+
+\begin{itemize}
+    \item If \texttt{usekernel=FALSE} and \texttt{poisson=FALSE} then Gaussian distribution is applied to each "numeric" variable ("numeric"\&"integer" or "numeric"\&"double")
+
+    \item If \texttt{usekernel=TRUE} and \texttt{poisson=FALSE} then kernel density estimation (KDE) is applied to each "numeric" variable ("numeric"\&"integer" or "numeric"\&"double")
+
+    \item If \texttt{usekernel=FALSE} and \texttt{poisson=TRUE} then Gaussian distribution is applied to each "double" vector and Poisson to each "integer" vector:
+    \begin{itemize}
+        \item Gaussian: "numeric"\&"double"
+        \item Poisson: "numeric"\&"integer"
+    \end{itemize}
+
+    \item If \texttt{usekernel=TRUE} and \texttt{poisson=TRUE} then kernel density estimation (KDE) is applied to each "double" vector and Poisson to each "integer" vector:
+
+    \begin{itemize}
+        \item KDE: "numeric"\&"double"
+        \item Poisson: "numeric"\&"integer"
+    \end{itemize}
+
+\end{itemize}
+
+By default \texttt{usekernel=FALSE} and \texttt{poisson=FALSE}, thus Gaussian is applied to each numeric variable. On the other hand, "character", "factor" and "logical" variables are assigned to the Categorical distribution with Bernoulli being its special case.
+
+
+\section{Parameter estimation}
+
+Let us assume that we have some training set $(y^{(j)}, \boldsymbol{x}^{(j)})$ for $j \in \{1,...,n\}$, where each $y^{(j)} \in \{C_1,...,C_k\}$ and $\boldsymbol{x}^{(j)} = (x^{(j)}_1,...,x^{(j)}_d)$. All observations are assumed to be independent and based on this sample we want to fit the Naive Bayes model, which requires parameters of class conditional distributions $\mathbb{P}(X_i = x_i | Y = C_k)$ to be estimated. Specifying the prior distribution was already discussed in the subsection \ref{subsection:prior_distribution}.
+
+
+\subsection{Categorical distribution}
+
+Every class conditional Categorical distribution is estimated from the data with Maximum-Likelihood method, by default. However, when the discrete feature $X_i$ takes on a large number of possible values relative to the sample size, some combinations of its values and class labels may not be present, which inevitably leads to zero probabilities, when using Maximum-Likelihood. In order to avoid the zero-frequency problem, usually, a small amount (pseudo-count) is added to the count for every feature value - class label combination. This is known as additive smoothing and can be easily accomplished by setting the parameter \texttt{laplace} to any positive value. For instance: \textcolor{darkgreen}{{\btt{naive\_bayes(..., laplace = 1)}}} smooths each discrete feature by adding pseudocount 1 for every feature value-class label combination. The parameter responsible for controlling the additive smoothing is called \texttt{laplace} because it is the most popular special case when one pseudo-count is added. Interestingly, by applying the additive smoothing, we leave the Maximum-Likelihood world and enter the Bayesian estimation realm. It is important to note that the \texttt{laplace} parameter is global, i.e. it is applied to all discrete features and also non-negative integer features when they are modelled with the Poisson distribution.
+
+\subsubsection{Maximum Likelihood}
+
+When $i$-th feature takes values in $\mathcal{X}_i = \{item_1,...,item_M\}$, then the corresponding Maximum-Likelihood estimates are given by:
+
+$$\hat{p}_{ikl} = \frac{\sum_{j=1}^n \mathbb{1}(y^{(j)} = C_k \,\, and \,\, x_i^{(j)} = l)}{\sum_{j=1}^n \mathbb{1}(y^{(j)} = C_k)} = \frac{c_{ikl}}{\sum_{j\in \mathcal{X}_i} c_{ikj}}$$
+
+where $l \in \mathcal{X}_i$ and $\mathbb{1}$ is an indicator function that is 1 when the condition is satisfied and is 0 otherwise. Thus the Maximum-Likelihood yields very natural estimates: it is a ratio of the number of time the class label $C_k$ is observed together with the $l$-th value of the $i$-th feature to the the number of times the class label $C_k$ is observed.
+
+\subsubsection{Additive Smoothing and Bayesian estimation}
+
+Applying the additive smoothing is commonly thought of as means of avoiding zero probabilities - adding a pseudo-count $\alpha > 0$ to the frequency of each item (feature value) changes the expected probabilities and the resulting estimates are guaranteed to be non-zero. They are given by:
+
+$$\hat{p}_{ikl} = \frac{c_{ikl} + \alpha}{\sum_{j\in \mathcal{X}_i} c_{ikj} + M\alpha}\,\,, \,\,\,\,\,\, l \in \mathcal{X}_i = \{item_1,...,item_M\}, $$
+
+where $c_{ikl}$ is, again, the frequency of the $l$-th item for the $i$-th feature and $k$-th class and $M$ is the number of different items. It can be easily seen that when the parameter $\alpha = 0$ then each $\hat{p}_{ikl}$ coincides with the Maximum-Likelihood and for $\alpha \rightarrow \infty$ they are shrunk towards the uniform probabilities $\{\frac{1}{M},...,\frac{1}{M} \}$.
+
+In the Bayesian realm, these estimates correspond to the expected value of the posterior distribution\footnote{Details on the derivation of the posterior: \url{https://www.youtube.com/watch?v=UDVNyAp3T38} - this resource was chosen because it is very accessible and provides great explanations.}, when the symmetric Dirichlet distribution with the parameter $\boldsymbol{\alpha} = (\alpha,...,\alpha)$ is chosen as a prior. The latter is parametrised with $M$ equal values $\alpha$ which, in this context, can be interpreted as having observed $\alpha$ additional counts of each item and then incorporating them into the estimation process. Thus, adding pseudo-counts allows to explicitly include the prior information into the parameter estimation that the estimates cannot be zero. Also, since the same amount is added to each item's count, no parameter is favoured over any other. The parameter $\alpha$ is usually chosen to be $1$ because in such case the symmetric Dirichlet prior is equivalent to the uniform distribution and for bigger number of observations in the data such (uniform) prior has small effect on the estimates. The other popular value for $\alpha$ is 0.5, which corresponds to the popular (non-informative) Jeffreys prior.
+
+
+\subsection{Poisson distribution}
+
+In the current implementation, the parameters of class conditional Poisson distributions, similarly as in case of the categorical distribution, can be estimated using either Maximum-Likelihood method or the Bayesian approach by adding pseudo-counts to the data.
+
+
+\subsubsection{Maximum Likelihood}
+
+The classical maximum likelihood parameter estimates for the Poisson lambda are simply sample averages. This means that each class conditional parameter $\lambda_{ik}$ is estimated via applying following algorithm:
+
+$$\hat{\lambda}_{ik} = \frac{\sum_{j=1}^n x_i^{(j)} \mathbb{1}(y^{(j)} = C_k) }{\sum_{j=1}^n \, \mathbb{1}(y^{(j)} = C_k)} = \frac{T_k}{n_k}.$$
+
+
+\subsubsection{Bayesian estimation via pseudo-counts}
+
+When the sample is segmented according to different classes $C_k$, it may happen that in some sub-samples only zero counts are to be found and in such case Maximum-Likelihood estimates yields zero estimates. In such case, pseudo-counts can be introduced via global \texttt{laplace} parameter to add the Bayesian flavour to the parameter estimation and to alleviate zero-estimates problem in the same time.
+
+
+Analogously to the Maximum-Likelihood estimation, the values of the $i$-th feature are first segmented according to the $k$-th class $C_k$, which results in a sub-sample with a possibly different number of data points denoted by $n_k = \sum_{j=1}^n \mathbb{1}(y^{(j)} = C_k)$ and the sub-total $T_k = \sum_{j=1}^n x_i^{(j)}\mathbb{1}(y^{(j)} = C_k)$. Then a pseudo-count $\alpha > 0$ is added to the sub-total and the parameter $\lambda_{ik}$ is estimated via:
+
+$$\hat{\lambda}_{ik} = \frac{T_k + \alpha}{n_k}$$
+
+The estimate $\hat{\lambda}_{ik}$ could be considered to coincide with the expected value of posterior distribution given by Gamma$(T_k + \alpha, n_k)$, when the improper (degenerate) Gamma distribution with shape parameter $\alpha > 0$ and rate $\beta \rightarrow 0$ is chosen as a prior for the Poisson likelihood. Adding pseudo-counts 1 and 0.5 ($\alpha = 1$ or $\alpha = 1$) corresponds to the estimation using the uniform prior and Jeffreys  prior, respectively.
+
+
+\subsection{Gaussian distribution}
+
+The parameters of each class conditional Gaussian distribution are estimated via Maximum-Likelihood:
+
+$$\hat{\mu}_{ik} = \frac{\sum_{j=1}^n x_i^{(j)} \mathbb{1}(y^{(j)} = C_k) }{\sum_{j=1}^n \, \mathbb{1}(y^{(j)} = C_k)}$$
+
+$$\hat{\sigma}^2_{ik} = \frac{\sum_{j=1}^n (x_i^{(j)} - \hat{\mu}_{ik})^2 \, \mathbb{1}(y^{(j)} = C_k) }{\left[ \sum_{j=1}^n  \mathbb{1}(y^{(j)} = C_k) \right] - 1}$$
+
+
+\subsection{Kernel distribution}
+
+The non-parametric estimate for the $k$-th class conditional probability density function can be obtained using a kernel density estimation:
+
+$$\hat{f}_{h_{ik}}(x) = \frac{1}{n_{k}h_{ik}}\sum_{j=1}^n\left(\frac{x - x_i^{(j)}}{h_{ik}}\right)\mathbb{1}(y^{(j)} = C_k),$$
+
+where $n_k$ is number of samples in the $k$-th class, $K$ is a kernel function that defines the shape of the density curve and $h_{ik}$ is a class specific bandwidth that controls the smoothness. The estimation is performed using built in R function \textcolor{darkgreen}{{\btt{stats::density()}}}.  In general, there are 7 different smoothing kernels and 5 different bandwidth selectors available.
+
+\begin{table}[!htbp] \centering
+\caption{Available smoothing kernels and bandwidth selectors in stats::density(...).}
+\begin{tabular}{ll}
+\hline %\\[-1.8ex]
+\textbf{Kernels} & \textbf{Bandwidth selectors}         \\ \hline \\[-1.8ex]
+Gaussian                               & nrd0 (Silverman's rule-of-thumb)                  \\
+Epanechnikov                           & nrd (variation of the rule-of-thumb)              \\
+Rectangular                            & ucv (unbiased cross-validation)                   \\
+Triangular                             & bcv (biased cross-validation)                     \\
+Biweight                               & SJ (Sheather \& Jones method)                     \\
+Cosine                                 &                                                   \\
+Optcosine                              &                                                   \\
+\hline \\[-1.8ex]
+\end{tabular}%
+\end{table}
+
+The Gaussian smoothing kernel and Silverman's rule-of-thumb are chosen by default. Please see \textcolor{darkgreen}{{\btt{help(density)}}} and \textcolor{darkgreen}{{\btt{help(bw.nrd0)}}} for more details on available kernel functions and bandwidth selectors.
+
+\section{General usage}
+
+<<>>=
+library(naivebayes)
+
+### Simulate data
+n <- 100
+set.seed(1)
+data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
+                   bern = sample(LETTERS[1:2], n, TRUE),
+                   cat  = sample(letters[1:3], n, TRUE),
+                   logical = sample(c(TRUE,FALSE), n, TRUE),
+                   norm = rnorm(n),
+                   count = rpois(n, lambda = c(5,15)))
+train <- data[1:95, ]
+test <- data[96:100, -1]
+
+
+### General usage via formula interface
+nb <- naive_bayes(class ~ ., train, usepoisson = TRUE)
+summary(nb)
+
+# Classification
+predict(nb, test, type = "class")
+
+# Alternatively
+nb %class% test
+
+# Posterior probabilities
+predict(nb, test, type = "prob")
+
+# Alternatively
+nb %prob% test
+
+### Helper functions
+
+# Obtain first table
+tables(nb, 1)
+
+# Get names of assigned class conditional distributions
+get_cond_dist(nb)
+@
+
+Fit the Naive Bayes model based on 10 simulated predictors, each having 10mn observations, and then perform classification:
+
+<<>>=
+vars <- 10
+rows <- 1000000
+y <- sample(c("a", "b"), rows, TRUE)
+
+# Discrete features
+X1 <- as.data.frame(matrix(sample(letters[5:9], vars * rows, TRUE),
+                           ncol = vars))
+nb_cat <- naive_bayes(x = X1, y = y)
+system.time(pred2 <- predict(nb_cat, X1))
+@
+
+
+
+
+\break
+
+\section{Appendix}
+
+\subsection{Practical examples: parameter estimation}
+
+This is a practical subsection that is aimed mostly to the students who learn the Naive Bayes model for the first time and are interested in the technical aspects of the model fitting.
+
+\subsubsection{Categorical distribution}
+
+In this example, the famous \texttt{iris} dataset is appended with a random categorical feature "new" with 3 levels/categories and then the parameters are estimated using the Maximum-Likelihood as well as the Bayesian estimation via adding pseudo-counts.
+
+<<eval=FALSE>>=
+library(naivebayes)
+
+# Prepare data: --------------------------------------------------------
+data(iris)
+iris2 <- iris
+N <- nrow(iris2)
+n_new_factors <- 3
+factor_names <- paste0("level", 1:n_new_factors)
+
+# Add a new artificial features with three levels/categories:
+# level1 is very unlikely and has 0.5% chance to occur
+# level2 and level3 happen with probability 75% and 29.5%, respectively
+
+set.seed(2)
+iris2$new <- factor(sample(paste0("level", 1:n_new_factors),
+                           prob = c(0.005, 0.7, 0.295),
+                           size = 150,
+                           replace = TRUE), levels = factor_names)
+
+# Define class and feature levels: -------------------------------------
+Ck <- "setosa"
+level1 <- "level1"
+level2 <- "level2"
+level3 <- "level3"
+
+# level1 did not show up in the sample but we know that it
+# has 0.5% probability to occur.
+table(iris2$new)
+
+# For this reason level1 is also not available in any class sub-sample
+table(iris2$new[iris$Species == Ck])
+
+# Parameter estimation: ------------------------------------------------
+
+# ML-estimates
+ck_sub_sample <- table(iris2$new[iris$Species == Ck])
+ck_mle_estim <-  ck_sub_sample / sum(ck_sub_sample)
+
+# Bayesian estimation via symmetric Dirichlet prior with
+# concentration parameter 0.5.
+# (corresponds to the Jeffreys  uninformative prior)
+
+laplace <- 0.5 # Jeffreys  prior / Dirichlet
+               # with the concentration parameter 0.5
+N1 <- sum(iris2$Species == Ck & iris2$new == level1) + laplace
+N2 <- sum(iris2$Species == Ck & iris2$new == level2) + laplace
+N3 <- sum(iris2$Species == Ck & iris2$new == level3) + laplace
+N <-  sum(iris2$Species == Ck) + laplace * n_new_factors
+ck_bayes <- c(N1, N2, N3) / N
+
+# Compare estimates
+rbind(ck_mle_estim, ck_bayes)
+
+# Bayesian estimate for level1 has positive probability
+# but is slightly overestimated. Compared to MLE,
+ # estimates for level2 and level3 have been slightly shrunken.
+
+# In general, the higher value of laplace, the more resulting
+# distribution tends to the uniform distribution.
+# When laplace would be set to infinity
+# then the estimates for level1, level2 and level3
+# would be 1/3, 1/3 and 1/3.
+
+# comparison with estimates obtained with naive_bayes function:
+nb_mle <- naive_bayes(Species ~ new, data = iris2)
+nb_bayes <- naive_bayes(Species ~ new, data = iris2,
+                        laplace = laplace)
+
+# MLE
+rbind(ck_mle_estim,
+      "nb_mle" = tables(nb_mle, which = "new")[[1]][ ,Ck])
+
+# Bayes
+rbind(ck_bayes,
+      "nb_bayes" = tables(nb_nb_jeffrey, which = "new")[[1]][ ,Ck])
+@
+
+
+\subsubsection{Gaussian distribution}
+
+In this example, the famous \texttt{iris} dataset is again used to demonstrate the Maximum-Likelihood estimation of the mean and variance in class conditional Gaussian distributions.
+
+<<eval = FALSE>>=
+
+data(iris)
+Xi <- "Petal.Width" # i-th feature
+Ck <- "versicolor"  # k-th class
+
+# Build class sub-sample for the i-th feature
+Ck_Xi_subsample <- iris[iris$Species == Ck, Xi]
+
+# MLE
+mle_norm <- cbind("mean" = mean(Ck_Xi_subsample),
+                  "sd" = sd(Ck_Xi_subsample))
+
+# MLE in naive_bayes function
+nb_mle <- naive_bayes(x = iris[Xi], y = iris[["Species"]])
+rbind(mle_norm,
+      "nb_mle" = tables(nb_mle, which = Xi)[[Xi]][ ,Ck])
+@
+
+
+\subsubsection{Kernel Density Estimation}
+
+In this example, kernel density estimation is used to estimate class conditional densities for one variable from the \texttt{iris} dataset.
+
+<<eval=FALSE>>=
+# Prepare data: --------------------------------------------------------
+
+data(iris)
+Xi <- "Sepal.Width" # i-th feature
+C1 <- "setosa"      # 1st class
+C2 <- "virginica"   # 2nd class
+C3 <- "versicolor"  # 3rd class
+
+# Build class sub-samples for the i-th feature
+C1_Xi_subsample <- iris[iris$Species == C1, Xi]
+C2_Xi_subsample <- iris[iris$Species == C2, Xi]
+C3_Xi_subsample <- iris[iris$Species == C3, Xi]
+
+# Estimate class conditional densities for the i-th feature
+dens1 <- density(C1_Xi_subsample)
+dens2 <- density(C2_Xi_subsample)
+dens3 <- density(C3_Xi_subsample)
+
+# Visualisation: -------------------------------------------------------
+plot(dens2, main = "", col = "red")
+lines(dens1, main = "", col = "blue")
+lines(dens3, main = "", col = "black")
+legend("topleft", legend = c(C1,C2,C3),
+       col = c("blue", "red", "black"),
+       lty = 1)
+
+# Compare to the naive_bayes: ------------------------------------------
+nb_kde <- naive_bayes(x = iris[Xi], y = iris[["Species"]],
+                      usekernel = TRUE)
+plot(nb_kde, prob = "conditional")
+
+dens3
+nb_kde$tables[[Xi]][[C3]]
+tables(nb_kde, Xi)[[1]][[C3]]
+
+
+# Use custom bandwidth selector: ---------------------------------------
+?bw.SJ
+nb_kde_SJ_bw <- naive_bayes(x = iris[Xi], y = iris[["Species"]],
+                      usekernel = TRUE, bw = "SJ")
+plot(nb_kde, prob = "conditional")
+
+
+# Visualize all available kernels: -------------------------------------
+kernels <- c("gaussian", "epanechnikov", "rectangular","triangular",
+            "biweight", "cosine", "optcosine")
+iris3 <- iris
+iris3$one <- 1
+
+sapply(kernels, function (ith_kernel) {
+    nb <- naive_bayes(formula = Species ~ one, data = iris3,
+                      usekernel = TRUE, kernel = ith_kernel)
+    plot(nb, arg.num = list(main = paste0("Kernel: ", ith_kernel),
+                            col = "black"), legend = FALSE)
+    invisible()
+})
+
+@
+
+\subsubsection{Poisson distribution}
+
+In this example, parameter estimation for the class conditional Poisson features is demonstrated.
+
+<<eval = FALSE>>=
+
+# Simulate data: -------------------------------------------------------
+cols <- 2
+rows <- 10
+set.seed(11)
+M <- matrix(rpois(rows * cols, lambda = c(0.1,1)), nrow = rows,
+            ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
+colnames(M) <- paste0("Var", seq_len(ncol(M)))
+
+Xi <- M[ ,"Var1", drop = FALSE]
+
+# MLE: -----------------------------------------------------------------
+# Estimate lambdas for each class
+tapply(Xi, y, mean)
+
+# Compare with naive_bayes
+pnb <- naive_bayes(x = Xi, y = y, usepoisson = TRUE)
+tables(pnb,1)
+
+# Adding pseudo-counts via laplace parameter: --------------------------
+laplace <- 1
+Xi_pseudo <- Xi
+Xi_pseudo[y == "classB",][1] <- Xi_pseudo[y == "classB",][1] + laplace
+Xi_pseudo[y == "classA",][1] <- Xi_pseudo[y == "classA",][1] + laplace
+
+# Estimates
+tapply(Xi_pseudo, y, mean)
+
+# Compare with naive_bayes
+pnb <- naive_bayes(x = Xi, y = y, usepoisson = TRUE, laplace = laplace)
+tables(pnb,1)
+
+@
+
+
+\end{document}

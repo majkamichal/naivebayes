@@ -39,4 +39,3 @@ reference:
   - '`coef.multinomial_naive_bayes`'
   - '`coef.poisson_naive_bayes`'
   - '`coef.gaussian_naive_bayes`'
-
