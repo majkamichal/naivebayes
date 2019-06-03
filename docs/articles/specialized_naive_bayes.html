@@ -46,7 +46,7 @@
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-     
+
   </a>
 </li>
 <li>
@@ -58,10 +58,13 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/intro_naivebayes.pdf">An Introduction to naivebayes</a>
+    </li>
 <li>
       <a href="../articles/caret,%20nproc%20and%20naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
@@ -78,7 +81,7 @@
 <li>
   <a href="https://github.com/majkamichal/naivebayes">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -89,20 +92,20 @@
 </div>
 <!--/.navbar -->
 
-      
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Specialized Naive Bayes</h1>
-            
-      
+
+
       <small class="dont-index">Source: <a href="https://github.com/majkamichal/naivebayes/blob/master/vignettes/specialized_naive_bayes.Rmd"><code>vignettes/specialized_naive_bayes.Rmd</code></a></small>
       <div class="hidden name"><code>specialized_naive_bayes.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <p>The <code>naivebayes</code> package provides a range of functions that implement specialised versions of the Naïve Bayes and in this short vignette their basic usage is demonstrated.</p>
 <div id="bernoulli-naive-bayes" class="section level2">
 <h2 class="hasAnchor">
@@ -124,18 +127,18 @@
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># M has to be a matrix</span></a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">bnb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/bernoulli_naive_bayes.html">bernoulli_naive_bayes</a></span>(<span class="dt">x =</span> M, <span class="dt">y =</span> y, <span class="dt">laplace =</span> laplace)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(bnb)</a></code></pre></div>
-<pre><code>## 
-## =========================== Bernoulli Naive Bayes ============================ 
-##  
-## - Call: bernoulli_naive_bayes(x = M, y = y, laplace = laplace) 
-## - Laplace: 0.5 
-## - Classes: 2 
-## - Samples: 100 
-## - Features: 10 
-## - Prior probabilities: 
+<pre><code>##
+## =========================== Bernoulli Naive Bayes ============================
+##
+## - Call: bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+## - Laplace: 0.5
+## - Classes: 2
+## - Samples: 100
+## - Features: 10
+## - Prior probabilities:
 ##     - classA: 0.3
 ##     - classB: 0.7
-## 
+##
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(bnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>)) </a></code></pre></div>
 <pre><code>##         classA    classB
@@ -208,18 +211,18 @@
 <a href="#train-the-multinomial-naive-bayes" class="anchor"></a>Train the Multinomial Naive Bayes</h3>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">mnb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/multinomial_naive_bayes.html">multinomial_naive_bayes</a></span>(<span class="dt">x =</span> M, <span class="dt">y =</span> y, <span class="dt">laplace =</span> laplace)</a>
 <a class="sourceLine" id="cb17-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(mnb)</a></code></pre></div>
-<pre><code>## 
-## ========================== Multinomial Naive Bayes =========================== 
-##  
-## - Call: multinomial_naive_bayes(x = M, y = y, laplace = laplace) 
-## - Laplace: 1 
-## - Classes: 2 
-## - Samples: 100 
-## - Features: 10 
-## - Prior probabilities: 
+<pre><code>##
+## ========================== Multinomial Naive Bayes ===========================
+##
+## - Call: multinomial_naive_bayes(x = M, y = y, laplace = laplace)
+## - Laplace: 1
+## - Classes: 2
+## - Samples: 100
+## - Features: 10
+## - Prior probabilities:
 ##     - classA: 0.28
 ##     - classB: 0.72
-## 
+##
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="co"># Classification</span></a>
 <a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(mnb <span class="op">%class%</span><span class="st"> </span>M)</a></code></pre></div>
@@ -267,18 +270,18 @@
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">laplace &lt;-<span class="st"> </span><span class="dv">0</span></a>
 <a class="sourceLine" id="cb26-2" data-line-number="2">pnb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poisson_naive_bayes.html">poisson_naive_bayes</a></span>(<span class="dt">x =</span> M, <span class="dt">y =</span> y, <span class="dt">laplace =</span> laplace)</a>
 <a class="sourceLine" id="cb26-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(pnb)</a></code></pre></div>
-<pre><code>## 
-## ============================ Poisson Naive Bayes ============================= 
-##  
-## - Call: poisson_naive_bayes(x = M, y = y, laplace = laplace) 
-## - Laplace: 0 
-## - Classes: 2 
-## - Samples: 100 
-## - Features: 10 
-## - Prior probabilities: 
+<pre><code>##
+## ============================ Poisson Naive Bayes =============================
+##
+## - Call: poisson_naive_bayes(x = M, y = y, laplace = laplace)
+## - Laplace: 0
+## - Classes: 2
+## - Samples: 100
+## - Features: 10
+## - Prior probabilities:
 ##     - classA: 0.56
 ##     - classB: 0.44
-## 
+##
 ## ------------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(pnb, <span class="dt">newdata =</span> M, <span class="dt">type =</span> <span class="st">"prob"</span>))</a></code></pre></div>
 <pre><code>##         classA    classB
@@ -337,17 +340,17 @@
 <a href="#train-the-gaussian-naive-bayes" class="anchor"></a>Train the Gaussian Naive Bayes</h3>
 <div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">gnb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/gaussian_naive_bayes.html">gaussian_naive_bayes</a></span>(<span class="dt">x =</span> M, <span class="dt">y =</span> y)</a>
 <a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(gnb)</a></code></pre></div>
-<pre><code>## 
-## =========================== Gaussian Naive Bayes ============================ 
-##  
-## - Call: gaussian_naive_bayes(x = M, y = y) 
-## - Samples: 150 
-## - Features: 4 
-## - Prior probabilities: 
+<pre><code>##
+## =========================== Gaussian Naive Bayes ============================
+##
+## - Call: gaussian_naive_bayes(x = M, y = y)
+## - Samples: 150
+## - Features: 4
+## - Prior probabilities:
 ##     - setosa: 0.3333
 ##     - versicolor: 0.3333
 ##     - virginica: 0.3333
-## 
+##
 ## -----------------------------------------------------------------------------</code></pre>
 <div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="co"># Visualise class conditional distributions</span></a>
 <a class="sourceLine" id="cb39-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(gnb, <span class="dt">which =</span> <span class="st">"Sepal.Width"</span>, <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
@@ -376,21 +379,21 @@
 <a href="#equivalent-calculation-with-general-naive_bayes-function-" class="anchor"></a>Equivalent calculation with general naive_bayes function.</h3>
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">nb3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(M, y)</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb3)</a></code></pre></div>
-<pre><code>## 
-## ================================ Naive Bayes ================================= 
-##  
-## - Call: naive_bayes.default(x = M, y = y) 
-## - Laplace: 0 
-## - Classes: 3 
-## - Samples: 150 
-## - Features: 4 
-## - Conditional distributions: 
+<pre><code>##
+## ================================ Naive Bayes =================================
+##
+## - Call: naive_bayes.default(x = M, y = y)
+## - Laplace: 0
+## - Classes: 3
+## - Samples: 150
+## - Features: 4
+## - Conditional distributions:
 ##     - Gaussian: 4
-## - Prior probabilities: 
+## - Prior probabilities:
 ##     - setosa: 0.3333
 ##     - versicolor: 0.3333
 ##     - virginica: 0.3333
-## 
+##
 ## ------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
@@ -448,7 +451,7 @@
       </footer>
 </div>
 
-  
+
 
   </body>
 </html>
