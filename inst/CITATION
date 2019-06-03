@@ -6,4 +6,4 @@ bibentry(bibtype = "Manual",
          author = "Michal Majka",
          year = 2019,
          note = note,
-         url = "http://CRAN.R-project.org/package=naivebayes")
+         url = "https://CRAN.R-project.org/package=naivebayes")

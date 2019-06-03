@@ -12,6 +12,10 @@
 ^pkgdown/
 ^\.travis\.yml$
 ^_pkgdown\.yml$
-^vignettes/
+^vignettes/caret, nproc and naivebayes.Rmd$
+^vignettes/intro_naivebayes.pdf$
+^vignettes/naivebayes.Rmd$
+^vignettes/naivebayes_cache/
+^vignettes/specialized_naive_bayes.Rmd$
 ^doc$
 ^Meta$
