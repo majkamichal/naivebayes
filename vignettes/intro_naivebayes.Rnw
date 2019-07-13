@@ -111,7 +111,7 @@ In addition to that, specialized Naive Bayes classifiers are available and are l
 
 The Na\"ive Bayes is a family of probabilistic models that utilize Bayes' theorem under the assumption of conditional independence between the features to predict the class label for a given problem instance. This section introduces the Na\"ive Bayes framework in a somewhat formal way.
 
-Let us assume that a single problem instance $\boldsymbol{x} = (x_1, x_2, ..., x_d)$ is given. It consists of $d$ different values, each being an outcome of a measurement of a different characteristic $X_i$. For instance, for $d=3$, the characteristics $X_1$, $X_2$ and $X_3$ may represent age, yearly income and education level, respectively, and $x_1$, $x_2$, $x_3$ are their measurements of a particular person. Furthermore, given $\boldsymbol{X} = \boldsymbol{x}$, which is a compact notation for $(X_1 = x_1,...,X_d = x_d)$, we are interested in predicting another characteristic $Y$, which can take on $K$ possible values denoted by $(C_1,...,C_K)$. In other words, we have a multi-class classification problem with $K$ specifying the number of classes. If $K=2$ the problem reduces to the binary classification. The $X_i$s are usually referred to as "features" or "independent variables" and Y as "response" or "dependent variable". In the following $X_i$s are assumed to be random variables.
+Let us assume that a single problem instance $\boldsymbol{x} = (x_1, x_2, ..., x_d)$ is given. It consists of $d$ values, each being an outcome of a measurement of a different characteristic $X_i$. For instance, for $d=3$, the characteristics $X_1$, $X_2$ and $X_3$ may represent age, yearly income and education level, respectively, and $x_1$, $x_2$, $x_3$ are their measurements of a particular person. Furthermore, given $\boldsymbol{X} = \boldsymbol{x}$, which is a compact notation for $(X_1 = x_1,...,X_d = x_d)$, we are interested in predicting another characteristic $Y$, which can take on $K$ possible values denoted by $(C_1,...,C_K)$. In other words, we have a multi-class classification problem with $K$ specifying the number of classes. If $K=2$ the problem reduces to the binary classification. The $X_i$s are usually referred to as "features" or "independent variables" and Y as "response" or "dependent variable". In the following $X_i$s are assumed to be random variables.
 
 In the Naive Bayes framework this classification problem is tackled first by applying the Bayes' theorem to the class specific conditional probabilities $\mathbb{P}(Y = C_k | \boldsymbol{X} = \boldsymbol{x})$ and hence decomposing them into the product of the likelihood and the prior scaled by the likelihood of the data:
 
@@ -125,7 +125,7 @@ Since the random variables $\boldsymbol{X} = (X_1,X_2,...,X_d)$ are (na\"ively) 
 
 
 \begin{equation}
- \mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) =  \frac{\mathbb{P}(Y = C_K) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)}{ \mathbb{P}(X_1 = x_1,..., X_d = x_d)}.
+ \mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) =  \frac{\mathbb{P}(Y = C_k) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)}{ \mathbb{P}(X_1 = x_1,..., X_d = x_d)}.
 \end{equation}
 
 
@@ -134,7 +134,7 @@ Since the denominator $\mathbb{P}(X_1 = x_1,..., X_d = x_d)$ is a constant with 
 
 \begin{equation}
 \label{eq:eq3}
-\mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) \propto \mathbb{P}(Y = C_K) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)
+\mathbb{P}(Y = C_k | \, \boldsymbol{X} = \boldsymbol{x}) \propto \mathbb{P}(Y = C_k) \, \prod_{i=1}^d \mathbb{P}(X_i = x_i | \, Y = C_k)
 \end{equation}
 
 
