@@ -46,7 +46,7 @@
 <li>
   <a href="../index.html">
     <span class="fa fa-home fa-lg"></span>
-
+     
   </a>
 </li>
 <li>
@@ -58,14 +58,11 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-
+     
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/intro_naivebayes.pdf">An Introduction to naivebayes</a>
-    </li>
-    <li>
+<li>
       <a href="../articles/caret,%20nproc%20and%20naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
     <li>
@@ -81,7 +78,7 @@
 <li>
   <a href="https://github.com/majkamichal/naivebayes">
     <span class="fa fa-github fa-lg"></span>
-
+     
   </a>
 </li>
       </ul>
@@ -92,20 +89,20 @@
 </div>
 <!--/.navbar -->
 
-
+      
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Caret, nproc and naivebayes</h1>
-
-
+            
+      
       <small class="dont-index">Source: <a href="https://github.com/majkamichal/naivebayes/blob/master/vignettes/caret,%20nproc%20and%20naivebayes.Rmd"><code>vignettes/caret, nproc and naivebayes.Rmd</code></a></small>
       <div class="hidden name"><code>caret, nproc and naivebayes.Rmd</code></div>
 
     </div>
 
-
-
+    
+    
 <p>The general <code><a href="../reference/naive_bayes.html">naive_bayes()</a></code> function is available through the excellent <code>Caret</code> package. It can be also used via <code>nproc</code> package. In this short vignette the basic usage in both cases is demonstrated.</p>
 <div id="naive_bayes-in-caret" class="section level2">
 <h2 class="hasAnchor">
@@ -129,23 +126,23 @@
 <a class="sourceLine" id="cb3-14" data-line-number="14">                               <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb3-15" data-line-number="15"></a>
 <a class="sourceLine" id="cb3-16" data-line-number="16">naive_bayes_via_caret</a></code></pre></div>
-<pre><code>## Naive Bayes
-##
+<pre><code>## Naive Bayes 
+## 
 ## 150 samples
 ##   3 predictor
-##   3 classes: 'setosa', 'versicolor', 'virginica'
-##
+##   3 classes: 'setosa', 'versicolor', 'virginica' 
+## 
 ## No pre-processing
-## Resampling: Bootstrapped (25 reps)
-## Summary of sample sizes: 150, 150, 150, 150, 150, 150, ...
+## Resampling: Bootstrapped (25 reps) 
+## Summary of sample sizes: 150, 150, 150, 150, 150, 150, ... 
 ## Resampling results across tuning parameters:
-##
-##   usekernel  Accuracy   Kappa
+## 
+##   usekernel  Accuracy   Kappa    
 ##   FALSE      0.9972388  0.9957693
 ##    TRUE      0.9877195  0.9813846
-##
+## 
 ## Tuning parameter 'laplace' was held constant at a value of 0
-##
+## 
 ## Tuning parameter 'adjust' was held constant at a value of 1
 ## Accuracy was used to select the optimal model using the largest value.
 ## The final values used for the model were laplace = 0, usekernel =
@@ -232,8 +229,8 @@
 <a class="sourceLine" id="cb16-33" data-line-number="33"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">" Overall Accuracy: "</span>,  accuracy,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
 <a class="sourceLine" id="cb16-34" data-line-number="34">    <span class="st">"Type I error:     "</span>, typeI, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
 <a class="sourceLine" id="cb16-35" data-line-number="35">    <span class="st">"Type II error:    "</span>, typeII, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
-<pre><code>##  Overall Accuracy:  0.68
-##  Type I error:      0.02072539
+<pre><code>##  Overall Accuracy:  0.68 
+##  Type I error:      0.02072539 
 ##  Type II error:     0.5081433</code></pre>
 </div>
   </div>
@@ -262,7 +259,7 @@
       </footer>
 </div>
 
-
+  
 
   </body>
 </html>
