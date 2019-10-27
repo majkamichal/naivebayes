@@ -357,9 +357,9 @@ $$\hat{\sigma}^2_{ik} = \frac{\sum_{j=1}^n (x_i^{(j)} - \hat{\mu}_{ik})^2 \, \ma
 
 The non-parametric estimate for the $k$-th class conditional probability density function can be obtained using a kernel density estimation:
 
-$$\hat{f}_{h_{ik}}(x) = \frac{1}{n_{k}h_{ik}}\sum_{j=1}^n\left(\frac{x - x_i^{(j)}}{h_{ik}}\right)\mathbb{1}(y^{(j)} = C_k),$$
+$$\hat{f}_{h_{ik}}(x) = \frac{1}{n_{k}h_{ik}}\sum_{j=1}^nK\left(\frac{x - x_i^{(j)}}{h_{ik}}\right)\mathbb{1}(y^{(j)} = C_k),$$
 
-where $n_k$ is number of samples in the $k$-th class, $K$ is a kernel function that defines the shape of the density curve and $h_{ik}$ is a class specific bandwidth that controls the smoothness. The estimation is performed using built in R function \textcolor{darkgreen}{{\btt{stats::density()}}}.  In general, there are 7 different smoothing kernels and 5 different bandwidth selectors available.
+where $n_k$ is number of samples in the $k$-th class, $K(\cdot)$ is a kernel function that defines the shape of the density curve and $h_{ik}$ is a class specific bandwidth that controls the smoothness. The estimation is performed using built in R function \textcolor{darkgreen}{{\btt{stats::density()}}}.  In general, there are 7 different smoothing kernels and 5 different bandwidth selectors available.
 
 \begin{table}[!htbp] \centering
 \caption{Available smoothing kernels and bandwidth selectors in stats::density(...).}
@@ -512,7 +512,7 @@ Fit the Naive Bayes model based on 10 simulated predictors, each having 10mn obs
 \end{alltt}
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.376   0.093   0.473
+##   0.357   0.103   0.466
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
