@@ -1,4 +1,54 @@
-\documentclass{article}
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 %\VignetteEngine{knitr::knitr}
 %\VignetteEncoding{UTF-8}
@@ -42,7 +92,7 @@
 \raggedbottom
 
 %-------------------------------------------------------------------------------
-
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
 \title{Introduction to naivebayes package}
@@ -65,22 +115,34 @@ The \textcolor{darkgreen}{{\btt{naivebayes}}} package provides an efficient impl
 
 Just like many other \textcolor{darkgreen}{{\btt{R}}} packages, the \textcolor{darkgreen}{{\btt{naivebayes}}} can be installed from the \textcolor{darkgreen}{{\btt{CRAN}}} repository by simply typing into the console the following line:
 
-<<eval=FALSE>>=
-install.packages("naivebayes")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{install.packages}\hlstd{(}\hlstr{"naivebayes"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 An alternative way of obtaining the package is first downloading the package source from \url{https://CRAN.R-project.org/package=naivebayes}, specifying the location of the file and running in the console:
 
-<<eval=FALSE>>=
-# path_to_tar.gz file <- " "
-install.packages(path_to_tar.gz, repos = NULL, type = "source")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# path_to_tar.gz file <- " "}
+\hlkwd{install.packages}\hlstd{(path_to_tar.gz,} \hlkwc{repos} \hlstd{=} \hlkwa{NULL}\hlstd{,} \hlkwc{type} \hlstd{=} \hlstr{"source"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 The full source code can be viewed either on the official \textcolor{darkgreen}{{\btt{GitHub}}} \textcolor{darkgreen}{{\btt{CRAN}}} repository: \url{https://github.com/cran/naivebayes} or on the development repository: \url{https://github.com/majkamichal/naivebayes}. After successful installation, the package can be used with:
 
-<<eval=FALSE>>=
-library(naivebayes)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(naivebayes)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 \section{Main functions}
@@ -319,60 +381,141 @@ The Gaussian smoothing kernel and Silverman's rule-of-thumb are chosen by defaul
 
 \section{General usage}
 
-<<>>=
-library(naivebayes)
-
-### Simulate data
-n <- 100
-set.seed(1)
-data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
-                   bern = sample(LETTERS[1:2], n, TRUE),
-                   cat  = sample(letters[1:3], n, TRUE),
-                   logical = sample(c(TRUE,FALSE), n, TRUE),
-                   norm = rnorm(n),
-                   count = rpois(n, lambda = c(5,15)))
-train <- data[1:95, ]
-test <- data[96:100, -1]
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(naivebayes)}
+\end{alltt}
 
 
-### General usage via formula interface
-nb <- naive_bayes(class ~ ., train, usepoisson = TRUE)
-summary(nb)
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# naivebayes 0.9.6 loaded}}\begin{alltt}
+\hlcom{### Simulate data}
+\hlstd{n} \hlkwb{<-} \hlnum{100}
+\hlkwd{set.seed}\hlstd{(}\hlnum{1}\hlstd{)}
+\hlstd{data} \hlkwb{<-} \hlkwd{data.frame}\hlstd{(}\hlkwc{class} \hlstd{=} \hlkwd{sample}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"classA"}\hlstd{,} \hlstr{"classB"}\hlstd{), n,} \hlnum{TRUE}\hlstd{),}
+                   \hlkwc{bern} \hlstd{=} \hlkwd{sample}\hlstd{(LETTERS[}\hlnum{1}\hlopt{:}\hlnum{2}\hlstd{], n,} \hlnum{TRUE}\hlstd{),}
+                   \hlkwc{cat}  \hlstd{=} \hlkwd{sample}\hlstd{(letters[}\hlnum{1}\hlopt{:}\hlnum{3}\hlstd{], n,} \hlnum{TRUE}\hlstd{),}
+                   \hlkwc{logical} \hlstd{=} \hlkwd{sample}\hlstd{(}\hlkwd{c}\hlstd{(}\hlnum{TRUE}\hlstd{,}\hlnum{FALSE}\hlstd{), n,} \hlnum{TRUE}\hlstd{),}
+                   \hlkwc{norm} \hlstd{=} \hlkwd{rnorm}\hlstd{(n),}
+                   \hlkwc{count} \hlstd{=} \hlkwd{rpois}\hlstd{(n,} \hlkwc{lambda} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{5}\hlstd{,}\hlnum{15}\hlstd{)))}
+\hlstd{train} \hlkwb{<-} \hlstd{data[}\hlnum{1}\hlopt{:}\hlnum{95}\hlstd{, ]}
+\hlstd{test} \hlkwb{<-} \hlstd{data[}\hlnum{96}\hlopt{:}\hlnum{100}\hlstd{,} \hlopt{-}\hlnum{1}\hlstd{]}
 
-# Classification
-predict(nb, test, type = "class")
 
-# Alternatively
-nb %class% test
+\hlcom{### General usage via formula interface}
+\hlstd{nb} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(class} \hlopt{~} \hlstd{., train,} \hlkwc{usepoisson} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{summary}\hlstd{(nb)}
+\end{alltt}
+\begin{verbatim}
+## 
+## ================================ Naive Bayes ================================= 
+##  
+## - Call: naive_bayes.formula(formula = class ~ ., data = train, usepoisson = TRUE) 
+## - Laplace: 0 
+## - Classes: 2 
+## - Samples: 95 
+## - Features: 5 
+## - Conditional distributions: 
+##     - Bernoulli: 2
+##     - Categorical: 1
+##     - Poisson: 1
+##     - Gaussian: 1
+## - Prior probabilities: 
+##     - classA: 0.5263
+##     - classB: 0.4737
+## 
+## ------------------------------------------------------------------------------
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Classification}
+\hlkwd{predict}\hlstd{(nb, test,} \hlkwc{type} \hlstd{=} \hlstr{"class"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] classB classB classA classB classA
+## Levels: classA classB
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Alternatively}
+\hlstd{nb} \hlopt{%class%} \hlstd{test}
+\end{alltt}
+\begin{verbatim}
+## [1] classB classB classA classB classA
+## Levels: classA classB
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Posterior probabilities}
+\hlkwd{predict}\hlstd{(nb, test,} \hlkwc{type} \hlstd{=} \hlstr{"prob"}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+##         classA    classB
+## [1,] 0.4815380 0.5184620
+## [2,] 0.4192209 0.5807791
+## [3,] 0.6882270 0.3117730
+## [4,] 0.4794415 0.5205585
+## [5,] 0.5209152 0.4790848
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Alternatively}
+\hlstd{nb} \hlopt{%prob%} \hlstd{test}
+\end{alltt}
+\begin{verbatim}
+##         classA    classB
+## [1,] 0.4815380 0.5184620
+## [2,] 0.4192209 0.5807791
+## [3,] 0.6882270 0.3117730
+## [4,] 0.4794415 0.5205585
+## [5,] 0.5209152 0.4790848
+\end{verbatim}
+\begin{alltt}
+\hlcom{### Helper functions}
 
-# Posterior probabilities
-predict(nb, test, type = "prob")
-
-# Alternatively
-nb %prob% test
-
-### Helper functions
-
-# Obtain first table
-tables(nb, 1)
-
-# Get names of assigned class conditional distributions
-get_cond_dist(nb)
-@
+\hlcom{# Obtain first table}
+\hlkwd{tables}\hlstd{(nb,} \hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## 
+## ------------------------------------------------------------------------------ 
+##  ::: bern (Bernoulli) 
+## ------------------------------------------------------------------------------ 
+##     
+## bern    classA    classB
+##    A 0.4400000 0.4888889
+##    B 0.5600000 0.5111111
+## 
+## ------------------------------------------------------------------------------
+\end{verbatim}
+\begin{alltt}
+\hlcom{# Get names of assigned class conditional distributions}
+\hlkwd{get_cond_dist}\hlstd{(nb)}
+\end{alltt}
+\begin{verbatim}
+##          bern           cat       logical          norm         count 
+##   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 Fit the Naive Bayes model based on 10 simulated predictors, each having 10mn observations, and then perform classification:
 
-<<>>=
-vars <- 10
-rows <- 1000000
-y <- sample(c("a", "b"), rows, TRUE)
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{vars} \hlkwb{<-} \hlnum{10}
+\hlstd{rows} \hlkwb{<-} \hlnum{1000000}
+\hlstd{y} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"a"}\hlstd{,} \hlstr{"b"}\hlstd{), rows,} \hlnum{TRUE}\hlstd{)}
 
-# Discrete features
-X1 <- as.data.frame(matrix(sample(letters[5:9], vars * rows, TRUE),
-                           ncol = vars))
-nb_cat <- naive_bayes(x = X1, y = y)
-system.time(pred2 <- predict(nb_cat, X1))
-@
+\hlcom{# Discrete features}
+\hlstd{X1} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(}\hlkwd{matrix}\hlstd{(}\hlkwd{sample}\hlstd{(letters[}\hlnum{5}\hlopt{:}\hlnum{9}\hlstd{], vars} \hlopt{*} \hlstd{rows,} \hlnum{TRUE}\hlstd{),}
+                           \hlkwc{ncol} \hlstd{= vars))}
+\hlstd{nb_cat} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= X1,} \hlkwc{y} \hlstd{= y)}
+\hlkwd{system.time}\hlstd{(pred2} \hlkwb{<-} \hlkwd{predict}\hlstd{(nb_cat, X1))}
+\end{alltt}
+\begin{verbatim}
+##    user  system elapsed 
+##   0.376   0.093   0.473
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
 
 
@@ -389,212 +532,224 @@ This is a practical subsection that is aimed mostly to the students who learn th
 
 In this example, the famous \texttt{iris} dataset is appended with a random categorical feature "new" with 3 levels/categories and then the parameters are estimated using the Maximum-Likelihood as well as the Bayesian estimation via adding pseudo-counts.
 
-<<eval=FALSE>>=
-library(naivebayes)
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(naivebayes)}
 
-# Prepare data: --------------------------------------------------------
-data(iris)
-iris2 <- iris
-N <- nrow(iris2)
-n_new_factors <- 3
-factor_names <- paste0("level", 1:n_new_factors)
+\hlcom{# Prepare data: --------------------------------------------------------}
+\hlkwd{data}\hlstd{(iris)}
+\hlstd{iris2} \hlkwb{<-} \hlstd{iris}
+\hlstd{N} \hlkwb{<-} \hlkwd{nrow}\hlstd{(iris2)}
+\hlstd{n_new_factors} \hlkwb{<-} \hlnum{3}
+\hlstd{factor_names} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"level"}\hlstd{,} \hlnum{1}\hlopt{:}\hlstd{n_new_factors)}
 
-# Add a new artificial features with three levels/categories:
-# level1 is very unlikely and has 0.5% chance to occur
-# level2 and level3 happen with probability 75% and 29.5%, respectively
+\hlcom{# Add a new artificial features with three levels/categories:}
+\hlcom{# level1 is very unlikely and has 0.5% chance to occur}
+\hlcom{# level2 and level3 happen with probability 75% and 29.5%, respectively}
 
-set.seed(2)
-iris2$new <- factor(sample(paste0("level", 1:n_new_factors),
-                           prob = c(0.005, 0.7, 0.295),
-                           size = 150,
-                           replace = TRUE), levels = factor_names)
+\hlkwd{set.seed}\hlstd{(}\hlnum{2}\hlstd{)}
+\hlstd{iris2}\hlopt{$}\hlstd{new} \hlkwb{<-} \hlkwd{factor}\hlstd{(}\hlkwd{sample}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"level"}\hlstd{,} \hlnum{1}\hlopt{:}\hlstd{n_new_factors),}
+                           \hlkwc{prob} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.005}\hlstd{,} \hlnum{0.7}\hlstd{,} \hlnum{0.295}\hlstd{),}
+                           \hlkwc{size} \hlstd{=} \hlnum{150}\hlstd{,}
+                           \hlkwc{replace} \hlstd{=} \hlnum{TRUE}\hlstd{),} \hlkwc{levels} \hlstd{= factor_names)}
 
-# Define class and feature levels: -------------------------------------
-Ck <- "setosa"
-level1 <- "level1"
-level2 <- "level2"
-level3 <- "level3"
+\hlcom{# Define class and feature levels: -------------------------------------}
+\hlstd{Ck} \hlkwb{<-} \hlstr{"setosa"}
+\hlstd{level1} \hlkwb{<-} \hlstr{"level1"}
+\hlstd{level2} \hlkwb{<-} \hlstr{"level2"}
+\hlstd{level3} \hlkwb{<-} \hlstr{"level3"}
 
-# level1 did not show up in the sample but we know that it
-# has 0.5% probability to occur.
-table(iris2$new)
+\hlcom{# level1 did not show up in the sample but we know that it}
+\hlcom{# has 0.5% probability to occur.}
+\hlkwd{table}\hlstd{(iris2}\hlopt{$}\hlstd{new)}
 
-# For this reason level1 is also not available in any class sub-sample
-table(iris2$new[iris$Species == Ck])
+\hlcom{# For this reason level1 is also not available in any class sub-sample}
+\hlkwd{table}\hlstd{(iris2}\hlopt{$}\hlstd{new[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck])}
 
-# Parameter estimation: ------------------------------------------------
+\hlcom{# Parameter estimation: ------------------------------------------------}
 
-# ML-estimates
-ck_sub_sample <- table(iris2$new[iris$Species == Ck])
-ck_mle_estim <-  ck_sub_sample / sum(ck_sub_sample)
+\hlcom{# ML-estimates}
+\hlstd{ck_sub_sample} \hlkwb{<-} \hlkwd{table}\hlstd{(iris2}\hlopt{$}\hlstd{new[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck])}
+\hlstd{ck_mle_estim} \hlkwb{<-}  \hlstd{ck_sub_sample} \hlopt{/} \hlkwd{sum}\hlstd{(ck_sub_sample)}
 
-# Bayesian estimation via symmetric Dirichlet prior with
-# concentration parameter 0.5.
-# (corresponds to the Jeffreys  uninformative prior)
+\hlcom{# Bayesian estimation via symmetric Dirichlet prior with}
+\hlcom{# concentration parameter 0.5.}
+\hlcom{# (corresponds to the Jeffreys  uninformative prior)}
 
-laplace <- 0.5 # Jeffreys  prior / Dirichlet
-               # with the concentration parameter 0.5
-N1 <- sum(iris2$Species == Ck & iris2$new == level1) + laplace
-N2 <- sum(iris2$Species == Ck & iris2$new == level2) + laplace
-N3 <- sum(iris2$Species == Ck & iris2$new == level3) + laplace
-N <-  sum(iris2$Species == Ck) + laplace * n_new_factors
-ck_bayes <- c(N1, N2, N3) / N
+\hlstd{laplace} \hlkwb{<-} \hlnum{0.5} \hlcom{# Jeffreys  prior / Dirichlet}
+               \hlcom{# with the concentration parameter 0.5}
+\hlstd{N1} \hlkwb{<-} \hlkwd{sum}\hlstd{(iris2}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck} \hlopt{&} \hlstd{iris2}\hlopt{$}\hlstd{new} \hlopt{==} \hlstd{level1)} \hlopt{+} \hlstd{laplace}
+\hlstd{N2} \hlkwb{<-} \hlkwd{sum}\hlstd{(iris2}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck} \hlopt{&} \hlstd{iris2}\hlopt{$}\hlstd{new} \hlopt{==} \hlstd{level2)} \hlopt{+} \hlstd{laplace}
+\hlstd{N3} \hlkwb{<-} \hlkwd{sum}\hlstd{(iris2}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck} \hlopt{&} \hlstd{iris2}\hlopt{$}\hlstd{new} \hlopt{==} \hlstd{level3)} \hlopt{+} \hlstd{laplace}
+\hlstd{N} \hlkwb{<-}  \hlkwd{sum}\hlstd{(iris2}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck)} \hlopt{+} \hlstd{laplace} \hlopt{*} \hlstd{n_new_factors}
+\hlstd{ck_bayes} \hlkwb{<-} \hlkwd{c}\hlstd{(N1, N2, N3)} \hlopt{/} \hlstd{N}
 
-# Compare estimates
-rbind(ck_mle_estim, ck_bayes)
+\hlcom{# Compare estimates}
+\hlkwd{rbind}\hlstd{(ck_mle_estim, ck_bayes)}
 
-# Bayesian estimate for level1 has positive probability
-# but is slightly overestimated. Compared to MLE,
- # estimates for level2 and level3 have been slightly shrunken.
+\hlcom{# Bayesian estimate for level1 has positive probability}
+\hlcom{# but is slightly overestimated. Compared to MLE,}
+ \hlcom{# estimates for level2 and level3 have been slightly shrunken.}
 
-# In general, the higher value of laplace, the more resulting
-# distribution tends to the uniform distribution.
-# When laplace would be set to infinity
-# then the estimates for level1, level2 and level3
-# would be 1/3, 1/3 and 1/3.
+\hlcom{# In general, the higher value of laplace, the more resulting}
+\hlcom{# distribution tends to the uniform distribution.}
+\hlcom{# When laplace would be set to infinity}
+\hlcom{# then the estimates for level1, level2 and level3}
+\hlcom{# would be 1/3, 1/3 and 1/3.}
 
-# comparison with estimates obtained with naive_bayes function:
-nb_mle <- naive_bayes(Species ~ new, data = iris2)
-nb_bayes <- naive_bayes(Species ~ new, data = iris2,
-                        laplace = laplace)
+\hlcom{# comparison with estimates obtained with naive_bayes function:}
+\hlstd{nb_mle} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(Species} \hlopt{~} \hlstd{new,} \hlkwc{data} \hlstd{= iris2)}
+\hlstd{nb_bayes} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(Species} \hlopt{~} \hlstd{new,} \hlkwc{data} \hlstd{= iris2,}
+                        \hlkwc{laplace} \hlstd{= laplace)}
 
-# MLE
-rbind(ck_mle_estim,
-      "nb_mle" = tables(nb_mle, which = "new")[[1]][ ,Ck])
+\hlcom{# MLE}
+\hlkwd{rbind}\hlstd{(ck_mle_estim,}
+      \hlstr{"nb_mle"} \hlstd{=} \hlkwd{tables}\hlstd{(nb_mle,} \hlkwc{which} \hlstd{=} \hlstr{"new"}\hlstd{)[[}\hlnum{1}\hlstd{]][ ,Ck])}
 
-# Bayes
-rbind(ck_bayes,
-      "nb_bayes" = tables(nb_nb_jeffrey, which = "new")[[1]][ ,Ck])
-@
+\hlcom{# Bayes}
+\hlkwd{rbind}\hlstd{(ck_bayes,}
+      \hlstr{"nb_bayes"} \hlstd{=} \hlkwd{tables}\hlstd{(nb_nb_jeffrey,} \hlkwc{which} \hlstd{=} \hlstr{"new"}\hlstd{)[[}\hlnum{1}\hlstd{]][ ,Ck])}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 \subsubsection{Gaussian distribution}
 
 In this example, the famous \texttt{iris} dataset is again used to demonstrate the Maximum-Likelihood estimation of the mean and variance in class conditional Gaussian distributions.
 
-<<eval = FALSE>>=
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{data}\hlstd{(iris)}
+\hlstd{Xi} \hlkwb{<-} \hlstr{"Petal.Width"} \hlcom{# i-th feature}
+\hlstd{Ck} \hlkwb{<-} \hlstr{"versicolor"}  \hlcom{# k-th class}
 
-data(iris)
-Xi <- "Petal.Width" # i-th feature
-Ck <- "versicolor"  # k-th class
+\hlcom{# Build class sub-sample for the i-th feature}
+\hlstd{Ck_Xi_subsample} \hlkwb{<-} \hlstd{iris[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{Ck, Xi]}
 
-# Build class sub-sample for the i-th feature
-Ck_Xi_subsample <- iris[iris$Species == Ck, Xi]
+\hlcom{# MLE}
+\hlstd{mle_norm} \hlkwb{<-} \hlkwd{cbind}\hlstd{(}\hlstr{"mean"} \hlstd{=} \hlkwd{mean}\hlstd{(Ck_Xi_subsample),}
+                  \hlstr{"sd"} \hlstd{=} \hlkwd{sd}\hlstd{(Ck_Xi_subsample))}
 
-# MLE
-mle_norm <- cbind("mean" = mean(Ck_Xi_subsample),
-                  "sd" = sd(Ck_Xi_subsample))
-
-# MLE in naive_bayes function
-nb_mle <- naive_bayes(x = iris[Xi], y = iris[["Species"]])
-rbind(mle_norm,
-      "nb_mle" = tables(nb_mle, which = Xi)[[Xi]][ ,Ck])
-@
+\hlcom{# MLE in naive_bayes function}
+\hlstd{nb_mle} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= iris[Xi],} \hlkwc{y} \hlstd{= iris[[}\hlstr{"Species"}\hlstd{]])}
+\hlkwd{rbind}\hlstd{(mle_norm,}
+      \hlstr{"nb_mle"} \hlstd{=} \hlkwd{tables}\hlstd{(nb_mle,} \hlkwc{which} \hlstd{= Xi)[[Xi]][ ,Ck])}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 \subsubsection{Kernel Density Estimation}
 
 In this example, kernel density estimation is used to estimate class conditional densities for one variable from the \texttt{iris} dataset.
 
-<<eval=FALSE>>=
-# Prepare data: --------------------------------------------------------
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Prepare data: --------------------------------------------------------}
 
-data(iris)
-Xi <- "Sepal.Width" # i-th feature
-C1 <- "setosa"      # 1st class
-C2 <- "virginica"   # 2nd class
-C3 <- "versicolor"  # 3rd class
+\hlkwd{data}\hlstd{(iris)}
+\hlstd{Xi} \hlkwb{<-} \hlstr{"Sepal.Width"} \hlcom{# i-th feature}
+\hlstd{C1} \hlkwb{<-} \hlstr{"setosa"}      \hlcom{# 1st class}
+\hlstd{C2} \hlkwb{<-} \hlstr{"virginica"}   \hlcom{# 2nd class}
+\hlstd{C3} \hlkwb{<-} \hlstr{"versicolor"}  \hlcom{# 3rd class}
 
-# Build class sub-samples for the i-th feature
-C1_Xi_subsample <- iris[iris$Species == C1, Xi]
-C2_Xi_subsample <- iris[iris$Species == C2, Xi]
-C3_Xi_subsample <- iris[iris$Species == C3, Xi]
+\hlcom{# Build class sub-samples for the i-th feature}
+\hlstd{C1_Xi_subsample} \hlkwb{<-} \hlstd{iris[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{C1, Xi]}
+\hlstd{C2_Xi_subsample} \hlkwb{<-} \hlstd{iris[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{C2, Xi]}
+\hlstd{C3_Xi_subsample} \hlkwb{<-} \hlstd{iris[iris}\hlopt{$}\hlstd{Species} \hlopt{==} \hlstd{C3, Xi]}
 
-# Estimate class conditional densities for the i-th feature
-dens1 <- density(C1_Xi_subsample)
-dens2 <- density(C2_Xi_subsample)
-dens3 <- density(C3_Xi_subsample)
+\hlcom{# Estimate class conditional densities for the i-th feature}
+\hlstd{dens1} \hlkwb{<-} \hlkwd{density}\hlstd{(C1_Xi_subsample)}
+\hlstd{dens2} \hlkwb{<-} \hlkwd{density}\hlstd{(C2_Xi_subsample)}
+\hlstd{dens3} \hlkwb{<-} \hlkwd{density}\hlstd{(C3_Xi_subsample)}
 
-# Visualisation: -------------------------------------------------------
-plot(dens2, main = "", col = "red")
-lines(dens1, main = "", col = "blue")
-lines(dens3, main = "", col = "black")
-legend("topleft", legend = c(C1,C2,C3),
-       col = c("blue", "red", "black"),
-       lty = 1)
+\hlcom{# Visualisation: -------------------------------------------------------}
+\hlkwd{plot}\hlstd{(dens2,} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"red"}\hlstd{)}
+\hlkwd{lines}\hlstd{(dens1,} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"blue"}\hlstd{)}
+\hlkwd{lines}\hlstd{(dens3,} \hlkwc{main} \hlstd{=} \hlstr{""}\hlstd{,} \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{)}
+\hlkwd{legend}\hlstd{(}\hlstr{"topleft"}\hlstd{,} \hlkwc{legend} \hlstd{=} \hlkwd{c}\hlstd{(C1,C2,C3),}
+       \hlkwc{col} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"blue"}\hlstd{,} \hlstr{"red"}\hlstd{,} \hlstr{"black"}\hlstd{),}
+       \hlkwc{lty} \hlstd{=} \hlnum{1}\hlstd{)}
 
-# Compare to the naive_bayes: ------------------------------------------
-nb_kde <- naive_bayes(x = iris[Xi], y = iris[["Species"]],
-                      usekernel = TRUE)
-plot(nb_kde, prob = "conditional")
+\hlcom{# Compare to the naive_bayes: ------------------------------------------}
+\hlstd{nb_kde} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= iris[Xi],} \hlkwc{y} \hlstd{= iris[[}\hlstr{"Species"}\hlstd{]],}
+                      \hlkwc{usekernel} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{plot}\hlstd{(nb_kde,} \hlkwc{prob} \hlstd{=} \hlstr{"conditional"}\hlstd{)}
 
-dens3
-nb_kde$tables[[Xi]][[C3]]
-tables(nb_kde, Xi)[[1]][[C3]]
-
-
-# Use custom bandwidth selector: ---------------------------------------
-?bw.SJ
-nb_kde_SJ_bw <- naive_bayes(x = iris[Xi], y = iris[["Species"]],
-                      usekernel = TRUE, bw = "SJ")
-plot(nb_kde, prob = "conditional")
+\hlstd{dens3}
+\hlstd{nb_kde}\hlopt{$}\hlstd{tables[[Xi]][[C3]]}
+\hlkwd{tables}\hlstd{(nb_kde, Xi)[[}\hlnum{1}\hlstd{]][[C3]]}
 
 
-# Visualize all available kernels: -------------------------------------
-kernels <- c("gaussian", "epanechnikov", "rectangular","triangular",
-            "biweight", "cosine", "optcosine")
-iris3 <- iris
-iris3$one <- 1
+\hlcom{# Use custom bandwidth selector: ---------------------------------------}
+\hlopt{?}\hlstd{bw.SJ}
+\hlstd{nb_kde_SJ_bw} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= iris[Xi],} \hlkwc{y} \hlstd{= iris[[}\hlstr{"Species"}\hlstd{]],}
+                      \hlkwc{usekernel} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{bw} \hlstd{=} \hlstr{"SJ"}\hlstd{)}
+\hlkwd{plot}\hlstd{(nb_kde,} \hlkwc{prob} \hlstd{=} \hlstr{"conditional"}\hlstd{)}
 
-sapply(kernels, function (ith_kernel) {
-    nb <- naive_bayes(formula = Species ~ one, data = iris3,
-                      usekernel = TRUE, kernel = ith_kernel)
-    plot(nb, arg.num = list(main = paste0("Kernel: ", ith_kernel),
-                            col = "black"), legend = FALSE)
-    invisible()
-})
 
-@
+\hlcom{# Visualize all available kernels: -------------------------------------}
+\hlstd{kernels} \hlkwb{<-} \hlkwd{c}\hlstd{(}\hlstr{"gaussian"}\hlstd{,} \hlstr{"epanechnikov"}\hlstd{,} \hlstr{"rectangular"}\hlstd{,}\hlstr{"triangular"}\hlstd{,}
+            \hlstr{"biweight"}\hlstd{,} \hlstr{"cosine"}\hlstd{,} \hlstr{"optcosine"}\hlstd{)}
+\hlstd{iris3} \hlkwb{<-} \hlstd{iris}
+\hlstd{iris3}\hlopt{$}\hlstd{one} \hlkwb{<-} \hlnum{1}
+
+\hlkwd{sapply}\hlstd{(kernels,} \hlkwa{function} \hlstd{(}\hlkwc{ith_kernel}\hlstd{) \{}
+    \hlstd{nb} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{formula} \hlstd{= Species} \hlopt{~} \hlstd{one,} \hlkwc{data} \hlstd{= iris3,}
+                      \hlkwc{usekernel} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{kernel} \hlstd{= ith_kernel)}
+    \hlkwd{plot}\hlstd{(nb,} \hlkwc{arg.num} \hlstd{=} \hlkwd{list}\hlstd{(}\hlkwc{main} \hlstd{=} \hlkwd{paste0}\hlstd{(}\hlstr{"Kernel: "}\hlstd{, ith_kernel),}
+                            \hlkwc{col} \hlstd{=} \hlstr{"black"}\hlstd{),} \hlkwc{legend} \hlstd{=} \hlnum{FALSE}\hlstd{)}
+    \hlkwd{invisible}\hlstd{()}
+\hlstd{\})}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 \subsubsection{Poisson distribution}
 
 In this example, parameter estimation for the class conditional Poisson features is demonstrated.
 
-<<eval = FALSE>>=
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Simulate data: -------------------------------------------------------}
+\hlstd{cols} \hlkwb{<-} \hlnum{2}
+\hlstd{rows} \hlkwb{<-} \hlnum{10}
+\hlkwd{set.seed}\hlstd{(}\hlnum{11}\hlstd{)}
+\hlstd{M} \hlkwb{<-} \hlkwd{matrix}\hlstd{(}\hlkwd{rpois}\hlstd{(rows} \hlopt{*} \hlstd{cols,} \hlkwc{lambda} \hlstd{=} \hlkwd{c}\hlstd{(}\hlnum{0.1}\hlstd{,}\hlnum{1}\hlstd{)),} \hlkwc{nrow} \hlstd{= rows,}
+            \hlkwc{ncol} \hlstd{= cols)}
+\hlstd{y} \hlkwb{<-} \hlkwd{factor}\hlstd{(}\hlkwd{sample}\hlstd{(}\hlkwd{paste0}\hlstd{(}\hlstr{"class"}\hlstd{, LETTERS[}\hlnum{1}\hlopt{:}\hlnum{2}\hlstd{]), rows,} \hlnum{TRUE}\hlstd{))}
+\hlkwd{colnames}\hlstd{(M)} \hlkwb{<-} \hlkwd{paste0}\hlstd{(}\hlstr{"Var"}\hlstd{,} \hlkwd{seq_len}\hlstd{(}\hlkwd{ncol}\hlstd{(M)))}
 
-# Simulate data: -------------------------------------------------------
-cols <- 2
-rows <- 10
-set.seed(11)
-M <- matrix(rpois(rows * cols, lambda = c(0.1,1)), nrow = rows,
-            ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
-colnames(M) <- paste0("Var", seq_len(ncol(M)))
+\hlstd{Xi} \hlkwb{<-} \hlstd{M[ ,}\hlstr{"Var1"}\hlstd{,} \hlkwc{drop} \hlstd{=} \hlnum{FALSE}\hlstd{]}
 
-Xi <- M[ ,"Var1", drop = FALSE]
+\hlcom{# MLE: -----------------------------------------------------------------}
+\hlcom{# Estimate lambdas for each class}
+\hlkwd{tapply}\hlstd{(Xi, y, mean)}
 
-# MLE: -----------------------------------------------------------------
-# Estimate lambdas for each class
-tapply(Xi, y, mean)
+\hlcom{# Compare with naive_bayes}
+\hlstd{pnb} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= Xi,} \hlkwc{y} \hlstd{= y,} \hlkwc{usepoisson} \hlstd{=} \hlnum{TRUE}\hlstd{)}
+\hlkwd{tables}\hlstd{(pnb,}\hlnum{1}\hlstd{)}
 
-# Compare with naive_bayes
-pnb <- naive_bayes(x = Xi, y = y, usepoisson = TRUE)
-tables(pnb,1)
+\hlcom{# Adding pseudo-counts via laplace parameter: --------------------------}
+\hlstd{laplace} \hlkwb{<-} \hlnum{1}
+\hlstd{Xi_pseudo} \hlkwb{<-} \hlstd{Xi}
+\hlstd{Xi_pseudo[y} \hlopt{==} \hlstr{"classB"}\hlstd{,][}\hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{Xi_pseudo[y} \hlopt{==} \hlstr{"classB"}\hlstd{,][}\hlnum{1}\hlstd{]} \hlopt{+} \hlstd{laplace}
+\hlstd{Xi_pseudo[y} \hlopt{==} \hlstr{"classA"}\hlstd{,][}\hlnum{1}\hlstd{]} \hlkwb{<-} \hlstd{Xi_pseudo[y} \hlopt{==} \hlstr{"classA"}\hlstd{,][}\hlnum{1}\hlstd{]} \hlopt{+} \hlstd{laplace}
 
-# Adding pseudo-counts via laplace parameter: --------------------------
-laplace <- 1
-Xi_pseudo <- Xi
-Xi_pseudo[y == "classB",][1] <- Xi_pseudo[y == "classB",][1] + laplace
-Xi_pseudo[y == "classA",][1] <- Xi_pseudo[y == "classA",][1] + laplace
+\hlcom{# Estimates}
+\hlkwd{tapply}\hlstd{(Xi_pseudo, y, mean)}
 
-# Estimates
-tapply(Xi_pseudo, y, mean)
-
-# Compare with naive_bayes
-pnb <- naive_bayes(x = Xi, y = y, usepoisson = TRUE, laplace = laplace)
-tables(pnb,1)
-
-@
+\hlcom{# Compare with naive_bayes}
+\hlstd{pnb} \hlkwb{<-} \hlkwd{naive_bayes}\hlstd{(}\hlkwc{x} \hlstd{= Xi,} \hlkwc{y} \hlstd{= y,} \hlkwc{usepoisson} \hlstd{=} \hlnum{TRUE}\hlstd{,} \hlkwc{laplace} \hlstd{= laplace)}
+\hlkwd{tables}\hlstd{(pnb,}\hlnum{1}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
 
 
 \end{document}
