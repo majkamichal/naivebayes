@@ -8,7 +8,7 @@
 
 * `predict.naive_bayes()` has a new parameter `eps` that specifies a value of an epsilon-range to replace zero or close to zero probabilities by specified threshold. It applies to metric variables and also to discrete variables but only when `laplace = 0`.
 
-* predict.naive_bayes() is now more efficient and reliable.
+* `predict.naive_bayes()` is now more efficient and reliable.
 
 * `print()` method has been enhanced for better readability.
 
