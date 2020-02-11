@@ -219,7 +219,7 @@ which is equivalent to  \textcolor{darkgreen}{{\btt{predict(..., type = "class")
 
 \vspace{3mm}
 
-If instead, the conditional class probabilities $\mathbb{P}(Y = C_k | \boldsymbol{X} = \boldsymbol{x})$ are of the main interest, which, in turn, is equivalent to \textcolor{darkgreen}{{\btt{predict(..., type = "prob")}}}, then the log-posterior probabilities in \eqref{eq:logprob} are transformed back to the original space and then normalized.
+If instead, the class conditional probabilities $\mathbb{P}(Y = C_k | \boldsymbol{X} = \boldsymbol{x})$ are of the main interest, which, in turn, is equivalent to \textcolor{darkgreen}{{\btt{predict(..., type = "prob")}}}, then the log-posterior probabilities in \eqref{eq:logprob} are transformed back to the original space and then normalized.
 
 
 \label{subsection:prior_distribution}
@@ -241,7 +241,7 @@ If $X_i$ is discrete feature which takes on $M$ possible values denoted by $\mat
      \mathbb{P}(X_i = l \, | Y = C_k) = p_{ikl},
     \end{equation}
 
-where $l \in \mathcal{X}_i$,  $p_{ikl} > 0$ and $\sum_{j \in\mathcal{X}_i} p_{ikj} = 1$. This mathematical formalism can be translated into plain English as follows: given the class label $C_k$, the probability that the $i$-th feature takes on $l$-th value is non-negative and the sum of $M$ such probabilities is 1. The Bernoulli distribution is the special case for $M=2$. It is important to note tha the logical (TRUE/FALSE) vectors are internally coerced to character ("TRUE"/"FALSE") and hence are assumed to be discrete features. Also, if the feature $X_i$ takes on 0 and 1 values only and is represented in R as a "numeric" then the Gaussian distribution is assumed by default.
+where $l \in \mathcal{X}_i$,  $p_{ikl} > 0$ and $\sum_{j \in\mathcal{X}_i} p_{ikj} = 1$. This mathematical formalism can be translated into plain English as follows: given the class label $C_k$, the probability that the $i$-th feature takes on the $l$-th value is non-negative and the sum of $M$ such probabilities is 1. The Bernoulli distribution is the special case for $M=2$. It is important to note tha the logical (TRUE/FALSE) vectors are internally coerced to character ("TRUE"/"FALSE") and hence are assumed to be discrete features. Also, if the feature $X_i$ takes on 0 and 1 values only and is represented in R as a "numeric" then the Gaussian distribution is assumed by default.
 
 \subsubsection{Poisson distribution}
 
@@ -315,9 +315,9 @@ Applying the additive smoothing is commonly thought of as means of avoiding zero
 
 $$\hat{p}_{ikl} = \frac{c_{ikl} + \alpha}{\sum_{j\in \mathcal{X}_i} c_{ikj} + M\alpha}\,\,, \,\,\,\,\,\, l \in \mathcal{X}_i = \{item_1,...,item_M\}, $$
 
-where $c_{ikl}$ is, again, the frequency of the $l$-th item for the $i$-th feature and $k$-th class and $M$ is the number of different items. It can be easily seen that when the parameter $\alpha = 0$ then each $\hat{p}_{ikl}$ coincides with the Maximum-Likelihood and for $\alpha \rightarrow \infty$ they are shrunk towards the uniform probabilities $\{\frac{1}{M},...,\frac{1}{M} \}$.
+where $c_{ikl}$ is, again, the frequency of the $l$-th item for the $i$-th feature and the $k$-th class, and $M$ is the number of different items. It can be easily seen that when the parameter $\alpha = 0$ then each $\{\hat{p}_{ik1}, \hat{p}_{ik2},  ... ,  \hat{p}_{ikM}\}$ coincides with the Maximum-Likelihood. Whereas for $\alpha \rightarrow \infty$, they are shrunk towards the uniform probabilities $\{ \frac{1}{M}, \frac{1}{M}, ... , \frac{1}{M} \}$.
 
-In the Bayesian realm, these estimates correspond to the expected value of the posterior distribution\footnote{Details on the derivation of the posterior: \url{https://www.youtube.com/watch?v=UDVNyAp3T38} - this resource was chosen because it is very accessible and provides great explanations.}, when the symmetric Dirichlet distribution with the parameter $\boldsymbol{\alpha} = (\alpha,...,\alpha)$ is chosen as a prior. The latter is parametrised with $M$ equal values $\alpha$ which, in this context, can be interpreted as having observed $\alpha$ additional counts of each item and then incorporating them into the estimation process. Thus, adding pseudo-counts allows to explicitly include the prior information into the parameter estimation that the estimates cannot be zero. Also, since the same amount is added to each item's count, no parameter is favoured over any other. The parameter $\alpha$ is usually chosen to be $1$ because in such case the symmetric Dirichlet prior is equivalent to the uniform distribution and for bigger number of observations in the data such (uniform) prior has small effect on the estimates. The other popular value for $\alpha$ is 0.5, which corresponds to the popular (non-informative) Jeffreys prior.
+In the Bayesian realm, these estimates correspond to the expected value of the posterior distribution\footnote{Details on the derivation of the posterior: \url{https://www.youtube.com/watch?v=UDVNyAp3T38} - this resource was chosen because it is very accessible and provides great explanations.}, when the symmetric Dirichlet distribution with the parameter $\boldsymbol{\alpha} = (\alpha,...,\alpha)$ is chosen as a prior. The latter is parametrised with $M$ equal values $\alpha$ which, in this context, can be interpreted as having observed $\alpha$ additional counts of each item and then incorporating them into the estimation process. Thus, adding pseudo-counts allows to explicitly include the prior information into the parameter estimation that the estimates cannot be zero. Also, since the same amount is added to each item's count, no parameter is favoured over any other. The parameter $\alpha$ is usually chosen to be $1$ because in such case the symmetric Dirichlet prior is equivalent to the uniform distribution and for bigger number of observations in the data such (uniform) prior has small effect on the estimates. The other common value for $\alpha$ is 0.5, which corresponds to the popular (non-informative) Jeffreys prior.
 
 
 \subsection{Poisson distribution}
@@ -341,7 +341,7 @@ Analogously to the Maximum-Likelihood estimation, the values of the $i$-th featu
 
 $$\hat{\lambda}_{ik} = \frac{T_{ik} + \alpha}{n_k}$$
 
-The estimate $\hat{\lambda}_{ik}$ could be considered to coincide with the expected value of posterior distribution given by Gamma$(T_{ik} + \alpha, n_k)$, when the improper (degenerate) Gamma distribution with shape parameter $\alpha > 0$ and rate $\beta \rightarrow 0$ is chosen as a prior for the Poisson likelihood. Adding pseudo-counts 1 and 0.5 ($\alpha = 1$ or $\alpha = 1$) corresponds to the estimation using the uniform prior and Jeffreys  prior, respectively.
+The estimate $\hat{\lambda}_{ik}$ could be considered to coincide with the expected value of posterior distribution given by Gamma$(T_{ik} + \alpha, n_k)$, when the improper (degenerate) Gamma distribution with shape parameter $\alpha > 0$ and rate $\beta \rightarrow 0$ is chosen as a prior for the Poisson likelihood. Adding pseudo-counts 1 and 0.5 ($\alpha = 1$ and $\alpha = 0.5$) corresponds to the estimation using the uniform prior and Jeffreys prior, respectively.
 
 
 \subsection{Gaussian distribution}
@@ -495,14 +495,14 @@ The Gaussian smoothing kernel and Silverman's rule-of-thumb are chosen by defaul
 \end{kframe}
 \end{knitrout}
 
-Fit the Naive Bayes model based on 10 simulated predictors, each having 10mn observations, and then perform classification:
+Fit the Naive Bayes model based on 10 simulated predictors, each having 1mn observations, and then perform classification:
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
 \begin{alltt}
 \hlstd{vars} \hlkwb{<-} \hlnum{10}
 \hlstd{rows} \hlkwb{<-} \hlnum{1000000}
-\hlstd{y} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlkwd{c}\hlstd{(}\hlstr{"a"}\hlstd{,} \hlstr{"b"}\hlstd{), rows,} \hlnum{TRUE}\hlstd{)}
+\hlstd{y} \hlkwb{<-} \hlkwd{sample}\hlstd{(}\hlkwc{x} \hlstd{=} \hlkwd{c}\hlstd{(}\hlstr{"a"}\hlstd{,} \hlstr{"b"}\hlstd{),} \hlkwc{size} \hlstd{=  rows,} \hlkwc{replace} \hlstd{=} \hlnum{TRUE}\hlstd{)}
 
 \hlcom{# Discrete features}
 \hlstd{X1} \hlkwb{<-} \hlkwd{as.data.frame}\hlstd{(}\hlkwd{matrix}\hlstd{(}\hlkwd{sample}\hlstd{(letters[}\hlnum{5}\hlopt{:}\hlnum{9}\hlstd{], vars} \hlopt{*} \hlstd{rows,} \hlnum{TRUE}\hlstd{),}
@@ -512,7 +512,7 @@ Fit the Naive Bayes model based on 10 simulated predictors, each having 10mn obs
 \end{alltt}
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.357   0.103   0.466
+##   0.386   0.100   0.492
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
