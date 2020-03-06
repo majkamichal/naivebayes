@@ -74,7 +74,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     }
     if (any(prob1 == 0)) {
         nempty <- length(which(prob1 == 0, arr.ind = TRUE)[ ,1])
-        warning(paste0("multinomial_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
+        warning(paste0("bernoulli_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
                        nempty, " empty ", ifelse(nempty == 1, "cell ", "cells "),
                        "leading to zero estimates. Consider Laplace smoothing."), call. = FALSE)
 
