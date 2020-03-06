@@ -4,7 +4,7 @@ Title: High Performance Implementation of the Naive Bayes Algorithm
 Version: 0.9.7
 Author: Michal Majka
 Maintainer: Michal Majka <michalmajka@hotmail.com>
-Description: In this implementation of the Naive Bayes classifier following class conditional distributions are available: Bernoulli, Categorical, Gaussian, Poisson and non-parametric representation of the class conditional density estimated via Kernel Density Estimation.
+Description: In this implementation of the Naive Bayes classifier following class conditional distributions are available: Bernoulli, Categorical, Gaussian, Poisson and non-parametric representation of the class conditional density estimated via Kernel Density Estimation. Handling of missing values is supported. Specialized classifiers can take advantage of sparse data.
 URL: https://github.com/majkamichal/naivebayes, https://majkamichal.github.io/naivebayes/
 BugReports: https://github.com/majkamichal/naivebayes/issues
 License: GPL-2
