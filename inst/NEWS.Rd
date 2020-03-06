@@ -1,6 +1,14 @@
 \name{NEWS}
 \title{News for Package \pkg{naivebayes}}
 
+\section{Changes in version 0.9.7}{
+    \itemize{
+    	    \item Improvement: \code{multinomial_naive_bayes()} now supports sparse matrices (\code{dgCMatrix} class from the \code{Matrix} Package).
+
+            \item Improvement: updated documentation.
+    	}
+}
+
 \section{Changes in version 0.9.6}{
 
 \subsection{Improvements:}{

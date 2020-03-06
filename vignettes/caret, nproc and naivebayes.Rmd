@@ -75,6 +75,7 @@ Please find more information about the `nproc` package under: https://cran.r-pro
 
 
 ```{r example_nproc, cache = FALSE}
+# install.packages("nproc")
 library(nproc)
 library(naivebayes)
 

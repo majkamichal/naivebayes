@@ -1,0 +1,7 @@
+---
+title: "Sparse Matrices"
+---
+
+Specialized Naive Bayes implementations, starting with the `0.9.7` version from March 2020, support sparse matrices to speed up the calculations. This feature is fully compatible with the `no-dependency-philosophy`, as it only, if possible, takes an advantage of the sparse matrix class `dgCMatrix` from the excellent `Matrix` package. 
+
+
