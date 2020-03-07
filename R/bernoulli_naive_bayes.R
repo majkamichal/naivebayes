@@ -1,7 +1,7 @@
 bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("multinomial_naive_bayes(): y must be either a factor or character or logical vector", call. = FALSE)
+        stop("bernoulli_naive_bayes(): y must be either a factor or character or logical vector", call. = FALSE)
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
@@ -113,11 +113,11 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     class_x <- class(newdata)[1]
     use_Matrix <- class_x == "dgCMatrix"
     if (!is.matrix(newdata) & !use_Matrix)
-        stop("predict.multinomial_naive_bayes(): newdata must be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
+        stop("predict.bernoulli_naive_bayes(): newdata must be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
     if (is.matrix(newdata) & mode(newdata) != "numeric")
-        stop("predict.multinomial_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
+        stop("predict.bernoulli_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
     if (use_Matrix & !"Matrix" %in% rownames(utils::installed.packages()))
-        stop("predict.multinomial_naive_bayes(): please install Matrix package", call. = FALSE)
+        stop("predict.bernoulli_naive_bayes(): please install Matrix package", call. = FALSE)
 
     type <- match.arg(type)
     lev <- object$levels
@@ -132,7 +132,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     n_features_newdata <- ncol(newdata)
 
     if (n_features == 0) {
-        warning(paste0("predict.multinomial_naive_bayes(): no feature in newdata corresponds to ",
+        warning(paste0("predict.bernoulli_naive_bayes(): no feature in newdata corresponds to ",
                        "features defined in the object. Classification is based on prior probabilities"), call. = FALSE)
         if (type == "class") {
             return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
@@ -141,11 +141,11 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         }
     }
     if (n_features < n_tables) {
-        warning(paste0("predict.multinomial_naive_bayes(): only ", n_features, " feature(s) in newdata could be matched ",
+        warning(paste0("predict.bernoulli_naive_bayes(): only ", n_features, " feature(s) in newdata could be matched ",
                        "with ", n_tables, " feature(s) defined in the object."), call. = FALSE)
     }
     if (n_features_newdata > n_features) {
-        warning(paste0("predict.multinomial_naive_bayes(): newdata contains feature(s) that could not be matched ",
+        warning(paste0("predict.bernoulli_naive_bayes(): newdata contains feature(s) that could not be matched ",
                        "with (", n_features, ") feature(s) defined in the object. Only matching features are used for calculation."), call. = FALSE)
         newdata <- newdata[ ,features, drop = FALSE]
     }
