@@ -1,6 +1,6 @@
 # naivebayes 0.9.7
 
-* Improvement: `multinomial_naive_bayes()`, `bernoullie_naive_bayes()`, `poisson_naive_bayes()` now support sparse matrices (`dgCMatrix` class from the `Matrix` Package).
+* Improvement: `multinomial_naive_bayes()`, `bernoullie_naive_bayes()`, `poisson_naive_bayes()` and `gaussian_naive_bayes()` now support sparse matrices (`dgCMatrix` class from the `Matrix` Package).
 
 * Improvement: updated documentation.
 
