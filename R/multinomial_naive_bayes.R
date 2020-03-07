@@ -124,17 +124,16 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
     }
     if (n_features_newdata > n_features) {
         warning(paste0("predict.multinomial_naive_bayes(): newdata contains feature(s) that could not be matched ",
-        "with (", n_features, ") feature(s) defined in the object. Only matching features are used for calculation."), call. = FALSE)
+                        "with (", n_features, ") feature(s) defined in the object. Only matching features are used for calculation."), call. = FALSE)
         newdata <- newdata[ ,features, drop = FALSE]
     }
     NAx <- anyNA(newdata)
     if (NAx) {
         ind_na <- if (use_Matrix) Matrix::which(is.na(newdata)) else which(is.na(newdata))
         len_na <- length(ind_na)
-        if (len_na > 0)
-            warning(paste0("predict.multinomial_naive_bayes(): ", len_na, " missing", ifelse(len_na == 1, " value", " values"),
-                           " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"),
-                           " not included into the calculation."), call. = FALSE)
+        warning("predict.multinomial_naive_bayes(): ", len_na, " missing", ifelse(len_na == 1, " value", " values"),
+                " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"),
+                " not included in calculation.", call. = FALSE)
         newdata[ind_na] <- 0
     }
     # if (object$laplace == 0)

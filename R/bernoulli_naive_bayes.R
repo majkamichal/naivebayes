@@ -161,7 +161,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         ind_na <- if (use_Matrix) Matrix::which(is.na(newdata), arr.ind = TRUE) else which(is.na(newdata), arr.ind = TRUE)
         len_na <- nrow(ind_na)
         warning(paste0("predict.bernoulli_naive_bayes(): ", len_na, " missing", ifelse(len_na == 1, " value", " values"),
-                       " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"), " not included into the calculation."), call. = FALSE)
+                       " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"), " not included in calculation."), call. = FALSE)
         ind_obs <- ind_na[ ,1]
         ind_var <- ind_na[ ,2]
         newdata[ind_na] <- 1
