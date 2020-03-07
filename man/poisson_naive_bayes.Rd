@@ -40,7 +40,7 @@ The Poisson Naive Bayes is available in both, \code{naive_bayes} and \code{poiss
 
 The \code{poisson_naive_bayes} and \code{naive_bayes()} are equivalent when the latter is used with \code{usepoisson = TRUE} and \code{usekernel = FALSE}; and a matrix/data.frame contains only integer-valued columns.
 
-The missing values (NAs) are omited while constructing probability tables. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
+The missing values (NAs) are omited during the estimation process. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
 }
 
 \note{
