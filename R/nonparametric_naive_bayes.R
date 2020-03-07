@@ -1,25 +1,24 @@
 nonparametric_naive_bayes <- function (x, y, prior = NULL, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("nonparametric_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
+        stop("nonparametric_naive_bayes(): y must be either a factor or character or logical vector", call. = FALSE)
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
     nlev <- nlevels(y)
     vars <- colnames(x)
     if (nlev < 2)
-        warning("nonparametric_naive_bayes(): y has less than two classes. ", call. = FALSE)
-    if (is.null(vars)) {
-        xname <- deparse(substitute(x))
-        stop(paste0("nonparametric_naive_bayes(): Column names in the matrix x are required.\n",
-                    "       Consider paste0(\"V\", 1:ncol(", xname, ")) as column names \n",
-                    "       in both train and test datasets."), call. = FALSE)
-    }
-    if (class(x)[1] != "matrix") {
-        stop("nonparametric_naive_bayes(): x has to be a numeric matrix. ", call. = FALSE)
+        warning("nonparametric_naive_bayes(): y must contain at least two classes. ", call. = FALSE)
+    if (is.null(vars))
+        stop("nonparametric_naive_bayes(): x must have unique column names.\n", call. = FALSE)
+    class_x <- class(x)[1]
+    if (class_x != "matrix") {
+        if (class_x == "dgCMatrix")
+            stop("nonparametric_naive_bayes(): sparse matrices are not supported. ", call. = FALSE)
+        warning("nonparametric_naive_bayes(): x was coerced to matrix.", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("nonparametric_naive_bayes(): x has to contain numeric columns.", call. = FALSE)
+            stop("nonparametric_naive_bayes(): x must be a numeric matrix.", call. = FALSE)
     }
     NAy <- anyNA(y)
     NAx <- anyNA(x)
@@ -29,7 +28,7 @@ nonparametric_naive_bayes <- function (x, y, prior = NULL, ...)  {
         warning(paste0("nonparametric_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) ",
+                       " not included (also the corresponding rows in x) ",
                        "into the estimation process."), call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
@@ -44,14 +43,14 @@ nonparametric_naive_bayes <- function (x, y, prior = NULL, ...)  {
     y_counts <- stats::setNames(tabulate(y), levels)
     y_min <- y_counts < 2
     if (any(y_min))
-        stop(paste0("nonparametric_naive_bayes(): y variable has to contain at least two observations per class for estimation process.",
+        stop(paste0("nonparametric_naive_bayes(): y must contain at least two observations per class for estimation process.",
                     " Class ", paste0(levels[y_min], collapse =  ", "),
                     " has less than 2 observations."), call. = FALSE)
     if (is.null(prior)) {
         prior <- prop.table(y_counts)
     } else {
         if (length(prior) != nlev)
-            stop(paste0("nonparametric_naive_bayes(): Vector with prior probabilities should have ",
+            stop(paste0("nonparametric_naive_bayes(): vector with prior probabilities must have ",
                         nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
@@ -74,14 +73,14 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
     if (is.null(newdata))
         newdata <- object$data$x
     if (!is.matrix(newdata))
-        stop("predict.nonparametric_naive_bayes(): \"newdata\" has to be a numeric matrix with at least one row and two columns.", call. = FALSE)
+        stop("predict.nonparametric_naive_bayes(): newdata must be a numeric matrix with at least one row and two columns.", call. = FALSE)
     if (mode(newdata) != "numeric")
-        stop("predict.nonparametric_naive_bayes(): \"newdata\" has to be a numeric matrix.", call. = FALSE)
+        stop("predict.nonparametric_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
 
     if (threshold < 0)
-        stop("predict.nonparametric_naive_bayes(): threshold has to be non-negative.", call. = FALSE)
+        stop("predict.nonparametric_naive_bayes(): threshold must be non-negative.", call. = FALSE)
     if (eps < 0)
-        stop("predict.nonparametric_naive_bayes(): eps has to be non-negative.", call. = FALSE)
+        stop("predict.nonparametric_naive_bayes(): eps must be non-negative.", call. = FALSE)
 
     type <- match.arg(type)
     lev <- object$levels
@@ -96,46 +95,31 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
     n_features_newdata <- ncol(newdata)
 
     if (n_features == 0) {
+        warning(paste0("predict.nonparametric_naive_bayes(): no feature in newdata corresponds to ",
+                       "features defined in the object. Classification is based on prior probabilities"), call. = FALSE)
         if (type == "class") {
-            warning(paste0("predict.nonparametric_naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
-                           "probability tables in the object. ",
-                           "Classification is done based on the prior probabilities"), call. = FALSE)
-            return(factor(rep(lev[which.max(prior)], n_obs),
-                          levels = lev))
+            return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
         } else {
-            warning(paste0("predict.nonparametric_naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
-                           "probability tables in the object. ",
-                           "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
-            return(matrix(prior, ncol = n_lev, nrow = n_obs,
-                          byrow = TRUE, dimnames = list(NULL, lev)))
+            return(matrix(prior, ncol = n_lev, nrow = n_obs, byrow = TRUE, dimnames = list(NULL, lev)))
         }
     }
     if (n_features < n_tables) {
-        warning(paste0("predict.nonparametric_naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
-                       " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction\n"), call. = FALSE)
+        warning(paste0("predict.nonparametric_naive_bayes(): only ", n_features, " feature(s) in newdata could be matched ",
+                       "with ", n_tables, " feature(s) defined in the object."), call. = FALSE)
     }
     if (n_features_newdata > n_features) {
-        warning(paste0("predict.nonparametric_naive_bayes(): ",
-                       "More features in the newdata are provided ",
-                       "as there are probability tables in the object. ",
-                       "Calculation is performed based on features to be found in the tables."), call. = FALSE)
+        warning(paste0("predict.nonparametric_naive_bayes(): newdata contains feature(s) that could not be matched ",
+                       "with (", n_features, ") feature(s) defined in the object. Only matching features are used for calculation."), call. = FALSE)
         newdata <- newdata[ ,features, drop = FALSE]
     }
-
     NAx <- anyNA(newdata)
     if (NAx) {
         len_na <- sum(is.na(newdata))
         if (len_na > 0)
-            warning(paste0("predict.nonparametric_naive_bayes(): ", len_na, " missing",
-                           ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",
-                           ifelse(len_na == 1, "It is", "They are"),
-                           " not included into the calculation."), call. = FALSE)
+            warning(paste0("predict.nonparametric_naive_bayes(): ", len_na, " missing", ifelse(len_na == 1, " value", " values"),
+                           " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"), " not included into the calculation."), call. = FALSE)
         na <- apply(newdata, 2, anyNA)
     }
-
     eps <- ifelse(eps == 0, log(.Machine$double.xmin), log(eps))
     threshold <- log(threshold)
 
@@ -172,7 +156,6 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
         }
     }
 }
-
 
 print.nonparametric_naive_bayes <- function (x, ...) {
 
