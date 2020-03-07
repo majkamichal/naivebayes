@@ -96,7 +96,7 @@ df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
 # sapply(df, class)
 
 nb <- naive_bayes(df, y, laplace = laplace)
-tables(nb)
+summary(nb)
 head(predict(nb, type = "prob"))
 
 # Obtain probability tables
