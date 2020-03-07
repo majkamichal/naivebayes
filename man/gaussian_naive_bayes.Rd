@@ -6,7 +6,7 @@
 gaussian_naive_bayes(x, y, prior = NULL, ...)
 }
 \arguments{
-\item{x}{matrix with metric predictors (only numeric matrix accepted).}
+\item{x}{numeric matrix with metric predictors (matrix or dgCMatrix from Matrix package).}
 
 \item{y}{class vector (character/factor/logical).}
 
@@ -32,38 +32,76 @@ gaussian_naive_bayes(x, y, prior = NULL, ...)
 
 This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are modelled with the Gaussian distribution.
 
-The Gaussian Naive Bayes is available in both, \code{naive_bayes} and \code{gaussian_naive_bayes}. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric matrix and performing the linear algebra as well vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.
+The Gaussian Naive Bayes is available in both, \code{naive_bayes} and \code{gaussian_naive_bayes}.The latter provides more efficient performance though. Faster calculation times come from restricting the data to a matrix with numeric columns and taking advantage of linear algebra operations. Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.
 
-The \code{gaussian_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric matrix or a data.frame contains only numeric variables.
+The \code{gaussian_naive_bayes} and \code{naive_bayes()} are equivalent when the latter is used with \code{usepoisson = FALSE} and \code{usekernel = FALSE}; and a matrix/data.frame contains numeric columns.
 
-The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in \code{predict.gaussian_naive_bayes} are not included into the calculation of posterior probabilities; and if present an informative warning is given.
+The missing values (NAs) are omited during the estimation process. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
 }
 
 
 \examples{
-data(iris)
-y <- iris[[5]]
-M <- as.matrix(iris[-5])
+# library(naivebayes)
 
-### Train the Gaussian Naive Bayes
+cols <- 10 ; rows <- 100
+M <- matrix(rnorm(rows * cols, 100, 15), nrow = rows, ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
+colnames(M) <- paste0("V", seq_len(ncol(M)))
+
+
+### Train the Bernoulli Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
 summary(gnb)
-head(predict(gnb, newdata = M, type = "prob"))
 
-###  Equivalent calculation with general naive_bayes function.
+# Classification
+head(predict(gnb, newdata = M, type = "class"))
+head(gnb \%class\% M)
+
+# Posterior probabilities
+head(predict(gnb, newdata = M, type = "prob"))
+head(gnb \%prob\% M)
+
+# Parameter estimates
+coef(gnb)
+
+
+### Sparse data: train the Gaussian Naive Bayes
+library(Matrix)
+M_sparse <- Matrix(M, sparse = TRUE)
+class(M_sparse) # dgCMatrix
+
+# Fit the model with sparse data
+gnb_sparse <- gaussian_naive_bayes(M_sparse, y)
+
+# Classification
+head(predict(gnb_sparse, newdata = M_sparse, type = "class"))
+head(gnb_sparse \%class\% M_sparse)
+
+# Posterior probabilities
+head(predict(gnb_sparse, newdata = M_sparse, type = "prob"))
+head(gnb_sparse \%prob\% M_sparse)
+
+# Parameter estimates
+coef(gnb_sparse)
+
+
+### Equivalent calculation with general naive_bayes function.
+### (no sparse data support by naive_bayes)
+
 nb <- naive_bayes(M, y)
+summary(nb)
 head(predict(nb, type = "prob"))
 
 # Obtain probability tables
-tables(gnb, which = 1)
+tables(nb, which = "V1")
+tables(gnb, which = "V1")
 
-coef(gnb)[c(TRUE,FALSE)] # Only means
-
-# Visualise class conditional Gaussian distributions
-plot(gnb, which = "Sepal.Width", prob = "conditional")
+# Visualise class conditional Bernoulli distributions
+plot(nb, "V1", prob = "conditional")
+plot(gnb, which = "V1", prob = "conditional")
 
 # Check the equivalence of the class conditional distributions
-all(get_cond_dist(gnb) == get_cond_dist(nb))
+all(get_cond_dist(nb) == get_cond_dist(gnb))
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
