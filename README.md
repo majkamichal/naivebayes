@@ -45,10 +45,10 @@ In addition to that specialized functions are available which implement:
   - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
 They are implemented based on the linear algebra operations which makes
-them efficient on the dense matrices. In close future sparse matrices
-will be supported in order to boost the performance on the sparse data.
-Also few helper functions are provided that are supposed to improve the
-user experience. The general `naive_bayes()` function is also available
+them efficient on the dense matrices. They can also take advantage of
+sparse matrices in order to furthermore boost the performance. Also few
+helper functions are provided that are supposed to improve the user
+experience. The general `naive_bayes()` function is also available
 through the excellent `Caret` package.
 
 ## 2\. Installation
