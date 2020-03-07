@@ -2,11 +2,8 @@ tables <- function (object, which = NULL) {
 
     obj_class <- class(object)[1]
     if (!obj_class %in% models()) {
-        stop(paste0("tables(): Tables are available only for ",
-                    paste0(models(), collapse = ", "),
-                    " objects."), call. = FALSE)
+        stop("tables(): tables are available only for ", paste0(models(), collapse = ", "), " objects.", call. = FALSE)
     }
-
     tabs <- get_tables(object)
     cond_dist <- get_cond_dist(object)
     vars <- if (obj_class == "multinomial_naive_bayes"){
@@ -24,13 +21,13 @@ tables <- function (object, which = NULL) {
     }
 
     if (is.character(which) && !all(which %in% vars))
-        stop("tables(): At least one variable is not available")
+        stop("tables(): at least one variable is not available")
 
     if (length(which) > length(vars))
-        stop("tables(): Too many variables selected")
+        stop("tables(): too many variables selected")
 
     if (!is.null(which) && !is.character(which) && !is.numeric(which))
-        stop("tables(): \"which\" has to be either character or numeric vector")
+        stop("tables(): which must be either character or numeric vector")
 
     if (is.null(which))
         which <- seq_along(vars)
@@ -53,9 +50,7 @@ tables <- function (object, which = NULL) {
 get_tables <- function(object) {
     model <- class(object)
     if (!model %in% models()) {
-        stop(paste0("tables(): Tables are available only for ",
-                    paste0(models(), collapse = ", "),
-                    " objects."), call. = FALSE)
+        stop("tables(): tables are available only for ", paste0(models(), collapse = ", "), " objects.", call. = FALSE)
     }
     switch(model,
            "naive_bayes"               = object$tables,
@@ -69,7 +64,7 @@ get_tables <- function(object) {
 
 get_bernoulli_tables <- function(prob1) {
     if (!is.matrix(prob1))
-        stop("prob1 has to be a matrix and prob1 element of the bernoulli_naive_bayes object")
+        stop("prob1 must be a matrix and an element of the bernoulli_naive_bayes object")
     n_tables <- nrow(prob1)
     vars <- rownames(prob1)
     tables <- lapply(seq_len(n_tables), function(i) {
@@ -86,7 +81,7 @@ get_bernoulli_tables <- function(prob1) {
 
 get_gaussian_tables <- function(params) {
     if (!is.list(params))
-        stop("get_gaussian_tables(): params has to be a list with parameter estimates.", call. = FALSE)
+        stop("get_gaussian_tables(): params must be a list with parameter estimates.", call. = FALSE)
 
     mu <- params$mu
     sd <- params$sd
@@ -107,7 +102,7 @@ get_gaussian_tables <- function(params) {
 
 get_poisson_tables <- function(params) {
     if (!is.matrix(params))
-        stop("get_poisson_tables(): params has to be a matrix with parameter estimates.", call. = FALSE)
+        stop("get_poisson_tables(): params must be a matrix with parameter estimates.", call. = FALSE)
 
     vars <- rownames(params)
     n_tables <- length(vars)
@@ -125,7 +120,7 @@ get_poisson_tables <- function(params) {
 
 get_multinomial_tables <- function(params) {
     if (!is.matrix(params))
-        stop("get_multinomial_tables(): params has to be a matrix with parameter estimates.", call. = FALSE)
+        stop("get_multinomial_tables(): params must be a matrix with parameter estimates.", call. = FALSE)
     vars <- rownames(params)
     n_tables <- length(vars)
     attr(params, "cond_dist") <- stats::setNames(rep("Multinomial", n_tables), vars)

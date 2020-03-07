@@ -7,14 +7,14 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             newdata <- as.data.frame(newdata)
         }
         else {
-            stop("predict.naive_bayes(): \"newdata\" has to be either a matrix or a data.frame.\n", call. = FALSE)
+            stop("predict.naive_bayes(): newdata must be either a matrix or a data.frame.\n", call. = FALSE)
         }
     }
 
     if (threshold < 0)
-        stop("predict.naive_bayes(): threshold has to be non-negative.", call. = FALSE)
+        stop("predict.naive_bayes(): threshold must be non-negative.", call. = FALSE)
     if (eps < 0)
-        stop("predict.naive_bayes(): eps has to be non-negative.", call. = FALSE)
+        stop("predict.naive_bayes(): eps must be non-negative.", call. = FALSE)
 
     na <- sapply(newdata, anyNA)
     type <- match.arg(type)
@@ -31,13 +31,13 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     n_features_newdata <- ncol(newdata)
 
     if (n_features < n_tables) {
-        warning(paste0("predict.naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
+        warning(paste0("predict.naive_bayes(): only ", n_features, " feature(s) out of ", n_tables,
                        " defined in the naive_bayes object \"", substitute(object),
                        "\" are used for prediction.\n"), call. = FALSE)
     }
     if (n_features_newdata > n_tables) {
         warning(paste0("predict.naive_bayes(): ",
-                       "More features in the newdata are provided ",
+                       "more features in the newdata are provided ",
                        "as there are probability tables in the object. ",
                        "Calculation is performed based on features to be found in the tables."),
                 call. = FALSE)
@@ -50,7 +50,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                                             nlevels) != sapply(tables[ind_factor], nrow)) == TRUE)
         nm <- length(ind_missing_levels)
         if (nm > 0) {
-            stop(paste0("predict.naive_bayes(): \n\n", nm, ifelse(nm == 1, " Feature ", " Features "),
+            stop(paste0("predict.naive_bayes(): \n\n", nm, ifelse(nm == 1, " feature ", " features "),
                         ifelse(nm == 1, "is discrete, ",
                                "are discrete, "), "and compared to the corresponding probability ",
                         ifelse(nm == 1, "table ", "tables "),
@@ -71,7 +71,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         if (is.numeric(V)) {
             if (!is.null(a)) {
                 if (!a %in% c("Gaussian", "KDE", "Poisson")) {
-                    stop(paste0("predict.naive_bayes(): Type mismatch between ",
+                    stop(paste0("predict.naive_bayes(): type mismatch between ",
                             "training and newdata for the feature ",
                             var, " - it was not numeric in the training dataset."),
                          call. = FALSE)
@@ -113,7 +113,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         else {
             if (!is.null(a)) {
                 if (!a %in% c("Bernoulli", "Categorical")) {
-                    stop(paste0("predict.naive_bayes(): Type mismatch between ",
+                    stop(paste0("predict.naive_bayes(): type mismatch between ",
                                 "training and newdata for the feature ",
                                 var, " - it was numeric in the training dataset."),
                          call. = FALSE)
@@ -141,7 +141,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     if (type == "class") {
         if (n_features == 0) {
             warning(paste0("predict.naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
+                           "no feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Classification is done based on the prior probabilities"),
                     call. = FALSE)
@@ -157,7 +157,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     else {
         if (n_features == 0) {
             warning(paste0("predict.naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
+                           "no feature in the newdata corresponds to ",
                            "probability tables in the object. ",
                            "Posterior probabilities are equal to prior probabilities."),
                     call. = FALSE)

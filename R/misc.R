@@ -1,7 +1,7 @@
 .onAttach <- function(libname, pkgname) {
 
     v <- getNamespaceVersion("naivebayes")
-    packageStartupMessage(paste0("::: naivebayes ", v, " loaded"))
+    packageStartupMessage(paste0("naivebayes ", v, " loaded"))
 
     # rule <- paste0(rep("=", getOption("width")), collapse = "")
     # packageStartupMessage(rule)
