@@ -35,13 +35,11 @@ bernoulli_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 
 This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.
 
-The Bernoulli Naive Bayes is available in both, \code{naive_bayes} and \code{bernoulli_naive_bayes}. The latter provides more efficient performance though. Faster calculation times come from restricting the data to a numeric 0-1 matrix and taking advantage of linear algebra operations.
+The Bernoulli Naive Bayes is available in both, \code{naive_bayes} and \code{bernoulli_naive_bayes}. The latter provides more efficient performance though. Faster calculation times come from restricting the data to a numeric 0-1 matrix and taking advantage of linear algebra operations. Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.
 
-Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.
+The \code{bernoulli_naive_bayes} and \code{naive_bayes()} are equivalent when the latter uses "0"-"1" character matrix.
 
-The \code{bernoulli_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.
-
-The missing values (NAs) are omited while constructing probability tables. Also, corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
+The missing values (NAs) are omited while constructing probability tables. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
 }
 
 \examples{

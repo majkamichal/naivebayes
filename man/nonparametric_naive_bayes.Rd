@@ -30,13 +30,13 @@ nonparametric_naive_bayes(x, y, prior = NULL, ...)
 
 \details{
 
-This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are non-parametrically estimated with kernel density estimator. By default Gaussian kernel is used and the smoothing bandwidth is selected according to the Silverman's 'rule of thumb'. For more details, please see the references and the documentation of \code{\link{density}} and \code{\link{bw.nrd0}}.
+This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are estimated in a non-parametric way with the kernel density estimator (KDE). By default Gaussian kernel is used and the smoothing bandwidth is selected according to the Silverman's 'rule of thumb'. For more details, please see the references and the documentation of \code{\link{density}} and \code{\link{bw.nrd0}}.
 
-The Non-Parametric Naive Bayes is available in both, \code{naive_bayes()} and \code{nonparametric_naive_bayes()}. This specialized implementation of the Naive Bayes does not provide a substantial speed-up over the general \code{naive_bayes()} function but it should be more transparent and user friendly.
+The Non-Parametric Naive Bayes is available in both, \code{naive_bayes()} and \code{nonparametric_naive_bayes()}. The latter does not provide a substantial speed up over the general \code{naive_bayes()} function but it is meant to be more transparent and user friendly.
 
-The \code{nonparametric_naive_bayes} function is equivalent to \code{naive_bayes()} when the numeric matrix or a data.frame contains only numeric variables and \code{usekernel = TRUE}.
+The \code{nonparametric_naive_bayes} and \code{naive_bayes()} are equivalent when the latter is used with \code{usekernel = TRUE} and \code{usepoisson = FALSE}; and a matrix/data.frame contains only numeric variables.
 
-The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in \code{predict.nonparametric_naive_bayes()} are not included into the calculation of posterior probabilities; and if present an informative warning is given.
+The missing values (NAs) are omitted during the estimation process. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
 }
 
 \references{
