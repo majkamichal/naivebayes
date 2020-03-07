@@ -39,8 +39,8 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         x <- x[!na_y_bool, ]
     }
     if (NAx) {
-        na_x_bool <- is.na(x)
-        len_nax <- sum(na_x_bool)
+        na_x <- is.na(x) * 1
+        len_nax <- sum(na_x)
         warning(paste0("bernoulli_naive_bayes(): x contains ", len_nax, " missing",
                        ifelse(len_nax == 1, " value", " values"), ". ",
                        ifelse(len_nax == 1, "It is", "They are"),
@@ -72,14 +72,13 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
         }
     } else {
         n <- if (use_Matrix) {
-            n_per_feature <- lapply(levels, function(lev) {
-                not_na_x <- (!na_x_bool) * 1
-                Matrix::colSums(not_na_x[y == lev, , drop = FALSE], na.rm = TRUE)})
-            n_per_feature <- do.call("rbind", n_per_feature)
-            rownames(n_per_feature) <- levels
-            n_per_feature
+            na_per_feature <- lapply(levels, function(lev) {
+                Matrix::colSums(na_x[y == lev, , drop = FALSE], na.rm = TRUE) })
+            n_feature_obs <- y_counts - do.call("rbind", na_per_feature)
+            rownames(n_feature_obs) <- levels
+            n_feature_obs
         } else {
-            rowsum.default((!na_x_bool) * 1, y)
+            y_counts - rowsum.default((na_x_bool) * 1, y)
         }
         if (any(n == 0)) {
             warning(paste0("bernoulli_naive_bayes(): x should contain at least one ",
