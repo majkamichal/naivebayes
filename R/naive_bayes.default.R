@@ -43,7 +43,6 @@ naive_bayes.default <- function (x, y, prior = NULL, laplace = 0,
                     tab <- tapply(var, y, function(x, ...) stats::density(x, na.rm = TRUE, ...), ...)
                     attr(tab, "cond_dist") <- "KDE"
                     tab
-
                 }
                 else {
                     tab <- rbind(tapply(var, y, mean, na.rm = TRUE),

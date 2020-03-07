@@ -14,7 +14,7 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
         warning("multinomial_naive_bayes(): x was coerced to matrix.", call. = FALSE)
         x <- as.matrix(x)
         if (mode(x) != "numeric")
-            stop("multinomial_naive_bayes(): x has to contain numeric columns.", call. = FALSE)
+            stop("multinomial_naive_bayes(): x must be a matrix/dgCMatrix with integer columns.", call. = FALSE)
     }
     if (use_Matrix) {
         if (!"Matrix" %in% rownames(utils::installed.packages()))
@@ -24,9 +24,8 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
     }
     if (nlev < 2)
         stop("multinomial_naive_bayes(): y must contain at least two classes. ", call. = FALSE)
-    if (is.null(vars)) {
+    if (is.null(vars))
         stop("multinomial_naive_bayes(): x must have unique column names.\n", call. = FALSE)
-    }
     NAy <- anyNA(y)
     NAx <- anyNA(x)
     if (NAy) {
@@ -35,7 +34,7 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
         warning(paste0("multinomial_naive_bayes(): y contains ", len_na, " missing",
                        ifelse(len_na == 1, " value", " values"), ". ",
                        ifelse(len_na == 1, "It is", "They are"),
-                       " not included (together with the corresponding instances in x) ",
+                       " not included (also the corresponding rows in x) ",
                        "into the estimation process."), call. = FALSE)
         y <- y[!na_y_bool]
         x <- x[!na_y_bool, ]
