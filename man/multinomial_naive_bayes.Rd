@@ -44,7 +44,7 @@ McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Ba
 }
 
 \examples{
-library(naivebayes)
+# library(naivebayes)
 
 ### Simulate the data:
 cols <- 10 ; rows <- 100

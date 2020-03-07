@@ -43,7 +43,7 @@ The missing values (NAs) are omited while constructing probability tables. Also,
 }
 
 \examples{
-library(naivebayes)
+# library(naivebayes)
 
 ### Simulate the data:
 cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.9, "1" = 0.1)

@@ -44,6 +44,7 @@ Silverman, B. W. (1986). Density Estimation for Statistics and Data Analysis. Ch
 }
 
 \examples{
+# library(naivebayes)
 data(iris)
 y <- iris[[5]]
 M <- as.matrix(iris[-5])
