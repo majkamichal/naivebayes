@@ -6,7 +6,7 @@
 poisson_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 }
 \arguments{
-\item{x}{matrix with non-negative integer predictors (only numeric matrix is accepted).}
+\item{x}{numeric matrix with integer predictors (matrix or dgCMatrix from Matrix package).}
 
 \item{y}{class vector (character/factor/logical).}
 
@@ -23,7 +23,7 @@ poisson_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
     \item{data}{list with two components: \code{x} (matrix with predictors) and \code{y} (class variable).}
     \item{levels}{character vector with values of the class variable.}
     \item{laplace}{amount of Laplace smoothing (additive smoothing).}
-    \item{params}{matrix containing the class conditional means.}
+    \item{params}{matrix containing class conditional means.}
     \item{prior}{numeric vector with prior probabilities.}
     \item{call}{the call that produced this object.}
 }
@@ -36,51 +36,84 @@ poisson_naive_bayes(x, y, prior = NULL, laplace = 0, ...)
 
 This is a specialized version of the Naive Bayes classifier, in which all features take on non-negative integers (numeric/integer) and class conditional probabilities are modelled with the Poisson distribution.
 
-The Poisson Naive Bayes is available in both, \code{naive_bayes} and \code{poisson_naive_bayes}. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric matrix and performing the linear algebra as well vectorized operations on it.
+The Poisson Naive Bayes is available in both, \code{naive_bayes} and \code{poisson_naive_bayes}. The latter provides more efficient performance though. Faster calculation times come from restricting the data to an integer-valued matrix and taking advantage of linear algebra operations. Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.
 
-The \code{poisson_naive_bayes} function is equivalent to the \code{naive_bayes} function when the numeric matrix or a data.frame contains only non-negative integer variables and each is of class "integer".
+The \code{poisson_naive_bayes} and \code{naive_bayes()} are equivalent when the latter is used with \code{usepoisson = TRUE} and \code{usekernel = FALSE}; and a matrix/data.frame contains only integer-valued columns.
 
-The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in \code{predict.poisson_naive_bayes} are not included into the calculation of posterior probabilities; and if present an informative warning is given.
+The missing values (NAs) are omited while constructing probability tables. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).
 }
 
 \note{
 When the parameter \code{laplace} is set to positive constant \code{c} then this amount is added to all counts. This leads to the ("global") Bayesian estimation with an improper prior. In each case, the estimate is the expected value of the posterior which is given by the gamma distribution with parameters: \code{cell count + c} and number of observations in the cell.
 
-If in one cell there is a zero count and laplace = 0 then one pseudo-count is automatically to each such cell. This corresponds to the "local" Bayesian estimation with uniform prior.
+If in one cell there is a zero count and \code{laplace = 0} then one pseudo-count is automatically to each such cell. This corresponds to the "local" Bayesian estimation with uniform prior.
 }
 
 
 \examples{
-### Simulate data
+library(naivebayes)
+
+### Simulate the data:
 cols <- 10 ; rows <- 100
 M <- matrix(rpois(rows * cols, lambda = 3), nrow = rows, ncol = cols)
-# is.integer(M) # [1] TRUE
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
 colnames(M) <- paste0("V", seq_len(ncol(M)))
-laplace <- 0
+laplace <- 0.5
+
 
 ### Train the Poisson Naive Bayes
 pnb <- poisson_naive_bayes(x = M, y = y, laplace = laplace)
 summary(pnb)
-head(predict(pnb, newdata = M, type = "prob"))
 
-###  Equivalent calculation with general naive_bayes function.
-nb <- naive_bayes(M, y, usepoisson = TRUE, laplace = laplace)
+# Classification
+head(predict(pnb, newdata = M, type = "class"))
+head(pnb \%class\% M)
+
+# Posterior probabilities
+head(predict(pnb, newdata = M, type = "prob"))
+head(pnb \%prob\% M)
+
+# Parameter estimates
+coef(pnb)
+
+
+### Sparse data: train the Poisson Naive Bayes
+library(Matrix)
+M_sparse <- Matrix(M, sparse = TRUE)
+class(M_sparse) # dgCMatrix
+
+# Fit the model with sparse data
+pnb_sparse <- poisson_naive_bayes(M_sparse, y, laplace = laplace)
+
+# Classification
+head(predict(pnb_sparse, newdata = M_sparse, type = "class"))
+head(pnb_sparse \%class\% M_sparse)
+
+# Posterior probabilities
+head(predict(pnb_sparse, newdata = M_sparse, type = "prob"))
+head(pnb_sparse \%prob\% M_sparse)
+
+# Parameter estimates
+coef(pnb_sparse)
+
+
+### Equivalent calculation with general naive_bayes function.
+### (no sparse data support by naive_bayes)
+
+nb <- naive_bayes(M, y, laplace = laplace, usepoisson = TRUE)
+summary(nb)
 head(predict(nb, type = "prob"))
 
 # Obtain probability tables
-tables(pnb, which = 1)
-tables(nb, "V1")
-coef(pnb)
+tables(nb, which = "V1")
+tables(pnb, which = "V1")
 
-# Visualise class conditional Poisson distributions
+# Visualise class conditional Bernoulli distributions
+plot(nb, "V1", prob = "conditional")
 plot(pnb, which = "V1", prob = "conditional")
 
-# Visualise class marginal distributions
-plot(pnb, which = "V1", prob = "marginal")
-
 # Check the equivalence of the class conditional distributions
-all(get_cond_dist(pnb) == get_cond_dist(nb))
+all(get_cond_dist(nb) == get_cond_dist(pnb))
 }
 \author{
 Michal Majka, \email{michalmajka@hotmail.com}
