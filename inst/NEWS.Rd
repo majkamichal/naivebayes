@@ -3,9 +3,11 @@
 
 \section{Changes in version 0.9.7}{
     \itemize{
-    	    \item Improvement: \code{multinomial_naive_bayes()} now supports sparse matrices (\code{dgCMatrix} class from the \code{Matrix} Package).
+    	    \item Improvement: \code{multinomial_naive_bayes()} and \code{bernoullie_naive_bayes} now support sparse matrices (\code{dgCMatrix} class from the \code{Matrix} Package).
 
             \item Improvement: updated documentation.
+
+            \item Improvement: better informative errors.
     	}
 }
 
