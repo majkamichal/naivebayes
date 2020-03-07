@@ -2,7 +2,7 @@
 multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("multinomial_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
+        stop("multinomial_naive_bayes(): y must be either a factor or character or logical vector", call. = FALSE)
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
@@ -57,7 +57,7 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
         prior <- prop.table(y_counts)
     } else {
         if (length(prior) != nlev)
-            stop(paste0("multinomial_naive_bayes(): Vector with prior probabilities should have ",
+            stop(paste0("multinomial_naive_bayes(): vector with prior probabilities should have ",
                         nlev, " entries"))
         prior <- stats::setNames(prior / sum(prior), levels)
     }
@@ -74,7 +74,7 @@ multinomial_naive_bayes <- function (x, y, prior = NULL, laplace = 0.5, ...)  {
     if (any(params == 0)) {
         ind_zero <- which(params == 0, arr.ind = TRUE)
         nempty <- length(ind_zero[ ,2])
-        warning(paste0("multinomial_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
+        warning(paste0("multinomial_naive_bayes(): there ", ifelse(nempty == 1, "is ", "are "),
                        nempty, " empty ", ifelse(nempty == 1, "cell ", "cells "),
                        "leading to zero estimates. Consider Laplace smoothing."), call. = FALSE)
     }
@@ -90,9 +90,9 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
     class_x <- class(newdata)[1]
     use_Matrix <- class_x == "dgCMatrix"
     if (!is.matrix(newdata) & !use_Matrix)
-        stop("predict.multinomial_naive_bayes(): newdata has to be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
+        stop("predict.multinomial_naive_bayes(): newdata must be a numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
     if (is.matrix(newdata) & mode(newdata) != "numeric")
-        stop("predict.multinomial_naive_bayes(): newdata has to be a numeric matrix.", call. = FALSE)
+        stop("predict.multinomial_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
     if (use_Matrix & !"Matrix" %in% rownames(utils::installed.packages()))
         stop("predict.multinomial_naive_bayes(): please install Matrix package", call. = FALSE)
 

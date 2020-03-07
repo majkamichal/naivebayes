@@ -1,7 +1,7 @@
 bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
 
     if (!is.factor(y) & !is.character(y) & !is.logical(y))
-        stop("multinomial_naive_bayes(): y has to be either a factor or character or logical vector", call. = FALSE)
+        stop("multinomial_naive_bayes(): y must be either a factor or character or logical vector", call. = FALSE)
     if (!is.factor(y))
         y <- factor(y)
     levels <- levels(y)
@@ -96,7 +96,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
     }
     if (any(prob1 == 0)) {
         nempty <- length(which(prob1 == 0, arr.ind = TRUE)[ ,1])
-        warning(paste0("bernoulli_naive_bayes(): There ", ifelse(nempty == 1, "is ", "are "),
+        warning(paste0("bernoulli_naive_bayes(): there ", ifelse(nempty == 1, "is ", "are "),
                        nempty, " empty ", ifelse(nempty == 1, "cell ", "cells "),
                        "leading to zero estimates. Consider Laplace smoothing."), call. = FALSE)
 
@@ -113,9 +113,9 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
     class_x <- class(newdata)[1]
     use_Matrix <- class_x == "dgCMatrix"
     if (!is.matrix(newdata) & !use_Matrix)
-        stop("predict.multinomial_naive_bayes(): newdata has to be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
+        stop("predict.multinomial_naive_bayes(): newdata must be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
     if (is.matrix(newdata) & mode(newdata) != "numeric")
-        stop("predict.multinomial_naive_bayes(): newdata has to be a numeric matrix.", call. = FALSE)
+        stop("predict.multinomial_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
     if (use_Matrix & !"Matrix" %in% rownames(utils::installed.packages()))
         stop("predict.multinomial_naive_bayes(): please install Matrix package", call. = FALSE)
 
@@ -248,19 +248,19 @@ plot.bernoulli_naive_bayes <- function(x, which = NULL, ask = FALSE,
     vars <- names(tables)
     prior <- x$prior
     if (is.null(x$data))
-        stop("plot.bernoulli_naive_bayes(): The \"bernoulli_naive_bayes\" object does not contain data.", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): object does not contain data.", call. = FALSE)
 
     if (is.character(which) && !all(which %in% vars))
-        stop("plot.bernoulli_naive_bayes(): At least one variable is not available.", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): at least one variable is not available.", call. = FALSE)
 
     if (length(which) > length(vars))
-        stop("plot.bernoulli_naive_bayes(): Too many variables selected", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): too many variables selected", call. = FALSE)
 
     if (!is.null(which) && !is.character(which) && !is.numeric(which))
-        stop("plot.bernoulli_naive_bayes(): \"which\" has to be either character or numeric vector.", call. = FALSE)
+        stop("plot.bernoulli_naive_bayes(): which must be either character or numeric vector.", call. = FALSE)
 
     if (length(list(...)) > 0)
-        warning("plot.bernoulli_naive_bayes(): Please specify additional parameters with 'arg.cat'", call. = FALSE)
+        warning("plot.bernoulli_naive_bayes(): please specify additional parameters using arg.cat parameter", call. = FALSE)
 
     if (is.null(which))
         which <- seq_along(vars)
