@@ -111,7 +111,7 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
 
     if (n_features == 0) {
         warning(paste0("predict.multinomial_naive_bayes(): no feature in newdata corresponds to ",
-                       "features defined in the object. Classification is based on prior probabilities"), call. = FALSE)
+                       "features defined in the object. Classification is based on prior probabilities."), call. = FALSE)
         if (type == "class") {
             return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
         } else {

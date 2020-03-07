@@ -78,7 +78,7 @@ bernoulli_naive_bayes <- function (x, y, prior = NULL, laplace = 0, ...)  {
             rownames(n_feature_obs) <- levels
             n_feature_obs
         } else {
-            y_counts - rowsum.default((na_x_bool) * 1, y)
+            y_counts - rowsum.default(na_x, y)
         }
         if (any(n == 0)) {
             warning(paste0("bernoulli_naive_bayes(): x should contain at least one ",
@@ -132,7 +132,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
 
     if (n_features == 0) {
         warning(paste0("predict.bernoulli_naive_bayes(): no feature in newdata corresponds to ",
-                       "features defined in the object. Classification is based on prior probabilities"), call. = FALSE)
+                       "features defined in the object. Classification is based on prior probabilities."), call. = FALSE)
         if (type == "class") {
             return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
         } else {
