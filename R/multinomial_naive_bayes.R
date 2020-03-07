@@ -110,32 +110,21 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
     n_features_newdata <- ncol(newdata)
 
     if (n_features == 0) {
+        warning(paste0("predict.multinomial_naive_bayes(): no feature in newdata corresponds to ",
+                       "features defined in the object. Classification is based on prior probabilities"), call. = FALSE)
         if (type == "class") {
-            warning(paste0("predict.multinomial_naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
-                           "probability tables in the object. ",
-                           "Classification is done based on the prior probabilities"), call. = FALSE)
-            return(factor(rep(lev[which.max(prior)], n_obs),
-                          levels = lev))
+            return(factor(rep(lev[which.max(prior)], n_obs), levels = lev))
         } else {
-            warning(paste0("predict.multinomial_naive_bayes(): ",
-                           "No feature in the newdata corresponds to ",
-                           "probability tables in the object. ",
-                           "Posterior probabilities are equal to prior probabilities."), call. = FALSE)
-            return(matrix(prior, ncol = n_lev, nrow = n_obs,
-                          byrow = TRUE, dimnames = list(NULL, lev)))
+            return(matrix(prior, ncol = n_lev, nrow = n_obs, byrow = TRUE, dimnames = list(NULL, lev)))
         }
     }
     if (n_features < n_tables) {
-        warning(paste0("predict.multinomial_naive_bayes(): Only ", n_features, " feature(s) out of ", n_tables,
-                       " defined in the naive_bayes object \"", substitute(object),
-                       "\" are used for prediction\n"), call. = FALSE)
+        warning(paste0("predict.multinomial_naive_bayes(): only ", n_features, " feature(s) in newdata could be matched ",
+                       "with ", n_tables, " feature(s) defined in the object."), call. = FALSE)
     }
     if (n_features_newdata > n_features) {
-        warning(paste0("predict.multinomial_naive_bayes(): ",
-                       "More features in the newdata are provided ",
-                       "as there are parameter estimates in the object. ",
-                       "Calculation is performed based on features to be found in the object."), call. = FALSE)
+        warning(paste0("predict.multinomial_naive_bayes(): newdata contains feature(s) that could not be matched ",
+        "with (", n_features, ") feature(s) defined in the object. Only matching features are used for calculation."), call. = FALSE)
         newdata <- newdata[ ,features, drop = FALSE]
     }
     NAx <- anyNA(newdata)
@@ -143,12 +132,9 @@ predict.multinomial_naive_bayes <- function (object, newdata = NULL, type = c("c
         ind_na <- if (use_Matrix) Matrix::which(is.na(newdata)) else which(is.na(newdata))
         len_na <- length(ind_na)
         if (len_na > 0)
-            warning(paste0("predict.multinomial_naive_bayes(): ", len_na, " missing",
-                           ifelse(len_na == 1, " value", " values"),
-                           " discovered in the newdata. ",
-                           ifelse(len_na == 1, "It is", "They are"),
-                           " not included into the calculation."),
-                    call. = FALSE)
+            warning(paste0("predict.multinomial_naive_bayes(): ", len_na, " missing", ifelse(len_na == 1, " value", " values"),
+                           " discovered in the newdata. ", ifelse(len_na == 1, "It is", "They are"),
+                           " not included into the calculation."), call. = FALSE)
         newdata[ind_na] <- 0
     }
     # if (object$laplace == 0)
