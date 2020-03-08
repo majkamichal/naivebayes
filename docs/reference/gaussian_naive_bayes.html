@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Sparse matrices.html">Sparse Matrices</a>
+    </li>
     <li>
       <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
@@ -150,7 +153,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>matrix with metric predictors (only numeric matrix accepted).</p></td>
+      <td><p>numeric matrix with metric predictors (matrix or dgCMatrix from Matrix package).</p></td>
     </tr>
     <tr>
       <th>y</th>
@@ -180,9 +183,9 @@
 
     
     <p>This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are modelled with the Gaussian distribution.</p>
-<p>The Gaussian Naive Bayes is available in both, <code>naive_bayes</code> and <code>gaussian_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric matrix and performing the linear algebra as well vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
-<p>The <code>gaussian_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function when the numeric matrix or a data.frame contains only numeric variables.</p>
-<p>The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in <code>predict.gaussian_naive_bayes</code> are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
+<p>The Gaussian Naive Bayes is available in both, <code>naive_bayes</code> and <code>gaussian_naive_bayes</code>.The latter provides more efficient performance though. Faster calculation times come from restricting the data to a matrix with numeric columns and taking advantage of linear algebra operations. Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.</p>
+<p>The <code>gaussian_naive_bayes</code> and <code><a href='naive_bayes.html'>naive_bayes()</a></code> are equivalent when the latter is used with <code>usepoisson = FALSE</code> and <code>usekernel = FALSE</code>; and a matrix/data.frame contains numeric columns.</p>
+<p>The missing values (NAs) are omited during the estimation process. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -190,9 +193,13 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
-<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span><span class='kw'>[[</span><span class='fl'>5</span>]]
-<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>iris</span>[-<span class='fl'>5</span>])
+    <pre class="examples"><div class='input'><span class='co'># library(naivebayes)</span>
+
+<span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
+<span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='no'>rows</span> * <span class='no'>cols</span>, <span class='fl'>100</span>, <span class='fl'>15</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>rows</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>cols</span>)
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"class"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]), <span class='no'>rows</span>, <span class='fl'>TRUE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.3</span>,<span class='fl'>0.7</span>)))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>M</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"V"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>M</span>)))
+
 
 <span class='co'>### Train the Gaussian Naive Bayes</span>
 <span class='no'>gnb</span> <span class='kw'>&lt;-</span> <span class='fu'>gaussian_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>)
@@ -200,48 +207,118 @@
 #&gt; ============================== Gaussian Naive Bayes ============================== 
 #&gt;  
 #&gt; - Call: gaussian_naive_bayes(x = M, y = y) 
-#&gt; - Samples: 150 
-#&gt; - Features: 4 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
 #&gt; - Prior probabilities: 
-#&gt;     - setosa: 0.3333
-#&gt;     - versicolor: 0.3333
-#&gt;     - virginica: 0.3333
+#&gt;     - classA: 0.28
+#&gt;     - classB: 0.72
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
-#&gt; [1,]      1 2.981309e-18 2.152373e-25
-#&gt; [2,]      1 3.169312e-17 6.938030e-25
-#&gt; [3,]      1 2.367113e-18 7.240956e-26
-#&gt; [4,]      1 3.069606e-17 8.690636e-25
-#&gt; [5,]      1 1.017337e-18 8.885794e-26
-#&gt; [6,]      1 2.717732e-14 4.344285e-21</div><div class='input'>
-<span class='co'>###  Equivalent calculation with general naive_bayes function.</span>
+#&gt; ---------------------------------------------------------------------------------- </div><div class='input'>
+<span class='co'># Classification</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>)) <span class='co'># head(gnb %class% M)</span></div><div class='output co'>#&gt; [1] classB classA classB classB classB classB
+#&gt; Levels: classA classB</div><div class='input'>
+<span class='co'># Posterior probabilities</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)) <span class='co'># head(gnb %prob% M)</span></div><div class='output co'>#&gt;          classA    classB
+#&gt; [1,] 0.08969298 0.9103070
+#&gt; [2,] 0.51091289 0.4890871
+#&gt; [3,] 0.49518622 0.5048138
+#&gt; [4,] 0.35556466 0.6444353
+#&gt; [5,] 0.42638895 0.5736111
+#&gt; [6,] 0.28386615 0.7161339</div><div class='input'>
+<span class='co'># Parameter estimates</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)</div><div class='output co'>#&gt;     classA:mu classA:sd classB:mu classB:sd
+#&gt; V1   98.32892  15.73677  96.94029  14.21463
+#&gt; V2  102.19416  14.46461  97.26485  14.92784
+#&gt; V3  102.01436  16.13241 101.29351  14.95866
+#&gt; V4   99.95508  13.18841  99.02731  13.40127
+#&gt; V5   96.32909  15.46058 101.28563  15.47011
+#&gt; V6   99.50269  14.13421  96.09185  15.64772
+#&gt; V7  101.77193  16.46799  98.31165  14.40598
+#&gt; V8   92.43467  13.85263  99.55918  13.39827
+#&gt; V9  103.09800  13.72952 102.47769  14.45047
+#&gt; V10 100.26069  13.91494  99.57940  13.08321</div><div class='input'>
+
+<span class='co'>### Sparse data: train the Gaussian Naive Bayes</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>Matrix</span>)
+<span class='no'>M_sparse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></span>(<span class='no'>M</span>, <span class='kw'>sparse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>M_sparse</span>) <span class='co'># dgCMatrix</span></div><div class='output co'>#&gt; [1] "dgCMatrix"
+#&gt; attr(,"package")
+#&gt; [1] "Matrix"</div><div class='input'>
+<span class='co'># Fit the model with sparse data</span>
+<span class='no'>gnb_sparse</span> <span class='kw'>&lt;-</span> <span class='fu'>gaussian_naive_bayes</span>(<span class='no'>M_sparse</span>, <span class='no'>y</span>)
+
+<span class='co'># Classification</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb_sparse</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M_sparse</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classA classB classB classB classB
+#&gt; Levels: classA classB</div><div class='input'>
+<span class='co'># Posterior probabilities</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>gnb_sparse</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M_sparse</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;          classA    classB
+#&gt; [1,] 0.08969298 0.9103070
+#&gt; [2,] 0.51091289 0.4890871
+#&gt; [3,] 0.49518622 0.5048138
+#&gt; [4,] 0.35556466 0.6444353
+#&gt; [5,] 0.42638895 0.5736111
+#&gt; [6,] 0.28386615 0.7161339</div><div class='input'>
+<span class='co'># Parameter estimates</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb_sparse</span>)</div><div class='output co'>#&gt;     classA:mu classA:sd classB:mu classB:sd
+#&gt; V1   98.32892  15.73677  96.94029  14.21463
+#&gt; V2  102.19416  14.46461  97.26485  14.92784
+#&gt; V3  102.01436  16.13241 101.29351  14.95866
+#&gt; V4   99.95508  13.18841  99.02731  13.40127
+#&gt; V5   96.32909  15.46058 101.28563  15.47011
+#&gt; V6   99.50269  14.13421  96.09185  15.64772
+#&gt; V7  101.77193  16.46799  98.31165  14.40598
+#&gt; V8   92.43467  13.85263  99.55918  13.39827
+#&gt; V9  103.09800  13.72952 102.47769  14.45047
+#&gt; V10 100.26069  13.91494  99.57940  13.08321</div><div class='input'>
+
+<span class='co'>### Equivalent calculation with general naive_bayes function.</span>
+<span class='co'>### (no sparse data support by naive_bayes)</span>
+
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>M</span>, <span class='no'>y</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;      setosa   versicolor    virginica
-#&gt; [1,]      1 2.981309e-18 2.152373e-25
-#&gt; [2,]      1 3.169312e-17 6.938030e-25
-#&gt; [3,]      1 2.367113e-18 7.240956e-26
-#&gt; [4,]      1 3.069606e-17 8.690636e-25
-#&gt; [5,]      1 1.017337e-18 8.885794e-26
-#&gt; [6,]      1 2.717732e-14 4.344285e-21</div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nb</span>)</div><div class='output co'>#&gt; 
+#&gt; ================================== Naive Bayes ================================== 
+#&gt;  
+#&gt; - Call: naive_bayes.default(x = M, y = y) 
+#&gt; - Laplace: 0 
+#&gt; - Classes: 2 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
+#&gt; - Conditional distributions: 
+#&gt;     - Gaussian: 10
+#&gt; - Prior probabilities: 
+#&gt;     - classA: 0.28
+#&gt;     - classB: 0.72
+#&gt; 
+#&gt; --------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;          classA    classB
+#&gt; [1,] 0.08969298 0.9103070
+#&gt; [2,] 0.51091289 0.4890871
+#&gt; [3,] 0.49518622 0.5048138
+#&gt; [4,] 0.35556466 0.6444353
+#&gt; [5,] 0.42638895 0.5736111
+#&gt; [6,] 0.28386615 0.7161339</div><div class='input'>
 <span class='co'># Obtain probability tables</span>
-<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>gnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: Sepal.Length (Gaussian) 
+#&gt;  ::: V1 (Gaussian) 
 #&gt; --------------------------------------------------------------------------------- 
-#&gt;       setosa versicolor virginica
-#&gt; mu 5.0060000  5.9360000 6.5880000
-#&gt; sd 0.3524897  0.5161711 0.6358796
+#&gt;       
+#&gt; V1       classA   classB
+#&gt;   mean 98.32892 96.94029
+#&gt;   sd   15.73677 14.21463
+#&gt; 
+#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>gnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V1 (Gaussian) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;      classA   classB
+#&gt; mu 98.32892 96.94029
+#&gt; sd 15.73677 14.21463
 #&gt; 
 #&gt; ---------------------------------------------------------------------------------</div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>gnb</span>)[<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>TRUE</span>,<span class='fl'>FALSE</span>)] <span class='co'># Only means</span></div><div class='output co'>#&gt;              setosa:mu versicolor:mu virginica:mu
-#&gt; Sepal.Length     5.006         5.936        6.588
-#&gt; Sepal.Width      3.428         2.770        2.974
-#&gt; Petal.Length     1.462         4.260        5.552
-#&gt; Petal.Width      0.246         1.326        2.026</div><div class='input'>
 <span class='co'># Visualise class conditional Gaussian distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>gnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"Sepal.Width"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='gaussian_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='gaussian_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>gnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='gaussian_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Check the equivalence of the class conditional distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>gnb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>gnb</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

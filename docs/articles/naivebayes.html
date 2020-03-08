@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -63,6 +63,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Sparse%20matrices.html">Sparse Matrices</a>
+    </li>
+    <li>
       <a href="../articles/caret,%20nproc%20and%20naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
     <li>
@@ -107,25 +110,25 @@
 <div id="example-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example-data" class="anchor"></a>Example data</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Simulate example data</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">n &lt;-<span class="st"> </span><span class="dv">100</span></a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">class =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classA"</span>, <span class="st">"classB"</span>), n, <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">                   <span class="dt">bern =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], n, <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">                   <span class="dt">cat  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], n, <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">                   <span class="dt">logical =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>), n, <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">                   <span class="dt">norm =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n),</a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">                   <span class="dt">count =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(n, <span class="dt">lambda =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>,<span class="dv">15</span>)))</a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">train &lt;-<span class="st"> </span>data[<span class="dv">1</span><span class="op">:</span><span class="dv">95</span>, ]</a>
-<a class="sourceLine" id="cb1-13" data-line-number="13">test &lt;-<span class="st"> </span>data[<span class="dv">96</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">-1</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># Simulate example data</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6"></a>data &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">class =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"classA"</span>, <span class="st">"classB"</span>), n, <span class="ot">TRUE</span>),</span>
+<span id="cb1-7"><a href="#cb1-7"></a>                   <span class="dt">bern =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>], n, <span class="ot">TRUE</span>),</span>
+<span id="cb1-8"><a href="#cb1-8"></a>                   <span class="dt">cat  =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], n, <span class="ot">TRUE</span>),</span>
+<span id="cb1-9"><a href="#cb1-9"></a>                   <span class="dt">logical =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>,<span class="ot">FALSE</span>), n, <span class="ot">TRUE</span>),</span>
+<span id="cb1-10"><a href="#cb1-10"></a>                   <span class="dt">norm =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n),</span>
+<span id="cb1-11"><a href="#cb1-11"></a>                   <span class="dt">count =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(n, <span class="dt">lambda =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">5</span>,<span class="dv">15</span>)))</span>
+<span id="cb1-12"><a href="#cb1-12"></a>train &lt;-<span class="st"> </span>data[<span class="dv">1</span><span class="op">:</span><span class="dv">95</span>, ]</span>
+<span id="cb1-13"><a href="#cb1-13"></a>test &lt;-<span class="st"> </span>data[<span class="dv">96</span><span class="op">:</span><span class="dv">100</span>, <span class="dv">-1</span>]</span></code></pre></div>
 </div>
 <div id="formula-interface" class="section level2">
 <h2 class="hasAnchor">
 <a href="#formula-interface" class="anchor"></a>Formula interface</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb)</span></code></pre></div>
 <pre><code>## 
 ## ================================ Naive Bayes ================================= 
 ##  
@@ -143,30 +146,30 @@
 ##     - classB: 0.4737
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="co"># Classification</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, test, <span class="dt">type =</span> <span class="st">"class"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Classification</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, test, <span class="dt">type =</span> <span class="st">"class"</span>)</span></code></pre></div>
 <pre><code>## [1] classB classA classA classA classA
 ## Levels: classA classB</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">nb <span class="op">%class%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>nb <span class="op">%class%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>## [1] classB classA classA classA classA
 ## Levels: classA classB</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># Posterior probabilities</span></a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, test, <span class="dt">type =</span> <span class="st">"prob"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># Posterior probabilities</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(nb, test, <span class="dt">type =</span> <span class="st">"prob"</span>)</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.4998488 0.5001512
 ## [2,] 0.5934597 0.4065403
 ## [3,] 0.6492845 0.3507155
 ## [4,] 0.5813621 0.4186379
 ## [5,] 0.5087005 0.4912995</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">nb <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>nb <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.4998488 0.5001512
 ## [2,] 0.5934597 0.4065403
 ## [3,] 0.6492845 0.3507155
 ## [4,] 0.5813621 0.4186379
 ## [5,] 0.5087005 0.4912995</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="co"># Helper functions</span></a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="kw"><a href="../reference/tables.html">tables</a></span>(nb, <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Helper functions</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw"><a href="../reference/tables.html">tables</a></span>(nb, <span class="dv">1</span>)</span></code></pre></div>
 <pre><code>## 
 ## ------------------------------------------------------------------------------ 
 ##  ::: bern (Bernoulli) 
@@ -177,19 +180,19 @@
 ##    B 0.5600000 0.5111111
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb)</span></code></pre></div>
 <pre><code>##          bern           cat       logical          norm         count 
 ##   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"    "Gaussian"</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="co"># Note: all "numeric" (integer, double) variables are modelled</span></a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#       with Gaussian distribution by default.</span></a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Note: all "numeric" (integer, double) variables are modelled</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#       with Gaussian distribution by default.</span></span></code></pre></div>
 </div>
 <div id="matrixdata-frame-and-class-vector" class="section level2">
 <h2 class="hasAnchor">
 <a href="#matrixdata-frame-and-class-vector" class="anchor"></a>Matrix/data.frame and class vector</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">X &lt;-<span class="st"> </span>train[<span class="op">-</span><span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2">class &lt;-<span class="st"> </span>train<span class="op">$</span>class</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3">nb2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> X, <span class="dt">y =</span> class)</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4">nb2 <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>X &lt;-<span class="st"> </span>train[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb17-2"><a href="#cb17-2"></a>class &lt;-<span class="st"> </span>train<span class="op">$</span>class</span>
+<span id="cb17-3"><a href="#cb17-3"></a>nb2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(<span class="dt">x =</span> X, <span class="dt">y =</span> class)</span>
+<span id="cb17-4"><a href="#cb17-4"></a>nb2 <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.4998488 0.5001512
 ## [2,] 0.5934597 0.4065403
@@ -201,8 +204,8 @@
 <h2 class="hasAnchor">
 <a href="#non-parametric-estimation-for-continuous-features" class="anchor"></a>Non-parametric estimation for continuous features</h2>
 <p>Kernel density estimation can be used to estimate class conditional densities of continuous features. It has to be explicitly requested via the parameter <code>usekernel=TRUE</code> otherwise Gaussian distribution will be assumed. The estimation is performed with the built in <code>R</code> function <code><a href="https://www.rdocumentation.org/packages/stats/topics/density">density()</a></code>. By default, Gaussian smoothing kernel and Silverman’s rule of thumb as bandwidth selector are used:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">nb_kde &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb_kde)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>nb_kde &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb_kde)</span></code></pre></div>
 <pre><code>## 
 ## ================================ Naive Bayes ================================= 
 ##  
@@ -220,21 +223,21 @@
 ##     - classB: 0.4737
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb_kde)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb_kde)</span></code></pre></div>
 <pre><code>##          bern           cat       logical          norm         count 
 ##   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"         "KDE"</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">nb_kde <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>nb_kde <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.6252811 0.3747189
 ## [2,] 0.5441986 0.4558014
 ## [3,] 0.6515139 0.3484861
 ## [4,] 0.6661044 0.3338956
 ## [5,] 0.6736159 0.3263841</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># Class conditional densities</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co"># Class conditional densities</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde-1.png" width="700"></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="co"># Marginal densities for each class</span></a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Marginal densities for each class</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"marginal"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde-2.png" width="700"></p>
 <div id="changing-kernel" class="section level3">
 <h3 class="hasAnchor">
@@ -250,17 +253,17 @@
 <li><code>optcosine</code></li>
 </ul>
 <p>and they can be specified in <code><a href="../reference/naive_bayes.html">naive_bayes()</a></code> via parameter additional parameter <code>kernel</code>. Gaussian kernel is the default smoothing kernel. Please see <code><a href="https://www.rdocumentation.org/packages/stats/topics/density">density()</a></code> and <code><a href="https://www.rdocumentation.org/packages/stats/topics/bandwidth">bw.nrd()</a></code> for further details.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># Change Gaussian kernel to biweight kernel</span></a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">nb_kde_biweight &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">                               <span class="dt">kernel =</span> <span class="st">"biweight"</span>)</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">nb_kde_biweight <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="co"># Change Gaussian kernel to biweight kernel</span></span>
+<span id="cb27-2"><a href="#cb27-2"></a>nb_kde_biweight &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb27-3"><a href="#cb27-3"></a>                               <span class="dt">kernel =</span> <span class="st">"biweight"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4"></a>nb_kde_biweight <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.6237152 0.3762848
 ## [2,] 0.5588270 0.4411730
 ## [3,] 0.6594737 0.3405263
 ## [4,] 0.6650295 0.3349705
 ## [5,] 0.6631951 0.3368049</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_biweight, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_biweight, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_kernel-1.png" width="700"></p>
 </div>
 <div id="changing-bandwidth-selector" class="section level3">
@@ -280,32 +283,32 @@
 <code>SJ</code> (Sheather &amp; Jones method)</li>
 </ul>
 <p>They can be specified via <code>bw</code> parameter.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">nb_kde_SJ &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">                               <span class="dt">bw =</span> <span class="st">"SJ"</span>)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3">nb_kde_SJ <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>nb_kde_SJ &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb30-2"><a href="#cb30-2"></a>                               <span class="dt">bw =</span> <span class="st">"SJ"</span>)</span>
+<span id="cb30-3"><a href="#cb30-3"></a>nb_kde_SJ <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.7279209 0.2720791
 ## [2,] 0.4858273 0.5141727
 ## [3,] 0.7004134 0.2995866
 ## [4,] 0.7005704 0.2994296
 ## [5,] 0.7089626 0.2910374</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_SJ, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_SJ, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_bw-1.png" width="700"></p>
 </div>
 <div id="adjusting-bandwidth" class="section level3">
 <h3 class="hasAnchor">
 <a href="#adjusting-bandwidth" class="anchor"></a>Adjusting bandwidth</h3>
 <p>Each Bandwidth is chosen according to the bandwidth selector and they can be additionally adjusted by a factor given by <code>adjust</code> parameter:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">nb_kde_adjust &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2">                         <span class="dt">adjust =</span> <span class="fl">1.5</span>)</a>
-<a class="sourceLine" id="cb33-3" data-line-number="3">nb_kde_adjust <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>nb_kde_adjust &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usekernel =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb33-2"><a href="#cb33-2"></a>                         <span class="dt">adjust =</span> <span class="fl">1.5</span>)</span>
+<span id="cb33-3"><a href="#cb33-3"></a>nb_kde_adjust <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.5769725 0.4230275
 ## [2,] 0.5953904 0.4046096
 ## [3,] 0.6512967 0.3487033
 ## [4,] 0.6550197 0.3449803
 ## [5,] 0.6024013 0.3975987</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_adjust, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_kde_adjust, <span class="st">"norm"</span>, <span class="dt">arg.num =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">legend.cex =</span> <span class="fl">0.9</span>), <span class="dt">prob =</span> <span class="st">"conditional"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_adjust-1.png" width="700"></p>
 </div>
 </div>
@@ -313,10 +316,10 @@
 <h2 class="hasAnchor">
 <a href="#model-non-negative-integers-with-poisson-distribution" class="anchor"></a>Model non-negative integers with Poisson distribution</h2>
 <p>Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting <code>usepoisson=TRUE</code> in the <code><a href="../reference/naive_bayes.html">naive_bayes()</a></code> function and by making sure that the variables representing counts in the dataset are of class <code>integer</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">is.integer</a></span>(train<span class="op">$</span>count)</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/integer">is.integer</a></span>(train<span class="op">$</span>count)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1">nb_pois &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb_pois)</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>nb_pois &lt;-<span class="st"> </span><span class="kw"><a href="../reference/naive_bayes.html">naive_bayes</a></span>(class <span class="op">~</span><span class="st"> </span>., train, <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb38-2"><a href="#cb38-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(nb_pois)</span></code></pre></div>
 <pre><code>## 
 ## ================================ Naive Bayes ================================= 
 ##  
@@ -335,21 +338,21 @@
 ##     - classB: 0.4737
 ## 
 ## ------------------------------------------------------------------------------</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb_pois)</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span>(nb_pois)</span></code></pre></div>
 <pre><code>##          bern           cat       logical          norm         count 
 ##   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"</code></pre>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">nb_pois <span class="op">%prob%</span><span class="st"> </span>test</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>nb_pois <span class="op">%prob%</span><span class="st"> </span>test</span></code></pre></div>
 <pre><code>##         classA    classB
 ## [1,] 0.4815380 0.5184620
 ## [2,] 0.4192209 0.5807791
 ## [3,] 0.6882270 0.3117730
 ## [4,] 0.4794415 0.5205585
 ## [5,] 0.5209152 0.4790848</code></pre>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="co"># Class conditional distributions</span></a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_pois, <span class="st">"count"</span>, <span class="dt">prob =</span> <span class="st">"conditional"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="co"># Class conditional distributions</span></span>
+<span id="cb44-2"><a href="#cb44-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_pois, <span class="st">"count"</span>, <span class="dt">prob =</span> <span class="st">"conditional"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/poisson-1.png" width="700"></p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="co"># Marginal distributions</span></a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_pois, <span class="st">"count"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="co"># Marginal distributions</span></span>
+<span id="cb45-2"><a href="#cb45-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(nb_pois, <span class="st">"count"</span>, <span class="dt">prob =</span> <span class="st">"marginal"</span>)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/poisson-2.png" width="700"></p>
 </div>
   </div>

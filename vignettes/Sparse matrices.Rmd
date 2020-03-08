@@ -2,6 +2,41 @@
 title: "Sparse Matrices"
 ---
 
-Specialized Naive Bayes implementations, starting with the `0.9.7` version from March 2020, support sparse matrices to speed up the calculations. This feature is fully compatible with the `no-dependency-philosophy`, as it only, if possible, takes an advantage of the sparse matrix class `dgCMatrix` from the excellent `Matrix` package. 
+Starting with the `0.9.7` version from March 2020 four specialized implementations of the Naïve Bayes model support sparse matrices:
+
+- `multinomial_naive_bayes()`
+- `bernoulli_naive_bayes()`
+- `poisson_naive_bayes()` and 
+- `gaussian_naive_bayes()`.
+
+All these functions can take advantage of sparsity to possibly speed up the calculations. This can be simply accomplished by providing them with a matrix of class `dgCMatrix` from the excellent `Matrix`^[https://cran.r-project.org/web/packages/Matrix/index.html] package. Addition of this new functionality does not introduce any breaking changes and is also fully compatible with the no-dependency-philosophy of the `naivebayes` project. 
+
+## Usage:
+
+In the example a Multinomial Naive Bayes model is trained using a simulated sparse matrix:
 
 
+```{r}
+# Simulate ~95% sparse matrix
+cols <- 10 ; rows <- 100
+M <- matrix(sample(0:5, rows * cols, TRUE, prob = c(0.95, rep(0.01, 5))), nrow = rows, ncol = cols)
+y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
+colnames(M) <- paste0("V", seq_len(ncol(M)))
+
+# Check fraction of zeros
+mean(M == 0)
+
+# Cast the matrix to "dgCMatrix" object
+M_sparse <- Matrix::Matrix(M, sparse = TRUE)
+
+### Train the Multinomial Naive Bayes and predict the training data
+mnb <- naivebayes::multinomial_naive_bayes(x = M, y = y, laplace = 1)
+head(predict(mnb, M_sparse))
+```
+
+The classifier and corresponding prediction function automatically recognize the sparse matrix and do not require additional parameters. Note that (dense) matrices are not internally cast into the `dgCMatrix` class - this kind of manipulations have to be explicitly performed by the user.
+
+
+
+
+<!-- Here a section where a rule of thumb is given (for the bigger and more sparse the matrix is the bigger the speed up compared to dense counter-part. There may be some overhead for small sparse matrices.) Poisson Naive Bayes has some overhead and does not scale that well.  --> 

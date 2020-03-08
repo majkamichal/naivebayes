@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Sparse matrices.html">Sparse Matrices</a>
+    </li>
     <li>
       <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
@@ -150,7 +153,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>matrix with numeric 0-1 predictors.</p></td>
+      <td><p>matrix with numeric 0-1 predictors (matrix or dgCMatrix from Matrix package).</p></td>
     </tr>
     <tr>
       <th>y</th>
@@ -185,9 +188,9 @@
 
     
     <p>This is a specialized version of the Naive Bayes classifier, in which all features take on numeric 0-1 values and class conditional probabilities are modelled with the Bernoulli distribution.</p>
-<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code>. The implementation of the specialized Naive Bayes provides more efficient performance though. The speedup comes from the restricting the data input to a numeric 0-1 matrix and performing the linear algebra as well as vectorized operations on it. In other words, the efficiency comes at cost of the flexibility.</p>
-<p>The <code>bernoulli_naive_bayes</code> function is equivalent to the <code>naive_bayes</code> function when the numeric 0-1 matrix is coerced to, for instance, a 0-1 character matrix.</p>
-<p>The missing values (NAs) are omited while constructing the probability tables. The NAs in the newdata in <code>predict.gaussian_naive_bayes</code> are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
+<p>The Bernoulli Naive Bayes is available in both, <code>naive_bayes</code> and <code>bernoulli_naive_bayes</code>. The latter provides more efficient performance though. Faster calculation times come from restricting the data to a numeric 0-1 matrix and taking advantage of linear algebra operations. Sparse matrices of class "dgCMatrix" (Matrix package) are supported in order to furthermore speed up calculation times.</p>
+<p>The <code>bernoulli_naive_bayes</code> and <code><a href='naive_bayes.html'>naive_bayes()</a></code> are equivalent when the latter uses "0"-"1" character matrix.</p>
+<p>The missing values (NAs) are omited while constructing probability tables. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -195,128 +198,139 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>### Simulate the data:</span>
-<span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> ; <span class='no'>probs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0"</span> <span class='kw'>=</span> <span class='fl'>0.4</span>, <span class='st'>"1"</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
+    <pre class="examples"><div class='input'><span class='co'># library(naivebayes)</span>
+
+<span class='co'>### Simulate the data:</span>
+<span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span> ; <span class='no'>rows</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span> ; <span class='no'>probs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0"</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='st'>"1"</span> <span class='kw'>=</span> <span class='fl'>0.1</span>)
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>0</span>:<span class='fl'>1</span>, <span class='no'>rows</span> * <span class='no'>cols</span>,  <span class='fl'>TRUE</span>, <span class='no'>probs</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='no'>rows</span>, <span class='kw'>ncol</span> <span class='kw'>=</span> <span class='no'>cols</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"class"</span>, <span class='no'>LETTERS</span>[<span class='fl'>1</span>:<span class='fl'>2</span>]), <span class='no'>rows</span>, <span class='fl'>TRUE</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.3</span>,<span class='fl'>0.7</span>)))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>M</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='st'>"V"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_len</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>ncol</a></span>(<span class='no'>M</span>)))
-<span class='no'>laplace</span> <span class='kw'>&lt;-</span> <span class='fl'>0.5</span>
+<span class='no'>laplace</span> <span class='kw'>&lt;-</span> <span class='fl'>0</span>
 
 <span class='co'>### Train the Bernoulli Naive Bayes</span>
 <span class='no'>bnb</span> <span class='kw'>&lt;-</span> <span class='fu'>bernoulli_naive_bayes</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='no'>bnb</span></div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>bnb</span>)</div><div class='output co'>#&gt; 
 #&gt; ============================= Bernoulli Naive Bayes ============================= 
 #&gt;  
-#&gt;  Call: 
-#&gt; bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
+#&gt; - Call: bernoulli_naive_bayes(x = M, y = y, laplace = laplace) 
+#&gt; - Laplace: 0 
+#&gt; - Classes: 2 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
+#&gt; - Prior probabilities: 
+#&gt;     - classA: 0.36
+#&gt;     - classB: 0.64
 #&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt; Laplace smoothing: 0.5
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  A priori probabilities: 
-#&gt; classA classB 
-#&gt;   0.36   0.64 
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  
-#&gt;  Tables: 
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V1 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.8243243 0.8692308
-#&gt; 1 0.1756757 0.1307692
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V2 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.6081081 0.7461538
-#&gt; 1 0.3918919 0.2538462
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V3 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.8513514 0.7153846
-#&gt; 1 0.1486486 0.2846154
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V4 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.6351351 0.7615385
-#&gt; 1 0.3648649 0.2384615
-#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V5 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.7702703 0.8384615
-#&gt; 1 0.2297297 0.1615385
-#&gt; 
-#&gt; ---------------------------------------------------------------------------------
-#&gt; 
-#&gt; # ... and 5 more tables
-#&gt; 
-#&gt; ---------------------------------------------------------------------------------
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.1536234 0.8463766
-#&gt; [2,] 0.3689116 0.6310884
-#&gt; [3,] 0.4345206 0.5654794
-#&gt; [4,] 0.2376475 0.7623525
-#&gt; [5,] 0.3954596 0.6045404
-#&gt; [6,] 0.2230504 0.7769496</div><div class='input'>
-<span class='co'>###  Equivalent calculation with general naive_bayes function.</span>
-<span class='co'>###  (it is made sure that the columns are factors with the 0-1 levels)</span>
+#&gt; --------------------------------------------------------------------------------- </div><div class='input'>
+<span class='co'># Classification</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>)) <span class='co'># head(bnb %class% M)</span></div><div class='output co'>#&gt; [1] classB classB classA classB classB classB
+#&gt; Levels: classA classB</div><div class='input'>
+<span class='co'># Posterior probabilities</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>)) <span class='co'># head(bnb %prob% M)</span></div><div class='output co'>#&gt;         classA    classB
+#&gt; [1,] 0.1225041 0.8774959
+#&gt; [2,] 0.1214017 0.8785983
+#&gt; [3,] 0.5040654 0.4959346
+#&gt; [4,] 0.1105639 0.8894361
+#&gt; [5,] 0.3515241 0.6484759
+#&gt; [6,] 0.3515241 0.6484759</div><div class='input'>
+<span class='co'># Parameter estimates</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>bnb</span>)</div><div class='output co'>#&gt;      classA:0   classA:1 classB:0 classB:1
+#&gt; V1  0.9166667 0.08333333 0.921875 0.078125
+#&gt; V2  0.7500000 0.25000000 0.906250 0.093750
+#&gt; V3  0.9444444 0.05555556 0.812500 0.187500
+#&gt; V4  0.8888889 0.11111111 0.890625 0.109375
+#&gt; V5  0.8888889 0.11111111 0.937500 0.062500
+#&gt; V6  0.8611111 0.13888889 0.890625 0.109375
+#&gt; V7  0.8611111 0.13888889 0.937500 0.062500
+#&gt; V8  0.9444444 0.05555556 0.859375 0.140625
+#&gt; V9  0.8888889 0.11111111 0.921875 0.078125
+#&gt; V10 0.9722222 0.02777778 0.859375 0.140625</div><div class='input'>
 
+<span class='co'>### Sparse data: train the Bernoulli Naive Bayes</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>Matrix</span>)
+<span class='no'>M_sparse</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Matrix'>Matrix</a></span>(<span class='no'>M</span>, <span class='kw'>sparse</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='no'>M_sparse</span>) <span class='co'># dgCMatrix</span></div><div class='output co'>#&gt; [1] "dgCMatrix"
+#&gt; attr(,"package")
+#&gt; [1] "Matrix"</div><div class='input'>
+<span class='co'># Fit the model with sparse data</span>
+<span class='no'>bnb_sparse</span> <span class='kw'>&lt;-</span> <span class='fu'>bernoulli_naive_bayes</span>(<span class='no'>M_sparse</span>, <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
+
+<span class='co'># Classification</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb_sparse</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M_sparse</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"class"</span>))</div><div class='output co'>#&gt; [1] classB classB classA classB classB classB
+#&gt; Levels: classA classB</div><div class='input'>
+<span class='co'># Posterior probabilities</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>bnb_sparse</span>, <span class='kw'>newdata</span> <span class='kw'>=</span> <span class='no'>M_sparse</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;           [,1]      [,2]
+#&gt; [1,] 0.1225041 0.8774959
+#&gt; [2,] 0.1214017 0.8785983
+#&gt; [3,] 0.5040654 0.4959346
+#&gt; [4,] 0.1105639 0.8894361
+#&gt; [5,] 0.3515241 0.6484759
+#&gt; [6,] 0.3515241 0.6484759</div><div class='input'>
+<span class='co'># Parameter estimates</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>bnb_sparse</span>)</div><div class='output co'>#&gt;      classA:0   classA:1 classB:0 classB:1
+#&gt; V1  0.9166667 0.08333333 0.921875 0.078125
+#&gt; V2  0.7500000 0.25000000 0.906250 0.093750
+#&gt; V3  0.9444444 0.05555556 0.812500 0.187500
+#&gt; V4  0.8888889 0.11111111 0.890625 0.109375
+#&gt; V5  0.8888889 0.11111111 0.937500 0.062500
+#&gt; V6  0.8611111 0.13888889 0.890625 0.109375
+#&gt; V7  0.8611111 0.13888889 0.937500 0.062500
+#&gt; V8  0.9444444 0.05555556 0.859375 0.140625
+#&gt; V9  0.8888889 0.11111111 0.921875 0.078125
+#&gt; V10 0.9722222 0.02777778 0.859375 0.140625</div><div class='input'>
+
+<span class='co'>### Equivalent calculation with general naive_bayes function.</span>
+<span class='co'>### (no sparse data support by naive_bayes)</span>
+
+<span class='co'># Make sure that the columns are factors with the 0-1 levels</span>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>M</span>), <span class='no'>factor</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>1</span>)))
 <span class='co'># sapply(df, class)</span>
+
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='naive_bayes.html'>naive_bayes</a></span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>laplace</span> <span class='kw'>=</span> <span class='no'>laplace</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
-#&gt; [1,] 0.1536234 0.8463766
-#&gt; [2,] 0.3689116 0.6310884
-#&gt; [3,] 0.4345206 0.5654794
-#&gt; [4,] 0.2376475 0.7623525
-#&gt; [5,] 0.3954596 0.6045404
-#&gt; [6,] 0.2230504 0.7769496</div><div class='input'>
-<span class='co'># Obtain probability tables</span>
-<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;  ::: V1 (Bernoulli) 
-#&gt; --------------------------------------------------------------------------------- 
-#&gt;      classA    classB
-#&gt; 0 0.8243243 0.8692308
-#&gt; 1 0.1756757 0.1307692
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>nb</span>)</div><div class='output co'>#&gt; 
+#&gt; ================================== Naive Bayes ================================== 
+#&gt;  
+#&gt; - Call: naive_bayes.default(x = df, y = y, laplace = laplace) 
+#&gt; - Laplace: 0 
+#&gt; - Classes: 2 
+#&gt; - Samples: 100 
+#&gt; - Features: 10 
+#&gt; - Conditional distributions: 
+#&gt;     - Bernoulli: 10
+#&gt; - Prior probabilities: 
+#&gt;     - classA: 0.36
+#&gt;     - classB: 0.64
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
+#&gt; --------------------------------------------------------------------------------- </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/predict'>predict</a></span>(<span class='no'>nb</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"prob"</span>))</div><div class='output co'>#&gt;         classA    classB
+#&gt; [1,] 0.1225041 0.8774959
+#&gt; [2,] 0.1214017 0.8785983
+#&gt; [3,] 0.5040654 0.4959346
+#&gt; [4,] 0.1105639 0.8894361
+#&gt; [5,] 0.3515241 0.6484759
+#&gt; [6,] 0.3515241 0.6484759</div><div class='input'>
+<span class='co'># Obtain probability tables</span>
+<span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>nb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;  ::: V1 (Bernoulli) 
 #&gt; --------------------------------------------------------------------------------- 
 #&gt;    
-#&gt; V1     classA    classB
-#&gt;   0 0.8243243 0.8692308
-#&gt;   1 0.1756757 0.1307692
+#&gt; V1      classA     classB
+#&gt;   0 0.91666667 0.92187500
+#&gt;   1 0.08333333 0.07812500
 #&gt; 
-#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coef</a></span>(<span class='no'>bnb</span>)</div><div class='output co'>#&gt;      classA:0   classA:1  classB:0  classB:1
-#&gt; V1  0.8243243 0.17567568 0.8692308 0.1307692
-#&gt; V2  0.6081081 0.39189189 0.7461538 0.2538462
-#&gt; V3  0.8513514 0.14864865 0.7153846 0.2846154
-#&gt; V4  0.6351351 0.36486486 0.7615385 0.2384615
-#&gt; V5  0.7702703 0.22972973 0.8384615 0.1615385
-#&gt; V6  0.7432432 0.25675676 0.8230769 0.1769231
-#&gt; V7  0.7432432 0.25675676 0.7923077 0.2076923
-#&gt; V8  0.8513514 0.14864865 0.7307692 0.2692308
-#&gt; V9  0.8513514 0.14864865 0.8384615 0.1615385
-#&gt; V10 0.9324324 0.06756757 0.7461538 0.2538462</div><div class='input'>
+#&gt; ---------------------------------------------------------------------------------</div><div class='input'><span class='fu'><a href='tables.html'>tables</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>)</div><div class='output co'>#&gt; 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;  ::: V1 (Bernoulli) 
+#&gt; --------------------------------------------------------------------------------- 
+#&gt;       classA     classB
+#&gt; 0 0.91666667 0.92187500
+#&gt; 1 0.08333333 0.07812500
+#&gt; 
+#&gt; ---------------------------------------------------------------------------------</div><div class='input'>
 <span class='co'># Visualise class conditional Bernoulli distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nb</span>, <span class='st'>"V1"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>bnb</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='st'>"V1"</span>, <span class='kw'>prob</span> <span class='kw'>=</span> <span class='st'>"conditional"</span>)</div><div class='img'><img src='bernoulli_naive_bayes-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Check the equivalence of the class conditional distributions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>bnb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>nb</span>) <span class='kw'>==</span> <span class='fu'><a href='get_cond_dist.html'>get_cond_dist</a></span>(<span class='no'>bnb</span>))</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Sparse matrices.html">Sparse Matrices</a>
+    </li>
     <li>
       <a href="../articles/caret, nproc and naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
@@ -179,10 +182,10 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     
-    <p>This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are non-parametrically estimated with kernel density estimator. By default Gaussian kernel is used and the smoothing bandwidth is selected according to the Silverman's 'rule of thumb'. For more details, please see the references and the documentation of <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> and <code><a href='https://www.rdocumentation.org/packages/stats/topics/bandwidth'>bw.nrd0</a></code>.</p>
-<p>The Non-Parametric Naive Bayes is available in both, <code><a href='naive_bayes.html'>naive_bayes()</a></code> and <code>nonparametric_naive_bayes()</code>. This specialized implementation of the Naive Bayes does not provide a substantial speed-up over the general <code><a href='naive_bayes.html'>naive_bayes()</a></code> function but it should be more transparent and user friendly.</p>
-<p>The <code>nonparametric_naive_bayes</code> function is equivalent to <code><a href='naive_bayes.html'>naive_bayes()</a></code> when the numeric matrix or a data.frame contains only numeric variables and <code>usekernel = TRUE</code>.</p>
-<p>The missing values (NAs) are omitted during the parameter estimation. The NAs in the newdata in <code><a href='predict.nonparametric_naive_bayes.html'>predict.nonparametric_naive_bayes()</a></code> are not included into the calculation of posterior probabilities; and if present an informative warning is given.</p>
+    <p>This is a specialized version of the Naive Bayes classifier, in which all features take on real values (numeric/integer) and class conditional probabilities are estimated in a non-parametric way with the kernel density estimator (KDE). By default Gaussian kernel is used and the smoothing bandwidth is selected according to the Silverman's 'rule of thumb'. For more details, please see the references and the documentation of <code><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></code> and <code><a href='https://www.rdocumentation.org/packages/stats/topics/bandwidth'>bw.nrd0</a></code>.</p>
+<p>The Non-Parametric Naive Bayes is available in both, <code><a href='naive_bayes.html'>naive_bayes()</a></code> and <code>nonparametric_naive_bayes()</code>. The latter does not provide a substantial speed up over the general <code><a href='naive_bayes.html'>naive_bayes()</a></code> function but it is meant to be more transparent and user friendly.</p>
+<p>The <code>nonparametric_naive_bayes</code> and <code><a href='naive_bayes.html'>naive_bayes()</a></code> are equivalent when the latter is used with <code>usekernel = TRUE</code> and <code>usepoisson = FALSE</code>; and a matrix/data.frame contains only numeric variables.</p>
+<p>The missing values (NAs) are omitted during the estimation process. Also, the corresponding predict function excludes all NAs from the calculation of posterior probabilities  (an informative warning is always given).</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -194,7 +197,8 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
+    <pre class="examples"><div class='input'><span class='co'># library(naivebayes)</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>iris</span>)
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span><span class='kw'>[[</span><span class='fl'>5</span>]]
 <span class='no'>M</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>iris</span>[-<span class='fl'>5</span>])
 

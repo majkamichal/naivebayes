@@ -37,7 +37,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.9.7</span>
       </span>
     </div>
 
@@ -63,6 +63,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/Sparse%20matrices.html">Sparse Matrices</a>
+    </li>
+    <li>
       <a href="../articles/caret,%20nproc%20and%20naivebayes.html">Caret, nproc and naivebayes</a>
     </li>
     <li>
@@ -107,25 +110,25 @@
 <div id="naive_bayes-in-caret" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naive_bayes-in-caret" class="anchor"></a>naive_bayes in Caret</h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(caret, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a></code></pre></div>
-<pre><code>## naivebayes 0.9.6 loaded</code></pre>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(iris)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2">new &lt;-<span class="st"> </span>iris[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)]</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="co"># Add one categorical and count variable</span></a>
-<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">new<span class="op">$</span>Discrete &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(new), <span class="ot">TRUE</span>) </a>
-<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">new<span class="op">$</span>Counts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">10</span>)) </a>
-<a class="sourceLine" id="cb3-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb3-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="co"># Train the Naive Bayes model with the Caret package</span></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">naive_bayes_via_caret &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/caret/topics/train">train</a></span>(Species <span class="op">~</span><span class="st"> </span>., </a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">                               <span class="dt">data =</span> new, </a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">                               <span class="dt">method =</span> <span class="st">"naive_bayes"</span>, </a>
-<a class="sourceLine" id="cb3-14" data-line-number="14">                               <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16">naive_bayes_via_caret</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(caret, <span class="dt">quietly =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</span></code></pre></div>
+<pre><code>## naivebayes 0.9.7 loaded</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(iris)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>new &lt;-<span class="st"> </span>iris[<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>)]</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co"># Add one categorical and count variable</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>new<span class="op">$</span>Discrete &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sample">sample</a></span>(LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(new), <span class="ot">TRUE</span>) </span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">1</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>new<span class="op">$</span>Counts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">1</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">2</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Poisson">rpois</a></span>(<span class="dv">50</span>, <span class="dv">10</span>)) </span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co"># Train the Naive Bayes model with the Caret package</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>naive_bayes_via_caret &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/caret/topics/train">train</a></span>(Species <span class="op">~</span><span class="st"> </span>., </span>
+<span id="cb3-12"><a href="#cb3-12"></a>                               <span class="dt">data =</span> new, </span>
+<span id="cb3-13"><a href="#cb3-13"></a>                               <span class="dt">method =</span> <span class="st">"naive_bayes"</span>, </span>
+<span id="cb3-14"><a href="#cb3-14"></a>                               <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>)</span>
+<span id="cb3-15"><a href="#cb3-15"></a></span>
+<span id="cb3-16"><a href="#cb3-16"></a>naive_bayes_via_caret</span></code></pre></div>
 <pre><code>## Naive Bayes 
 ## 
 ## 150 samples
@@ -147,12 +150,12 @@
 ## Accuracy was used to select the optimal model using the largest value.
 ## The final values used for the model were laplace = 0, usekernel =
 ##  FALSE and adjust = 1.</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Classification</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret, <span class="dt">newdata =</span> new))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># Classification</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret, <span class="dt">newdata =</span> new))</span></code></pre></div>
 <pre><code>## [1] setosa setosa setosa setosa setosa setosa
 ## Levels: setosa versicolor virginica</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Posterior probabilities</span></a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret, <span class="dt">newdata =</span> new, <span class="dt">type =</span> <span class="st">"prob"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># Posterior probabilities</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret, <span class="dt">newdata =</span> new, <span class="dt">type =</span> <span class="st">"prob"</span>))</span></code></pre></div>
 <pre><code>##      setosa   versicolor    virginica
 ## 1 1.0000000 2.525461e-08 1.216783e-13
 ## 2 1.0000000 3.165327e-08 2.590761e-13
@@ -160,33 +163,33 @@
 ## 4 0.9999999 5.285298e-08 4.820271e-13
 ## 5 1.0000000 2.525461e-08 1.216783e-13
 ## 6 0.9999734 2.656060e-05 1.238316e-10</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="co">## Recover the naive_bayes object</span></a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">nb_object &lt;-<span class="st"> </span>naive_bayes_via_caret<span class="op">$</span>finalModel</a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(nb_object)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">## Recover the naive_bayes object</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>nb_object &lt;-<span class="st"> </span>naive_bayes_via_caret<span class="op">$</span>finalModel</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(nb_object)</span></code></pre></div>
 <pre><code>## [1] "naive_bayes"</code></pre>
 <p>Define tuning grid, do resampling and find the “optimal” model:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="co"># Define tuning grid </span></a>
-<a class="sourceLine" id="cb11-2" data-line-number="2">nb_grid &lt;-<span class="st">   </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expand.grid">expand.grid</a></span>(<span class="dt">usekernel =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>),</a>
-<a class="sourceLine" id="cb11-3" data-line-number="3">                         <span class="dt">laplace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), </a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">                         <span class="dt">adjust =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="fl">1.25</span>, <span class="fl">1.5</span>))</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co"># Fit the Naive Bayes model </span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">naive_bayes_via_caret2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/caret/topics/train">train</a></span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> new, </a>
-<a class="sourceLine" id="cb11-8" data-line-number="8">                               <span class="dt">method =</span> <span class="st">"naive_bayes"</span>,</a>
-<a class="sourceLine" id="cb11-9" data-line-number="9">                               <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb11-10" data-line-number="10">                               <span class="dt">tuneGrid =</span> nb_grid)</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co"># Selected tuning parameters</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12">naive_bayes_via_caret2<span class="op">$</span>finalModel<span class="op">$</span>tuneValue</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Define tuning grid </span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>nb_grid &lt;-<span class="st">   </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/expand.grid">expand.grid</a></span>(<span class="dt">usekernel =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="ot">TRUE</span>, <span class="ot">FALSE</span>),</span>
+<span id="cb11-3"><a href="#cb11-3"></a>                         <span class="dt">laplace =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>), </span>
+<span id="cb11-4"><a href="#cb11-4"></a>                         <span class="dt">adjust =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.75</span>, <span class="dv">1</span>, <span class="fl">1.25</span>, <span class="fl">1.5</span>))</span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># Fit the Naive Bayes model </span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>naive_bayes_via_caret2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/caret/topics/train">train</a></span>(Species <span class="op">~</span><span class="st"> </span>., <span class="dt">data =</span> new, </span>
+<span id="cb11-8"><a href="#cb11-8"></a>                               <span class="dt">method =</span> <span class="st">"naive_bayes"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9"></a>                               <span class="dt">usepoisson =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb11-10"><a href="#cb11-10"></a>                               <span class="dt">tuneGrid =</span> nb_grid)</span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co"># Selected tuning parameters</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>naive_bayes_via_caret2<span class="op">$</span>finalModel<span class="op">$</span>tuneValue</span></code></pre></div>
 <pre><code>##   laplace usekernel adjust
 ## 1       0     FALSE   0.75</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## View the final naive_bayes model</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="co"># naive_bayes_via_caret2$finalModel</span></a>
-<a class="sourceLine" id="cb13-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb13-4" data-line-number="4"><span class="co"># Visualize the tuning process</span></a>
-<a class="sourceLine" id="cb13-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(naive_bayes_via_caret2)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## View the final naive_bayes model</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># naive_bayes_via_caret2$finalModel</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># Visualize the tuning process</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/plot">plot</a></span>(naive_bayes_via_caret2)</span></code></pre></div>
 <p><img src="caret,%20nproc%20and%20naivebayes_files/figure-html/example_caret2-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="co"># Perform classification </span></a>
-<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret2, <span class="dt">newdata =</span> new))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Perform classification </span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_caret2, <span class="dt">newdata =</span> new))</span></code></pre></div>
 <pre><code>## [1] setosa setosa setosa setosa setosa setosa
 ## Levels: setosa versicolor virginica</code></pre>
 </div>
@@ -194,41 +197,42 @@
 <h2 class="hasAnchor">
 <a href="#naive_bayes-in-nproc" class="anchor"></a>naive_bayes in nproc</h2>
 <p>Please find more information about the <code>nproc</code> package under: <a href="https://cran.r-project.org/web/packages/nproc/" class="uri">https://cran.r-project.org/web/packages/nproc/</a></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nproc)</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co"># Simulate data</span></a>
-<a class="sourceLine" id="cb16-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">n &lt;-<span class="st"> </span><span class="dv">1000</span></a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8">c &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>x[ ,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb16-9" data-line-number="9">y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>c)))</a>
-<a class="sourceLine" id="cb16-10" data-line-number="10">xtest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb16-11" data-line-number="11">ctest &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>xtest[,<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">ytest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>ctest)))</a>
-<a class="sourceLine" id="cb16-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb16-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co"># Use Naive Bayes classifier and the default type I error control with alpha=0.05</span></a>
-<a class="sourceLine" id="cb16-16" data-line-number="16">naive_bayes_via_nproc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/nproc/topics/npc">npc</a></span>(x, y, <span class="dt">method =</span> <span class="st">"nb"</span>)</a>
-<a class="sourceLine" id="cb16-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb16-18" data-line-number="18"><span class="co">## Recover the "naive_bayes" object</span></a>
-<a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co"># naive_bayes_via_nproc$fits[[1]]$fit</span></a>
-<a class="sourceLine" id="cb16-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co"># Classification</span></a>
-<a class="sourceLine" id="cb16-22" data-line-number="22">nb_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_nproc, xtest)</a>
-<a class="sourceLine" id="cb16-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co"># head(nb_pred$pred.label)</span></a>
-<a class="sourceLine" id="cb16-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb16-26" data-line-number="26"><span class="co"># Obtain various measures</span></a>
-<a class="sourceLine" id="cb16-27" data-line-number="27">accuracy &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label <span class="op">==</span><span class="st"> </span>ytest)</a>
-<a class="sourceLine" id="cb16-28" data-line-number="28">ind0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb16-29" data-line-number="29">ind1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb16-30" data-line-number="30">typeI &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind0] <span class="op">!=</span><span class="st"> </span>ytest[ind0]) <span class="co">#type I error on test set</span></a>
-<a class="sourceLine" id="cb16-31" data-line-number="31">typeII &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind1] <span class="op">!=</span><span class="st"> </span>ytest[ind1]) <span class="co">#type II error on test set</span></a>
-<a class="sourceLine" id="cb16-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb16-33" data-line-number="33"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">" Overall Accuracy: "</span>,  accuracy,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
-<a class="sourceLine" id="cb16-34" data-line-number="34">    <span class="st">"Type I error:     "</span>, typeI, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
-<a class="sourceLine" id="cb16-35" data-line-number="35">    <span class="st">"Type II error:    "</span>, typeII, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># install.packages("nproc")</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nproc)</span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(naivebayes)</span>
+<span id="cb16-4"><a href="#cb16-4"></a></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co"># Simulate data</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Random">set.seed</a></span>(<span class="dv">2550</span>)</span>
+<span id="cb16-7"><a href="#cb16-7"></a>n &lt;-<span class="st"> </span><span class="dv">1000</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a>x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</span>
+<span id="cb16-9"><a href="#cb16-9"></a>c &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>x[ ,<span class="dv">1</span>]</span>
+<span id="cb16-10"><a href="#cb16-10"></a>y &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>c)))</span>
+<span id="cb16-11"><a href="#cb16-11"></a>xtest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Normal">rnorm</a></span>(n <span class="op">*</span><span class="st"> </span><span class="dv">2</span>), n, <span class="dv">2</span>)</span>
+<span id="cb16-12"><a href="#cb16-12"></a>ctest &lt;-<span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">3</span> <span class="op">*</span><span class="st"> </span>xtest[,<span class="dv">1</span>]</span>
+<span id="cb16-13"><a href="#cb16-13"></a>ytest &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/Binomial">rbinom</a></span>(n, <span class="dv">1</span>, <span class="dv">1</span> <span class="op">/</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">exp</a></span>(<span class="op">-</span>ctest)))</span>
+<span id="cb16-14"><a href="#cb16-14"></a></span>
+<span id="cb16-15"><a href="#cb16-15"></a></span>
+<span id="cb16-16"><a href="#cb16-16"></a><span class="co"># Use Naive Bayes classifier and the default type I error control with alpha=0.05</span></span>
+<span id="cb16-17"><a href="#cb16-17"></a>naive_bayes_via_nproc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/nproc/topics/npc">npc</a></span>(x, y, <span class="dt">method =</span> <span class="st">"nb"</span>)</span>
+<span id="cb16-18"><a href="#cb16-18"></a></span>
+<span id="cb16-19"><a href="#cb16-19"></a><span class="co">## Recover the "naive_bayes" object</span></span>
+<span id="cb16-20"><a href="#cb16-20"></a><span class="co"># naive_bayes_via_nproc$fits[[1]]$fit</span></span>
+<span id="cb16-21"><a href="#cb16-21"></a></span>
+<span id="cb16-22"><a href="#cb16-22"></a><span class="co"># Classification</span></span>
+<span id="cb16-23"><a href="#cb16-23"></a>nb_pred &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/predict">predict</a></span>(naive_bayes_via_nproc, xtest)</span>
+<span id="cb16-24"><a href="#cb16-24"></a></span>
+<span id="cb16-25"><a href="#cb16-25"></a><span class="co"># head(nb_pred$pred.label)</span></span>
+<span id="cb16-26"><a href="#cb16-26"></a></span>
+<span id="cb16-27"><a href="#cb16-27"></a><span class="co"># Obtain various measures</span></span>
+<span id="cb16-28"><a href="#cb16-28"></a>accuracy &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label <span class="op">==</span><span class="st"> </span>ytest)</span>
+<span id="cb16-29"><a href="#cb16-29"></a>ind0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</span>
+<span id="cb16-30"><a href="#cb16-30"></a>ind1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(ytest <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb16-31"><a href="#cb16-31"></a>typeI &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind0] <span class="op">!=</span><span class="st"> </span>ytest[ind0]) <span class="co">#type I error on test set</span></span>
+<span id="cb16-32"><a href="#cb16-32"></a>typeII &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(nb_pred<span class="op">$</span>pred.label[ind1] <span class="op">!=</span><span class="st"> </span>ytest[ind1]) <span class="co">#type II error on test set</span></span>
+<span id="cb16-33"><a href="#cb16-33"></a></span>
+<span id="cb16-34"><a href="#cb16-34"></a><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(<span class="st">" Overall Accuracy: "</span>,  accuracy,<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb16-35"><a href="#cb16-35"></a>    <span class="st">"Type I error:     "</span>, typeI, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</span>
+<span id="cb16-36"><a href="#cb16-36"></a>    <span class="st">"Type II error:    "</span>, typeII, <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>)</span></code></pre></div>
 <pre><code>##  Overall Accuracy:  0.68 
 ##  Type I error:      0.02072539 
 ##  Type II error:     0.5081433</code></pre>

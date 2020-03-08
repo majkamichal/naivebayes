@@ -158,7 +158,7 @@ The general function \textcolor{darkgreen}{{\btt{naive\_bayes()}}} detects the c
 
 
 \vspace{2mm}
-In addition to that, specialized Naive Bayes classifiers are available and are listed below. They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. In future, sparse matrices will be also supported.
+In addition to that, specialized Naive Bayes classifiers are available and are listed below. They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. They can also take advantage of sparse matrices to furthermore boost the performance.
 
 \begin{itemize}
  \item Bernoulli Naive Bayes via \textcolor{darkgreen}{{\btt{bernoulli\_naive\_bayes()}}}
@@ -388,7 +388,7 @@ The Gaussian smoothing kernel and Silverman's rule-of-thumb are chosen by defaul
 \end{alltt}
 
 
-{\ttfamily\noindent\itshape\color{messagecolor}{\#\# naivebayes 0.9.6 loaded}}\begin{alltt}
+{\ttfamily\noindent\itshape\color{messagecolor}{\#\# ::: naivebayes 0.9.7 loaded}}\begin{alltt}
 \hlcom{### Simulate data}
 \hlstd{n} \hlkwb{<-} \hlnum{100}
 \hlkwd{set.seed}\hlstd{(}\hlnum{1}\hlstd{)}
@@ -512,7 +512,7 @@ Fit the Naive Bayes model based on 10 simulated predictors, each having 1mn obse
 \end{alltt}
 \begin{verbatim}
 ##    user  system elapsed 
-##   0.386   0.100   0.492
+##   0.428   0.123   0.562
 \end{verbatim}
 \end{kframe}
 \end{knitrout}
