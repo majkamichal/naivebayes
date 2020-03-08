@@ -66,12 +66,10 @@ pnb <- poisson_naive_bayes(x = M, y = y, laplace = laplace)
 summary(pnb)
 
 # Classification
-head(predict(pnb, newdata = M, type = "class"))
-head(pnb \%class\% M)
+head(predict(pnb, newdata = M, type = "class")) # head(pnb \%class\% M)
 
 # Posterior probabilities
-head(predict(pnb, newdata = M, type = "prob"))
-head(pnb \%prob\% M)
+head(predict(pnb, newdata = M, type = "prob")) # head(pnb \%prob\% M)
 
 # Parameter estimates
 coef(pnb)
@@ -87,11 +85,9 @@ pnb_sparse <- poisson_naive_bayes(M_sparse, y, laplace = laplace)
 
 # Classification
 head(predict(pnb_sparse, newdata = M_sparse, type = "class"))
-head(pnb_sparse \%class\% M_sparse)
 
 # Posterior probabilities
 head(predict(pnb_sparse, newdata = M_sparse, type = "prob"))
-head(pnb_sparse \%prob\% M_sparse)
 
 # Parameter estimates
 coef(pnb_sparse)

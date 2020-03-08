@@ -58,12 +58,10 @@ mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
 summary(mnb)
 
 # Classification
-head(predict(mnb, newdata = M, type = "class"))
-head(mnb \%class\% M)
+head(predict(mnb, newdata = M, type = "class")) # head(mnb \%class\% M)
 
 # Posterior probabilities
-head(predict(mnb, newdata = M, type = "prob"))
-head(mnb \%prob\% M)
+head(predict(mnb, newdata = M, type = "prob")) # head(mnb \%prob\% M)
 
 # Parameter estimates
 coef(mnb)
@@ -79,11 +77,9 @@ mnb_sparse <- multinomial_naive_bayes(M_sparse, y, laplace = laplace)
 
 # Classification
 head(predict(mnb_sparse, newdata = M_sparse, type = "class"))
-head(mnb_sparse \%class\% M_sparse)
 
 # Posterior probabilities
 head(predict(mnb_sparse, newdata = M_sparse, type = "prob"))
-head(mnb_sparse \%prob\% M_sparse)
 
 # Parameter estimates
 coef(mnb_sparse)

@@ -57,12 +57,10 @@ bnb <- bernoulli_naive_bayes(x = M, y = y, laplace = laplace)
 summary(bnb)
 
 # Classification
-head(predict(bnb, newdata = M, type = "class"))
-head(bnb \%class\% M)
+head(predict(bnb, newdata = M, type = "class")) # head(bnb \%class\% M)
 
 # Posterior probabilities
-head(predict(bnb, newdata = M, type = "prob"))
-head(bnb \%prob\% M)
+head(predict(bnb, newdata = M, type = "prob")) # head(bnb \%prob\% M)
 
 # Parameter estimates
 coef(bnb)
@@ -78,11 +76,9 @@ bnb_sparse <- bernoulli_naive_bayes(M_sparse, y, laplace = laplace)
 
 # Classification
 head(predict(bnb_sparse, newdata = M_sparse, type = "class"))
-head(bnb_sparse \%class\% M_sparse)
 
 # Posterior probabilities
 head(predict(bnb_sparse, newdata = M_sparse, type = "prob"))
-head(bnb_sparse \%prob\% M_sparse)
 
 # Parameter estimates
 coef(bnb_sparse)

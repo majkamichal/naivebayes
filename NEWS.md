@@ -1,6 +1,6 @@
 # naivebayes 0.9.7
 
-* Improvement: `multinomial_naive_bayes()`, `bernoullie_naive_bayes()`, `poisson_naive_bayes()` and `gaussian_naive_bayes()` now support sparse matrices (`dgCMatrix` class from the `Matrix` Package).
+* Improvement: `multinomial_naive_bayes()`, `bernoulli_naive_bayes()`, `poisson_naive_bayes()` and `gaussian_naive_bayes()` now support sparse matrices (`dgCMatrix` class from the `Matrix` Package).
 
 * Improvement: updated documentation.
 
@@ -53,9 +53,9 @@
 
 * Fixed: numerical underflow in predict.naive_bayes function when the number of features is big (bug found by William Townes).
 
-* Fixed: When all names of features in the `newdata` in `predict.naive_bayes()` do not match these defined in the `naive_bayes` object, then the calculation based on prior probabilities is done only for one row of `newdata`.
+* Fixed: when all names of features in the `newdata` in `predict.naive_bayes()` do not match these defined in the `naive_bayes` object, then the calculation based on prior probabilities is done only for one row of `newdata`.
 
-* Improvement: Better handling (informative warnings/errors) of not correct inputs in `predict.naive_bayes()`.
+* Improvement: better handling (informative warnings/errors) of not correct inputs in `predict.naive_bayes()`.
 
 * Improvement: `print.naive_bayes()` is now more transparent.
 

@@ -54,12 +54,10 @@ gnb <- gaussian_naive_bayes(x = M, y = y)
 summary(gnb)
 
 # Classification
-head(predict(gnb, newdata = M, type = "class"))
-head(gnb \%class\% M)
+head(predict(gnb, newdata = M, type = "class")) # head(gnb \%class\% M)
 
 # Posterior probabilities
-head(predict(gnb, newdata = M, type = "prob"))
-head(gnb \%prob\% M)
+head(predict(gnb, newdata = M, type = "prob")) # head(gnb \%prob\% M)
 
 # Parameter estimates
 coef(gnb)
@@ -75,11 +73,9 @@ gnb_sparse <- gaussian_naive_bayes(M_sparse, y)
 
 # Classification
 head(predict(gnb_sparse, newdata = M_sparse, type = "class"))
-head(gnb_sparse \%class\% M_sparse)
 
 # Posterior probabilities
 head(predict(gnb_sparse, newdata = M_sparse, type = "prob"))
-head(gnb_sparse \%prob\% M_sparse)
 
 # Parameter estimates
 coef(gnb_sparse)
