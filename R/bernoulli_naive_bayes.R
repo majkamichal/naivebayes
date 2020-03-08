@@ -154,9 +154,11 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         prob1[prob1 <= eps] <- threshold
         prob1[prob1 >= (1 - eps)] <- 1 - threshold
     }
+
     lprob1 <- log(prob1)
     lprob0 <- log(1 - prob1)
     NAs <- anyNA(newdata)
+
     if (NAs) {
         ind_na <- if (use_Matrix) Matrix::which(is.na(newdata), arr.ind = TRUE) else which(is.na(newdata), arr.ind = TRUE)
         len_na <- nrow(ind_na)
@@ -168,16 +170,20 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         neutral <- do.call(rbind, tapply(ind_var, ind_obs, function(x) rowSums(lprob1[ ,x, drop = FALSE])))
         ind_obs <- sort(unique(ind_obs))
     }
+
     if (use_Matrix) {
-        post <- Matrix::tcrossprod(newdata, lprob1) + Matrix::tcrossprod(1 - newdata, lprob0)
+        post <- Matrix::tcrossprod(newdata, lprob1) + matrix(rowSums(lprob0), n_obs, n_lev, TRUE) - Matrix::tcrossprod(newdata, lprob0)
+
     } else {
-        post <- tcrossprod(newdata, lprob1) + tcrossprod(1 - newdata, lprob0)
+        post <- tcrossprod(newdata, lprob1) + matrix(rowSums(lprob0), n_obs, n_lev, TRUE) - tcrossprod(newdata, lprob0)
     }
     if (NAs) {
         post[ind_obs, ] <- post[ind_obs, ] - neutral
     }
-    for (ith_class in seq_along(prior))
+
+    for (ith_class in seq_along(prior)) {
         post[ ,ith_class] <- post[ ,ith_class] + log(prior[ith_class])
+    }
 
     if (type == "class") {
         if (n_obs == 1) {
@@ -197,6 +203,7 @@ predict.bernoulli_naive_bayes <- function(object, newdata = NULL, type = c("clas
         }
     }
 }
+
 print.bernoulli_naive_bayes <- function (x, ...) {
 
     model <- "Bernoulli Naive Bayes"
