@@ -110,11 +110,11 @@ predict.poisson_naive_bayes <- function (object, newdata = NULL, type = c("class
     class_x <- class(newdata)[1]
     use_Matrix <- class_x == "dgCMatrix"
     if (!is.matrix(newdata) & !use_Matrix)
-        stop("predict.bernoulli_naive_bayes(): newdata must be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
+        stop("predict.poisson_naive_bayes(): newdata must be numeric matrix or dgCMatrix (Matrix package) with at least one row and two named columns.", call. = FALSE)
     if (is.matrix(newdata) & mode(newdata) != "numeric")
-        stop("predict.bernoulli_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
+        stop("predict.poisson_naive_bayes(): newdata must be a numeric matrix.", call. = FALSE)
     if (use_Matrix & !"Matrix" %in% rownames(utils::installed.packages()))
-        stop("predict.bernoulli_naive_bayes(): please install Matrix package", call. = FALSE)
+        stop("predict.poisson_naive_bayes(): please install Matrix package", call. = FALSE)
 
     if (threshold < 0)
         stop("predict.poisson_naive_bayes(): threshold must be non-negative.", call. = FALSE)
