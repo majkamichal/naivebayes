@@ -129,7 +129,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
     type <- match.arg(type)
     lev <- object$levels
     n_lev <- length(lev)
-    newdata <- if (use_Matrix) Matrix::t(newdata) else t(newdata)
+    newdata <- if (use_Matrix) Matrix::t(newdata) else t.default(newdata)
     n_obs <- dim(newdata)[2L]
     prior <- object$prior
     mu <- object$params$mu
@@ -162,7 +162,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
     }
     NAx <- anyNA(newdata)
     if (NAx) {
-        ind_na <- which(is.na(newdata))
+        ind_na <- if (use_Matrix) Matrix::which(is.na(newdata)) else which(is.na(newdata))
         len_na <- length(ind_na)
         warning("predict.gaussian_naive_bayes(): ", len_na, " missing",
                 ifelse(len_na == 1, " value", " values"), " discovered in the newdata. ",

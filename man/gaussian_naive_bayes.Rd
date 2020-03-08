@@ -49,7 +49,7 @@ y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7))
 colnames(M) <- paste0("V", seq_len(ncol(M)))
 
 
-### Train the Bernoulli Naive Bayes
+### Train the Gaussian Naive Bayes
 gnb <- gaussian_naive_bayes(x = M, y = y)
 summary(gnb)
 
@@ -96,7 +96,7 @@ head(predict(nb, type = "prob"))
 tables(nb, which = "V1")
 tables(gnb, which = "V1")
 
-# Visualise class conditional Bernoulli distributions
+# Visualise class conditional Gaussian distributions
 plot(nb, "V1", prob = "conditional")
 plot(gnb, which = "V1", prob = "conditional")
 

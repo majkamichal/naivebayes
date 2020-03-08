@@ -108,7 +108,7 @@ head(predict(nb, type = "prob"))
 tables(nb, which = "V1")
 tables(pnb, which = "V1")
 
-# Visualise class conditional Bernoulli distributions
+# Visualise class conditional Poisson distributions
 plot(nb, "V1", prob = "conditional")
 plot(pnb, which = "V1", prob = "conditional")
 
