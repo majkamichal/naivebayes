@@ -297,14 +297,14 @@ and for values above 1 the density tends to be “smoother”:
 
 ``` r
 nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
-                         adjust = 1.5)
+                         adjust = 0.5)
 nb_kde_adjust %prob% test
 #>         classA    classB
-#> [1,] 0.5769725 0.4230275
-#> [2,] 0.5953904 0.4046096
-#> [3,] 0.6512967 0.3487033
-#> [4,] 0.6550197 0.3449803
-#> [5,] 0.6024013 0.3975987
+#> [1,] 0.6636171 0.3363829
+#> [2,] 0.4784302 0.5215698
+#> [3,] 0.6442293 0.3557707
+#> [4,] 0.6745416 0.3254584
+#> [5,] 0.7533994 0.2466006
 plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
 

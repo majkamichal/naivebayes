@@ -180,7 +180,7 @@ The parameter `adjust` allows to rescale the estimated bandwidth and thus introd
 
 ```{r kde_adjust, cache=TRUE}
 nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
-                         adjust = 1.5)
+                         adjust = 0.5)
 nb_kde_adjust %prob% test
 plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
