@@ -10,8 +10,6 @@ Extended documentation can be found on the website:
 Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
-[![Say
-Thanks:)](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/majkamichal)
 
 ## 1\. Overview
 
@@ -46,10 +44,10 @@ In addition to that specialized functions are available which implement:
 
 They are implemented based on the linear algebra operations which makes
 them efficient on the dense matrices. They can also take advantage of
-sparse matrices in order to furthermore boost the performance. Also few
-helper functions are provided that are supposed to improve the user
-experience. The general `naive_bayes()` function is also available
-through the excellent `Caret` package.
+sparse matrices to furthermore boost the performance. Also few helper
+functions are provided that are supposed to improve the user experience.
+The general `naive_bayes()` function is also available through the
+excellent `Caret` package.
 
 ## 2\. Installation
 
@@ -264,7 +262,8 @@ plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditio
 
 #### 3.4.2 Changing bandwidth selector
 
-There are 5 different bandwidth selectors:
+The `density()` function offers 5 different bandwidth selectors, which
+can be specified via `bw` parameter:
 
   - `nrd0` (Silverman’s rule-of-thumb)
   - `nrd` (variation of the rule-of-thumb)
@@ -272,7 +271,7 @@ There are 5 different bandwidth selectors:
   - `bcv` (biased cross-validation)
   - `SJ` (Sheather & Jones method)
 
-They can be specified via `bw` parameter.
+<!-- end list -->
 
 ``` r
 nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
@@ -291,8 +290,10 @@ plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 #### 3.4.3 Adjusting bandwidth
 
-Each Bandwidth is chosen according to the bandwidth selector and they
-can be additionally adjusted by a factor given by `adjust` parameter:
+The parameter `adjust` allows to rescale the estimated bandwidth and
+thus introduces more flexibility to the estimation process. For values
+below 1 (no rescaling; default setting) the density becomes “wigglier”
+and for values above 1 the density tends to be “smoother”:
 
 ``` r
 nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
