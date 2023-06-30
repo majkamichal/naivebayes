@@ -3,9 +3,7 @@
 
 # Naïve Bayes <img src="docs/reference/figures/logo.png" align="right" />
 
-[![Build
-Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
 
 ## Overview
@@ -25,19 +23,19 @@ in the dataset and, depending on the user choices, assumes possibly
 different distribution for each feature. It currently supports following
 class conditional distributions:
 
-  - categorical distribution for discrete features
-  - Poisson distribution for non-negative integers
-  - Gaussian distribution for continuous features
-  - non-parametrically estimated densities via Kernel Density Estimation
-    for continuous features
+- categorical distribution for discrete features
+- Poisson distribution for non-negative integers
+- Gaussian distribution for continuous features
+- non-parametrically estimated densities via Kernel Density Estimation
+  for continuous features
 
 In addition to that specialized functions are available which implement:
 
-  - Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
-  - Multinomial Naive Bayes via `multinomial_naive_bayes()`
-  - Poisson Naive Bayes via `poisson_naive_bayes()`
-  - Gaussian Naive Bayes via `gaussian_naive_bayes()`
-  - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
+- Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
+- Multinomial Naive Bayes via `multinomial_naive_bayes()`
+- Poisson Naive Bayes via `poisson_naive_bayes()`
+- Gaussian Naive Bayes via `gaussian_naive_bayes()`
+- Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
 They are implemented based on the linear algebra operations which makes
 them efficient on the dense matrices. They can also take advantage of

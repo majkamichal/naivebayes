@@ -10,7 +10,6 @@
 ^NEWS\.md$
 ^docs/
 ^pkgdown/
-^\.travis\.yml$
 ^_pkgdown\.yml$
 ^vignettes/caret, nproc and naivebayes.Rmd$
 ^vignettes/intro_naivebayes.pdf$
