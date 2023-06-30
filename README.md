@@ -6,12 +6,10 @@ Extended documentation can be found on the website:
 
 # Naïve Bayes <img src="man/figures/logo.png" align="right" />
 
-[![Build
-Status](https://travis-ci.org/majkamichal/naivebayes.svg?branch=master)](https://travis-ci.org/majkamichal/naivebayes)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
 
-## 1\. Overview
+## 1. Overview
 
 The `naivebayes` package provides an efficient implementation of the
 popular Naïve Bayes classifier in `R`. It was developed and is now
@@ -28,19 +26,19 @@ in the dataset and, depending on the user choices, assumes possibly
 different distribution for each feature. It currently supports following
 class conditional distributions:
 
-  - categorical distribution for discrete features
-  - Poisson distribution for non-negative integers
-  - Gaussian distribution for continuous features
-  - non-parametrically estimated densities via Kernel Density Estimation
-    for continuous features
+- categorical distribution for discrete features
+- Poisson distribution for non-negative integers
+- Gaussian distribution for continuous features
+- non-parametrically estimated densities via Kernel Density Estimation
+  for continuous features
 
 In addition to that specialized functions are available which implement:
 
-  - Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
-  - Multinomial Naive Bayes via `multinomial_naive_bayes()`
-  - Poisson Naive Bayes via `poisson_naive_bayes()`
-  - Gaussian Naive Bayes via `gaussian_naive_bayes()`
-  - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
+- Bernoulli Naive Bayes via `bernoulli_naive_bayes()`
+- Multinomial Naive Bayes via `multinomial_naive_bayes()`
+- Poisson Naive Bayes via `poisson_naive_bayes()`
+- Gaussian Naive Bayes via `gaussian_naive_bayes()`
+- Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
 They are implemented based on the linear algebra operations which makes
 them efficient on the dense matrices. They can also take advantage of
@@ -49,7 +47,7 @@ functions are provided that are supposed to improve the user experience.
 The general `naive_bayes()` function is also available through the
 excellent `Caret` package.
 
-## 2\. Installation
+## 2. Installation
 
 Just like many other `R` packages, `naivebayes` can be installed from
 the `CRAN` repository by simply executing in the console the following
@@ -62,7 +60,7 @@ install.packages("naivebayes")
 devtools::install_github("majkamichal/naivebayes")
 ```
 
-## 3\. Usage
+## 3. Usage
 
 The `naivebayes` package provides a user friendly implementation of the
 Naïve Bayes algorithm via formula interlace and classical combination of
@@ -98,7 +96,7 @@ test <- data[96:100, -1]
 nb <- naive_bayes(class ~ ., train)
 summary(nb)
 #> 
-#> ================================ Naive Bayes ================================= 
+#> ================================== Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train) 
 #> - Laplace: 0 
@@ -110,47 +108,47 @@ summary(nb)
 #>     - Categorical: 1
 #>     - Gaussian: 2
 #> - Prior probabilities: 
-#>     - classA: 0.5263
-#>     - classB: 0.4737
+#>     - classA: 0.4842
+#>     - classB: 0.5158
 #> 
-#> ------------------------------------------------------------------------------
+#> ---------------------------------------------------------------------------------
 
 # Classification
 predict(nb, test, type = "class")
-#> [1] classB classA classA classA classA
+#> [1] classA classB classA classA classA
 #> Levels: classA classB
 nb %class% test
-#> [1] classB classA classA classA classA
+#> [1] classA classB classA classA classA
 #> Levels: classA classB
 
 # Posterior probabilities
 predict(nb, test, type = "prob")
 #>         classA    classB
-#> [1,] 0.4998488 0.5001512
-#> [2,] 0.5934597 0.4065403
-#> [3,] 0.6492845 0.3507155
-#> [4,] 0.5813621 0.4186379
-#> [5,] 0.5087005 0.4912995
+#> [1,] 0.7174638 0.2825362
+#> [2,] 0.2599418 0.7400582
+#> [3,] 0.6341795 0.3658205
+#> [4,] 0.5365311 0.4634689
+#> [5,] 0.7186026 0.2813974
 nb %prob% test
 #>         classA    classB
-#> [1,] 0.4998488 0.5001512
-#> [2,] 0.5934597 0.4065403
-#> [3,] 0.6492845 0.3507155
-#> [4,] 0.5813621 0.4186379
-#> [5,] 0.5087005 0.4912995
+#> [1,] 0.7174638 0.2825362
+#> [2,] 0.2599418 0.7400582
+#> [3,] 0.6341795 0.3658205
+#> [4,] 0.5365311 0.4634689
+#> [5,] 0.7186026 0.2813974
 
 # Helper functions
 tables(nb, 1)
 #> 
-#> ------------------------------------------------------------------------------ 
+#> --------------------------------------------------------------------------------- 
 #>  ::: bern (Bernoulli) 
-#> ------------------------------------------------------------------------------ 
+#> --------------------------------------------------------------------------------- 
 #>     
 #> bern    classA    classB
-#>    A 0.4400000 0.4888889
-#>    B 0.5600000 0.5111111
+#>    A 0.5000000 0.5510204
+#>    B 0.5000000 0.4489796
 #> 
-#> ------------------------------------------------------------------------------
+#> ---------------------------------------------------------------------------------
 get_cond_dist(nb)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"    "Gaussian"
@@ -167,11 +165,11 @@ class <- train$class
 nb2 <- naive_bayes(x = X, y = class)
 nb2 %prob% test
 #>         classA    classB
-#> [1,] 0.4998488 0.5001512
-#> [2,] 0.5934597 0.4065403
-#> [3,] 0.6492845 0.3507155
-#> [4,] 0.5813621 0.4186379
-#> [5,] 0.5087005 0.4912995
+#> [1,] 0.7174638 0.2825362
+#> [2,] 0.2599418 0.7400582
+#> [3,] 0.6341795 0.3658205
+#> [4,] 0.5365311 0.4634689
+#> [5,] 0.7186026 0.2813974
 ```
 
 ### 3.4 Non-parametric estimation for continuous features
@@ -187,7 +185,7 @@ of thumb as bandwidth selector are used:
 nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
 summary(nb_kde)
 #> 
-#> ================================ Naive Bayes ================================= 
+#> ================================== Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train, usekernel = TRUE) 
 #> - Laplace: 0 
@@ -199,20 +197,20 @@ summary(nb_kde)
 #>     - Categorical: 1
 #>     - KDE: 2
 #> - Prior probabilities: 
-#>     - classA: 0.5263
-#>     - classB: 0.4737
+#>     - classA: 0.4842
+#>     - classB: 0.5158
 #> 
-#> ------------------------------------------------------------------------------
+#> ---------------------------------------------------------------------------------
 get_cond_dist(nb_kde)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"         "KDE"
 nb_kde %prob% test
 #>         classA    classB
-#> [1,] 0.6252811 0.3747189
-#> [2,] 0.5441986 0.4558014
-#> [3,] 0.6515139 0.3484861
-#> [4,] 0.6661044 0.3338956
-#> [5,] 0.6736159 0.3263841
+#> [1,] 0.6498111 0.3501889
+#> [2,] 0.2279460 0.7720540
+#> [3,] 0.5915046 0.4084954
+#> [4,] 0.5876798 0.4123202
+#> [5,] 0.7017584 0.2982416
 
 # Class conditional densities
 plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
@@ -232,13 +230,13 @@ plot(nb_kde, "norm", arg.num = list(legend.cex = 0.9), prob = "marginal")
 
 In general, there are 7 different smoothing kernels available:
 
-  - `gaussian`
-  - `epanechnikov`
-  - `rectangular`
-  - `triangular`
-  - `biweight`
-  - `cosine`
-  - `optcosine`
+- `gaussian`
+- `epanechnikov`
+- `rectangular`
+- `triangular`
+- `biweight`
+- `cosine`
+- `optcosine`
 
 and they can be specified in `naive_bayes()` via parameter additional
 parameter `kernel`. Gaussian kernel is the default smoothing kernel.
@@ -250,11 +248,11 @@ nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                kernel = "biweight")
 nb_kde_biweight %prob% test
 #>         classA    classB
-#> [1,] 0.6237152 0.3762848
-#> [2,] 0.5588270 0.4411730
-#> [3,] 0.6594737 0.3405263
-#> [4,] 0.6650295 0.3349705
-#> [5,] 0.6631951 0.3368049
+#> [1,] 0.6564159 0.3435841
+#> [2,] 0.2350606 0.7649394
+#> [3,] 0.5917223 0.4082777
+#> [4,] 0.5680244 0.4319756
+#> [5,] 0.6981813 0.3018187
 plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
 
@@ -265,24 +263,22 @@ plot(nb_kde_biweight, "norm", arg.num = list(legend.cex = 0.9), prob = "conditio
 The `density()` function offers 5 different bandwidth selectors, which
 can be specified via `bw` parameter:
 
-  - `nrd0` (Silverman’s rule-of-thumb)
-  - `nrd` (variation of the rule-of-thumb)
-  - `ucv` (unbiased cross-validation)
-  - `bcv` (biased cross-validation)
-  - `SJ` (Sheather & Jones method)
-
-<!-- end list -->
+- `nrd0` (Silverman’s rule-of-thumb)
+- `nrd` (variation of the rule-of-thumb)
+- `ucv` (unbiased cross-validation)
+- `bcv` (biased cross-validation)
+- `SJ` (Sheather & Jones method)
 
 ``` r
 nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                bw = "SJ")
 nb_kde_SJ %prob% test
 #>         classA    classB
-#> [1,] 0.7279209 0.2720791
-#> [2,] 0.4858273 0.5141727
-#> [3,] 0.7004134 0.2995866
-#> [4,] 0.7005704 0.2994296
-#> [5,] 0.7089626 0.2910374
+#> [1,] 0.6127232 0.3872768
+#> [2,] 0.1827263 0.8172737
+#> [3,] 0.5784831 0.4215169
+#> [4,] 0.7031048 0.2968952
+#> [5,] 0.6699132 0.3300868
 plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
 
@@ -300,11 +296,11 @@ nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
                          adjust = 0.5)
 nb_kde_adjust %prob% test
 #>         classA    classB
-#> [1,] 0.6636171 0.3363829
-#> [2,] 0.4784302 0.5215698
-#> [3,] 0.6442293 0.3557707
-#> [4,] 0.6745416 0.3254584
-#> [5,] 0.7533994 0.2466006
+#> [1,] 0.5790672 0.4209328
+#> [2,] 0.2075614 0.7924386
+#> [3,] 0.5742479 0.4257521
+#> [4,] 0.6940782 0.3059218
+#> [5,] 0.7787019 0.2212981
 plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 ```
 
@@ -324,7 +320,7 @@ is.integer(train$count)
 nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
 summary(nb_pois)
 #> 
-#> ================================ Naive Bayes ================================= 
+#> ================================== Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train, usepoisson = TRUE) 
 #> - Laplace: 0 
@@ -337,21 +333,21 @@ summary(nb_pois)
 #>     - Poisson: 1
 #>     - Gaussian: 1
 #> - Prior probabilities: 
-#>     - classA: 0.5263
-#>     - classB: 0.4737
+#>     - classA: 0.4842
+#>     - classB: 0.5158
 #> 
-#> ------------------------------------------------------------------------------
+#> ---------------------------------------------------------------------------------
 get_cond_dist(nb_pois)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"
 
 nb_pois %prob% test
 #>         classA    classB
-#> [1,] 0.4815380 0.5184620
-#> [2,] 0.4192209 0.5807791
-#> [3,] 0.6882270 0.3117730
-#> [4,] 0.4794415 0.5205585
-#> [5,] 0.5209152 0.4790848
+#> [1,] 0.6708181 0.3291819
+#> [2,] 0.2792804 0.7207196
+#> [3,] 0.6214784 0.3785216
+#> [4,] 0.5806921 0.4193079
+#> [5,] 0.7074807 0.2925193
 
 # Class conditional distributions
 plot(nb_pois, "count", prob = "conditional")
