@@ -2,12 +2,33 @@
 title: "Specialized Naive Bayes"
 ---
 
-The `naivebayes` package provides a range of functions that implement specialised versions of the Na&iuml;ve Bayes and in this short vignette their basic usage is demonstrated.
+## 1) Introduction
+
+The `naivebayes` package offers a comprehensive set of functions that implement specialized versions of the Na&iuml;ve Bayes classifier. In this article, we explore these functions and provide a detailed overview of their basic usage.
+
+The package provides five key functions that cater to different types of data:
+
+1. `bernoulli_naive_bayes()`: Ideal for binary data, this function is specifically tailored to handle situations where the features are binary in nature, taking values of either 0 or 1. It effectively models the relationship between these binary features and the class labels.
+
+2. `multinomial_naive_bayes()`: This function is specifically designed for multinomial data. It is well-suited for cases where the features are discrete and have multiple categories. For example, it is commonly used in text classification tasks, where word counts are utilized as features.
+
+3. `poisson_naive_bayes()`: This function is specifically designed for count data. It is well-suited for scenarios where the features represent counts or frequencies. By assuming a Poisson distribution for the features, this function effectively models the relationship between the counts and the class labels.
+
+4. `gaussian_naive_bayes()`: Suitable for continuous data, this function assumes that the features follow a Gaussian (normal) distribution. It is commonly used when dealing with continuous numerical features, and it models the relationship between these features and the class labels.
+
+5. `nonparametric_naive_bayes()` This function introduces a nonparametric variant of the Naïve Bayes classifier. Unlike the specialized versions mentioned above, it does not make any assumptions regarding the specific distribution of the continuous features. Instead, it employs kernel density estimation to estimate the class conditional probabilities and feature distributions in a nonparametric manner. This allows for more flexible modeling and can be particularly useful when dealing with data that deviates from typical parametric assumptions.
+
+Throughout this article, we will dive into each of these functions providing illustrative examples to demonstrate their practical usage. By the end, you will have a solid understanding of how to leverage these specialized versions of the Naïve Bayes classifier to tackle various types of data and classification problems.
+
+We will also show equivalent calculations using the general `naive_bayes()` function, allowing you to compare and understand the differences between the specialized and general approaches.
 
 
-## Bernoulli Naive Bayes
+## 2) Bernoulli Naive Bayes
 
-### Simulate data
+The Bernoulli Naive Bayes classifier is suitable for binary data. To demonstrate its usage, we start by simulating a dataset with binary features. We then train the Bernoulli Naive Bayes model using the `bernoulli_naive_bayes()` function. 
+
+
+**Simulate data:**
 
 ```{r data}
 library(naivebayes)
@@ -18,7 +39,7 @@ colnames(M) <- paste0("V", seq_len(ncol(M)))
 laplace <- 0.5
 ```
 
-### Train the Bernoulli Naive Bayes model
+**Train the Bernoulli Naive Bayes model:**
 
 ```{r}
 # M has to be a matrix
@@ -37,7 +58,7 @@ coef(bnb)
 ```
 
 
-###  Equivalent calculation with naive_bayes function
+**Equivalent calculation with naive_bayes function:**
 
 ```{r}
 # It is made sure that the columns are factors with the 0-1 levels)
@@ -45,15 +66,15 @@ df <- as.data.frame(lapply(as.data.frame(M), factor, levels = c(0,1)))
 # sapply(df, class)
 nb <- naive_bayes(df, y, laplace = laplace)
 head(nb %prob% df)
-
-# Visualise marginal distributions
-plot(nb, which = "V1", prob = "marginal")
 ```
 
-## Multinomial Naive Bayes
 
 
-### Simulate data
+## 3) Multinomial Naive Bayes
+
+Next, we explore the Multinomial Naive Bayes classifier. We simulate a dataset with multinomial features and train the model using the `multinomial_naive_bayes()` function. We discuss the summary of the model, perform classification, compute posterior probabilities, and examine parameter estimates. Note that this specialized model is **not** available in the general `naive_bayes()` function.
+
+**Simulate data:**
 
 ```{r}
 cols <- 10 ; rows <- 100
@@ -64,7 +85,7 @@ laplace <- 1
 
 ```
 
-### Train the Multinomial Naive Bayes
+**Train the Multinomial Naive Bayes:**
 
 ```{r}
 mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
@@ -80,9 +101,11 @@ head(mnb %prob% M)
 coef(mnb)
 ```
 
-## Poisson Naive Bayes
+## 4) Poisson Naive Bayes
 
-### Simulate data
+The Poisson Naive Bayes classifier is specifically designed for count data. We simulate count data and train the model using the `poisson_naive_bayes()` function. We analyze the summary of the model, perform prediction, visualize marginal distributions, and obtain model coefficients. 
+
+**Simulate data:**
 
 ```{r}
 cols <- 10 ; rows <- 100
@@ -92,7 +115,7 @@ y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE))
 colnames(M) <- paste0("V", seq_len(ncol(M)))
 ```
 
-### Train the Poisson Naive Bayes
+**Train the Poisson Naive Bayes:**
 
 ```{r}
 laplace <- 0
@@ -108,20 +131,19 @@ coef(pnb)
 
 ```
 
-###  Equivalent calculation with naive_bayes function
+**Equivalent calculation with naive_bayes function:**
 
 ```{r}
 nb2 <- naive_bayes(M, y, usepoisson = TRUE, laplace = laplace)
 head(predict(nb2, type = "prob"))
-# Visualise marginal distributions
-plot(nb2, which = "V1", prob = "marginal")
 ```
 
 
 
-## Gaussian Naive Bayes
+## 5) Gaussian Naive Bayes
 
-### Data
+The Gaussian Naive Bayes classifier is discussed next. We use the famous `Iris`^[https://en.wikipedia.org/wiki/Iris_flower_data_set] dataset and train the Gaussian Naive Bayes model using the `gaussian_naive_bayes()` function. We summarize the model, visualize class conditional distributions, and obtain parameter estimates. 
+**Data:**
 
 ```{r}
 data(iris)
@@ -129,11 +151,12 @@ y <- iris[[5]]
 M <- as.matrix(iris[-5])
 ```
 
-### Train the Gaussian Naive Bayes
+**Train the Gaussian Naive Bayes:**
 
 ```{r}
 gnb <- gaussian_naive_bayes(x = M, y = y)
 summary(gnb)
+head(predict(gnb, newdata = M, type = "prob"))
 
 # Visualise class conditional distributions
 plot(gnb, which = "Sepal.Width", prob = "conditional")
@@ -144,17 +167,19 @@ coef(gnb)
 coef(gnb)[c(TRUE,FALSE)] # Only means
 ```
 
-###  Equivalent calculation with general naive_bayes function.
+**Equivalent calculation with general naive_bayes function:**
 
 ```{r}
 nb3 <- naive_bayes(M, y)
-summary(nb3)
+head(predict(nb3, newdata = M, type = "prob"))
 ```
 
 
-## Non-Parametric Naive Bayes
+## 6) Non-Parametric Naive Bayes
 
-### Data
+Lastly, we explore the Non-Parametric Naive Bayes classifier. Again, using the `Iris`^[https://en.wikipedia.org/wiki/Iris_flower_data_set] dataset, we train the model using the `nonparametric_naive_bayes()` function. We will visualize the class conditional distributions, perform classification, so that it can be compared to the Gaussian Naive Bayes demonstrated in a previous section.
+
+**Data:**
 
 ```{r}
 data(iris)
@@ -162,17 +187,20 @@ y <- iris[[5]]
 M <- as.matrix(iris[-5])
 ```
 
-### Train the Non-Parametric Naive Bayes
+**Train the Non-Parametric Naive Bayes:**
 
 ```{r}
 nnb <- nonparametric_naive_bayes(x = M, y = y)
-plot(nnb, 1, prob = "conditional")
+# summary(nnb)
+head(predict(nnb, newdata = M, type = "prob"))
+
+plot(nnb, which = "Sepal.Width", prob = "conditional")
 ```
 
-
-###  Equivalent calculation with general naive_bayes function:
+**Equivalent calculation with general naive_bayes function:**
 
 ```{r}
 nb4 <- naive_bayes(M, y, usekernel = TRUE)
-plot(nb4, 1, prob = "conditional")
+head(predict(nb4, newdata = M, type = "prob"))
+
 ```

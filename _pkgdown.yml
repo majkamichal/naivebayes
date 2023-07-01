@@ -3,6 +3,35 @@ template:
   params:
     bootswatch: spacelab
     ganalytics: UA-87132983-2
+
+structure:
+
+
+home:
+  links:
+  - text: Vignette
+    href: https://cloud.r-project.org/web/packages/naivebayes/vignettes/intro_naivebayes.pdf
+
+navbar:
+  structure:
+    right: [twitter, github]
+  components:
+    twitter:
+      icon: fa-twitter
+      href: http://twitter.com/majkamichal
+      aria-label: Twitter
+    articles:
+      text: Articles
+      menu:
+      - text: Introduction to Naive Bayes
+        href: https://cloud.r-project.org/web/packages/naivebayes/vignettes/intro_naivebayes.pdf
+      - text: Specialized Naive Bayes
+        href: articles/specialized_naive_bayes.html
+      - text: Sparse Matrices
+        href: articles/Sparse matrices.html
+      - text: Caret, nproc and naivebayes
+        href: articles/caret, nproc and naivebayes.html
+
 reference:
 - title: Naive Bayes Classifiers
   desc: Functions for fitting the Naive Bayes models.
@@ -39,3 +68,7 @@ reference:
   - '`coef.multinomial_naive_bayes`'
   - '`coef.poisson_naive_bayes`'
   - '`coef.gaussian_naive_bayes`'
+
+- title: General information about the package
+  contents:
+  - '`naivebayes`'

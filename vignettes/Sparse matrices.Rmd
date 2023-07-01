@@ -2,18 +2,22 @@
 title: "Sparse Matrices"
 ---
 
-Starting with the `0.9.7` version from March 2020 four specialized implementations of the Naïve Bayes model support sparse matrices:
+## 1) Introduction
+Starting with the `0.9.7` version released in March 2020, the `naivebayes` R package introduces specialized implementations of the Naïve Bayes model that support sparse matrices. These implementations include:
 
-- `multinomial_naive_bayes()`
-- `bernoulli_naive_bayes()`
-- `poisson_naive_bayes()` and 
-- `gaussian_naive_bayes()`.
 
-All these functions can take advantage of sparsity to possibly speed up the calculations. This can be simply accomplished by providing them with a matrix of class `dgCMatrix` from the excellent `Matrix`^[https://cran.r-project.org/web/packages/Matrix/index.html] package. Addition of this new functionality does not introduce any breaking changes and is also fully compatible with the no-dependency-philosophy of the `naivebayes` project. 
+- `multinomial_naive_bayes()`: Specifically designed for multinomial data, this function handles cases where the features are discrete and have multiple categories  (e.g., word counts for text classification).
+- `bernoulli_naive_bayes()`: Ideal for binary data, this function handles cases where the features are binary (0 or 1).
+- `poisson_naive_bayes()` Tailored for count data, this function is suitable for situations where the features represent counts or frequencies.
+- `gaussian_naive_bayes()`: Suitable for continuous data, this function assumes that the features follow a Gaussian (normal) distribution.
 
-## Usage:
+**Note:** `nonparametric_naive_bayes` currently does not support sparse matrices.
 
-In the example a Multinomial Naive Bayes model is trained using a simulated sparse matrix:
+These specialized functions are optimized to take advantage of sparsity, which can significantly enhance computational efficiency. To leverage this capability, users can provide the functions with a matrix of class `dgCMatrix` from the excellent `Matrix`^[https://cran.r-project.org/web/packages/Matrix/index.html] package. Importantly, this new functionality has been introduced without any breaking changes and aligns with the no-dependency philosophy of the naivebayes project. Users can seamlessly incorporate sparse matrices into their Naïve Bayes modeling workflow, enhancing performance while maintaining compatibility with existing code.
+
+## 2) Usage
+
+In the provided example, we showcase the training of a Multinomial Naive Bayes model using a simulated sparse matrix. The code snippet demonstrates the steps involved in preparing the data, training the model, and making predictions.
 
 
 ```{r}
@@ -30,13 +34,19 @@ mean(M == 0)
 M_sparse <- Matrix::Matrix(M, sparse = TRUE)
 
 ### Train the Multinomial Naive Bayes and predict the training data
-mnb <- naivebayes::multinomial_naive_bayes(x = M, y = y, laplace = 1)
+mnb <- naivebayes::multinomial_naive_bayes(x = M_sparse, y = y, laplace = 1)
 head(predict(mnb, M_sparse))
 ```
 
-The classifier and corresponding prediction function automatically recognize the sparse matrix and do not require additional parameters. Note that (dense) matrices are not internally cast into the `dgCMatrix` class - this kind of manipulations have to be explicitly performed by the user.
+In the above code, we start by simulating a sparse matrix `M` with approximately 95% sparsity. The matrix has 100 rows and 10 columns, filled with random values between 0 and 5. We also generate a corresponding factor variable `y` representing the class labels.
 
+Next, we check the fraction of zeros in the matrix to confirm its sparsity level. We then cast the matrix `M` into a "dgCMatrix" object `M_sparse` using the `Matrix::Matrix()` function, specifying the `sparse = TRUE` argument.
 
+Afterward, we proceed to train the Multinomial Naive Bayes model `mnb` using the `naivebayes::multinomial_naive_bayes()` function. We provide the sparse matrix `M_sparse` as the input `x`, and the class labels `y`. The `laplace = 1` argument is used to apply Laplace smoothing^[https://en.wikipedia.org/wiki/Additive_smoothing] ^[https://cloud.r-project.org/web/packages/naivebayes/vignettes/intro_naivebayes.pdf (Section 5.1)] during model training.
+
+Finally, we demonstrate making predictions on the training data using the `predict()` function, passing in the trained model `mnb` and the sparse matrix `M_sparse`. 
+
+It's important to note that the classifier and the corresponding prediction function automatically recognize the sparse matrix and do not require additional parameters. However, it's worth mentioning that dense matrices are not internally converted to the `dgCMatrix` class. If required, such conversions need to be explicitly performed by the user.
 
 
 <!-- Here a section where a rule of thumb is given (for the bigger and more sparse the matrix is the bigger the speed up compared to dense counter-part. There may be some overhead for small sparse matrices.) Poisson Naive Bayes has some overhead and does not scale that well.  --> 

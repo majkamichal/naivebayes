@@ -24,7 +24,9 @@ Extended documentation can be found on the website: https://majkamichal.github.i
 
 ## 1. Overview
 
-The `naivebayes` package provides an efficient implementation of the popular Na&iuml;ve Bayes classifier in `R`. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in `Base R`. The last implies no dependencies, however, it neither denies nor interferes with being efficient as many functions from the `Base R` distribution use highly efficient routines programmed in lower level languages, such as `C` or `FORTRAN`. In fact, the `naivebayes` package utilizes only such functions for resource-intensive calculations. 
+The `naivebayes` package offers an efficient implementation of the widely used Naïve Bayes classifier in R. It adheres to three fundamental principles: `efficiency`, `user-friendliness`, and `being written in Base R`. The package is designed to be efficient by utilizing high-performance routines programmed in lower-level languages like `C` or `FORTRAN` for resource-intensive computations. Despite being written in `Base R`, it does not introduce any dependencies or hinder its efficiency. The use of `Base R` ensures compatibility and accessibility to a wide range of users.
+
+By following these principles, the `naivebayes` package provides a reliable and efficient tool for Naïve Bayes classification tasks, ensuring that users can perform their analyses effectively and with ease.
 
 The general function `naive_bayes()` detects the class of each feature in the dataset and, depending on the user choices, assumes possibly different distribution for each feature. It currently supports following class conditional distributions: 
 
