@@ -4,7 +4,7 @@ output: github_document
 
 ## 1) Introduction
 
-The `naivebayes` package in R provides an implementation of the Naïve Bayes algorithm that adheres to three core principles: efficiency, user-friendliness, and being written in Base R. This package offers a convenient way to perform Naïve Bayes modeling by using the formula interface or combining a matrix/data frame of features with a vector of class labels. Notably, the naivebayes functions excel at handling missing values. They can identify missing values, issue informative warnings, and effectively handle them during the training process. In following the basic usage of the `naivebayes` package is demonstrated:
+The `naivebayes` package in R provides an implementation of the Naïve Bayes algorithm that adheres to three core principles: `efficiency`, `user-friendliness`, and `being written in Base R`. This package offers a convenient way to perform Naïve Bayes modeling by using the formula interface or combining a matrix/data frame of features with a vector of class labels. Notably, the naivebayes functions excel at handling missing values. They can identify missing values, issue informative warnings, and effectively handle them during the training process. In following the basic usage of the `naivebayes` package is demonstrated:
 
 ## 2) Example data
 
@@ -26,6 +26,13 @@ data <- data.frame(class = sample(c("classA", "classB"), n, TRUE),
                    count = rpois(n, lambda = c(5,15)))
 train <- data[1:95, ]
 test <- data[96:100, -1]
+
+# Show first and last 6 rows in the simulated training dataset
+head(train)
+tail(train)
+
+# Show the test dataset
+print(test)
 ```
 
 ## 3) Formula interface
@@ -41,13 +48,17 @@ summary(nb)
 
 # Perform classification on the test data
 predict(nb, test, type = "class")
+
+# Equivalent way of performing the classification task
 nb %class% test
 
 # Obtain posterior probabilities
 predict(nb, test, type = "prob")
+
+# Equivalent way of performing obtaining posterior probabilities
 nb %prob% test
 
-# Helper functions
+# Apply helper functions
 tables(nb, 1)
 get_cond_dist(nb)
 

@@ -124,14 +124,14 @@
 </h2>
 <p>The <code>naivebayes</code> package in R provides an implementation
 of the Naïve Bayes algorithm that adheres to three core principles:
-efficiency, user-friendliness, and being written in Base R. This package
-offers a convenient way to perform Naïve Bayes modeling by using the
-formula interface or combining a matrix/data frame of features with a
-vector of class labels. Notably, the naivebayes functions excel at
-handling missing values. They can identify missing values, issue
-informative warnings, and effectively handle them during the training
-process. In following the basic usage of the <code>naivebayes</code>
-package is demonstrated:</p>
+<code>efficiency</code>, <code>user-friendliness</code>, and
+<code>being written in Base R</code>. This package offers a convenient
+way to perform Naïve Bayes modeling by using the formula interface or
+combining a matrix/data frame of features with a vector of class labels.
+Notably, the naivebayes functions excel at handling missing values. They
+can identify missing values, issue informative warnings, and effectively
+handle them during the training process. In following the basic usage of
+the <code>naivebayes</code> package is demonstrated:</p>
 </div>
 <div class="section level2">
 <h2 id="example-data">2) Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
@@ -159,7 +159,35 @@ classification.</p>
                    norm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,
                    count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">n</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="va">train</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">95</span>, <span class="op">]</span>
-<span class="va">test</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="fl">96</span><span class="op">:</span><span class="fl">100</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
+<span class="va">test</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">[</span><span class="fl">96</span><span class="op">:</span><span class="fl">100</span>, <span class="op">-</span><span class="fl">1</span><span class="op">]</span>
+
+<span class="co"># Show first and last 6 rows in the simulated training dataset</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##    class bern cat logical        norm count</span>
+<span class="co">## 1 classA    B   b   FALSE -0.04470914     6</span>
+<span class="co">## 2 classB    B   a    TRUE -1.73321841    16</span>
+<span class="co">## 3 classA    B   b   FALSE  0.00213186     4</span>
+<span class="co">## 4 classA    A   b   FALSE -0.63030033    20</span>
+<span class="co">## 5 classB    A   b   FALSE -0.34096858     7</span>
+<span class="co">## 6 classA    A   c   FALSE -1.15657236    12</span></code></pre>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">train</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##     class bern cat logical        norm count</span>
+<span class="co">## 90 classB    A   b   FALSE -1.02454848    16</span>
+<span class="co">## 91 classA    A   a    TRUE  0.32300650     5</span>
+<span class="co">## 92 classA    B   c    TRUE  1.04361246    18</span>
+<span class="co">## 93 classB    A   c    TRUE  0.09907849     7</span>
+<span class="co">## 94 classB    B   b    TRUE -0.45413691     7</span>
+<span class="co">## 95 classA    B   a    TRUE -0.65578185     4</span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Show the test dataset</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##     bern cat logical        norm count</span>
+<span class="co">## 96     B   c   FALSE -0.03592242    16</span>
+<span class="co">## 97     A   b    TRUE  1.06916146     9</span>
+<span class="co">## 98     B   a   FALSE -0.48397493    13</span>
+<span class="co">## 99     A   b   FALSE -0.12101011     4</span>
+<span class="co">## 100    A   c   FALSE -1.29414000    13</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="formula-interface">3) Formula interface<a class="anchor" aria-label="anchor" href="#formula-interface"></a>
@@ -168,7 +196,7 @@ classification.</p>
 interface for training and utilizing Naïve Bayes models. In this
 section, we demonstrate how to use the formula interface to perform
 various tasks.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Train the Naïve Bayes model using the formula interface</span>
 <span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">train</span><span class="op">)</span>
 
@@ -191,16 +219,17 @@ various tasks.</p>
 <span class="co">##     - classB: 0.5158</span>
 <span class="co">## </span>
 <span class="co">## ---------------------------------------------------------------------------------</span></code></pre>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Perform classification on the test data</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">nb</span>, <span class="va">test</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] classA classB classA classA classA</span>
 <span class="co">## Levels: classA classB</span></code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nb</span> <span class="op"><a href="../reference/infix_class_prob.html">%class%</a></span> <span class="va">test</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Equivalent way of performing the classification task</span>
+<span class="va">nb</span> <span class="op"><a href="../reference/infix_class_prob.html">%class%</a></span> <span class="va">test</span></code></pre></div>
 <pre><code><span class="co">## [1] classA classB classA classA classA</span>
 <span class="co">## Levels: classA classB</span></code></pre>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Obtain posterior probabilities</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">nb</span>, <span class="va">test</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##         classA    classB</span>
@@ -209,16 +238,17 @@ various tasks.</p>
 <span class="co">## [3,] 0.6341795 0.3658205</span>
 <span class="co">## [4,] 0.5365311 0.4634689</span>
 <span class="co">## [5,] 0.7186026 0.2813974</span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nb</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">test</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Equivalent way of performing obtaining posterior probabilities</span>
+<span class="va">nb</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">test</span></code></pre></div>
 <pre><code><span class="co">##         classA    classB</span>
 <span class="co">## [1,] 0.7174638 0.2825362</span>
 <span class="co">## [2,] 0.2599418 0.7400582</span>
 <span class="co">## [3,] 0.6341795 0.3658205</span>
 <span class="co">## [4,] 0.5365311 0.4634689</span>
 <span class="co">## [5,] 0.7186026 0.2813974</span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Helper functions</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Apply helper functions</span>
 <span class="fu"><a href="../reference/tables.html">tables</a></span><span class="op">(</span><span class="va">nb</span>, <span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## </span>
 <span class="co">## --------------------------------------------------------------------------------- </span>
@@ -230,11 +260,11 @@ various tasks.</p>
 <span class="co">##    B 0.5000000 0.4489796</span>
 <span class="co">## </span>
 <span class="co">## ---------------------------------------------------------------------------------</span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##          bern           cat       logical          norm         count </span>
 <span class="co">##   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"    "Gaussian"</span></code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Note: By default, all "numeric" (integer, double) variables are modeled</span>
 <span class="co">#       with a Gaussian distribution.</span></code></pre></div>
 </div>
@@ -245,7 +275,7 @@ various tasks.</p>
 allows training Naïve Bayes models using a matrix or data frame of
 features (X) and a vector of class labels (class). In this section, we
 demonstrate how to utilize this approach.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Separate the features and class labels</span>
 <span class="va">X</span> <span class="op">&lt;-</span> <span class="va">train</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>
 <span class="va">class</span> <span class="op">&lt;-</span> <span class="va">train</span><span class="op">$</span><span class="va">class</span>
@@ -293,7 +323,7 @@ smoothing kernel and Silverman’s rule of thumb as bandwidth selector are
 used.</p>
 <p>In the following code snippet , we demonstrate the usage of KDE in
 Naïve Bayes modeling:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Train a Naïve Bayes model with KDE</span>
 <span class="va">nb_kde</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">train</span>, usekernel <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nb_kde</span><span class="op">)</span></code></pre></div>
@@ -314,11 +344,11 @@ Naïve Bayes modeling:</p>
 <span class="co">##     - classB: 0.5158</span>
 <span class="co">## </span>
 <span class="co">## ---------------------------------------------------------------------------------</span></code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span><span class="op">(</span><span class="va">nb_kde</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##          bern           cat       logical          norm         count </span>
 <span class="co">##   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"         "KDE"</span></code></pre>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_kde</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">test</span></code></pre></div>
 <pre><code><span class="co">##         classA    classB</span>
 <span class="co">## [1,] 0.6498111 0.3501889</span>
@@ -326,11 +356,11 @@ Naïve Bayes modeling:</p>
 <span class="co">## [3,] 0.5915046 0.4084954</span>
 <span class="co">## [4,] 0.5876798 0.4123202</span>
 <span class="co">## [5,] 0.7017584 0.2982416</span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot class conditional densities</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_kde</span>, <span class="st">"norm"</span>, arg.num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend.cex <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde-1.png" width="700"></p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot marginal densities for each class</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_kde</span>, <span class="st">"norm"</span>, arg.num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend.cex <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>, prob <span class="op">=</span> <span class="st">"marginal"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde-2.png" width="700"></p>
@@ -383,7 +413,7 @@ Wikipedia’s Kernel Functions page: <a href="https://en.wikipedia.org/wiki/Kern
 parameter in the <code><a href="../reference/naive_bayes.html">naive_bayes()</a></code> function, you can choose the
 smoothing approach that best suits your data and modeling
 objectives.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Change Gaussian kernel to biweight kernel</span>
 <span class="va">nb_kde_biweight</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, 
                                <span class="va">train</span>, 
@@ -396,7 +426,7 @@ objectives.</p>
 <span class="co">## [3,] 0.5917223 0.4082777</span>
 <span class="co">## [4,] 0.5680244 0.4319756</span>
 <span class="co">## [5,] 0.6981813 0.3018187</span></code></pre>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_kde_biweight</span>, <span class="st">"norm"</span>, arg.num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend.cex <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_kernel-1.png" width="700"></p>
 </div>
@@ -430,7 +460,7 @@ implements the Sheather-Jones plug-in method.</p></li>
 smoothness in the estimated densities. It can be beneficial to
 experiment with multiple selectors to find the most appropriate one for
 your specific scenario.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_kde_SJ</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, 
                          <span class="va">train</span>, 
                          usekernel <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -442,7 +472,7 @@ your specific scenario.</p>
 <span class="co">## [3,] 0.5784831 0.4215169</span>
 <span class="co">## [4,] 0.7031048 0.2968952</span>
 <span class="co">## [5,] 0.6699132 0.3300868</span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_kde_SJ</span>, <span class="st">"norm"</span>, arg.num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend.cex <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_bw-1.png" width="700"></p>
 </div>
@@ -452,7 +482,7 @@ your specific scenario.</p>
 <p>You can further adjust the <code>bandwidth</code> by specifying a
 factor using the <code>adjust</code>. This allows you to additionally
 control the smoothness of the estimated densities.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_kde_adjust</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, 
                              <span class="va">train</span>, 
                              usekernel <span class="op">=</span> <span class="cn">TRUE</span>,
@@ -464,7 +494,7 @@ control the smoothness of the estimated densities.</p>
 <span class="co">## [3,] 0.6081023 0.3918977</span>
 <span class="co">## [4,] 0.5601651 0.4398349</span>
 <span class="co">## [5,] 0.6910347 0.3089653</span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_kde_adjust</span>, <span class="st">"norm"</span>, arg.num <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>legend.cex <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/kde_adjust-1.png" width="700"></p>
 </div>
@@ -477,10 +507,10 @@ can be modelled with Poisson distribution. This can be achieved by
 setting <code>usepoisson=TRUE</code> in the <code><a href="../reference/naive_bayes.html">naive_bayes()</a></code>
 function and by making sure that the variables representing counts in
 the dataset are of class <code>integer</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">is.integer</a></span><span class="op">(</span><span class="va">train</span><span class="op">$</span><span class="va">count</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] TRUE</span></code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_pois</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, <span class="va">train</span>, usepoisson <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nb_pois</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## </span>
@@ -501,11 +531,11 @@ the dataset are of class <code>integer</code>.</p>
 <span class="co">##     - classB: 0.5158</span>
 <span class="co">## </span>
 <span class="co">## ---------------------------------------------------------------------------------</span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_cond_dist.html">get_cond_dist</a></span><span class="op">(</span><span class="va">nb_pois</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##          bern           cat       logical          norm         count </span>
 <span class="co">##   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"</span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">nb_pois</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">test</span></code></pre></div>
 <pre><code><span class="co">##         classA    classB</span>
 <span class="co">## [1,] 0.6708181 0.3291819</span>
@@ -513,11 +543,11 @@ the dataset are of class <code>integer</code>.</p>
 <span class="co">## [3,] 0.6214784 0.3785216</span>
 <span class="co">## [4,] 0.5806921 0.4193079</span>
 <span class="co">## [5,] 0.7074807 0.2925193</span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Class conditional distributions</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_pois</span>, <span class="st">"count"</span>, prob <span class="op">=</span> <span class="st">"conditional"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/poisson-1.png" width="700"></p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Marginal distributions</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_pois</span>, <span class="st">"count"</span>, prob <span class="op">=</span> <span class="st">"marginal"</span><span class="op">)</span></code></pre></div>
 <p><img src="naivebayes_files/figure-html/poisson-2.png" width="700"></p>
