@@ -14,8 +14,12 @@ home:
 
 navbar:
   structure:
-    right: [twitter, github]
+    right: [buymeacoffe, twitter, github]
   components:
+    buymeacoffe:
+      icon: fa-mug-hot
+      href: https://www.buymeacoffee.com/michalmajka
+      aria-label: BuyMeACoffee
     twitter:
       icon: fa-twitter
       href: http://twitter.com/majkamichal

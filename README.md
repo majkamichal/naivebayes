@@ -8,6 +8,8 @@ Extended documentation can be found on the website:
 
 <!-- badges: start -->
 
+[![BuyMeACoffee](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20coffee&emoji=&slug=michalmajka&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00)](https://www.buymeacoffee.com/michalmajka)
+
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/naivebayes)](https://cran.r-project.org/package=naivebayes)
 [![](http://cranlogs.r-pkg.org/badges/naivebayes)](http://cran.rstudio.com/web/packages/naivebayes/index.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/naivebayes?color=blue)](https://cran.r-project.org/package=naivebayes)[![Anaconda
@@ -16,8 +18,6 @@ Cloud](https://anaconda.org/conda-forge/r-naivebayes/badges/version.svg?=style=f
 Cloud](https://anaconda.org/conda-forge/r-naivebayes/badges/downloads.svg?color=blue)](https://anaconda.org/conda-forge/r-naivebayes/)
 
 <!-- badges: end -->
-
-<a href="https://www.buymeacoffee.com/michalmajka"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=michalmajka&button_colour=5F7FFF&font_colour=ffffff&font_family=Cookie&outline_colour=000000&coffee_colour=FFDD00" /></a>
 
 ## 1. Overview
 
