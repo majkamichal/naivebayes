@@ -1,9 +1,10 @@
-Package: naivebayes
 Type: Package
+Package: naivebayes
 Title: High Performance Implementation of the Naive Bayes Algorithm
 Version: 0.9.7
-Author: Michal Majka
-Maintainer: Michal Majka <michalmajka@hotmail.com>
+Authors@R: 
+    person("Michal", "Majka", , "michalmajka@hotmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-7524-8014"))
 Description: In this implementation of the Naive Bayes classifier following class conditional distributions are available: Bernoulli, Categorical, Gaussian, Poisson and non-parametric representation of the class conditional density estimated via Kernel Density Estimation. Implemented classifiers handle missing data and can take advantage of sparse data.
 URL: https://github.com/majkamichal/naivebayes, https://majkamichal.github.io/naivebayes/
 BugReports: https://github.com/majkamichal/naivebayes/issues

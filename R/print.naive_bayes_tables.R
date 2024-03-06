@@ -1,8 +1,8 @@
 print.naive_bayes_tables <- function(x, ...) {
 
-    symbol = ":::"
-    n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - 11) / 2)),
+    symbol <- "::"
+    n_char <- getOption("width") - 3
+    str_left_right <- paste0(rep("=", floor((n_char - 10) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " Naive Bayes ",
                        ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
@@ -21,7 +21,7 @@ print.naive_bayes_tables <- function(x, ...) {
             for (ith_factor in names(ith_tab)) {
                 cat("\n")
                 cat(l, "\n")
-                cat(paste0(" ", symbol, " ", ith_name, "::", ith_factor,
+                cat(paste0("", symbol, " ", ith_name, "::", ith_factor,
                            " (", ith_dist, ")", "\n"))
                 cat(l, "\n")
                 print(ith_tab[[ith_factor]])
@@ -29,7 +29,7 @@ print.naive_bayes_tables <- function(x, ...) {
         } else {
             cat("\n")
             cat(l, "\n")
-            cat(paste0(" ", symbol, " ", ith_name, " (", ith_dist, ") ", "\n"))
+            cat(paste0("", symbol, " ", ith_name, " (", ith_dist, ") ", "\n"))
             cat(l, "\n")
             if (ith_dist == "Poisson") cat("\n")
             print(ith_tab)

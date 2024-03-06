@@ -53,7 +53,7 @@ They are implemented based on the linear algebra operations which makes them eff
 
 ## Installation
 
-Just like many other `R` packages, `naivebayes` can be installed from the `CRAN`  repository by simply executing in the console the following line:
+The `naivebayes` package can be installed from the `CRAN` repository by simply executing in the console the following line:
 
 ```{r, eval = FALSE}
 install.packages("naivebayes")

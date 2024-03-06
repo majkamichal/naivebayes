@@ -2,11 +2,8 @@
 
     v <- getNamespaceVersion("naivebayes")
     packageStartupMessage(paste0("naivebayes ", v, " loaded"))
-
-    # rule <- paste0(rep("=", getOption("width")), collapse = "")
-    # packageStartupMessage(rule)
-    # packageStartupMessage(paste0(" ::: Naive Bayes Classifier through the naivebayes package v.", v))
-    # packageStartupMessage(rule)
+    packageStartupMessage("For more information please visit: ")
+    packageStartupMessage("https://majkamichal.github.io/naivebayes/")
 }
 
 
@@ -14,7 +11,7 @@
 
     rule <- paste0(rep("=", getOption("width")), collapse = "")
     packageStartupMessage(rule)
-    packageStartupMessage("::: Thank you for using the naivebayes package!")
+    packageStartupMessage("Thank you for using the naivebayes package!")
     packageStartupMessage(rule)
 }
 

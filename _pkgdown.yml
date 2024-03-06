@@ -1,7 +1,7 @@
 url: https://majkamichal.github.io/naivebayes/
 template:
   params:
-    bootswatch: spacelab
+    # bootswatch: spacelab
     ganalytics: UA-87132983-2
 
 structure:

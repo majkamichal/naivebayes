@@ -61,9 +61,8 @@ through the excellent `Caret` package.
 
 ## Installation
 
-Just like many other `R` packages, `naivebayes` can be installed from
-the `CRAN` repository by simply executing in the console the following
-line:
+The `naivebayes` package can be installed from the `CRAN` repository by
+simply executing in the console the following line:
 
 ``` r
 install.packages("naivebayes")

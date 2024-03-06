@@ -160,23 +160,23 @@ predict.nonparametric_naive_bayes <- function (object, newdata = NULL, type = c(
 print.nonparametric_naive_bayes <- function (x, ...) {
 
     model <- "Nonparametric Naive Bayes"
-    n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+    n_char <- getOption("width") - 3
+    str_left_right <- paste0(rep("=", ceiling((n_char - nchar(model)) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " ", model, " ",
                        ifelse(n_char %% 2 != 0, "=", ""), str_left_right)
     len <- nchar(str_full)
     l <- paste0(rep("-", len), collapse = "")
     cat("\n")
-    cat(str_full, "\n", "\n", "Call:", "\n")
+    cat(str_full, "\n", "\n", "Call:", "\n", sep = "")
     print(x$call)
     cat("\n")
     cat(l, "\n", "\n")
-    cat(" A priori probabilities:", "\n")
+    cat("A priori probabilities:", "\n")
     print(x$prior)
     cat("\n")
     cat(l, "\n", "\n")
-    cat(" Conditional densities:", "\n")
+    cat("Conditional densities:", "\n")
     tabs <- get_tables(x)
     n <- length(tabs)
     indices <- seq_len(min(1,n))
@@ -204,9 +204,10 @@ plot.nonparametric_naive_bayes <- function(x, which = NULL, ask = FALSE, legend 
 }
 
 summary.nonparametric_naive_bayes <- function(object, ...) {
+
     model <- "Nonparametric Naive Bayes"
-    n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+    n_char <- getOption("width") - 3
+    str_left_right <- paste0(rep("=", ceiling((n_char - nchar(model)) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " ", model, " ",
                        ifelse(n_char %% 2 != 0, "=", ""), str_left_right)

@@ -1,7 +1,8 @@
 summary.naive_bayes <- function(object, ...) {
+
     model <- "Naive Bayes"
-    n_char <- getOption("width")
-    str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
+    n_char <- getOption("width") - 3
+    str_left_right <- paste0(rep("=", ceiling((n_char - nchar(model)) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " ", model, " ",
                        ifelse(n_char %% 2 != 0, "=", ""), str_left_right)

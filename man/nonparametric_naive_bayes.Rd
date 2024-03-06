@@ -51,10 +51,12 @@ M <- as.matrix(iris[-5])
 
 ### Train the Non-Parametric Naive Bayes
 nnb <- nonparametric_naive_bayes(x = M, y = y)
+summary(nnb)
 head(predict(nnb, newdata = M, type = "prob"))
 
 ###  Equivalent calculation with general naive_bayes function:
 nb <- naive_bayes(M, y, usekernel = TRUE)
+summary(nb)
 head(predict(nb, type = "prob"))
 
 ### Change kernel

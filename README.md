@@ -64,9 +64,8 @@ excellent `Caret` package.
 
 ## 2. Installation
 
-Just like many other `R` packages, `naivebayes` can be installed from
-the `CRAN` repository by simply executing in the console the following
-line:
+The `naivebayes` package can be installed from the `CRAN` repository by
+simply executing in the console the following line:
 
 ``` r
 install.packages("naivebayes")
@@ -91,6 +90,9 @@ be found in the extended documentation:
 
 ``` r
 library(naivebayes)
+#> naivebayes 0.9.7 loaded
+#> For more information please visit:
+#> https://majkamichal.github.io/naivebayes/
 
 # Simulate example data
 n <- 100
@@ -111,7 +113,7 @@ test <- data[96:100, -1]
 nb <- naive_bayes(class ~ ., train)
 summary(nb)
 #> 
-#> ================================== Naive Bayes ================================== 
+#> ================================= Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train) 
 #> - Laplace: 0 
@@ -126,7 +128,7 @@ summary(nb)
 #>     - classA: 0.4842
 #>     - classB: 0.5158
 #> 
-#> ---------------------------------------------------------------------------------
+#> --------------------------------------------------------------------------------
 
 # Classification
 predict(nb, test, type = "class")
@@ -155,15 +157,15 @@ nb %prob% test
 # Helper functions
 tables(nb, 1)
 #> 
-#> --------------------------------------------------------------------------------- 
-#>  ::: bern (Bernoulli) 
-#> --------------------------------------------------------------------------------- 
+#> -------------------------------------------------------------------------------- 
+#> :: bern (Bernoulli) 
+#> -------------------------------------------------------------------------------- 
 #>     
 #> bern    classA    classB
 #>    A 0.5000000 0.5510204
 #>    B 0.5000000 0.4489796
 #> 
-#> ---------------------------------------------------------------------------------
+#> --------------------------------------------------------------------------------
 get_cond_dist(nb)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"    "Gaussian"
@@ -200,7 +202,7 @@ of thumb as bandwidth selector are used:
 nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
 summary(nb_kde)
 #> 
-#> ================================== Naive Bayes ================================== 
+#> ================================= Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train, usekernel = TRUE) 
 #> - Laplace: 0 
@@ -215,7 +217,7 @@ summary(nb_kde)
 #>     - classA: 0.4842
 #>     - classB: 0.5158
 #> 
-#> ---------------------------------------------------------------------------------
+#> --------------------------------------------------------------------------------
 get_cond_dist(nb_kde)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"         "KDE"         "KDE"
@@ -335,7 +337,7 @@ is.integer(train$count)
 nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
 summary(nb_pois)
 #> 
-#> ================================== Naive Bayes ================================== 
+#> ================================= Naive Bayes ================================== 
 #>  
 #> - Call: naive_bayes.formula(formula = class ~ ., data = train, usepoisson = TRUE) 
 #> - Laplace: 0 
@@ -351,7 +353,7 @@ summary(nb_pois)
 #>     - classA: 0.4842
 #>     - classB: 0.5158
 #> 
-#> ---------------------------------------------------------------------------------
+#> --------------------------------------------------------------------------------
 get_cond_dist(nb_pois)
 #>          bern           cat       logical          norm         count 
 #>   "Bernoulli" "Categorical"   "Bernoulli"    "Gaussian"     "Poisson"

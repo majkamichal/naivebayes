@@ -203,7 +203,7 @@ predict.gaussian_naive_bayes <- function (object, newdata = NULL, type = c("clas
 print.gaussian_naive_bayes <- function (x, ...) {
 
     model <- "Gaussian Naive Bayes"
-    n_char <- getOption("width")
+    n_char <- getOption("width") - 2
     str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " ", model, " ",
@@ -211,15 +211,15 @@ print.gaussian_naive_bayes <- function (x, ...) {
     len <- nchar(str_full)
     l <- paste0(rep("-", len), collapse = "")
     cat("\n")
-    cat(str_full, "\n", "\n", "Call:", "\n")
+    cat(str_full, "\n", "\n", "Call:", "\n", sep = "")
     print(x$call)
     cat("\n")
     cat(l, "\n", "\n")
-    cat(" A priori probabilities:", "\n")
+    cat("A priori probabilities:", "\n")
     print(x$prior)
     cat("\n")
     cat(l, "\n", "\n")
-    cat(" Tables:", "\n")
+    cat("Tables:", "\n")
     tabs <- get_tables(x)
     n <- length(tabs)
     indices <- seq_len(min(5,n))
@@ -247,6 +247,7 @@ plot.gaussian_naive_bayes <- function(x, which = NULL, ask = FALSE, legend = TRU
 }
 
 coef.gaussian_naive_bayes  <- function(object, ...) {
+
     params <- object$params
     levels <- object$levels
     nlev <- length(levels)
@@ -259,8 +260,9 @@ coef.gaussian_naive_bayes  <- function(object, ...) {
 }
 
 summary.gaussian_naive_bayes <- function(object, ...) {
+
     model <- "Gaussian Naive Bayes"
-    n_char <- getOption("width")
+    n_char <- getOption("width") - 2
     str_left_right <- paste0(rep("=", floor((n_char - nchar(model)) / 2)),
                              collapse = "")
     str_full <- paste0(str_left_right, " ", model, " ",

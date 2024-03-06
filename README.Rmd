@@ -55,11 +55,9 @@ In addition to that specialized functions are available which implement:
 They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. They can also take advantage of sparse matrices to furthermore boost the performance. Also few helper functions are provided that are supposed to improve the user experience. The general `naive_bayes()` function is also available through the excellent `Caret` package.
 
 
-
-
 ## 2. Installation
 
-Just like many other `R` packages, `naivebayes` can be installed from the `CRAN`  repository by simply executing in the console the following line:
+The `naivebayes` package can be installed from the `CRAN` repository by simply executing in the console the following line:
 
 ```{r, eval = FALSE}
 install.packages("naivebayes")
