@@ -18,28 +18,26 @@ Cloud](https://anaconda.org/conda-forge/r-naivebayes/badges/downloads.svg?color=
 
 ## Overview
 
-The `naivebayes` package offers an efficient implementation of the
-widely used Naïve Bayes classifier in R. It adheres to three fundamental
-principles: `efficiency`, `user-friendliness`, and
-`being written in Base R`. The package is designed to be efficient by
-utilizing high-performance routines programmed in lower-level languages
-like `C` or `FORTRAN` for resource-intensive computations. Despite being
-written in `Base R`, it does not introduce any dependencies or hinder
-its efficiency. The use of `Base R` ensures compatibility and
-accessibility to a wide range of users.
+The `naivebayes` package presents an efficient implementation of the
+widely-used Naïve Bayes classifier. It upholds three core principles:
+efficiency, user-friendliness, and reliance solely on Base `R`. By
+adhering to the latter principle, the package ensures stability and
+reliability without introducing external dependencies[^1]. This design
+choice maintains efficiency by leveraging the optimized routines
+inherent in Base `R`, many of which are programmed in high-performance
+languages like `C/C++` or `FORTRAN`. By following these principles, the
+`naivebayes` package provides a reliable and efficient tool for Naïve
+Bayes classification tasks, ensuring that users can perform their
+analyses effectively and with ease.
 
-By following these principles, the `naivebayes` package provides a
-reliable and efficient tool for Naïve Bayes classification tasks,
-ensuring that users can perform their analyses effectively and with
-ease.
+The `naive_bayes()` function is designed to determine the class of each
+feature in a dataset, and depending on user specifications, it can
+assume various distributions for each feature. It currently supports the
+following class conditional distributions:
 
-The general function `naive_bayes()` detects the class of each feature
-in the dataset and, depending on the user choices, assumes possibly
-different distribution for each feature. It currently supports following
-class conditional distributions:
-
-- categorical distribution for discrete features
-- Poisson distribution for non-negative integers
+- categorical distribution for discrete features (with Bernoulli
+  distribution as a special case for binary outcomes)
+- Poisson distribution for non-negative integer features
 - Gaussian distribution for continuous features
 - non-parametrically estimated densities via Kernel Density Estimation
   for continuous features
@@ -52,12 +50,13 @@ In addition to that specialized functions are available which implement:
 - Gaussian Naive Bayes via `gaussian_naive_bayes()`
 - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
-They are implemented based on the linear algebra operations which makes
-them efficient on the dense matrices. They can also take advantage of
-**sparse matrices** to furthermore boost the performance. Also few
-helper functions are provided that are supposed to improve the user
-experience. The general `naive_bayes()` function is also available
-through the excellent `Caret` package.
+These specialized functions are carefully optimized for efficiency,
+utilizing linear algebra operations to excel when handling dense
+matrices. Additionally, they can also exploit *sparsity* of matrices for
+enhanced performance. The package also includes various helper functions
+to improve user experience. Moreover, users can access the general
+`naive_bayes()` function through the excellent `Caret` package,
+providing additional versatility.
 
 ## Installation
 
@@ -70,3 +69,8 @@ install.packages("naivebayes")
 # Or the the development version from GitHub:
 devtools::install_github("majkamichal/naivebayes")
 ```
+
+[^1]: Specialized Naïve Bayes functions within the package may
+    optionally utilize sparse matrices if the Matrix package is
+    installed. However, the Matrix package is not a dependency, and
+    users are not required to install or use it.
