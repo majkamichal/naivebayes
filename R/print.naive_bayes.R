@@ -21,7 +21,7 @@ print.naive_bayes <- function (x, ...) {
     print(x$prior)
     cat("\n")
     cat(l, "\n", "\n")
-    cat("Tables:", "\n")
+    cat("Tables:", "\n\n")
     tabs <- x$tables
     n <- length(x$tables)
     indices <- seq_len(min(5,n))

@@ -19,7 +19,7 @@ print.naive_bayes_tables <- function(x, ...) {
         ith_dist <- cond_dists[i]
         if (ith_dist == "KDE") {
             for (ith_factor in names(ith_tab)) {
-                cat("\n")
+                if (i > 1) cat("\n")
                 cat(l, "\n")
                 cat(paste0("", symbol, " ", ith_name, "::", ith_factor,
                            " (", ith_dist, ")", "\n"))
@@ -27,7 +27,7 @@ print.naive_bayes_tables <- function(x, ...) {
                 print(ith_tab[[ith_factor]])
             }
         } else {
-            cat("\n")
+            if (i > 1) cat("\n")
             cat(l, "\n")
             cat(paste0("", symbol, " ", ith_name, " (", ith_dist, ") ", "\n"))
             cat(l, "\n")
@@ -83,23 +83,23 @@ print.naive_bayes_tables <- function(x, ...) {
 }
 
 get_cond_dist <- function(object) {
-    if (class(object) == "naive_bayes") {
+    if (inherits(object, "naive_bayes")) {
         cond_dist <- attr(object$tables, "cond_dist")
-    } else if (class(object) == "naive_bayes_tables") {
+    } else if (inherits(object, "naive_bayes_tables")) {
         cond_dist <- attr(object, "cond_dist")
-    } else if (class(object) == "bernoulli_naive_bayes") {
+    } else if (inherits(object, "bernoulli_naive_bayes")) {
         vars <- rownames(object$prob1)
         cond_dist <- stats::setNames(rep("Bernoulli", length(vars)), vars)
-    } else  if (class(object) == "gaussian_naive_bayes") {
+    } else  if (inherits(object, "gaussian_naive_bayes")) {
         vars <- colnames(object$params$mu)
         cond_dist <- stats::setNames(rep("Gaussian", length(vars)), vars)
-    } else  if (class(object) == "poisson_naive_bayes") {
+    } else  if (inherits(object, "poisson_naive_bayes")) {
         vars <- rownames(object$params)
         cond_dist <- stats::setNames(rep("Poisson", length(vars)), vars)
-    } else  if (class(object) == "multinomial_naive_bayes") {
+    } else  if (inherits(object, "multinomial_naive_bayes")) {
         vars <- rownames(object$params)
         cond_dist <- stats::setNames(rep("Multinomial", length(vars)), vars)
-    } else  if (class(object) == "nonparametric_naive_bayes") {
+    } else  if (inherits(object, "nonparametric_naive_bayes")) {
         cond_dist <- attr(object$dens, "cond_dist")
     } else {
         stop(paste0("get_cond_dist() expects ", paste0(models(), collapse = ", "),
@@ -108,13 +108,12 @@ get_cond_dist <- function(object) {
     cond_dist
 }
 
-
 recognize_cond_dist <- function(tab) {
 
     sapply(tab, function(ith_tab) {
-        if (class(ith_tab) == "array") {
+        if (inherits(ith_tab, "array")) {
             cond_dist <- "KDE"
-        } else if (class(ith_tab) == "table") {
+        } else if (inherits(ith_tab, "table")) {
             rnames <- rownames(ith_tab)
             norm_par <- c("mean", "sd")
             if (any(rownames(ith_tab) == "lambda") & nrow(ith_tab) == 1)

@@ -5,8 +5,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
     } else {
         if (is.matrix(newdata) | is.data.frame(newdata)) {
             newdata <- as.data.frame(newdata)
-        }
-        else {
+        } else {
             stop("predict.naive_bayes(): newdata must be either a matrix or a data.frame.\n", call. = FALSE)
         }
     }
@@ -72,8 +71,8 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
             if (!is.null(a)) {
                 if (!a %in% c("Gaussian", "KDE", "Poisson")) {
                     stop(paste0("predict.naive_bayes(): type mismatch between ",
-                            "training and newdata for the feature ",
-                            var, " - it was not numeric in the training dataset."),
+                                "training and newdata for the feature ",
+                                var, " - it was not numeric in the training dataset."),
                          call. = FALSE)
                 }
             }
@@ -95,8 +94,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                     if (na[var])
                         p[is.na(p)] <- 1
                     log_sum <- log_sum + log(p)
-                }
-                else {
+                } else {
                     dimnames(tab) <- NULL
                     s <- tab[2, ]
                     s[s <= eps] <- threshold
@@ -109,8 +107,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                     log_sum <- log_sum + log(p)
                 }
             }
-        }
-        else {
+        } else {
             if (!is.null(a)) {
                 if (!a %in% c("Bernoulli", "Categorical")) {
                     stop(paste0("predict.naive_bayes(): type mismatch between ",
@@ -119,7 +116,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                          call. = FALSE)
                 }
             }
-            if (class(V) == "logical")
+            if (inherits(V, "logical"))
                 V <- as.character(V)
             if (object$laplace == 0)
                 tab[tab <= eps] <- threshold
@@ -132,8 +129,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
                     logp <- 0
                 else logp[na_ind, ] <- 0
                 log_sum <- log_sum + logp
-            }
-            else {
+            } else {
                 log_sum <- log_sum + tab[V, ]
             }
         }
@@ -153,8 +149,7 @@ predict.naive_bayes <- function (object, newdata = NULL, type = c("class", "prob
         } else {
             return(factor(lev[max.col(log_sum, "first")], levels = lev))
         }
-    }
-    else {
+    } else {
         if (n_features == 0) {
             warning(paste0("predict.naive_bayes(): ",
                            "no feature in the newdata corresponds to ",
