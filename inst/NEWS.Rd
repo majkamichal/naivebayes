@@ -1,6 +1,19 @@
 \name{NEWS}
 \title{News for Package \pkg{naivebayes}}
 
+\section{Changes in version 1.0.0}{
+
+\subsection{Major Release: Maturity and Stability:}{
+
+\itemize{
+        \item The package has reached a significant milestone of maturity and stability, leading to the version update to 1.0.0.
+        \item Improvement: Enhanced print methods.
+        \item Improvement: Updated documentation.
+        \item Improvement: Minor internal enhancements.
+    }
+}
+}
+
 \section{Changes in version 0.9.7}{
     \itemize{
     	    \item Improvement: \code{multinomial_naive_bayes()}, \code{bernoulli_naive_bayes()}, \code{poisson_naive_bayes()} and \code{gaussian_naive_bayes()} now support sparse matrices (\code{dgCMatrix} class from the \code{Matrix} Package).

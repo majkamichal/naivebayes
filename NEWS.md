@@ -1,3 +1,14 @@
+# naivebayes 1.0.0
+
+## Major Release: Maturity and Stability
+
+The package has reached a significant milestone of maturity and stability, leading to the version update to 1.0.0.
+
+* Improvement: Enhanced print methods.
+* Improvement: Updated documentation.
+* Improvement: Minor internal enhancements.
+
+
 # naivebayes 0.9.7
 
 * Improvement: `multinomial_naive_bayes()`, `bernoulli_naive_bayes()`, `poisson_naive_bayes()` and `gaussian_naive_bayes()` now support sparse matrices (`dgCMatrix` class from the `Matrix` Package).

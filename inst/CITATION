@@ -4,6 +4,6 @@ note <- sprintf("R package version %s", meta$Version)
 bibentry(bibtype = "Manual",
          title = "naivebayes: High Performance Implementation of the Naive Bayes Algorithm in R",
          author = "Michal Majka",
-         year = 2019,
+         year = 2024,
          note = note,
          url = "https://CRAN.R-project.org/package=naivebayes")
