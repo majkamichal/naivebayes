@@ -4,7 +4,8 @@ output: github_document
 
 ## 1) Introduction
 
-The `naivebayes` package in R provides an implementation of the Naïve Bayes algorithm that adheres to three core principles: `efficiency`, `user-friendliness`, and `being written in Base R`. This package offers a convenient way to perform Naïve Bayes modeling by using the formula interface or combining a matrix/data frame of features with a vector of class labels. Notably, the naivebayes functions excel at handling missing values. They can identify missing values, issue informative warnings, and effectively handle them during the training process. In following the basic usage of the `naivebayes` package is demonstrated:
+The `naivebayes` package provides a user friendly implementation of the Na&iuml;ve Bayes algorithm via formula interlace and classical combination of the matrix/data.frame containing the features and a vector with the class labels. All functions can recognize missing values, give informative warnings and more importantly - they know how to handle them. In following the basic usage of the main function  `naive_bayes()` is demonstrated. Examples with the specialized Naive Bayes classifiers can be found in [this article](https://majkamichal.github.io/naivebayes/articles/specialized_naive_bayes.html).
+
 
 ## 2) Example data
 
@@ -68,7 +69,7 @@ get_cond_dist(nb)
 
 ## 4) Matrix/data.frame and class vector
 
-In addition to the formula interface, the naivebayes package also allows training Naïve Bayes models using a matrix or data frame of features (X) and a vector of class labels (class). In this section, we demonstrate how to utilize this approach.
+In addition to the formula interface, the `naivebayes` package also allows training Naïve Bayes models using a matrix or data frame of features (X) and a vector of class labels (class). In this section, we demonstrate how to utilize this approach.
 
 ```{r generalusage, cache=TRUE}
 # Separate the features and class labels
@@ -95,7 +96,7 @@ By using the matrix/data.frame and class vector approach, you can directly train
 
 Kernel density estimation (KDE) is a technique that can be used to estimate the class conditional densities of continuous features in Naïve Bayes modeling. By default, `naive_bayes()` function assumes a Gaussian distribution for continuous features. However, you can explicitly request KDE estimation by setting the parameter `usekernel = TRUE`. KDE estimation is performed using the built-in `density()` function in R. By default, Gaussian smoothing kernel and Silverman's rule of thumb as bandwidth selector are used.
 
-In the following code snippet , we demonstrate the usage of KDE in Naïve Bayes modeling:
+In the following code snippet, we demonstrate the usage of KDE in Naïve Bayes modeling:
 
 ```{r kde, cache=TRUE}
 # Train a Naïve Bayes model with KDE
