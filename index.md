@@ -53,10 +53,10 @@ In addition to that specialized functions are available which implement:
 These specialized functions are carefully optimized for efficiency,
 utilizing linear algebra operations to excel when handling dense
 matrices. Additionally, they can also exploit *sparsity* of matrices for
-enhanced performance. The package also includes various helper functions
-to improve user experience. Moreover, users can access the general
-`naive_bayes()` function through the excellent `Caret` package,
-providing additional versatility.
+enhanced performance and work in presence of missing data. The package
+also includes various helper functions to improve user experience.
+Moreover, users can access the general `naive_bayes()` function through
+the excellent `Caret` package, providing additional versatility.
 
 ## Installation
 

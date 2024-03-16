@@ -50,7 +50,7 @@ In addition to that specialized functions are available which implement:
  - Gaussian Naive Bayes via `gaussian_naive_bayes()`
  - Non-Parametric Naive Bayes via `nonparametric_naive_bayes()`
 
-These specialized functions are carefully optimized for efficiency, utilizing linear algebra operations to excel when handling dense matrices. Additionally, they can also exploit *sparsity* of matrices for enhanced performance. The package also includes various helper functions to improve user experience. Moreover, users can access the general `naive_bayes()` function through the excellent `Caret` package, providing additional versatility.
+These specialized functions are carefully optimized for efficiency, utilizing linear algebra operations to excel when handling dense matrices. Additionally, they can also exploit *sparsity* of matrices for enhanced performance and work in presence of missing data. The package also includes various helper functions to improve user experience. Moreover, users can access the general `naive_bayes()` function through the excellent `Caret` package, providing additional versatility.
 
 
 ## 2. Installation
