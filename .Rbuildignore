@@ -17,5 +17,6 @@
 ^vignettes/naivebayes_cache/
 ^vignettes/specialized_naive_bayes.Rmd$
 ^vignettes/Sparse matrices.Rmd$
+^vignettes/figure/
 ^doc$
 ^Meta$
