@@ -54,6 +54,7 @@ If in one cell there is a zero count and \code{laplace = 0} then one pseudo-coun
 library(naivebayes)
 
 ### Simulate the data:
+set.seed(1)
 cols <- 10 ; rows <- 100
 M <- matrix(rpois(rows * cols, lambda = 3), nrow = rows, ncol = cols)
 y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))

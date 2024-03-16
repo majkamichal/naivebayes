@@ -18,7 +18,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="High Performance Implementation of the Naive Bayes Algorithm">
-<meta property="og:description" content="In this implementation of the Naive Bayes classifier following class conditional distributions are available: Bernoulli, Categorical, Gaussian, Poisson and non-parametric representation of the class conditional density estimated via Kernel Density Estimation. Implemented classifiers handle missing data and can take advantage of sparse data.">
+<meta property="og:description" content="In this implementation of the Naive Bayes classifier
+    following class conditional distributions are available: Bernoulli,
+    Categorical, Gaussian, Poisson, Multinomial and non-parametric
+    representation of the class conditional density estimated via Kernel
+    Density Estimation.  Implemented classifiers handle missing data and
+    can take advantage of sparse data.">
 <meta property="og:image" content="https://majkamichal.github.io/naivebayes/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -46,7 +51,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -114,6 +119,7 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
+
 <div class="section level1">
 <div class="page-header"><h1 id="naïve-bayes-">Naïve Bayes <img src="reference/figures/logo.png" align="right"><a class="anchor" aria-label="anchor" href="#na%C3%AFve-bayes-"></a>
 </h1></div>
@@ -124,12 +130,11 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>The <code>naivebayes</code> package offers an efficient implementation of the widely used Naïve Bayes classifier in R. It adheres to three fundamental principles: <code>efficiency</code>, <code>user-friendliness</code>, and <code>being written in Base R</code>. The package is designed to be efficient by utilizing high-performance routines programmed in lower-level languages like <code>C</code> or <code>FORTRAN</code> for resource-intensive computations. Despite being written in <code>Base R</code>, it does not introduce any dependencies or hinder its efficiency. The use of <code>Base R</code> ensures compatibility and accessibility to a wide range of users.</p>
-<p>By following these principles, the <code>naivebayes</code> package provides a reliable and efficient tool for Naïve Bayes classification tasks, ensuring that users can perform their analyses effectively and with ease.</p>
-<p>The general function <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> detects the class of each feature in the dataset and, depending on the user choices, assumes possibly different distribution for each feature. It currently supports following class conditional distributions:</p>
+<p>The <code>naivebayes</code> package presents an efficient implementation of the widely-used Naïve Bayes classifier. It upholds three core principles: efficiency, user-friendliness, and reliance solely on Base <code>R</code>. By adhering to the latter principle, the package ensures stability and reliability without introducing external dependencies<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. This design choice maintains efficiency by leveraging the optimized routines inherent in Base <code>R</code>, many of which are programmed in high-performance languages like <code>C/C++</code> or <code>FORTRAN</code>. By following these principles, the <code>naivebayes</code> package provides a reliable and efficient tool for Naïve Bayes classification tasks, ensuring that users can perform their analyses effectively and with ease.</p>
+<p>The <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is designed to determine the class of each feature in a dataset, and depending on user specifications, it can assume various distributions for each feature. It currently supports the following class conditional distributions:</p>
 <ul>
-<li>categorical distribution for discrete features</li>
-<li>Poisson distribution for non-negative integers</li>
+<li>categorical distribution for discrete features (with Bernoulli distribution as a special case for binary outcomes)</li>
+<li>Poisson distribution for non-negative integer features</li>
 <li>Gaussian distribution for continuous features</li>
 <li>non-parametrically estimated densities via Kernel Density Estimation for continuous features</li>
 </ul>
@@ -146,7 +151,7 @@
 <li>Non-Parametric Naive Bayes via <code><a href="reference/nonparametric_naive_bayes.html">nonparametric_naive_bayes()</a></code>
 </li>
 </ul>
-<p>They are implemented based on the linear algebra operations which makes them efficient on the dense matrices. They can also take advantage of <strong>sparse matrices</strong> to furthermore boost the performance. Also few helper functions are provided that are supposed to improve the user experience. The general <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function is also available through the excellent <code>Caret</code> package.</p>
+<p>These specialized functions are carefully optimized for efficiency, utilizing linear algebra operations to excel when handling dense matrices. Additionally, they can also exploit <em>sparsity</em> of matrices for enhanced performance. The package also includes various helper functions to improve user experience. Moreover, users can access the general <code><a href="reference/naive_bayes.html">naive_bayes()</a></code> function through the excellent <code>Caret</code> package, providing additional versatility.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -159,6 +164,13 @@
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"majkamichal/naivebayes"</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
+<div class="footnotes footnotes-end-of-document">
+<hr>
+<ol>
+<li id="fn1"><p>Specialized Naïve Bayes functions within the package may optionally utilize sparse matrices if the Matrix package is installed. However, the Matrix package is not a dependency, and users are not required to install or use it.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

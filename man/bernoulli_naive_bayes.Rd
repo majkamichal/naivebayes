@@ -46,6 +46,7 @@ The missing values (NAs) are omited while constructing probability tables. Also,
 # library(naivebayes)
 
 ### Simulate the data:
+set.seed(1)
 cols <- 10 ; rows <- 100 ; probs <- c("0" = 0.9, "1" = 0.1)
 M <- matrix(sample(0:1, rows * cols,  TRUE, probs), nrow = rows, ncol = cols)
 y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))

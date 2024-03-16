@@ -40,20 +40,33 @@ Please note that the Multinomial Naive Bayes is not available through the \code{
 }
 
 \references{
-McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. \url{http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf}
+Manning, C.D., Raghavan, P., & Schütze, H. (2008). An
+Introduction to Information Retrieval. Cambridge: Cambridge University
+Press (Chapter 13). Available at \url{https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf}
 }
+
 
 \examples{
 # library(naivebayes)
 
 ### Simulate the data:
-cols <- 10 ; rows <- 100
-M <- matrix(sample(0:5, rows * cols, TRUE, prob = c(0.95, rep(0.01, 5))), nrow = rows, ncol = cols)
-y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))
-colnames(M) <- paste0("V", seq_len(ncol(M)))
-laplace <- 1
+set.seed(1)
+cols <- 3 # words
+rows <- 10000 # all documents
+rows_spam <- 100 # spam documents
+
+prob_word_non_spam <- prop.table(runif(cols))
+prob_word_spam <- prop.table(runif(cols))
+
+M1 <- t(rmultinom(rows_spam, size = cols, prob = prob_word_spam))
+M2 <- t(rmultinom(rows - rows_spam, size = cols, prob = prob_word_non_spam))
+M <- rbind(M1, M2)
+colnames(M) <- paste0("word", 1:cols) ; rownames(M) <- paste0("doc", 1:rows)
+head(M)
+y <- c(rep("spam", rows_spam), rep("non-spam", rows - rows_spam))
 
 ### Train the Multinomial Naive Bayes
+laplace <- 1
 mnb <- multinomial_naive_bayes(x = M, y = y, laplace = laplace)
 summary(mnb)
 
@@ -65,6 +78,10 @@ head(predict(mnb, newdata = M, type = "prob")) # head(mnb \%prob\% M)
 
 # Parameter estimates
 coef(mnb)
+
+# Compare
+round(cbind(non_spam = prob_word_non_spam, spam = prob_word_spam), 3)
+
 
 
 ### Sparse data: train the Multinomial Naive Bayes

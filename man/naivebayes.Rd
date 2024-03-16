@@ -3,30 +3,35 @@
 \alias{naivebayes}
 \alias{naivebayes-package}
 \title{naivebayes}
+
 \description{
 
-The naivebayes package provides an efficient implementation of the popular Naive Bayes classifier in R. It was developed and is now maintained based on three principles: it should be efficient, user friendly and written in Base R. The last implies no dependencies, however, it neither denies nor interferes with being efficient as many functions from the Base R distribution use highly efficient routines programmed in lower level languages, such as C or FORTRAN. In fact, the naivebayes package utilizes only such functions for resource-intensive calculations.
+The \bold{naivebayes} package presents an efficient implementation of the widely-used Naive Bayes classifier. It upholds three core principles: efficiency, user-friendliness, and reliance solely on Base R. By adhering to the latter principle, the package ensures stability and reliability without introducing external dependencies. This design choice maintains efficiency by leveraging the optimized routines inherent in Base R, many of which are programmed in high-performance languages like C/C++ or FORTRAN. By following these principles, the naivebayes package provides a reliable and efficient tool for Naive Bayes classification tasks, ensuring that users can perform their analyses effectively and with ease, even in the presence of missing data.
+
 }
+
 \details{
 
-The general function \bold{\code{naive_bayes()}} detects the class of each feature in the dataset and, depending on the user choices, assumes possibly different distribution for each feature. It currently supports following class conditional distributions:
+The general \bold{\code{naive_bayes()}} function is designed to determine the class of each feature in a dataset, and depending on user specifications, it can assume various distributions for each feature. It currently supports the following class conditional distributions:
 
 \itemize{
-    \item categorical distribution for discrete features
-    \item Poisson distribution for non-negative integers
-    \item Gaussian distribution for continuous features
-    \item non-parametrically estimated densities via Kernel Density Estimation for continuous features
+  \item Categorical distribution for discrete features (with Bernoulli distribution as a special case for binary outcomes)
+  \item Poisson distribution for non-negative integer features
+  \item Gaussian distribution for continuous features
+  \item non-parametrically estimated densities via Kernel Density Estimation for continuous features
 }
 
-In addition to that specialized functions are available which implement:
+In addition to the general Naive Bayes function, the package provides specialized functions for various types of Naive Bayes classifiers. The specialized functions are carefully optimized for efficiency, utilizing linear algebra operations to excel when handling dense matrices. Additionally, they can also exploit sparsity of matrices for enhanced performance:
 
 \itemize{
-    \item Bernoulli Naive Bayes via \bold{\code{bernoulli_naive_bayes()}}
-    \item Multinomial Naive Bayes via \bold{\code{multinomial_naive_bayes()}}
-    \item Poisson Naive Bayes via \bold{\code{poisson_naive_bayes()}}
-    \item Gaussian Naive Bayes via \bold{\code{gaussian_naive_bayes()}}
-    \item Non-Parametric Naive Bayes via \bold{\code{nonparametric_naive_bayes()}}
+ \item Bernoulli Naiive Bayes via \bold{\code{bernoulli_naive_bayes()}}
+ \item Multinomial Naive Bayes via \bold{\code{multinomial_naive_bayes()}}
+ \item Poisson Naive Bayes via \bold{\code{poisson_naive_bayes()}}
+ \item Gaussian Naive Bayes via \bold{\code{gaussian_naive_bayes()}}
+ \item Non-Parametric Naive Bayes via \bold{\code{nonparametric_naive_bayes()}}
 }
+
+These specialized classifiers are tailored to different assumptions about the underlying data distributions, offering users versatile tools for classification tasks. Moreover, the package incorporates various helper functions aimed at enhancing the user experience. Notably, the model fitting functions provided by the package can effectively handle missing data, ensuring that users can utilize the classifiers even in the presence of incomplete information.
 
 \bold{Extended documentation can be found on the website:}
 \itemize{
@@ -38,7 +43,7 @@ In addition to that specialized functions are available which implement:
     \item \url{https://github.com/majkamichal/naivebayes/issues}
 }
 
-\bold{Suggestions:}
+\bold{Contact:}
 \itemize{
     \item \email{michalmajka@hotmail.com}
 }

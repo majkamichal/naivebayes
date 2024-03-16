@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -151,7 +151,9 @@
     </div>
     <div id="references">
     <h2>References</h2>
-    <p>McCallum, Andrew; Nigam, Kamal (1998). A comparison of event models for Naive Bayes text classification (PDF). AAAI-98 workshop on learning for text categorization. 752. <a href="http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf" class="external-link">http://www.cs.cmu.edu/~knigam/papers/multinomial-aaaiws98.pdf</a></p>
+    <p>Manning, C.D., Raghavan, P., &amp; Schütze, H. (2008). An
+Introduction to Information Retrieval. Cambridge: Cambridge University
+Press (Chapter 13). Available at <a href="https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf" class="external-link">https://nlp.stanford.edu/IR-book/pdf/irbookonlinereading.pdf</a></p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -167,13 +169,30 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># library(naivebayes)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Simulate the data:</span></span>
-<span class="r-in"><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fl">10</span> ; <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="va">rows</span> <span class="op">*</span> <span class="va">cols</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.95</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.01</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">rows</span>, ncol <span class="op">=</span> <span class="va">cols</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="va">rows</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"V"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">laplace</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fl">3</span> <span class="co"># words</span></span>
+<span class="r-in"><span class="va">rows</span> <span class="op">&lt;-</span> <span class="fl">10000</span> <span class="co"># all documents</span></span>
+<span class="r-in"><span class="va">rows_spam</span> <span class="op">&lt;-</span> <span class="fl">100</span> <span class="co"># spam documents</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">prob_word_non_spam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">cols</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">prob_word_spam</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/proportions.html" class="external-link">prop.table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="va">cols</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"></span>
+<span class="r-in"><span class="va">M1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="va">rows_spam</span>, size <span class="op">=</span> <span class="va">cols</span>, prob <span class="op">=</span> <span class="va">prob_word_spam</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">M2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Multinom.html" class="external-link">rmultinom</a></span><span class="op">(</span><span class="va">rows</span> <span class="op">-</span> <span class="va">rows_spam</span>, size <span class="op">=</span> <span class="va">cols</span>, prob <span class="op">=</span> <span class="va">prob_word_non_spam</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">M1</span>, <span class="va">M2</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"word"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">cols</span><span class="op">)</span> ; <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"doc"</span>, <span class="fl">1</span><span class="op">:</span><span class="va">rows</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">M</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      word1 word2 word3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc1     3     0     0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc2     2     0     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc3     0     0     3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc4     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc5     1     1     1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc6     1     1     1</span>
+<span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"spam"</span>, <span class="va">rows_spam</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"non-spam"</span>, <span class="va">rows</span> <span class="op">-</span> <span class="va">rows_spam</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Train the Multinomial Naive Bayes</span></span>
+<span class="r-in"><span class="va">laplace</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span class="r-in"><span class="va">mnb</span> <span class="op">&lt;-</span> <span class="fu">multinomial_naive_bayes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">M</span>, y <span class="op">=</span> <span class="va">y</span>, laplace <span class="op">=</span> <span class="va">laplace</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mnb</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -182,42 +201,43 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Call: multinomial_naive_bayes(x = M, y = y, laplace = laplace) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Laplace: 1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Classes: 2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Samples: 100 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> - Features: 10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Samples: 10000 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> - Features: 3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Prior probabilities: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classA: 0.29</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classB: 0.71</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - non-spam: 0.99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - spam: 0.01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Classification</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span> <span class="co"># head(mnb %class% M)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classA classB classB classB classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] non-spam non-spam non-spam non-spam non-spam non-spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: non-spam spam</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Posterior probabilities</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span> <span class="co"># head(mnb %prob% M)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.98523290 0.0147671</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.01169883 0.9883012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       non-spam        spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc1 0.9184347 0.081565299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc2 0.9622849 0.037715133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc3 0.9924244 0.007575636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc4 0.9927723 0.007227708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc5 0.9927723 0.007227708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc6 0.9927723 0.007227708</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Parameter estimates</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mnb</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     classA     classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V1   0.100 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V2   0.050 0.05594406</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V3   0.275 0.07692308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V4   0.075 0.04195804</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V5   0.100 0.16083916</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V6   0.100 0.08391608</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V7   0.025 0.14685315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V8   0.025 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V9   0.150 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V10  0.100 0.11888112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        non-spam      spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word1 0.2190688 0.4521452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word2 0.3099014 0.1188119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word3 0.4710299 0.4290429</span>
+<span class="r-in"></span>
+<span class="r-in"><span class="co"># Compare</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>non_spam <span class="op">=</span> <span class="va">prob_word_non_spam</span>, spam <span class="op">=</span> <span class="va">prob_word_spam</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      non_spam  spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    0.219 0.452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    0.307 0.100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    0.473 0.447</span>
+<span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Sparse data: train the Multinomial Naive Bayes</span></span>
@@ -233,32 +253,25 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Classification</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mnb_sparse</span>, newdata <span class="op">=</span> <span class="va">M_sparse</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classA classB classB classB classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] non-spam non-spam non-spam non-spam non-spam non-spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: non-spam spam</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Posterior probabilities</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">mnb_sparse</span>, newdata <span class="op">=</span> <span class="va">M_sparse</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.98523290 0.0147671</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.29000000 0.7100000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.01169883 0.9883012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       non-spam        spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc1 0.9184347 0.081565299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc2 0.9622849 0.037715133</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc3 0.9924244 0.007575636</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc4 0.9927723 0.007227708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc5 0.9927723 0.007227708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> doc6 0.9927723 0.007227708</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Parameter estimates</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">mnb_sparse</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     classA     classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V1   0.100 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V2   0.050 0.05594406</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V3   0.275 0.07692308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V4   0.075 0.04195804</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V5   0.100 0.16083916</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V6   0.100 0.08391608</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V7   0.025 0.14685315</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V8   0.025 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V9   0.150 0.10489510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V10  0.100 0.11888112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        non-spam      spam</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word1 0.2190688 0.4521452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word2 0.3099014 0.1188119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> word3 0.4710299 0.4290429</span>
 </code></pre></div>
     </div>
   </div>

@@ -42,7 +42,7 @@ The missing values (NAs) are omited during the estimation process. Also, the cor
 
 \examples{
 # library(naivebayes)
-
+set.seed(1)
 cols <- 10 ; rows <- 100
 M <- matrix(rnorm(rows * cols, 100, 15), nrow = rows, ncol = cols)
 y <- factor(sample(paste0("class", LETTERS[1:2]), rows, TRUE, prob = c(0.3,0.7)))

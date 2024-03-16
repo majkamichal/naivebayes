@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -153,29 +153,29 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Classification</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">bnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classB classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classA classB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bnb</span> <span class="op"><a href="infix_class_prob.html">%class%</a></span> <span class="va">M</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classB classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classA classB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Posterior probabilities</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">bnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3214014 0.6785986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2264927 0.7735073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.3130150 0.6869850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.1202622 0.8797378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.2264927 0.7735073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3629003 0.6370997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1178526 0.8821474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1003894 0.8996106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.1426711 0.8573289</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.4601912 0.5398088</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.5246835 0.4753165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3463304 0.6536696</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bnb</span> <span class="op"><a href="infix_class_prob.html">%prob%</a></span> <span class="va">M</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.3214014 0.6785986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2264927 0.7735073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.3130150 0.6869850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.1202622 0.8797378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.2264927 0.7735073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3629003 0.6370997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.1178526 0.8821474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1003894 0.8996106</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.1426711 0.8573289</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.4601912 0.5398088</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.5246835 0.4753165</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3463304 0.6536696</span>
 </code></pre></div>
     </div>
   </div>

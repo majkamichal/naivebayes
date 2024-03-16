@@ -23,7 +23,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -171,6 +171,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/majkamichal/naivebayes" class="external-link">naivebayes</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Simulate the data:</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">cols</span> <span class="op">&lt;-</span> <span class="fl">10</span> ; <span class="va">rows</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
 <span class="r-in"><span class="va">M</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">rpois</a></span><span class="op">(</span><span class="va">rows</span> <span class="op">*</span> <span class="va">cols</span>, lambda <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="va">rows</span>, ncol <span class="op">=</span> <span class="va">cols</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"class"</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>, <span class="va">rows</span>, <span class="cn">TRUE</span>, prob <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>,<span class="fl">0.7</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -190,39 +191,39 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Samples: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Features: 10 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Prior probabilities: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classA: 0.33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classB: 0.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - classA: 0.28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - classB: 0.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Classification</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">pnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span> <span class="co"># head(pnb %class% M)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classA classB classB classB classB classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classB classB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Posterior probabilities</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">pnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span> <span class="co"># head(pnb %prob% M)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.5963247 0.4036753</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2994712 0.7005288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.3032131 0.6967869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3793740 0.6206260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.3742931 0.6257069</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3476526 0.6523474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2796812 0.7203188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1973988 0.8026012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.2594386 0.7405614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3054088 0.6945912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.1748781 0.8251219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.2500402 0.7499598</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Parameter estimates</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">pnb</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       classA   classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V1  2.893939 3.052239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V2  3.015152 2.798507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V3  3.227273 3.380597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V4  2.560606 2.947761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V5  3.439394 3.559701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V6  2.924242 2.783582</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V7  2.863636 2.753731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V8  2.500000 2.962687</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V9  3.166667 3.037313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V10 2.893939 2.708955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V1  2.589286 3.243056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V2  3.553571 2.923611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V3  2.946429 2.576389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V4  3.089286 3.159722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V5  3.017857 3.118056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V6  3.482143 3.006944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V7  3.053571 3.118056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V8  2.696429 3.145833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V9  3.125000 2.881944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V10 3.232143 2.965278</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Sparse data: train the Poisson Naive Bayes</span></span>
@@ -238,32 +239,32 @@
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Classification</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">pnb_sparse</span>, newdata <span class="op">=</span> <span class="va">M_sparse</span>, type <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classA classB classB classB classB classB</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] classB classB classB classB classB classB</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Levels: classA classB</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Posterior probabilities</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">pnb_sparse</span>, newdata <span class="op">=</span> <span class="va">M_sparse</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.5963247 0.4036753</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2994712 0.7005288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.3032131 0.6967869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3793740 0.6206260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.3742931 0.6257069</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3476526 0.6523474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2796812 0.7203188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1973988 0.8026012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.2594386 0.7405614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3054088 0.6945912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.1748781 0.8251219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.2500402 0.7499598</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Parameter estimates</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">pnb_sparse</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       classA   classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V1  2.893939 3.052239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V2  3.015152 2.798507</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V3  3.227273 3.380597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V4  2.560606 2.947761</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V5  3.439394 3.559701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V6  2.924242 2.783582</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V7  2.863636 2.753731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V8  2.500000 2.962687</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V9  3.166667 3.037313</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> V10 2.893939 2.708955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V1  2.589286 3.243056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V2  3.553571 2.923611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V3  2.946429 2.576389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V4  3.089286 3.159722</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V5  3.017857 3.118056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V6  3.482143 3.006944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V7  3.053571 3.118056</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V8  2.696429 3.145833</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V9  3.125000 2.881944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> V10 3.232143 2.965278</span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Equivalent calculation with general naive_bayes function.</span></span>
@@ -282,38 +283,36 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Conditional distributions: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     - Poisson: 10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> - Prior probabilities: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classA: 0.33</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     - classB: 0.67</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - classA: 0.28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     - classB: 0.72</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">nb</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         classA    classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.5963247 0.4036753</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.2994712 0.7005288</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.3032131 0.6967869</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3793740 0.6206260</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.3742931 0.6257069</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.3476526 0.6523474</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.2796812 0.7203188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.1973988 0.8026012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.2594386 0.7405614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.3054088 0.6945912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] 0.1748781 0.8251219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,] 0.2500402 0.7499598</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Obtain probability tables</span></span>
 <span class="r-in"><span class="fu"><a href="tables.html">tables</a></span><span class="op">(</span><span class="va">nb</span>, which <span class="op">=</span> <span class="st">"V1"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> :: V1 (Poisson) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          classA   classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> lambda 2.893939 3.052239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lambda 2.589286 3.243056</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
 <span class="r-in"><span class="fu"><a href="tables.html">tables</a></span><span class="op">(</span><span class="va">pnb</span>, which <span class="op">=</span> <span class="st">"V1"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> :: V1 (Poisson) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------------------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          classA   classB</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> lambda 2.893939 3.052239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> lambda 2.589286 3.243056</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------------------------------------------------------</span>
 <span class="r-in"></span>

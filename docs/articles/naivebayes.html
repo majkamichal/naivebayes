@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">naivebayes</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.9.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
       </span>
     </div>
 
@@ -128,16 +128,15 @@
 <div class="section level2">
 <h2 id="introduction">1) Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>The <code>naivebayes</code> package in R provides an implementation
-of the Naïve Bayes algorithm that adheres to three core principles:
-<code>efficiency</code>, <code>user-friendliness</code>, and
-<code>being written in Base R</code>. This package offers a convenient
-way to perform Naïve Bayes modeling by using the formula interface or
-combining a matrix/data frame of features with a vector of class labels.
-Notably, the naivebayes functions excel at handling missing values. They
-can identify missing values, issue informative warnings, and effectively
-handle them during the training process. In following the basic usage of
-the <code>naivebayes</code> package is demonstrated:</p>
+<p>The <code>naivebayes</code> package provides a user friendly
+implementation of the Naïve Bayes algorithm via formula interlace and
+classical combination of the matrix/data.frame containing the features
+and a vector with the class labels. All functions can recognize missing
+values, give an informative warning and more importantly - they know how
+to handle them. In following the basic usage of the main function
+<code><a href="../reference/naive_bayes.html">naive_bayes()</a></code> is demonstrated. Examples with the
+specialized Naive Bayes classifiers can be found in <a href="https://majkamichal.github.io/naivebayes/articles/specialized_naive_bayes.html">this
+article</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="example-data">2) Example data<a class="anchor" aria-label="anchor" href="#example-data"></a>
@@ -280,10 +279,10 @@ various tasks.</p>
 <div class="section level2">
 <h2 id="matrixdata-frame-and-class-vector">4) Matrix/data.frame and class vector<a class="anchor" aria-label="anchor" href="#matrixdata-frame-and-class-vector"></a>
 </h2>
-<p>In addition to the formula interface, the naivebayes package also
-allows training Naïve Bayes models using a matrix or data frame of
-features (X) and a vector of class labels (class). In this section, we
-demonstrate how to utilize this approach.</p>
+<p>In addition to the formula interface, the <code>naivebayes</code>
+package also allows training Naïve Bayes models using a matrix or data
+frame of features (X) and a vector of class labels (class). In this
+section, we demonstrate how to utilize this approach.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Separate the features and class labels</span>
 <span class="va">X</span> <span class="op">&lt;-</span> <span class="va">train</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span>
@@ -330,7 +329,7 @@ explicitly request KDE estimation by setting the parameter
 built-in <code><a href="https://rdrr.io/r/stats/density.html" class="external-link">density()</a></code> function in R. By default, Gaussian
 smoothing kernel and Silverman’s rule of thumb as bandwidth selector are
 used.</p>
-<p>In the following code snippet , we demonstrate the usage of KDE in
+<p>In the following code snippet, we demonstrate the usage of KDE in
 Naïve Bayes modeling:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Train a Naïve Bayes model with KDE</span>
