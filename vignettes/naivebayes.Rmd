@@ -13,7 +13,7 @@ To demonstrate the usage of the `naivebayes` package, we will use an example dat
 
 The dataset contains 100 observations, and we split it into a training set (train) consisting of the first 95 observations and a test set (test) consisting of the remaining 5 observations. The test set excludes the class label variable (class) to simulate new data for classification.
 
-```{r data, cache=TRUE}
+```{r data}
 library(naivebayes)
 
 # Simulate example data
@@ -40,7 +40,7 @@ print(test)
 
 The `naivebayes` package provides a convenient formula interface for training and utilizing Naïve Bayes models. In this section, we demonstrate how to use the formula interface to perform various tasks.
 
-```{r formula_interface, cache=TRUE}
+```{r formula_interface}
 # Train the Naïve Bayes model using the formula interface
 nb <- naive_bayes(class ~ ., train)
 
@@ -71,7 +71,7 @@ get_cond_dist(nb)
 
 In addition to the formula interface, the `naivebayes` package also allows training Naïve Bayes models using a matrix or data frame of features (X) and a vector of class labels (class). In this section, we demonstrate how to utilize this approach.
 
-```{r generalusage, cache=TRUE}
+```{r generalusage}
 # Separate the features and class labels
 X <- train[-1]
 class <- train$class
@@ -98,7 +98,7 @@ Kernel density estimation (KDE) is a technique that can be used to estimate the 
 
 In the following code snippet, we demonstrate the usage of KDE in Naïve Bayes modeling:
 
-```{r kde, cache=TRUE}
+```{r kde}
 # Train a Naïve Bayes model with KDE
 nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
 summary(nb_kde)
@@ -140,7 +140,7 @@ You can refer to visualizations of these kernel functions on Wikipedia's Kernel 
 
 By specifying the desired kernel using the `kernel` parameter in the `naive_bayes()` function, you can choose the smoothing approach that best suits your data and modeling objectives. 
 
-```{r kde_kernel, cache=TRUE}
+```{r kde_kernel}
 # Change Gaussian kernel to biweight kernel
 nb_kde_biweight <- naive_bayes(class ~ ., 
                                train, 
@@ -167,7 +167,7 @@ The bandwidth selector is a critical component of KDE as it determines the width
 
 Different bandwidth selectors can result in different levels of smoothness in the estimated densities. It can be beneficial to experiment with multiple selectors to find the most appropriate one for your specific scenario.
 
-```{r kde_bw, cache=TRUE}
+```{r kde_bw}
 nb_kde_SJ <- naive_bayes(class ~ ., 
                          train, 
                          usekernel = TRUE,
@@ -180,7 +180,7 @@ plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 
 You can further adjust the `bandwidth` by specifying a factor using the `adjust`. This allows you to additionally control the smoothness of the estimated densities.
 
-```{r kde_adjust, cache=TRUE}
+```{r kde_adjust}
 nb_kde_adjust <- naive_bayes(class ~ ., 
                              train, 
                              usekernel = TRUE,
@@ -194,7 +194,7 @@ plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditiona
 
 Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting `usepoisson=TRUE` in the `naive_bayes()` function and by making sure that the variables representing counts in the dataset are of class `integer`.
 
-```{r poisson, cache=TRUE}
+```{r poisson}
 is.integer(train$count)
 nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
 summary(nb_pois)

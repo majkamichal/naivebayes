@@ -90,7 +90,7 @@ article](https://majkamichal.github.io/naivebayes/articles/specialized_naive_bay
 
 ``` r
 library(naivebayes)
-#> naivebayes 0.9.7 loaded
+#> naivebayes 1.0.0 loaded
 #> For more information please visit:
 #> https://majkamichal.github.io/naivebayes/
 
@@ -156,7 +156,6 @@ nb %prob% test
 
 # Helper functions
 tables(nb, 1)
-#> 
 #> -------------------------------------------------------------------------------- 
 #> :: bern (Bernoulli) 
 #> -------------------------------------------------------------------------------- 

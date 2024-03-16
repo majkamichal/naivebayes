@@ -71,7 +71,7 @@ The `naivebayes` package provides a user friendly implementation of the Na&iuml;
 
 ### 3.1 Example data
 
-```{r data, cache=TRUE}
+```{r data}
 library(naivebayes)
 
 # Simulate example data
@@ -89,7 +89,7 @@ test <- data[96:100, -1]
 
 ### 3.2 Formula interface
 
-```{r formula_interface, cache=TRUE}
+```{r formula_interface}
 nb <- naive_bayes(class ~ ., train)
 summary(nb)
 
@@ -111,7 +111,7 @@ get_cond_dist(nb)
 
 ### 3.3 Matrix/data.frame and class vector
 
-```{r generalusage, cache=TRUE}
+```{r generalusage}
 X <- train[-1]
 class <- train$class
 nb2 <- naive_bayes(x = X, y = class)
@@ -124,7 +124,7 @@ nb2 %prob% test
 
 Kernel density estimation can be used to estimate class conditional densities of continuous features. It has to be explicitly requested via the parameter `usekernel=TRUE` otherwise Gaussian distribution will be assumed. The estimation is performed with the built in `R` function `density()`. By default, Gaussian smoothing kernel and Silverman's rule of thumb as bandwidth selector are used:
 
-```{r kde, cache=TRUE}
+```{r kde}
 nb_kde <- naive_bayes(class ~ ., train, usekernel = TRUE)
 summary(nb_kde)
 get_cond_dist(nb_kde)
@@ -152,7 +152,7 @@ In general, there are 7 different smoothing kernels available:
 
 and they can be specified in `naive_bayes()` via parameter additional parameter `kernel`. Gaussian kernel is the default smoothing kernel. Please see `density()` and `bw.nrd()` for further details.
 
-```{r kde_kernel, cache=TRUE}
+```{r kde_kernel}
 # Change Gaussian kernel to biweight kernel
 nb_kde_biweight <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                kernel = "biweight")
@@ -172,7 +172,7 @@ The `density()` function offers 5 different bandwidth selectors, which can be sp
 - `SJ` (Sheather & Jones method)
 
 
-```{r kde_bw, cache=TRUE}
+```{r kde_bw}
 nb_kde_SJ <- naive_bayes(class ~ ., train, usekernel = TRUE,
                                bw = "SJ")
 nb_kde_SJ %prob% test
@@ -184,7 +184,7 @@ plot(nb_kde_SJ, "norm", arg.num = list(legend.cex = 0.9), prob = "conditional")
 The parameter `adjust` allows to rescale the estimated bandwidth and thus introduces more flexibility to the estimation process. For values below 1 (no rescaling; default setting) the density becomes "wigglier" and for values above 1 the density tends to be "smoother":
 
 
-```{r kde_adjust, cache=TRUE}
+```{r kde_adjust}
 nb_kde_adjust <- naive_bayes(class ~ ., train, usekernel = TRUE,
                          adjust = 0.5)
 nb_kde_adjust %prob% test
@@ -196,7 +196,7 @@ plot(nb_kde_adjust, "norm", arg.num = list(legend.cex = 0.9), prob = "conditiona
 
 Class conditional distributions of non-negative integer predictors can be modelled with Poisson distribution. This can be achieved by setting `usepoisson=TRUE` in the `naive_bayes()` function and by making sure that the variables representing counts in the dataset are of class `integer`.
 
-```{r poisson, cache=TRUE}
+```{r poisson}
 is.integer(train$count)
 nb_pois <- naive_bayes(class ~ ., train, usepoisson = TRUE)
 summary(nb_pois)
