@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.29)  16 MAR 2024 12:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.29)  16 MAR 2024 13:16
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -563,7 +563,7 @@ tt1000.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/palatino/uplb8a.
 pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/palatino/uplbi8a.pfb></
 usr/local/texlive/2022/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/loc
 al/texlive/2022/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on intro_naivebayes.pdf (24 pages, 328202 bytes).
+Output written on intro_naivebayes.pdf (24 pages, 328192 bytes).
 PDF statistics:
  386 PDF objects out of 1000 (max. 8388607)
  319 compressed objects within 4 object streams
