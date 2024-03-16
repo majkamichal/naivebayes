@@ -4,9 +4,9 @@
 
 The package has reached a significant milestone of maturity and stability, leading to the version update to 1.0.0.
 
-* Improvement: Enhanced print methods.
-* Improvement: Updated documentation.
-* Improvement: Minor internal enhancements.
+* Improvement: enhanced print methods.
+* Improvement: updated documentation.
+* Improvement: minor internal enhancements.
 
 
 # naivebayes 0.9.7

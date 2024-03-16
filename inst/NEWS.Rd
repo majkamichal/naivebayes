@@ -7,9 +7,9 @@
 
 \itemize{
         \item The package has reached a significant milestone of maturity and stability, leading to the version update to 1.0.0.
-        \item Improvement: Enhanced print methods.
-        \item Improvement: Updated documentation.
-        \item Improvement: Minor internal enhancements.
+        \item Improvement: enhanced print methods.
+        \item Improvement: updated documentation.
+        \item Improvement: minor internal enhancements.
     }
 }
 }
