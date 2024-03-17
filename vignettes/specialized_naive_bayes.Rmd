@@ -108,8 +108,8 @@ head(predict(mnb, M, type = "prob")) # head(mnb %prob% M)
 # Parameter estimates
 coef(mnb)
 
-# Compare
-round(cbind(non_spam = word_prob_non_spam, spam = word_prob_spam), 3)
+# Compare estimates to the true probabilities
+round(cbind(non_spam = word_prob_non_spam, spam = word_prob_spam), 4)
 ```
 
 ## 4) Poisson Naive Bayes

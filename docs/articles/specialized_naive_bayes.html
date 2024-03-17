@@ -193,29 +193,29 @@ features. We then train the Bernoulli Naive Bayes model using the
 <span class="co">## - Samples: 100 </span>
 <span class="co">## - Features: 10 </span>
 <span class="co">## - Prior probabilities: </span>
-<span class="co">##     - classA: 0.27</span>
-<span class="co">##     - classB: 0.73</span>
+<span class="co">##     - classA: 0.23</span>
+<span class="co">##     - classB: 0.77</span>
 <span class="co">## </span>
 <span class="co">## --------------------------------------------------------------------------------</span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">bnb</span>, newdata <span class="op">=</span> <span class="va">M</span>, type <span class="op">=</span> <span class="st">"prob"</span><span class="op">)</span><span class="op">)</span> </code></pre></div>
-<pre><code><span class="co">##         classA    classB</span>
-<span class="co">## [1,] 0.3909230 0.6090770</span>
-<span class="co">## [2,] 0.2296137 0.7703863</span>
-<span class="co">## [3,] 0.2961686 0.7038314</span>
-<span class="co">## [4,] 0.3139133 0.6860867</span>
-<span class="co">## [5,] 0.3894507 0.6105493</span>
-<span class="co">## [6,] 0.2440261 0.7559739</span></code></pre>
+<pre><code><span class="co">##          classA    classB</span>
+<span class="co">## [1,] 0.02887266 0.9711273</span>
+<span class="co">## [2,] 0.25830488 0.7416951</span>
+<span class="co">## [3,] 0.31777260 0.6822274</span>
+<span class="co">## [4,] 0.03205099 0.9679490</span>
+<span class="co">## [5,] 0.42049830 0.5795017</span>
+<span class="co">## [6,] 0.03811009 0.9618899</span></code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Equivalently</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">bnb</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">M</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##         classA    classB</span>
-<span class="co">## [1,] 0.3909230 0.6090770</span>
-<span class="co">## [2,] 0.2296137 0.7703863</span>
-<span class="co">## [3,] 0.2961686 0.7038314</span>
-<span class="co">## [4,] 0.3139133 0.6860867</span>
-<span class="co">## [5,] 0.3894507 0.6105493</span>
-<span class="co">## [6,] 0.2440261 0.7559739</span></code></pre>
+<pre><code><span class="co">##          classA    classB</span>
+<span class="co">## [1,] 0.02887266 0.9711273</span>
+<span class="co">## [2,] 0.25830488 0.7416951</span>
+<span class="co">## [3,] 0.31777260 0.6822274</span>
+<span class="co">## [4,] 0.03205099 0.9679490</span>
+<span class="co">## [5,] 0.42049830 0.5795017</span>
+<span class="co">## [6,] 0.03811009 0.9618899</span></code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Visualise marginal distributions</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">bnb</span>, which <span class="op">=</span> <span class="st">"V1"</span>, prob <span class="op">=</span> <span class="st">"marginal"</span><span class="op">)</span></code></pre></div>
@@ -223,17 +223,17 @@ features. We then train the Bernoulli Naive Bayes model using the
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Obtain model coefficients</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">bnb</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      classA:0  classA:1  classB:0  classB:1</span>
-<span class="co">## V1  0.8035714 0.1964286 0.8310811 0.1689189</span>
-<span class="co">## V2  0.6964286 0.3035714 0.7500000 0.2500000</span>
-<span class="co">## V3  0.8035714 0.1964286 0.7770270 0.2229730</span>
-<span class="co">## V4  0.8035714 0.1964286 0.8445946 0.1554054</span>
-<span class="co">## V5  0.8035714 0.1964286 0.8445946 0.1554054</span>
-<span class="co">## V6  0.7678571 0.2321429 0.7905405 0.2094595</span>
-<span class="co">## V7  0.7321429 0.2678571 0.7905405 0.2094595</span>
-<span class="co">## V8  0.8392857 0.1607143 0.7364865 0.2635135</span>
-<span class="co">## V9  0.8035714 0.1964286 0.7905405 0.2094595</span>
-<span class="co">## V10 0.8392857 0.1607143 0.7770270 0.2229730</span></code></pre>
+<pre><code><span class="co">##      classA:0   classA:1  classB:0  classB:1</span>
+<span class="co">## V1  0.7708333 0.22916667 0.8397436 0.1602564</span>
+<span class="co">## V2  0.7708333 0.22916667 0.7115385 0.2884615</span>
+<span class="co">## V3  0.7708333 0.22916667 0.7628205 0.2371795</span>
+<span class="co">## V4  0.9791667 0.02083333 0.7500000 0.2500000</span>
+<span class="co">## V5  0.7708333 0.22916667 0.8397436 0.1602564</span>
+<span class="co">## V6  0.8541667 0.14583333 0.8141026 0.1858974</span>
+<span class="co">## V7  0.8125000 0.18750000 0.8012821 0.1987179</span>
+<span class="co">## V8  0.9791667 0.02083333 0.8269231 0.1730769</span>
+<span class="co">## V9  0.8541667 0.14583333 0.7628205 0.2371795</span>
+<span class="co">## V10 0.7708333 0.22916667 0.8397436 0.1602564</span></code></pre>
 <p><strong>Equivalent calculation with naive_bayes
 function:</strong></p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -242,13 +242,13 @@ function:</strong></p>
 <span class="co"># sapply(df, class)</span>
 <span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/naive_bayes.html">naive_bayes</a></span><span class="op">(</span><span class="va">df</span>, <span class="va">y</span>, laplace <span class="op">=</span> <span class="va">laplace</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nb</span> <span class="op"><a href="../reference/infix_class_prob.html">%prob%</a></span> <span class="va">df</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##         classA    classB</span>
-<span class="co">## [1,] 0.3909230 0.6090770</span>
-<span class="co">## [2,] 0.2296137 0.7703863</span>
-<span class="co">## [3,] 0.2961686 0.7038314</span>
-<span class="co">## [4,] 0.3139133 0.6860867</span>
-<span class="co">## [5,] 0.3894507 0.6105493</span>
-<span class="co">## [6,] 0.2440261 0.7559739</span></code></pre>
+<pre><code><span class="co">##          classA    classB</span>
+<span class="co">## [1,] 0.02887266 0.9711273</span>
+<span class="co">## [2,] 0.25830488 0.7416951</span>
+<span class="co">## [3,] 0.31777260 0.6822274</span>
+<span class="co">## [4,] 0.03205099 0.9679490</span>
+<span class="co">## [5,] 0.42049830 0.5795017</span>
+<span class="co">## [6,] 0.03811009 0.9618899</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="multinomial-naive-bayes">3) Multinomial Naive Bayes<a class="anchor" aria-label="anchor" href="#multinomial-naive-bayes"></a>
@@ -325,12 +325,12 @@ function.</p>
 <span class="co">## word2 0.3099002 0.1177446</span>
 <span class="co">## word3 0.4710368 0.4295191</span></code></pre>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Compare</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>non_spam <span class="op">=</span> <span class="va">word_prob_non_spam</span>, spam <span class="op">=</span> <span class="va">word_prob_spam</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##      non_spam  spam</span>
-<span class="co">## [1,]    0.219 0.452</span>
-<span class="co">## [2,]    0.307 0.100</span>
-<span class="co">## [3,]    0.473 0.447</span></code></pre>
+<code class="sourceCode R"><span class="co"># Compare estimates to the true probabilities</span>
+<span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span>non_spam <span class="op">=</span> <span class="va">word_prob_non_spam</span>, spam <span class="op">=</span> <span class="va">word_prob_spam</span><span class="op">)</span>, <span class="fl">4</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##      non_spam   spam</span>
+<span class="co">## [1,]   0.2193 0.4522</span>
+<span class="co">## [2,]   0.3074 0.1004</span>
+<span class="co">## [3,]   0.4732 0.4473</span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="poisson-naive-bayes">4) Poisson Naive Bayes<a class="anchor" aria-label="anchor" href="#poisson-naive-bayes"></a>
