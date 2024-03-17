@@ -1,17 +1,26 @@
 url: https://majkamichal.github.io/naivebayes/
 template:
-  params:
-    # bootswatch: spacelab
-    ganalytics: UA-87132983-2
+    bootstrap: 5
+    bslib:
+        primary: '#0054AD'
+        border-radius: 0.5rem
+        btn-border-radius: 0.25rem
+    includes:
+        in_header: |
+           <!-- Global site tag (gtag.js) - Google Analytics -->
+           <script async src="https://www.googletagmanager.com/gtag/js?id={367221554}"#' ></script>
+           <script>
+             window.dataLayer = window.dataLayer || [];
+             function gtag(){dataLayer.push(arguments);}
+             gtag('js', new Date());
 
+             gtag('config', '{367221554}');
+           </script>
 structure:
-
-
 home:
   links:
   - text: Vignette
     href: https://cloud.r-project.org/web/packages/naivebayes/vignettes/intro_naivebayes.pdf
-
 navbar:
   structure:
     right: [buymeacoffe, twitter, github]
