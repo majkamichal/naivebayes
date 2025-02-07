@@ -11,7 +11,7 @@ Starting with the `0.9.7` version released in March 2020, the `naivebayes` R pac
 - `poisson_naive_bayes()` Tailored for count data, this function is suitable for situations where the features represent counts or frequencies.
 - `gaussian_naive_bayes()`: Suitable for continuous data, this function assumes that the features follow a Gaussian (normal) distribution.
 
-**Note:** `nonparametric_naive_bayes` currently does not support sparse matrices.
+**Note:** `nonparametric_naive_bayes()` currently does not support sparse matrices.
 
 These specialized functions are optimized to take advantage of sparsity, which can significantly enhance computational efficiency. To leverage this capability, users can provide the functions with a matrix of class `dgCMatrix` from the excellent `Matrix`^[https://cran.r-project.org/web/packages/Matrix/index.html] package. Importantly, this new functionality has been introduced without any breaking changes and aligns with the no-dependency philosophy of the naivebayes project. Users can seamlessly incorporate sparse matrices into their Naïve Bayes modeling workflow, enhancing performance while maintaining compatibility with existing code.
 

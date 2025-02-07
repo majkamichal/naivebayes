@@ -1,108 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/404.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/Sparse matrices.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/caret, nproc and naivebayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/naivebayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/naivebayes_caret_and_nproc.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/articles/specialized_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/index.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/bernoulli_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/bernoulli_tables_to_df.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/coef.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/gaussian_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/get_cond_dist.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/infix_class_prob.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/multinomial_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/naivebayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/nonparametric_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/plot.bernoulli_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/plot.gaussian_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/plot.naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/plot.nonparametric_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/plot.poisson_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/poisson_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.bernoulli_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.gaussian_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.multinomial_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.nonparametric_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/predict.poisson_naive_bayes.html</loc>
-  </url>
-  <url>
-    <loc>https://majkamichal.github.io/naivebayes/reference/tables.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://majkamichal.github.io/naivebayes/404.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/LICENSE-text.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/Sparse matrices.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/caret, nproc and naivebayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/index.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/naivebayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/naivebayes_caret_and_nproc.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/articles/specialized_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/authors.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/index.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/news/index.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/bernoulli_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/bernoulli_tables_to_df.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/coef.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/gaussian_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/get_cond_dist.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/index.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/infix_class_prob.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/multinomial_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/naivebayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/nonparametric_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/plot.bernoulli_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/plot.gaussian_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/plot.naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/plot.nonparametric_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/plot.poisson_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/poisson_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.bernoulli_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.gaussian_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.multinomial_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.nonparametric_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/predict.poisson_naive_bayes.html</loc></url>
+<url><loc>https://majkamichal.github.io/naivebayes/reference/tables.html</loc></url>
 </urlset>
+

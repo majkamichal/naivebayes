@@ -154,11 +154,11 @@ cat(" Overall Accuracy: ",  accuracy,"\n",
 
 The provided code demonstrates the usage of the `nproc` and `naivebayes` packages in R.
 
-First, the necessary packages are loaded. Then, synthetic data is generated using the `set.seed()` function to ensure reproducibility. The data consists of two independent variables (`x`) and a binary response variable (`y`). A test dataset (`xtest`) is also generated for evaluation.
+First, the necessary packages are loaded. Then, synthetic data is generated using the `set.seed()` function to ensure reproducibility. The data consists of two independent variables `x` and a binary response variable `y`. A test dataset `xtest` is also generated for evaluation.
 
 Next, the naive Bayes classifier is applied using the `npc()` function from the `nproc` package, with the method set to `"nb"` for naive Bayes. The `alpha` parameter is set to `0.05`, defining a desirable upper bound on type I error.
 
-After training the classifier, predictions are made on the test dataset using the `predict()` function. The accuracy of the predictions is calculated by comparing the predicted labels (`nb_pred$pred.label`) with the true labels (`ytest`).
+After training the classifier, predictions are made on the test dataset using the `predict()` function. The accuracy of the predictions is calculated by comparing the predicted labels `nb_pred$pred.label` with the true labels `ytest`.
 
 Additionally, type I and type II errors are computed by comparing the predicted labels with the true labels separately for class 0 and class 1 instances. The type I error corresponds to misclassifying class 0 observations as class 1, while the type II error represents misclassifying class 1 observations as class 0.
 
