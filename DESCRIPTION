@@ -15,6 +15,7 @@ License: GPL-2
 URL: https://github.com/majkamichal/naivebayes,
     https://majkamichal.github.io/naivebayes/
 BugReports: https://github.com/majkamichal/naivebayes/issues
+Imports: stats
 Suggests: 
     knitr,
     Matrix
